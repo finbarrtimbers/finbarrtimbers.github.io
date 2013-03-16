@@ -7,16 +7,6 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
 
 <head>
-<!-- my custom google search -->
-<script language="Javascript" type="text/javascript">
-  function my_search_google()
-  {
-    var query = document.getElementById("my-google-search").value;
-    window.open("http://google.com/search?q=" + query
-  + "%20site:" + "http://finbarr.ca");
-  }
-</script>
-
 	<meta charset="UTF-8">
 	
 	<!-- Remove this line if you use the .htaccess -->
@@ -35,6 +25,9 @@
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="css/style.css">
 	
+	<!--[if lt IE 9]>
+	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
 </head>
 
 
@@ -51,13 +44,25 @@
 				<li><a href="index.html">Home</a></li>
 				<li><a href="about.html">About</a></li>
 			</ul>
+<!--			<ul>
+				<li><a href="works.html">Works</a></li>
+				<li><a href="services.html">Services</a></li>
 			</ul>
+			<ul>
+				<li><a href="blog.html" class="navactive">Blog</a></li>
+				<li><a href="contact.html">Contact</a></li>
+-->			</ul>
 		</nav>
 	</header>
 
 
 	<div class="blog-page main grid-wrap">
 
+<!--		<header class="grid col-full">
+			<hr>
+			<p class="fleft">Blog</p>
+		</header>
+-->		
 				
 		<section class="grid col-three-quarters mq2-col-two-thirds mq3-col-full">
 
@@ -71,36 +76,47 @@
 				<div class="meta">
 					<p>Posted on <span class="date">10 Mar 2013 </span></p>
 				</div>
-				<div class="entry">I would like to take this opportunity to gloat. In July, myself and David Jones penned a column discussing the need for Alberta to diversify its economy beyond oil, on the basis that oil prices are inherently volatile, and basing public policy on such a heavily variable quantity as oil prices makes for bad policy.
-Well: we told you so. The Alberta budget for 2013 has been released, and it is incredible. The government’s Sustainability Fund has been drained. It has gone from 17 billion dollars to 691 million dollars in the span of 6 years (a decrease of 97%). The province is taking on a deficit of over 6 billion dollars. The Canadian Taxpayers Federation predicts that Alberta will go from being debt-free to having over 20 billion dollars in debt within three years.
+				<div class="entry"><p>I would like to take this opportunity to gloat. In July, myself and David Jones penned a column discussing the need for Alberta to diversify its economy beyond oil, on the basis that oil prices are inherently volatile, and basing public policy on such a heavily variable quantity as oil prices makes for bad policy. Well: we told you so. The Alberta budget for 2013 has been released, and it is incredible. The government’s Sustainability Fund has been drained. It has gone from 17 billion dollars to 691 million dollars in the span of 6 years (a decrease of 97%). The province is taking on a deficit of over 6 billion dollars. The Canadian Taxpayers Federation predicts that Alberta will go from being debt-free to having over 20 billion dollars in debt within three years.</p>
 
-Ralph Klein is, I am sure, unhappy.
+<p>Ralph Klein is, I am sure, unhappy.</p>
 
-Bad as this may be, at least this is an okay time to be acquiring debt. Interest rates are at an all time low, and a province with a credit rating of AAA will be able to borrow at near-zero costs.
+<p>Bad as this may be, at least this is an okay time to be acquiring debt. Interest rates are at an all time low, and a province with a credit rating of AAA will be able to borrow at near-zero costs.</p>
 
-The real trouble is in the changes to Post-Secondary Education policy (PSE for short). A summary of the major changes:
+<p>The real trouble is in the changes to Post-Secondary Education policy (PSE for short). A summary of the major changes:</p>
 
-- 7.2% cut to the U of A’s base operating grant, equaling $43 million (more than the combined total of the annual operating budgets for the Faculties of Law, Public Health, Business, Pharmacy, and Native Studies)
+<ul>
+<li>
+<li>2% cut to the U of A’s base operating grant, equaling $43 million (more than the combined total of the annual operating budgets for the Faculties of Law, Public Health, Business, Pharmacy, and Native Studies)</li>
+</li>
+</ul>
 
--7.3% cut to Grant Macewan’s base operating grant
+<p>-7.3% cut to Grant Macewan’s base operating grant</p>
 
-- 6.8% cut to post-secondary base operating grants province-wide, equaling $147 million
+<ul>
+<li>
+<ol>
+<li>8% cut to post-secondary base operating grants province-wide, equaling $147 million</li>
+</ol>
+</li>
 
-- “Mandate Letters” will be issued by the government to ensure that research is aligned with the government’s economic diversification agenda
+<li>
+<p>“Mandate Letters” will be issued by the government to ensure that research is aligned with the government’s economic diversification agenda</p>
+</li>
+</ul>
 
-There are two main concerns that I want to address:
+<p>There are two main concerns that I want to address:</p>
 
-This is poor public policy. There is a consensus among leading economists that what is popularly thought of as “Keynesian” economics is accurate. This takes the form of anti-cyclical spending (stimulus packages during recessions, tax hikes during booms); a textbook example is the American Recovery and Reinvestment Act of 2009, which was the major stimulus package passed in the United States.
+<p>This is poor public policy. There is a consensus among leading economists that what is popularly thought of as “Keynesian” economics is accurate. This takes the form of anti-cyclical spending (stimulus packages during recessions, tax hikes during booms); a textbook example is the American Recovery and Reinvestment Act of 2009, which was the major stimulus package passed in the United States.</p>
 
-Austerity, as it is being practiced in Europe, goes against much of economic thought. Paul Krugman has made several strong arguments against it. Moreover, one of the main bodies arguing for austerity measures, the IMF, issued a mea culpa of sorts; Olivier Blanchard, the chief economist for the same, published a [paper]("http://www.imf.org/external/pubs/ft/wp/2013/wp1301.pdf%5D") indicating that fiscal multipliers increased during the recession (for those of you who do not remember your Econ  102, fiscal multipliers are a measure of how much effect fiscal policy has on the economy at large- large multipliers indicate a big effect, small multipliers indicate the opposite).
+<p>Austerity, as it is being practiced in Europe, goes against much of economic thought. Paul Krugman has made several strong arguments against it. Moreover, one of the main bodies arguing for austerity measures, the IMF, issued a mea culpa of sorts; Olivier Blanchard, the chief economist for the same, published a <a href='&quot;http://www.imf.org/external/pubs/ft/wp/2013/wp1301.pdf%5D&quot;'>paper</a> indicating that fiscal multipliers increased during the recession (for those of you who do not remember your Econ 102, fiscal multipliers are a measure of how much effect fiscal policy has on the economy at large- large multipliers indicate a big effect, small multipliers indicate the opposite).</p>
 
-In short, cutting funding during a recession is poor economics. More specifically, cutting funding to PSE is particularly poor public policy, as it reduces the competitiveness of the economy in the future. It is absurd that Alberta has record numbers of foreign temporary workers while we are making it more difficult for Albertans to receive the necessary training.
+<p>In short, cutting funding during a recession is poor economics. More specifically, cutting funding to PSE is particularly poor public policy, as it reduces the competitiveness of the economy in the future. It is absurd that Alberta has record numbers of foreign temporary workers while we are making it more difficult for Albertans to receive the necessary training.</p>
 
-Second. Centrally planned research does not work. The most disruptive and innovative technologies have resulted from so-called “curiosity-driven research.” The history of physics has been almost uniquely driven by curiosity; nuclear power was thought to be entirely impractical, as were computers. The most glaring indictment of centrally planned research is the Soviet Union; although the country had incredible scientists, they were unable to produce innovative research at anything near the level of the United States.
+<p>Second. Centrally planned research does not work. The most disruptive and innovative technologies have resulted from so-called “curiosity-driven research.” The history of physics has been almost uniquely driven by curiosity; nuclear power was thought to be entirely impractical, as were computers. The most glaring indictment of centrally planned research is the Soviet Union; although the country had incredible scientists, they were unable to produce innovative research at anything near the level of the United States.</p>
 
-In short, government bureaucrats lack the ability and foresight to predict what will genuinely change society. This is not a failing unique to them, but rather, one common to people in general. This is because it is a very difficult task, and one that, like most decisions, should be decided on the free market. If a research proposal can garner enough support among a group of leading researchers in the field, it should be funded, even if it is completely impractical. Research should not be evaluated based upon its potential for commercial benefit.
+<p>In short, government bureaucrats lack the ability and foresight to predict what will genuinely change society. This is not a failing unique to them, but rather, one common to people in general. This is because it is a very difficult task, and one that, like most decisions, should be decided on the free market. If a research proposal can garner enough support among a group of leading researchers in the field, it should be funded, even if it is completely impractical. Research should not be evaluated based upon its potential for commercial benefit.</p>
 
- With luck, Ministers Lukaszuk and Horne will come to realize this. </div>
+<p>With luck, Ministers Lukaszuk and Horne will come to realize this.</p> </div>
 			</article>
 
 
@@ -112,20 +128,19 @@ In short, government bureaucrats lack the ability and foresight to predict what 
 				<div class="meta">
 					<p>Posted on <span class="date">26 Feb 2013 </span></p>
 				</div>
-				<div class="entry">A pretty cool new [API](https://eligibleapi.com) was recently released. Eligible aims to make electronic patient records much easier to access; currently, the industry uses a hodge-podge of standards; Eligible parses them, and makes the data easy to use. 
+				<div class="entry"><p>A pretty cool new <a href='https://eligibleapi.com'>API</a> was recently released. Eligible aims to make electronic patient records much easier to access; currently, the industry uses a hodge-podge of standards; Eligible parses them, and makes the data easy to use.</p>
 
-I hope that Eligible succeeds. I am not hopeful.
+<p>I hope that Eligible succeeds. I am not hopeful.</p>
 
-Innovation in healthcare is *hard*- there is always a very high potential of losing a huge lawsuit and being wiped out. In the Sunday Edition of the [New York Times](http://www.nytimes.com "The New York Times") (which can be delivered to Edmontonians!), an [article](http://www.nytimes.com/2013/02/24/business/overcoming-obstacles-to-better-health-care.html?_r=0 "Overcoming obstacles to better health care") laid out some of the main issues preventing said innovation from occuring. 
+<p>Innovation in healthcare is <em>hard</em>- there is always a very high potential of losing a huge lawsuit and being wiped out. In the Sunday Edition of the <a href='http://www.nytimes.com' title='The New York Times'>New York Times</a> (which can be delivered to Edmontonians!), an <a href='http://www.nytimes.com/2013/02/24/business/overcoming-obstacles-to-better-health-care.html?_r=0' title='Overcoming obstacles to better health care'>article</a> laid out some of the main issues preventing said innovation from occuring.</p>
 
-The problem is simple: the legal framework surrounding malpractice is completely screwed up. In the article, it is stated that
+<p>The problem is simple: the legal framework surrounding malpractice is completely screwed up. In the article, it is stated that</p>
 
-"As it is now, a doctor or hospital can be sued if the plaintiff can show that “normal standards of care” were not followed, even if those normal standards of care are inappropriate."
+<p>&#8220;As it is now, a doctor or hospital can be sued if the plaintiff can show that “normal standards of care” were not followed, even if those normal standards of care are inappropriate.&#8221;</p>
 
-Assuming that this is correct (I am neither a physician nor a lawyer), this basically freezes innovation, and makes it nigh impossible for innovation to occur. 
+<p>Assuming that this is correct (I am neither a physician nor a lawyer), this basically freezes innovation, and makes it nigh impossible for innovation to occur.</p>
 
-Compare this to, say, the regulatory framework for file-sharing [systems](http://www.dropbox.com "Dropbox") or [automobiles](http://www.teslamotors.com "Tesla"). Both have much lower regulatory hurdles, and have seen massive innovation. Although healthcare is incomparable to either, I believe that it is worth considering loosening the rules surrounding healthcare, and implementing some of the suggestions made in the article, particularly the 'safe harbour' provision. 
- </div>
+<p>Compare this to, say, the regulatory framework for file-sharing <a href='http://www.dropbox.com' title='Dropbox'>systems</a> or <a href='http://www.teslamotors.com' title='Tesla'>automobiles</a>. Both have much lower regulatory hurdles, and have seen massive innovation. Although healthcare is incomparable to either, I believe that it is worth considering loosening the rules surrounding healthcare, and implementing some of the suggestions made in the article, particularly the &#8216;safe harbour&#8217; provision.</p> </div>
 			</article>
 
 
@@ -137,15 +152,13 @@ Compare this to, say, the regulatory framework for file-sharing [systems](http:/
 				<div class="meta">
 					<p>Posted on <span class="date">20 Feb 2013 </span></p>
 				</div>
-				<div class="entry">Even though I'm still frantically preparing for [HSMUN](hsmun.org) (oh god! It's tomorrow!), I still find the time to procrastinate. The Atlantic had an [article](http://www.theatlantic.com/politics/archive/2013/02/why-clarence-thomas-uses-simple-words-in-his-opinions/273326/) about Clarence Thomas's philosophy on writing (it also had a sad coda about his law school debt- he didn't finish paying it off until his third term on the court). 
+				<div class="entry"><p>Even though I&#8217;m still frantically preparing for <a href='hsmun.org'>HSMUN</a> (oh god! It&#8217;s tomorrow!), I still find the time to procrastinate. The Atlantic had an <a href='http://www.theatlantic.com/politics/archive/2013/02/why-clarence-thomas-uses-simple-words-in-his-opinions/273326/'>article</a> about Clarence Thomas&#8217;s philosophy on writing (it also had a sad coda about his law school debt- he didn&#8217;t finish paying it off until his third term on the court).</p>
 
-I found it notable because I've never been a fan of Thomas. His (alleged) conduct with respect to Anita Hill in his EEOC days have made it impossible for me to like him. However, seeing how he works to make the law accessible to the poor caused me to gain some respect for him, as all too often, it seems like the law can act against the poor. 
+<p>I found it notable because I&#8217;ve never been a fan of Thomas. His (alleged) conduct with respect to Anita Hill in his EEOC days have made it impossible for me to like him. However, seeing how he works to make the law accessible to the poor caused me to gain some respect for him, as all too often, it seems like the law can act against the poor.</p>
 
-The article was also notable as it reminded me of his [upbringing](http://en.wikipedia.org/wiki/Clarence_thomas); his story reminds me of [Michelle Obama's](http://en.wikipedia.org/wiki/Michelle_Obama#Family_and_education), in that both are descendants of slaves, and rose to the American elite through education. It's a stark reminder of the opportunities offered by education, but more so, it's a reminder of how important [equality of opportunity](http://en.wikipedia.org/wiki/Equal_opportunity) is, something that is often overlooked. 
+<p>The article was also notable as it reminded me of his <a href='http://en.wikipedia.org/wiki/Clarence_thomas'>upbringing</a>; his story reminds me of <a href='http://en.wikipedia.org/wiki/Michelle_Obama#Family_and_education'>Michelle Obama&#8217;s</a>, in that both are descendants of slaves, and rose to the American elite through education. It&#8217;s a stark reminder of the opportunities offered by education, but more so, it&#8217;s a reminder of how important <a href='http://en.wikipedia.org/wiki/Equal_opportunity'>equality of opportunity</a> is, something that is often overlooked.</p>
 
-This is particularly relevant given [the](http://www.thewandereronline.com/2013/02/18/why-the-su-elections-require-serious-reflection-by-emerson-csorba/) [recent](http://www.thewandereronline.com/2013/02/20/not-enough-female-leaders-take-a-page-from-nursings-book-i-by-maggie-danko/) [kerfluffle](http://www.thewandereronline.com/2013/02/20/confidence-is-key-to-becoming-a-woman-on-top-by-sydney-rudko/) [over](http://www.thewandereronline.com/2013/02/19/barriers-to-running-its-not-a-womens-issue-by-navneet-khinda/) the presence (or lack thereof) of women in the Student's Union Executive; does the lack of equality of outcome indicate a lack of equality of opportunity? And if so, does this necessitate legislative action?
-
- </div>
+<p>This is particularly relevant given <a href='http://www.thewandereronline.com/2013/02/18/why-the-su-elections-require-serious-reflection-by-emerson-csorba/'>the</a> <a href='http://www.thewandereronline.com/2013/02/20/not-enough-female-leaders-take-a-page-from-nursings-book-i-by-maggie-danko/'>recent</a> <a href='http://www.thewandereronline.com/2013/02/20/confidence-is-key-to-becoming-a-woman-on-top-by-sydney-rudko/'>kerfluffle</a> <a href='http://www.thewandereronline.com/2013/02/19/barriers-to-running-its-not-a-womens-issue-by-navneet-khinda/'>over</a> the presence (or lack thereof) of women in the Student&#8217;s Union Executive; does the lack of equality of outcome indicate a lack of equality of opportunity? And if so, does this necessitate legislative action?</p> </div>
 			</article>
 
 
@@ -169,10 +182,8 @@ This is particularly relevant given [the](http://www.thewandereronline.com/2013/
 		<aside class="grid col-one-quarter mq2-col-one-third mq3-col-full blog-sidebar">
 				
 			<div class="widget">
-<form onsubmit="tmtxt_search_google()" >
-  <input type="text" id="my-google-search">
-</form>	
-		</div>
+				<input id="search" type="search" name="search" value="Type and hit enter to search" >
+			</div>
 
 <div id="secondary" class="clearfix">
 <aside id="about" class="elastic clearfix">
@@ -193,7 +204,29 @@ This is particularly relevant given [the](http://www.thewandereronline.com/2013/
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
     
     </div>
-		</aside>
+
+<!--			<div class="widget">
+			<h2>Categories</h2>
+			<ul>
+			 	<li><a href="http://">Design (99+)</a></li>
+				<li><a href="http://">Web (53)</a></li>
+				<li><a href="http://">Other (12)</a></li>
+				<li><a href="http://">Weird (4)</a></li>
+			</ul>
+			</div>
+-->		
+<!--			<div class="widget">
+			<h2>Meta</h2>
+			<ul>
+				<li><a href="">Entries (RSS)</a></li>
+				<li><a href="">Comments (RSS)</a></li>
+			</ul>
+			</div>
+-->		</aside>
+
+		
+		
+		
 	</div> <!--main-->
 
 <div class="divide-top">
@@ -211,8 +244,12 @@ This is particularly relevant given [the](http://www.thewandereronline.com/2013/
 		<nav class="grid col-one-third ">
 			<ul>
 				<li><a href="blog.html">Home</a></li>
-				<li><a href="index.html">About</a></li>
-			</ul>
+				<li><a href="inex.html">About</a></li>
+<!--				<li><a href="works.html">Works</a></li>
+				<li><a href="services.html">Services</a></li>
+				<li><a href="blog.html">Blog</a></li>
+				<li><a href="contact.html">Contact</a></li>
+-->			</ul>
 		</nav>
 	</footer>
 </div>
