@@ -20,9 +20,9 @@ title: Homes
 <!-- Pagination links -->
 <div class="pagination">
   {% if paginator.previous_page %}
-    <a href="/page{{paginator.previous_page}}" class="previous">Previous</a>
+   <li> <a href="/page{{paginator.previous_page}}" class="previous">Prev</a></li>
   {% else %}
-    <span class="previous">Previous</span>
+   <li> <span class="previous">Prev</span></li>
   {% endif %}
   <span class="page_number ">Page: {{paginator.page}} of {{paginator.total_pages}}</span>
   {% if paginator.next_page %}
