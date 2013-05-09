@@ -4,6 +4,7 @@ Title: Something smells fishy in Kenya
 Date: 2013-05-09
 ---
 
+
 This is interesting: there have been a number of news articles saying that the IMF is forecasting Kenya to begin oil production in 6-7 years (including the venerable  "GhettoRadio.co.ke"):
 
 http://www.foxbusiness.com/news/2013/05/02/first-kenyan-oil-production-seen-by-201-imf/
