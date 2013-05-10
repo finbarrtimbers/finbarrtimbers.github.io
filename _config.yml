@@ -1,4 +1,6 @@
-auto: true
-permalink: /blog/:title
+markdown: rdiscount
 pygments: true
-paginate: 10 //the number of post per page
+permalink: /blog/:title
+auto: true
+rdiscount:
+  extensions: [smart]
