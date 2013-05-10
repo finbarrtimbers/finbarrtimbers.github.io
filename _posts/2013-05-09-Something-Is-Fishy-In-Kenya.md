@@ -1,6 +1,6 @@
 ---
 Title: Something smells fishy in Kenya
-Layout: Post
+Layout: post
 Date: 2013-05-09
 ---
 

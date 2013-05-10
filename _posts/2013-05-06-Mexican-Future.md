@@ -1,6 +1,6 @@
 ---
 Title: Mexican Future
-Layout: Post
+Layout: post
 Date: 2013-05-06
 ---
 

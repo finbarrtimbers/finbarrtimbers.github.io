@@ -1,5 +1,5 @@
 ---
-layout: Post
+layout: post
 Title: Innovation & Healthcare
 Date: 2013-02-26
 ---
