@@ -1,7 +1,6 @@
 ---
 title: Opportunity in the United States
-layout: Post
-Date: 2013-02-20
+layout: post
 ---
 
 Even though I'm still frantically preparing for [HSMUN](hsmun.org) (oh god! It's tomorrow!), I still find the time to procrastinate. The Atlantic had an [article](http://www.theatlantic.com/politics/archive/2013/02/why-clarence-thomas-uses-simple-words-in-his-opinions/273326/) about Clarence Thomas's philosophy on writing (it also had a sad coda about his law school debt- he didn't finish paying it off until his third term on the court). 
