@@ -1,6 +1,6 @@
 ---
 Title: Mexican Future
-Layout: post
+layout: post
 ---
 
 This [white paper]( http://j.mp/11bCt3g) offers a glimpse at one potential future for war torn Mexico:
