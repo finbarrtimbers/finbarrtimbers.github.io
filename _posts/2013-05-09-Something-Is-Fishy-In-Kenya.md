@@ -1,7 +1,10 @@
 ---
+layout: post
 Title: Something smells fishy in Kenya
-Layout: post
 ---
+
+
+
 
 
 
