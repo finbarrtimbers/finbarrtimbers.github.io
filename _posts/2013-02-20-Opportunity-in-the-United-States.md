@@ -1,6 +1,6 @@
 ---
 title: Opportunity in the United States
-layout: Default
+layout: Post
 Date: 2013-02-20
 ---
 
