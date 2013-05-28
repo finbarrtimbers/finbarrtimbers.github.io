@@ -53,6 +53,38 @@
 				<div class="side-twitter">
 					<a href="http://www.twitter.com/_finbarr"><img src="https://abs.twimg.com/a/1369273395/images/resources/twitter-bird-light-bgs.png" width = "70" height = "70" /></a>    <!--"/images/icon_twitter-70x70.jpg" /></a>-->
 				</div>
+				<div class="two columns"><a href="http://twitter.com/#!/uofalibraries" class="twitter-icon"><img src="/2012assets/twitter_normal.png" alt="twitter"></a></div>
+        </div>
+        <script charset="utf-8" src="http://widgets.twimg.com/j/2/widget.js"></script>
+              <script>
+        new TWTR.Widget({
+          version: 2,
+          type: 'faves',
+          rpp: 8,
+          interval: 30000,
+          width: 'auto',
+          height: 185,
+          theme: {
+            shell: {
+              background: '#ffffff',
+              color: '#0f050f'
+            },
+            tweets: {
+              background: '#ffffff',
+              color: '#000000',
+              links: '#004150'
+            }
+          },
+          features: {
+            scrollbar: true,
+            loop: false,
+            live: false,
+            behavior: 'all'
+        }
+        }).render().setUser('uofalibraries').start();
+              </script>
+			</div>
+
 			</div>
 
 
