@@ -1,5 +1,5 @@
 ---
-title: What I read
+title: What I Read
 layout: post
 ---
 
