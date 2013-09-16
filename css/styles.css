@@ -106,6 +106,8 @@ h1{
 	/*text-transform: uppercase;*/
     text-align:left;
     margin: 20px 0 20px 0;
+    position: relative;
+    left: 20px;
 }
 
 #header #finbarr{
@@ -143,6 +145,7 @@ h1{
 
 #header #sections{
   margin: 25px 0 0 0;
+  text-align: left;
 }
 #header #sections div{
   margin-bottom: 7px;
