@@ -108,7 +108,7 @@ h1{
 }
 
 #header #finbarr{
-	font-size: 60px;
+	font-size: 45px;
 	font-weight: 200;
 	color: #666;
 }
@@ -118,8 +118,8 @@ h1{
 }
 
 #header #timbers{
-	font-size: 15px;
-	font-weight: 400;
+	font-size: 25px;
+	font-weight: 800;
 	color: #000;
 }
 #header #finbarr:hover{
