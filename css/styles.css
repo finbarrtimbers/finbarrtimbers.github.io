@@ -88,7 +88,7 @@ h1{
 	width: 180px;
 	font-family: Helvetica, sans-serif;
 	text-align: center;
-	padding-left: 50px;
+	padding-left: -50px;
 }
 
 #header .avatar{
