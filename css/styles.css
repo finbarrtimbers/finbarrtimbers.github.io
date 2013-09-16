@@ -39,7 +39,8 @@ hr{
 	margin-bottom: 50px;
 }
 .related{
-	margin-top: 10px;
+    font-family: 'Jacques Francois', serif;
+    margin-top: 10px;
 }
 .related ul{
 	margin: 0;
@@ -111,7 +112,7 @@ h1{
 	font-size: 45px;
 	font-weight: 300;
 	color: #666;
-	margin-top: -5px;
+	margin-bottom: -20px;
 }
 
 #header #finbarr:hover{
