@@ -1,5 +1,5 @@
 body{
-	font-family: Georgia, serif;
+	font-family: Lato, helvetica, sans-serif;
 	margin: 0;
 	-webkit-font-smoothing: antialiased;
 }
@@ -108,8 +108,8 @@ h1{
 }
 
 #header #finbarr{
-	font-size: 30px;
-	letter-spacing: 5px;
+	font-size: 60px;
+	font-weight: 200;
 	color: #666;
 }
 
@@ -118,10 +118,12 @@ h1{
 }
 
 #header #timbers{
-	font-size: 14px;
-	font-weight: bold;
-	letter-spacing: 1px;
+	font-size: 15px;
+	font-weight: 400;
 	color: #000;
+}
+#header #finbarr:hover{
+	color: #666;
 }
 
 #header .site{
