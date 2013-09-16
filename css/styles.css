@@ -104,12 +104,14 @@ h1{
 #header #me{
 	/*text-transform: uppercase;*/
     text-align:left;
+    margin-left: 50px;
 }
 
 #header #finbarr{
 	font-size: 45px;
-	font-weight: 400;
+	font-weight: 300;
 	color: #666;
+	margin-top: -5px;
 }
 
 #header #finbarr:hover{
@@ -140,7 +142,7 @@ h1{
 }
 
 #header #sections{
-  margin: 25px 0 0 0;
+  margin: 75px 0 0 0;
   text-align: left;
 }
 #header #sections div{
