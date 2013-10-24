@@ -1,6 +1,6 @@
 ---
-layout: layout
-title: " Finbarr Timbers // About"
+layout: post
+title: "About"
 ---
 
 # Finbarr Timbers
