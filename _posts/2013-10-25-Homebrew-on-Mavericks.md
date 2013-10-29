@@ -1,44 +1,15 @@
 ---
 layout: post
-Title: Budget 2013
-Date: 2013-03-10
+Title: Homebrew on Mavericks
+Date: 2013-29-10
 ---
 
-I would like to take this opportunity to gloat.
+If you just installed Mavericks, and you’re having problems getting Homebrew and all your brewed packages to work (for me, this included git!), you have to enter
 
- In July, myself and [David Jones](http://www.davejonesy.me) penned a [column](http://www.thewandereronline.com/2012/07/05/albertas-addiction/) discussing the need for Alberta to diversify its economy beyond oil, on the basis that oil prices are inherently volatile, and basing public policy on such a heavily variable quantity as oil prices makes for bad policy.
-
-Well: we told you so. 
-
-The Alberta budget for 2013 has been released, and it is incredible. The government’s Sustainability Fund has been drained. It has gone from 17 billion dollars to 691 million dollars in the span of 6 years (a decrease of 97%). The province is taking on a deficit of over 6 billion dollars. The Canadian Taxpayers Federation predicts that Alberta will go from being debt-free to having over 20 billion dollars in debt within three years.
-
-Ralph Klein is, I am sure, unhappy.
-
-Bad as this may be, at least this is an okay time to be acquiring debt. Interest rates are at an all time low, and a province with a credit rating of AAA will be able to borrow at near-zero costs.
-
-The real trouble is in the changes to Post-Secondary Education policy (PSE for short). A summary of the major changes:
-
-1. 7.2% cut to the U of A’s base operating grant, equaling $43 million (more than the combined total of the annual operating budgets for the Faculties of Law, Public Health, Business, Pharmacy, and Native Studies)
+<code>
+    sudo xcode-select -R
+</code>
 
 
-2. 7.3% cut to Grant Macewan’s base operating grant
+This allows everything that depends on the Xcode command line tools to find them, as Apple changed the directory structure from Mountain Lion to Mavericks.
 
-
-3. 6.8% cut to post-secondary base operating grants province-wide, equaling $147 million
-
-
-4. “Mandate Letters” will be issued by the government to ensure that research is aligned with the government’s economic diversification agenda
-
-There are two main concerns that I want to address:
-
-This is poor public policy. There is a consensus among leading economists that what is popularly thought of as “Keynesian” economics is accurate. This takes the form of anti-cyclical spending (stimulus packages during recessions, tax hikes during booms); a textbook example is the American Recovery and Reinvestment Act of 2009, which was the major stimulus package passed in the United States.
-
-Austerity, as it is being practiced in Europe, goes against much of economic thought. Paul Krugman has made several strong arguments against it. Moreover, one of the main bodies arguing for austerity measures, the IMF, issued a mea culpa of sorts; Olivier Blanchard, the chief economist for the same, published a [paper]("http://www.imf.org/external/pubs/ft/wp/2013/wp1301.pdf%5D") indicating that fiscal multipliers increased during the recession (for those of you who do not remember your Econ  102, fiscal multipliers are a measure of how much effect fiscal policy has on the economy at large- large multipliers indicate a big effect, small multipliers indicate the opposite).
-
-In short, cutting funding during a recession is poor economics. More specifically, cutting funding to PSE is particularly poor public policy, as it reduces the competitiveness of the economy in the future. It is absurd that Alberta has record numbers of foreign temporary workers while we are making it more difficult for Albertans to receive the necessary training.
-
-Second. Centrally planned research does not work. The most disruptive and innovative technologies have resulted from so-called “curiosity-driven research.” The history of physics has been almost uniquely driven by curiosity; nuclear power was thought to be entirely impractical, as were computers. The most glaring indictment of centrally planned research is the Soviet Union; although the country had incredible scientists, they were unable to produce innovative research at anything near the level of the United States.
-
-In short, government bureaucrats lack the ability and foresight to predict what will genuinely change society. This is not a failing unique to them, but rather, one common to people in general. This is because it is a very difficult task, and one that, like most decisions, should be decided on the free market. If a research proposal can garner enough support among a group of leading researchers in the field, it should be funded, even if it is completely impractical. Research should not be evaluated based upon its potential for commercial benefit.
-
- With luck, Ministers Lukaszuk and Horne will come to realize this.

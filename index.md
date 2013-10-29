@@ -1,13 +1,10 @@
 ---
 layout: post
-title: "About"
 ---
 
-I'm big on machine learning and minimalism.
+I'm interested in machine learning and minimalist design.
 
-In my last year of undergrad at the [University of Alberta](http://ualberta.ca/).
+I'm in the last year of a math degree at the [University of Alberta](http://ualberta.ca/).
 
-I write, mostly about politics.
-
-I also act. 
+I write, mostly about politics. I also act. 
 
