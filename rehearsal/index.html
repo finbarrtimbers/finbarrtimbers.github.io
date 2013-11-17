@@ -1,0 +1,19 @@
+---
+layout: layout
+title: "Finbarr Timbers"
+---
+
+<div class="content">
+
+<div class="related"> 
+   <ul>
+   {% for rehearsal in site.rehearsals %} 
+     <li> 
+ 		<span>{{ rehearsal.date | date: "%B %e, %Y" }}</span><a href="{{ rehearsal.url }}">{{ rehearsal.title }}</a>
+        {% endfor %}
+     </li> 
+   {% endfor %} 
+   </ul> 
+   </div> 
+ </div> 
+
