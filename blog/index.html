@@ -17,7 +17,8 @@ title: "Finbarr Timbers"
     </ul> 
     <ul>
       {% for rehearsal in site.rehearsals %} 
-      <li> 
+      <li>
+        Hey there {{rehearsal}}
  	    <span>{{ rehearsal.date | date: "%B %e, %Y" }}</span><a href="{{ rehearsal.url }}">{{ rehearsal.title }}</a>
         {% endfor %}
       </li> 
