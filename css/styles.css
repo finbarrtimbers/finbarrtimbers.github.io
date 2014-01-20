@@ -7,8 +7,9 @@ a {
   color: #227ce8;
 }
 
-#floater{float:left; height:50%; margin-bottom:-120px;}
-#content{clear:both; height:240px; position:relative;}
+#contentAbout{ 
+	padding-top: 25%;
+}
 
 #container {
   margin: 0 auto;
