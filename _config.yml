@@ -1,6 +1,0 @@
-markdown: rdiscount
-pygments: true
-permalink: /blog/:title
-markdown_ext: markdown, mkd, mkdn, md
-rdiscount:
-  extensions: [smart]
