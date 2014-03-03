@@ -1,0 +1,30 @@
+name: Finbarr Timbers
+description: Personal website for Finbarr Timbers
+url: "http://finbarr.ca"
+
+# Author info
+author_name: Finbarr Timbers
+author_image_path: /images/finbarr-and-candace.jpg
+author_bio: |
+    Undergrad at <a href=http://www.ualberta.ca/>UAlberta</a>.
+    Formerly, NSERC student 
+    in Math, research assistant for <a href=http://www.artsrn.ualberta.ca/econweb/landeo/>Dr. Claudia Landeo</a>.
+    More <a href=/about/>about me</a>.
+
+# External services
+github_url: "https://github.com/timbers"
+twitter_url: "https://twitter.com/finbarrtimbers"
+linkedin_url: "https://linkedin.com/in/timbers"
+feed_url: "http://feeds.feedburner.com/eyeshalfclosed"
+email: "finbarr@finbarr.ca"
+
+# Markdown rendering
+markdown: kramdown
+kramdown:
+  smart_quotes: apos,apos,quot,quot
+  parse_block_html: true
+
+# Site settings
+permalink: /:title/
+relative_permalinks: false
+pygments: true

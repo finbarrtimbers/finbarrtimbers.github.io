@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Template from here: https://github.com/diverso/jekyll-rss-feeds -->
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+		<title>Finbarr Timbers</title>
+		<description>Personal website for Finbarr Timbers</description>
+		<link>http://finbarr.ca</link>
+		<atom:link href="http://finbarr.ca/feed.xml" rel="self" type="application/rss+xml" />
+		
+			<item>
+				<title>Solving Partial Autocorrelation Functions</title>
+				<description>&lt;p&gt;I&#39;ve been studying time series through &lt;a href=&quot;http://www.stat.pitt.edu/stoffer/tsa3/&quot;&gt;TSA&lt;/a&gt;. The book presents a structured approach to time series analysis, and covers the material fairly well; I was impressed with the description of what a partial autocorrelation function (PACF) is, as the book explained it more intuitively than the lecture notes did. I did find the description of how to actually solve for the PACF a bit confusing, so I wrote my own explanation. &lt;/p&gt;
+
+&lt;h2 id=&quot;partial-autocorrelation-functions&quot;&gt;Partial Autocorrelation Functions&lt;/h2&gt;
+
+&lt;p&gt;What are PACFs, and why would one want to use one? As explained in TSA, the PACF is useful as it provides an analog to the autocorrelation function, or ACF, but for autoregressive processes. The ACF is particularly useful as for an &lt;script type=&quot;math/tex&quot;&gt; MA(q)&lt;/script&gt;, the autocorrelation function &lt;script type=&quot;math/tex&quot;&gt;\gamma(m)&lt;/script&gt; has the nice property that&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;
+\begin{align*}
+  \gamma(m) = 0 \text{ for } m &gt; q.
+\end{align*}
+&lt;/script&gt;
+
+&lt;p&gt;Consequently, by plotting the ACF (as can be done &lt;a href=&quot;https://gist.github.com/timbers/9318155&quot;&gt;easily&lt;/a&gt; in R), we can detect the order of the &lt;script type=&quot;math/tex&quot;&gt;MA(q)&lt;/script&gt; process.&lt;/p&gt;
+
+&lt;p&gt;The property fails for the ACF of an &lt;script type=&quot;math/tex&quot;&gt; AR(p) &lt;/script&gt; process. However, the PACF is here to step in and save the day. With the PACF defined as&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;
+\begin{align*}
+\phi_{mm} := \alpha^{\star}_{m, m},
+\end{align*}
+&lt;/script&gt;
+
+&lt;p&gt;where the &lt;script type=&quot;math/tex&quot;&gt; \alpha^{\star}_{j, k} &lt;/script&gt; are defined as&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;
+\begin{align*}
+\alpha_{1, m}, \cdots, \alpha_{m, m} = \text{argmin} E(X_{t} - \alpha_{1, m} X_{t-1} - \cdots - \alpha_{m, m} X_{t-m})^2.
+\end{align*}
+&lt;/script&gt;
+
+&lt;p&gt;Then, the PACF exhibits the property that for an &lt;script type=&quot;math/tex&quot;&gt; AR(p) &lt;/script&gt; process, &lt;script type=&quot;math/tex&quot;&gt; \phi_{pp} = \phi_{p}&lt;/script&gt;, and &lt;script type=&quot;math/tex&quot;&gt; \phi_{mm} = 0&lt;/script&gt; for &lt;script type=&quot;math/tex&quot;&gt; m &gt; p&lt;/script&gt;; consequently, by calculating the PACF of a process, we can easily detect the order of it if it is autoregressive.&lt;/p&gt;
+
+&lt;h2 id=&quot;example-1&quot;&gt;Example 1&lt;/h2&gt;
+
+&lt;p&gt;Suppose we have the process&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;
+\begin{align*}
+X_{t} = \phi_1 X_{t-1} + \phi_2 X_{t-2} + w_t,
+\end{align*}
+&lt;/script&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;where &lt;script type=&quot;math/tex&quot;&gt; w_t &lt;/script&gt; is a sequence of uncorrelated variables with zero mean and constant variance. What is the PACF for this process? As the AR polynomial &lt;script type=&quot;math/tex&quot;&gt; \phi(B) &lt;/script&gt; has no roots with $$&lt;/td&gt;
+      &lt;td&gt;B&lt;/td&gt;
+      &lt;td&gt;\leq 1, X&lt;em&gt;{t} &lt;script type=&quot;math/tex&quot;&gt; is a weakly stationary process; consequently,  we know that &lt;/script&gt; \phi&lt;/em&gt;{22} = \phi_2, \phi&lt;em&gt;{mm} = 0 &lt;script type=&quot;math/tex&quot;&gt; for &lt;/script&gt; m &amp;gt; p &lt;script type=&quot;math/tex&quot;&gt;. Consequently, we only need to figure out &lt;/script&gt;\phi&lt;/em&gt;{11}$$. To find it, we must solve&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;
+
+\begin{align*}
+\text{argmin} E(X_{t} - \phi_{11} X_{t-1})^2\\
+\end{align*}
+
+&lt;/script&gt;
+
+&lt;p&gt;To do so, we take the derivative with respect to &lt;script type=&quot;math/tex&quot;&gt; \phi_{11} &lt;/script&gt; and set it equal to zero:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+
+
+\begin{align*}
+ &amp;E[-2X_{t-1}(X_{t} - \phi_{11} X_{t-1})] = 0 \\
+\iff&amp;-2 \gamma(1) + 2 \phi_{11} \gamma(0) = 0 \\
+\iff&amp; \phi_{11} = \rho(1)
+\end{align*}
+
+ %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;Now, we need to solve for &lt;script type=&quot;math/tex&quot;&gt; \rho &lt;/script&gt; in terms of &lt;script type=&quot;math/tex&quot;&gt; \phi_{1}, \phi_{2} &lt;/script&gt;. To do this, we exploit the Yule-Walker equations:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+
+\begin{align*}
+\gamma(1) - \phi_{1} \gamma(0) - \phi_{2} \gamma(1) &amp;= 0\\
+\rho(1) &amp;= \phi_{1} + \phi_{2} \rho(1) \\
+\longrightarrow \phi_{11} = \rho(1) &amp;= \frac{ \phi_{1} }{ 1 - \phi_{2} }
+\end{align*}
+
+ %]]&gt;&lt;/script&gt;
+
+</description>
+				<pubDate>Mon, 03 Mar 2014 00:00:00 -0700</pubDate>
+				<link>http://finbarr.ca/solving-pacf/</link>
+				<guid isPermaLink="true">http://finbarr.ca/solving-pacf/</guid>
+			</item>
+		
+	</channel>
+</rss>

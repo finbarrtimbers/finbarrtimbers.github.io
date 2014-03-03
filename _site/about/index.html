@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset=utf-8>
+        <meta name=viewport content="width=device-width, initial-scale=1.0">
+        <meta name=description content="Personal website for Finbarr Timbers">
+        
+        <title>About | Finbarr Timbers</title>
+
+        <script src=http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML.js type=text/javascript></script>
+        <script>
+            MathJax.Hub.Config({
+              "HTML-CSS": {
+                linebreaks: {
+                    automatic: true,
+                    width: "70% container"
+                },
+                styles: {
+                    ".MathJax .math": {
+                        "border": "1px solid #ccc",
+                        "margin": "0.1em 0",
+                        "padding": "0.3em",
+                        "vertical-align": "middle"
+                    },
+                    ".MathJax_Display .math": {
+                        "border": "none",
+                        "padding": "0",
+                    }
+                },
+                scale: 90
+              }
+            });
+        </script>
+                
+        <link rel=stylesheet type=text/css href=/css/pure-min.css>
+        <link rel=stylesheet type=text/css href=/css/github.css>
+        <link rel=stylesheet type=text/css href=/css/styles.css>
+        <link rel=stylesheet type=text/css href=/css/font-awesome/css/font-awesome.min.css>
+        
+        <link rel=alternate type=application/rss+xml title="RSS feed for eyeshalfclosed.com" href="/feed.xml">
+    </head>
+    <body>
+        <div class="container pure-g-r">
+            <div class=pure-u-1-4>
+                <div class=author-info>
+    <img src="/images/finbarr-and-candace.jpg" class=author-image />
+    <h1 class=author-name><a href=/>Finbarr Timbers</a></h1>
+    <div class=nav>
+        <a href="https://github.com/timbers"><i class=icon-github-alt></i></a>
+        <a href="https://twitter.com/finbarrtimbers"><i class=icon-twitter></i></a>
+        <a href="https://linkedin.com/in/timbers"><i class=icon-linkedin></a></i>
+        <a href="http://feeds.feedburner.com/eyeshalfclosed"><i class=icon-rss></i></a>
+    </div>
+    <p class=author-bio>Undergrad at <a href=http://www.ualberta.ca/>UAlberta</a>.
+Formerly, NSERC student 
+in Math, research assistant for <a href=http://www.artsrn.ualberta.ca/econweb/landeo/>Dr. Claudia Landeo</a>.
+More <a href=/about/>about me</a>.
+</p>
+</div>
+
+            </div>
+            <div class=pure-u-3-4>
+                <div class=right-column>
+                    <div class=page>
+    <h1 class=title-large>About</h1>
+    <div class=content>
+        <p>I'm currently in the final semester of a honours degree in mathematics
+at the <a href="http://www.ualberta.ca">University of Alberta</a>. I'm interested in functional programming, machine learning, and minimalist design.</p>
+
+<p>I've worked on a couple of interesting projects:</p>
+
+<ol>
+  <li><em>Bug Deduplication:</em> I implemented a system that uses contextual data to predict whether or not two bug reports are duplicates. We created two main features:
+    <ul>
+      <li>A comparison of the stack traces between the two reports. </li>
+      <li>A comparison between the text in each report and a number of different technical texts (e.g. cryptography textbooks, networking textbooks, etc.).</li>
+    </ul>
+
+    <p>We used the added features to train machine learning classifiers on the data through Weka. We got fairly good results: &gt;95%. The code is available on <a href="https://github.com/tannner/dedup">Github</a>, but it's not very well documented. We're currently cleaning it up, and we're going to be publishing it later this year. </p>
+  </li>
+  <li>
+    <p><em>Mathematical Economics:</em> To come later. </p>
+  </li>
+  <li><em>Law &amp; Economics:</em> To come later. </li>
+</ol>
+
+    </div>
+</div>
+
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
