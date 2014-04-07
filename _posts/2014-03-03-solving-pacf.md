@@ -16,7 +16,7 @@ $$
 \end{align*}
 $$
 
-Consequently, by plotting the ACF (as can be done [easily](https://gist.github.com/timbers/9318155) in R), we can detect the order of the $$MA(q)$$ process.
+Consequently, by plotting the ACF (as can be done [easily](http://bl.ocks.org/timbers/9318155) in R), we can detect the order of the $$MA(q)$$ process.
 
 The property fails for the ACF of an $$ AR(p) $$ process. However, the PACF is here to step in and save the day. With the PACF defined as
 
