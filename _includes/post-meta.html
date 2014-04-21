@@ -5,7 +5,9 @@
         {% assign item = page %}
     {% endif %}
     {% for tag in item.tags %}
-        <li>&middot;</li>
+        {% if forloop.index != 1 %}
+	        <li>&middot;</li>
+		{% endif %}
         <li><a href="/tags/#{{ tag }}-ref">#{{ tag }}</a></li>
     {% endfor %}
 </ul>

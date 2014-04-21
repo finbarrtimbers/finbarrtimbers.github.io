@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Solving Partial Autocorrelation Functions
-tags: time-series
+tags: time-series statistics ARMA
 ---
 
 I've been studying time series through [TSA][1]. The book presents a structured approach to time series analysis, and covers the material fairly well; I was impressed with the description of what a partial autocorrelation function (PACF) is, as the book explained it more intuitively than the lecture notes did. I did find the description of how to actually solve for the PACF a bit confusing, so I wrote my own explanation. 
