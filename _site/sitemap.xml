@@ -11,6 +11,13 @@
 
   
   <url>
+    <loc>http://finbarr.ca/arima-arma-what/</loc>
+    <lastmod>2014-04-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>http://finbarr.ca/solving-pacf/</loc>
     <lastmod>2014-03-03</lastmod>
     <changefreq>weekly</changefreq>

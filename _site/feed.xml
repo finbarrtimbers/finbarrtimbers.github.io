@@ -8,6 +8,60 @@
 		<atom:link href="http://finbarr.ca/feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
+				<title>ARIMA, ARMA, what's the difference?</title>
+				<description>&lt;p&gt;I&#39;m working through &lt;a href=&quot;[1]&quot;&gt;TSA&lt;/a&gt;, and I noticed that some of my classmates are struggling to understand the difference between an ARIMA process, an AR process, and a MA process, not to mention seasonal version of the above.&lt;/p&gt;
+
+&lt;p&gt;Using &lt;script type=&quot;math/tex&quot;&gt;B&lt;/script&gt; as the lag operator, i.e. &lt;script type=&quot;math/tex&quot;&gt;BX_t = X_{t-1}&lt;/script&gt;, an &lt;em&gt;ARIMA(p, d, q) process&lt;/em&gt; is a discrete time stochastic process of the form&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;
+\phi(B) (1 - B)^d X_t = \theta(B)w_t,
+&lt;/script&gt;
+
+&lt;p&gt;where &lt;script type=&quot;math/tex&quot;&gt;\phi&lt;/script&gt; is a polynomial of degree &lt;em&gt;p&lt;/em&gt;, and &lt;script type=&quot;math/tex&quot;&gt;\theta&lt;/script&gt; is a polynomial of degree &lt;em&gt;q&lt;/em&gt;. An &lt;em&gt;AR(p)&lt;/em&gt; process is an ARIMA(&lt;em&gt;p, 0, 0&lt;/em&gt;) process, and a MA(&lt;em&gt;q&lt;/em&gt;) process is an ARIMA(&lt;em&gt;0, 0, q&lt;/em&gt;) process. To make life even more complicated, we introduce the notion of seasonality:&lt;/p&gt;
+
+&lt;p&gt;An ARIMA&lt;script type=&quot;math/tex&quot;&gt;(p, d, q) \times (P, D, Q)_s&lt;/script&gt; model is a s.p. of the form &lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;
+\Phi(B^s) \phi(B) (1 - B^s)^D (1 - B)^d X_t = \Theta(B^s)\theta(B)w_t,
+&lt;/script&gt;
+
+&lt;p&gt;where &lt;script type=&quot;math/tex&quot;&gt;\Phi(B)&lt;/script&gt; is a polynomial of degree &lt;script type=&quot;math/tex&quot;&gt;P&lt;/script&gt;, and &lt;script type=&quot;math/tex&quot;&gt;\Theta(B)&lt;/script&gt; is a polynomial of degree &lt;script type=&quot;math/tex&quot;&gt;Q&lt;/script&gt;.&lt;/p&gt;
+
+&lt;h4 id=&quot;example&quot;&gt;Example&lt;/h4&gt;
+
+&lt;p&gt;Suppose we have the stochastic process &lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;
+X_t = \frac 1 2 X_{t-1} + X_{t-4} - \frac 1 2 X_{t-5} + w_t - \frac 1 4 w_{t-4}.
+&lt;/script&gt;
+
+&lt;p&gt;How can we write this as an ARIMA&lt;script type=&quot;math/tex&quot;&gt;(p, d, q) \times (P, D, Q)_s&lt;/script&gt; model? Note that &lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;
+(1 - B^4) X_t = \frac 1 2 X_{t-1} - \frac 1 2 X_{t-5} + w_t - \frac 1 4 w_{t-4}.
+&lt;/script&gt;
+
+&lt;p&gt;We can rewrite this as &lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;
+(1 - B^4) X_t - \frac{1}{2} B (1 - B^4)X_t = (1 - \frac 1 4 B^4) w_t,
+&lt;/script&gt;
+
+&lt;p&gt;or, more concisely,&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;
+(1 - B^4) (1 - \frac 1 2 B) X_t = (1 - \frac 1 4 B^4) w_t.
+&lt;/script&gt;
+
+&lt;p&gt;Consequently, we can see that &lt;script type=&quot;math/tex&quot;&gt;X_t&lt;/script&gt; is an ARIMA&lt;script type=&quot;math/tex&quot;&gt;(1, 0, 0) \times (0, 1, 1)_4&lt;/script&gt; process. &lt;/p&gt;
+
+</description>
+				<pubDate>Mon, 21 Apr 2014 00:00:00 -0600</pubDate>
+				<link>http://finbarr.ca/arima-arma-what/</link>
+				<guid isPermaLink="true">http://finbarr.ca/arima-arma-what/</guid>
+			</item>
+		
+			<item>
 				<title>Solving Partial Autocorrelation Functions</title>
 				<description>&lt;p&gt;I&#39;ve been studying time series through &lt;a href=&quot;http://www.stat.pitt.edu/stoffer/tsa3/&quot;&gt;TSA&lt;/a&gt;. The book presents a structured approach to time series analysis, and covers the material fairly well; I was impressed with the description of what a partial autocorrelation function (PACF) is, as the book explained it more intuitively than the lecture notes did. I did find the description of how to actually solve for the PACF a bit confusing, so I wrote my own explanation. &lt;/p&gt;
 
