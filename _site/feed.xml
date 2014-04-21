@@ -21,7 +21,7 @@
 \end{align*}
 &lt;/script&gt;
 
-&lt;p&gt;Consequently, by plotting the ACF (as can be done &lt;a href=&quot;https://gist.github.com/timbers/9318155&quot;&gt;easily&lt;/a&gt; in R), we can detect the order of the &lt;script type=&quot;math/tex&quot;&gt;MA(q)&lt;/script&gt; process.&lt;/p&gt;
+&lt;p&gt;Consequently, by plotting the ACF (as can be done &lt;a href=&quot;http://bl.ocks.org/timbers/9318155&quot;&gt;easily&lt;/a&gt; in R), we can detect the order of the &lt;script type=&quot;math/tex&quot;&gt;MA(q)&lt;/script&gt; process.&lt;/p&gt;
 
 &lt;p&gt;The property fails for the ACF of an &lt;script type=&quot;math/tex&quot;&gt; AR(p) &lt;/script&gt; process. However, the PACF is here to step in and save the day. With the PACF defined as&lt;/p&gt;
 
