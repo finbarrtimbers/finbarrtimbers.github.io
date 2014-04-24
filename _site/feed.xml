@@ -142,10 +142,22 @@
 
     &lt;p&gt;for all j=1…k signatories, where &lt;script type=&quot;math/tex&quot;&gt;Q_n = \sum_{i=k+1}^n q_{n, i}^\star&lt;/script&gt; and &lt;script type=&quot;math/tex&quot;&gt;Q_s = \sum_{i=1}^k q_{s, i}&lt;/script&gt;, i.e. the sum of the non-signatories and the signatories, respectively.&lt;/p&gt;
   &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Why do international agreements have to be self-enforcing?&lt;/p&gt;
+  &lt;li&gt;Why do international agreements have to be self-enforcing?
+    &lt;ul&gt;
+      &lt;li&gt;If they&#39;re not, they break apart → individual countries will leave, weakening the incentives, and causing more countries to leave. &lt;/li&gt;
+    &lt;/ul&gt;
   &lt;/li&gt;
-  &lt;li&gt;What characteristics of the pollutant will determine whether the agreement will include a small or large number of countries? &lt;/li&gt;
+  &lt;li&gt;What characteristics of the pollutant will determine whether the agreement will include a small or large number of countries?
+    &lt;ul&gt;
+      &lt;li&gt;Two main characteristics:
+        &lt;ol&gt;
+          &lt;li&gt;How costly abatement is, and&lt;/li&gt;
+          &lt;li&gt;How hazardous the pollution is.&lt;/li&gt;
+        &lt;/ol&gt;
+      &lt;/li&gt;
+      &lt;li&gt;If abatement is cheap, and the pollution is hazardous, we will see many countries signing the agreement; if abatement is expensive, and the pollution is innocuous, we will see few countries signing the agreement. &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h1 id=&quot;fisheries&quot;&gt;Fisheries&lt;/h1&gt;
