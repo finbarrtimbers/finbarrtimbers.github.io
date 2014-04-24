@@ -59,13 +59,11 @@ $$
 To do so, we take the derivative with respect to $$ \phi_{11} $$ and set it equal to zero:
 
 $$
-
 \begin{align*}
  &E[-2X_{t-1}(X_{t} - \phi_{11} X_{t-1})] = 0 \\
-\iff&-2 \gamma(1) + 2 \phi_{11} \gamma(0) = 0 \\
-\iff& \phi_{11} = \rho(1)
+\iff &-2 \gamma(1) + 2 \phi_{11} \gamma(0) = 0 \\
+\iff & \phi_{11} = \rho(1)
 \end{align*}
-
 $$
 
 Now, we need to solve for $$ \rho $$ in terms of $$ \phi_{1}, \phi_{2} $$. To do this, we exploit the Yule-Walker equations:
