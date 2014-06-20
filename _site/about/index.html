@@ -35,8 +35,7 @@
         <link rel=stylesheet type=text/css href=/css/pure-min.css>
         <link rel=stylesheet type=text/css href=/css/github.css>
         <link rel=stylesheet type=text/css href=/css/styles.css>
-        <link rel=stylesheet type=text/css href=/css/font-awesome/css/font-awesome.min.css>
-        
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
     </head>
     <body>
         <div class="container pure-g-r">
@@ -45,11 +44,13 @@
     <img src="/images/finbarr-and-candace.jpg" class=author-image />
     <h1 class=author-name><a href=/>Finbarr Timbers</a></h1>
     <div class=nav>
-        <a href="https://github.com/timbers"><i class=icon-github-alt></i></a>
-        <a href="https://twitter.com/finbarrtimbers"><i class=icon-twitter></i></a>
-        <a href="http://www.linkedin.com/profile/view?id=129265392"><i class=icon-linkedin></a></i>
+        <a href="http://finbarr.ca/about/">   <i class="fa fa-rocket"></i></a>
+        <a href="https://github.com/timbers">  <i class="fa fa-github"></i></a>
+        <a href="https://twitter.com/finbarrtimbers"> <i class="fa fa-twitter"></i></a>
+        <a href="mailto:finbarr@finbarr.ca"><i class="fa fa-send"></a></i>
     </div>
-    <p class=author-bio>Undergrad at <a href=http://www.ualberta.ca/>UAlberta</a>. <a href=https://www.dropbox.com/s/2v7fcspgj4qsbri/cv.pdf/>CV</a>. Former NSERC USRA in mathematical finance. More <a href=/about/>about me</a>.
+    <p class=author-bio>Grad student at <a href=http://www.lse.ac.uk/>LSE</a>.<br>
+Hacker, actor. <br>
 </p>
 </div>
 
@@ -59,19 +60,20 @@
                     <div class=page>
     <h1 class=title-large>About</h1>
     <div class=content>
-        <p>I just finished a honours degree in mathematics
-at the <a href="http://www.ualberta.ca">University of Alberta</a>. A CV can be found <a href="https://www.dropbox.com/s/2v7fcspgj4qsbri/cv.pdf">here</a>. I'm interested in functional programming, machine learning, and minimalist design.</p>
+        <p>I just finished a honours degree in mathematics at the <a href="http://www.ualberta.ca">University of Alberta</a>, and just updated my<a href="/cv.pdf">cv</a>.</p>
 
-<h1 id="research-projects">Research Projects</h1>
+<p>I have strange tastes. I dig improvisational comedy, computational finance, and minimalist design. </p>
+
+<h1 id="projects">Projects</h1>
 
 <ol>
   <li><em>Bug Deduplication:</em> For CMPUT 466/551, I worked with a team to create a system that uses contextual data to predict whether or not two bug reports are duplicates. We used two main features:
     <ul>
-      <li>A comparison of the stack traces between the two reports. </li>
-      <li>A comparison between the text in each report and a number of different technical texts (e.g. cryptography textbooks, networking textbooks, etc.).</li>
+      <li>We compared the stack traces between the two reports. Unfortunately, as only 1\% of the reports had stack traces, 0.01\% of the pairs had reports, so the stack trace comparison was useless as a feature. </li>
+      <li>A comparison between the text in each report and a number of different technical texts (e.g. cryptography textbooks, networking textbooks, etc.). The textual comparisons proved to be incredibly powerful predictors, and gave very accurate results by themselves. </li>
     </ul>
 
-    <p>The added features were used to train machine learning classifiers through Weka. We got fairly good results: &gt;95%. The code is available on <a href="https://github.com/tannner/dedup">Github</a>, but it's not very well documented. We're currently cleaning it up, and we're planning to publish in <a href="http://www.icsme.org/">ICSME</a>. </p>
+    <p>The added features were used to train machine learning classifiers through Weka. We got fairly good results: ~95%. The code is available on <a href="https://github.com/tannner/dedup">Github</a>, but it's not very well documented. We wrote a paper on the project that has been submitted for publication in <a href="http://www.icsme.org/">ICSME</a>. </p>
   </li>
   <li>
     <p><em>Mathematical Economics:</em> I worked with <a href="http://www.math.ualberta.ca/~cfrei/">Dr. Christoph Frei</a> to study the convergence of the set of Perfect Public Equilibria for the Prisoner's Dilemma in Continuous Time. The work was an extension of <a href="https://www.princeton.edu/~sannikov/gamesRRR.pdf">Sannikov's</a> paper on <em>Imperfectly Observable Actions in Continuous Time,</em> and showed that the set of PPE in discrete time converges to the continuous time set defined by Sannikov as the distance between repetitions goes to zero. I wrote a simulation in Matlab to show this graphically.  </p>
