@@ -4,11 +4,18 @@
 
   <url>
     <loc>http://finbarr.ca</loc>
-    <lastmod>2014-06-08</lastmod>
+    <lastmod>2014-06-20</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
+  
+  <url>
+    <loc>http://finbarr.ca/harold-of-galactus/</loc>
+    <lastmod>2014-06-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
   
   <url>
     <loc>http://finbarr.ca/pru-+-ambrose/</loc>
@@ -43,7 +50,7 @@
     
       <url>
         <loc>http://finbarr.ca/about/</loc>
-        <lastmod>2014-06-08</lastmod>
+        <lastmod>2014-06-20</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
       </url>
@@ -51,6 +58,15 @@
   
     
   
+    
+  
+    
+      <url>
+        <loc>http://finbarr.ca/improv/</loc>
+        <lastmod>2014-06-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.5</priority>
+      </url>
     
   
     
