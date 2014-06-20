@@ -3,11 +3,11 @@ a {
 }
 
 body {
-    font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+    font-family: Lato, Georgia, Cambria, "Times New Roman", Times, serif;
 }
 
 h1, h2, h3, h4 {
-    font-family: Arial, Verdana, sans-serif;
+    font-family: 'Yanone Kaffeesatz', Arial, Verdana, sans-serif;
     line-height: 1em;
 }
 
