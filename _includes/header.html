@@ -1,11 +1,16 @@
 <div class=author-info>
-    <img src="{{ site.author_image_path }}" class=author-image />
-    <h1 class=author-name><a href=/>{{ site.author_name }}</a></h1>
-    <div class=nav>
-        <a href="{{ site.about_url }}">   <i class="fa fa-rocket"></i></a>
-        <a href="{{ site.github_url }}">  <i class="fa fa-github"></i></a>
-        <a href="{{ site.twitter_url }}"> <i class="fa fa-twitter"></i></a>
-        <a href="mailto:{{ site.email }}"><i class="fa fa-send"></a></i>
-    </div>
-    <p class=author-bio>{{ site.author_bio }}</p>
+  <img src="{{ site.author_image_path }}" class=author-image />
+  <h1 class=author-name><a href=/>{{ site.author_name }}</a></h1>
+<div class=nav>
+  <a href="{{ site.about_url }}">   <i class="fa fa-rocket"></i></a>
+  <a href="{{ site.github_url }}">  <i class="fa fa-github"></i></a>
+  <a href="{{ site.twitter_url }}"> <i class="fa fa-twitter"></i></a>
+  <a href="mailto:{{ site.email }}"><i class="fa fa-send"></a></i>
 </div>
+<p class=author-bio>
+  {% markdown %}
+  Grad student at [LSE](http://www.lse.ac.uk/).
+  [Hacker]({{site.github_url}}), actor.
+  {% endmarkdown %}
+</p>
+
