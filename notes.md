@@ -1,7 +1,7 @@
 ---
 layout: page 
-title: Improv Notes
-permalink: /improv/
+title: Performance Notes
+permalink: /notes/
 ---
 
 - BE. FUCKING. CONFIDENT. 
@@ -12,3 +12,4 @@ permalink: /improv/
 - Don't do transaction scenes. They're boring.
 - Don't make the scene about off-stage people.
 - Slooooooooooooooooooow down. There's no rush. 
+- Staging is important. Make sure that you're downstage center.
