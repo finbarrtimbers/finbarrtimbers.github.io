@@ -35,20 +35,13 @@
   
     
       <url>
-        <loc>http://finbarr.ca/about/</loc>
+        <loc>http://finbarr.ca/backend/</loc>
         <lastmod>2014-07-02</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
       </url>
     
   
-    
-      <url>
-        <loc>http://finbarr.ca/backend/</loc>
-        <lastmod>2014-07-02</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.5</priority>
-      </url>
     
   
     
@@ -62,6 +55,13 @@
       </url>
     
   
+    
+      <url>
+        <loc>http://finbarr.ca/index.html</loc>
+        <lastmod>2014-07-02</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.5</priority>
+      </url>
     
   
     
