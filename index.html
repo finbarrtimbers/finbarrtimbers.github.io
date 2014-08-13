@@ -1,0 +1,34 @@
+---
+layout: default
+title: Finbarr Timbers
+permalink: /
+---
+
+<h2 class="section"> Posts </h2>
+
+{% for post in site.posts %}
+<div class=post>
+    <a class="title" href="{{ post.url }}">{{ post.title }}</a>
+    <span class="right-side"> {{ post.date | date: "%-d %B %Y" }} </span>
+</div>
+{% endfor %}
+
+<h2 class="section"> Projects </h2>
+{% for project in site.projects %}
+<div class=post>
+  <a class="title" href="{{ project.url }}">{{ project.name }}</a>
+  <div>
+    {{ project.description }}
+  </div>
+</div>
+{% endfor %}
+
+<h2 class="section"> Past Gigs </h2>
+{% for gig in site.gigs %}
+<div class=post>
+    <a class="title" href="{{ gig.url }}">{{ gig.employer }}</a> &mdash; {{gig.title}}
+  <div>
+    {{ gig.description }}
+  </div>
+</div>
+{% endfor %}
