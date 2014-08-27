@@ -14,11 +14,11 @@ projects:
    url: https://github.com/tannner/dedup
 
  - name: Incanter
-   description: Statistical-computing & graphics environment for the JVM (Clojure contributor).
+   description: Statistical-computing & graphics environment for the JVM (contributor).
    url: https://github.com/incanter/incanter
 
  - name: Cascalog
-   description: Data processing and querying library for Clojure (Clojure contributor).
+   description: Data processing and querying library for Clojure (contributor).
    url: https://github.com/nathanmarz/cascalog
 
 # past gigs
