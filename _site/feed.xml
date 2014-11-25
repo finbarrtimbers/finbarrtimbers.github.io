@@ -8,14 +8,203 @@
 		<atom:link href="http://finbarr.ca/feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
+				<title>Alberta after oil</title>
+				<description>&lt;p&gt;The Albertan economy lives and dies on the price of oil. That&#39;s problematic. Oil revenues are highly volatile, and don&#39;t conform to forecasts, as Robin Campbell is currently finding out. Problematic as this is, it&#39;s a problem that&#39;s familiar to one despicable breed of person- economists. A central problem of public economics is dealing with cyclical trends. As recent budgetary issues have shown, Alberta desperately needs to enact acyclical measures to flatten out the boom/bust cycle. The best way to do this is to create alternate sources of revenue that aren&#39;t tied to the price of oil.&lt;/p&gt;
+
+&lt;p&gt;The best way to do so? Increase spending on post-secondary education. However, the government shouldn&#39;t do so blindly. Alberta does not need more humanities grads, or more fine arts grads, or even more economics grads (as handsome, intelligent, and well spoken as we are). Alberta needs more people educated in the trades, in the hard sciences, and in business.&lt;/p&gt;
+
+&lt;p&gt;Redford had the right idea [1] in 2013 when she &lt;a href=&quot;http://www.theglobeandmail.com/news/national/education/university-of-calgary-engineering-receives-1425-million-from-province/article14768330/&quot;&gt;announced&lt;/a&gt; that the government was funding an expansion of the University of Calgary&#39;s Schulich School of Engineering at the cost of the rest of Albertan PSE. Much as the PSE lobbyists squawked, it was the right move, and one that current political parties should consider.&lt;/p&gt;
+
+&lt;p&gt;Danielle Smith called for &quot;100 bloggers&quot; to write about Wildrose policy. Well, as a self-appointed blogger: the Wildrose Party should enshrine in the party platform the importance of funding post secondary education at an extremely high level and firmly commit to keeping the funding stable. The funding should be tied to specific programs and faculties, and designed to make Alberta the world&#39;s engineering capital. Funding should go to the faculties of engineering, science, and business, creating named professorships and dedicated positions for students to gain research experience.&lt;/p&gt;
+
+&lt;p&gt;Moreover, the government should create incentives for the highly educated Albertan students to remain in the province by creating a tax credit to pay off student loans for every year that the newly graduated engineer/scientist works in Alberta. The government should also provide tax incentives for companies to conduct R &amp;amp; D in Alberta.&lt;/p&gt;
+
+&lt;p&gt;If the government followed such a program, in 20 years Alberta&#39;s economy would be thriving on the backs of brilliant engineers and scientists. With Alberta as the beating heart of Canadian industrial innovation, the province would see massive spillover effects creating a reverse brain-drain into Alberta, ending our craven reliance on the price of oil.&lt;/p&gt;
+
+&lt;p&gt;[1] Painful as that phrase is to write.&lt;/p&gt;
+</description>
+				<pubDate>Tue, 25 Nov 2014 00:00:00 +0000</pubDate>
+				<link>http://finbarr.ca/bold-policy-moves-1/</link>
+				<guid isPermaLink="true">http://finbarr.ca/bold-policy-moves-1/</guid>
+			</item>
+		
+			<item>
+				<title>GET requests in OCaml</title>
+				<description>&lt;p&gt;I&#39;m building &lt;a href=&quot;old post&quot;&gt;Jane&lt;/a&gt; in OCaml, which is a strongly typed, static,
+functional language. It&#39;s most famously used by &lt;a href=&quot;https://www.janestreet.com/&quot;&gt;Jane Street&lt;/a&gt;, a quantitative trading firm out of New York.
+I like OCaml for a number of reasons, but the biggest one is that the language
+has very good type inference, as good as Haskell. Consequently, you can write
+code that reads like Python, but refactors like C++. I find that I&#39;ll write code
+without the type annotations, and then go back and add them once it&#39;s done, which
+makes refactoring surprisingly easy.&lt;/p&gt;
+
+&lt;p&gt;I&#39;m building Jane as a backend server with a front end API. Most of my effort is
+going into the backend. One of the most important tasks that the code does is
+get updates for the prices of the securities in our portfolio. I do so via a
+get request to the &lt;a href=&quot;http://dev.markitondemand.com/&quot;&gt;&lt;code&gt;markitondemand.com&lt;/code&gt;&lt;/a&gt; API.&lt;/p&gt;
+
+&lt;p&gt;I found it shockingly difficult to perform a simple get request in OCaml, so
+I&#39;m going to provide a detailed guide on how to do so here, and provide
+example code, as well as the commands to compile it. &lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Download the source from github. In the directory that you want to install the source code into, enter&lt;/p&gt;
+
+    &lt;p&gt;git clone https://github.com/open-source-parsers/jsoncpp
+     cd jsoncpp&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Create the makefiles. For this step, you must have cmake installed; if it is not installed, you can install it with your system package manager. &lt;a href=&quot;On OS X, I use Homebrew, and on (e.g.) Ubuntu, the package manager is apt-get. On OS X, you would enter `brew install cmake` to install cmake, while on Ubuntu, you would run `apt-get install cmake`.&quot;&gt;1&lt;/a&gt; From jsoncpp/, run&lt;/p&gt;
+
+    &lt;p&gt;mkdir -p build/debug
+     cd build/debug
+         cmake -DCMAKE_BUILD_TYPE=debug -DJSONCPP_LIB_BUILD_SHARED=OFF -G &quot;Unix Makefiles&quot; ../../../jsoncpp
+             make
+                 cd ../..&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Enter &lt;code&gt;pwd&lt;/code&gt; and make a note of the output. Now, go to the folder containing the code in which you want to use JSONcpp in. Create a new file called &quot;example.cpp&quot; and enter the following code (taken from Stack Overflow):&lt;/p&gt;
+
+    &lt;p&gt;#include &lt;fstream&gt;
+     #include &lt;iostream&gt;&lt;/iostream&gt;&lt;/fstream&gt;&lt;/p&gt;
+
+    &lt;p&gt;#include &quot;json/json.h&quot;&lt;/p&gt;
+
+    &lt;p&gt;int main() {
+         Json::Value root;
+                 std::ifstream file(&quot;test.json&quot;);
+                         file » root;
+                                 std::cout « root;
+                                     }&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Create another file called &quot;test.json&quot; with the json content you want to read; I used
+    {
+            &quot;stocks&quot;: [
+                        {&quot;symbol&quot;: &quot;AAPL&quot;,
+                                     &quot;amount&quot;: 1.03213,
+                                                  &quot;last_price&quot;: 1.20},
+                                                              {&quot;symbol&quot;: &quot;MSFT&quot;,
+                                                                           &quot;amount&quot;: 2.31039},
+                                                                                       {&quot;symbol&quot;: &quot;F&quot;,
+                                                                                                    &quot;amount&quot;: 0.543589}
+                                                                                                            ]
+                                                                                                                }&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Compile the code using a &quot;Makefile.&quot; Using your favourite text editor, create a file called &quot;Makefile&quot; and enter the following code (replacing &lt;code&gt;JSONCPPPATH&lt;/code&gt; with the results from running &lt;code&gt;pwd&lt;/code&gt; earlier; mine looks like &lt;code&gt;/Users/ft/Source/jsoncpp/&lt;/code&gt;):&lt;/p&gt;
+
+    &lt;p&gt;CXX = g++
+     LDFLAGS = -LJSONCPPPATH/build/debug/lib -ljsoncpp
+         INC = -IJSONCPPPATH/include&lt;/p&gt;
+
+    &lt;p&gt;main: main.cpp
+         $(CXX) -o main $(LDFLAGS) $(INC) main.cpp&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;IMPORTANT: you have to indent the &lt;code&gt;$(CXX) -o main...&lt;/code&gt; line with 1 TAB and not 4 SPACES or it won&#39;t work. GNU Make requires a tab for indentation.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Now, compile the code by running &lt;code&gt;make main&lt;/code&gt;. You should now be able to run the code by entering &lt;code&gt;./main&lt;/code&gt;. It will print the contents of your &lt;code&gt;test.json&lt;/code&gt; file to your terminal.&lt;/li&gt;
+&lt;/ol&gt;
+
+</description>
+				<pubDate>Fri, 10 Oct 2014 00:00:00 +0100</pubDate>
+				<link>http://finbarr.ca/GET-requests-ocaml/</link>
+				<guid isPermaLink="true">http://finbarr.ca/GET-requests-ocaml/</guid>
+			</item>
+		
+			<item>
+				<title>Full example for using JSONcpp on Unix</title>
+				<description>&lt;p&gt;I&#39;ve been trying to parse JSON files with C++, and I&#39;ve found a distinct lack of
+full examples on how to do so. Specifically, I&#39;ve struggled to find the proper
+commands to actually compile the code. For future reference (and to help any
+beginners out), here&#39;s a full example of how to use &lt;a href=&quot;https://github.com/open-source-parsers/jsoncpp&quot; title=&quot;JSONcpp on github&quot;&gt;JSONcpp&lt;/a&gt; in your code (N.B. You&#39;re supposed to enter all of the following code in your terminal).&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Download the source from github. In the directory that you want to install the source code into, enter&lt;/p&gt;
+
+    &lt;p&gt;git clone https://github.com/open-source-parsers/jsoncpp
+ cd jsoncpp&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Create the makefiles. For this step, you must have cmake installed; if it is not installed, you can install it with your system package manager. &lt;a href=&quot;On OS X, I use Homebrew, and on (e.g.) Ubuntu, the package manager is apt-get. On OS X, you would enter `brew install cmake` to install cmake, while on Ubuntu, you would run `apt-get install cmake`.&quot;&gt;1&lt;/a&gt; From jsoncpp/, run&lt;/p&gt;
+
+    &lt;p&gt;mkdir -p build/debug
+ cd build/debug
+ cmake -DCMAKE_BUILD_TYPE=debug -DJSONCPP_LIB_BUILD_SHARED=OFF -G &quot;Unix Makefiles&quot; ../../../jsoncpp
+ make
+ cd ../..&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Enter &lt;code&gt;pwd&lt;/code&gt; and make a note of the output. Now, go to the folder containing the code in which you want to use JSONcpp in. Create a new file called &quot;example.cpp&quot; and enter the following code (taken from Stack Overflow):&lt;/p&gt;
+
+    &lt;p&gt;#include &lt;fstream&gt;
+ #include &lt;iostream&gt;&lt;/iostream&gt;&lt;/fstream&gt;&lt;/p&gt;
+
+    &lt;p&gt;#include &quot;json/json.h&quot;&lt;/p&gt;
+
+    &lt;p&gt;int main() {
+     Json::Value root;
+     std::ifstream file(&quot;test.json&quot;);
+     file » root;
+     std::cout « root;
+ }&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Create another file called &quot;test.json&quot; with the json content you want to read; I used
+    {
+        &quot;stocks&quot;: [
+            {&quot;symbol&quot;: &quot;AAPL&quot;,
+             &quot;amount&quot;: 1.03213,
+             &quot;last_price&quot;: 1.20},
+            {&quot;symbol&quot;: &quot;MSFT&quot;,
+             &quot;amount&quot;: 2.31039},
+            {&quot;symbol&quot;: &quot;F&quot;,
+             &quot;amount&quot;: 0.543589}
+        ]
+    }&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Compile the code using a &quot;Makefile.&quot; Using your favourite text editor, create a file called &quot;Makefile&quot; and enter the following code (replacing &lt;code&gt;JSONCPPPATH&lt;/code&gt; with the results from running &lt;code&gt;pwd&lt;/code&gt; earlier; mine looks like &lt;code&gt;/Users/ft/Source/jsoncpp/&lt;/code&gt;):&lt;/p&gt;
+
+    &lt;p&gt;CXX = g++
+ LDFLAGS = -LJSONCPPPATH/build/debug/lib -ljsoncpp
+ INC = -IJSONCPPPATH/include&lt;/p&gt;
+
+    &lt;p&gt;main: main.cpp
+     $(CXX) -o main $(LDFLAGS) $(INC) main.cpp&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;IMPORTANT: you have to indent the &lt;code&gt;$(CXX) -o main...&lt;/code&gt; line with 1 TAB and not 4 SPACES or it won&#39;t work. GNU Make requires a tab for indentation.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Now, compile the code by running &lt;code&gt;make main&lt;/code&gt;. You should now be able to run the code by entering &lt;code&gt;./main&lt;/code&gt;. It will print the contents of your &lt;code&gt;test.json&lt;/code&gt; file to your terminal.&lt;/li&gt;
+&lt;/ol&gt;
+
+</description>
+				<pubDate>Sat, 06 Sep 2014 00:00:00 +0100</pubDate>
+				<link>http://finbarr.ca/jsoncpp-example/</link>
+				<guid isPermaLink="true">http://finbarr.ca/jsoncpp-example/</guid>
+			</item>
+		
+			<item>
 				<title>We're in a bubble</title>
-				<description>&lt;p&gt;My friend &lt;a href=&quot;https://twitter.com/AngusAtEMC&quot;&gt;Angus&lt;/a&gt; and I are working on a startup that automates personal investments (called Jane- I&#39;ll be talking more about it in a later post). I think we have a great idea. However, the idea seems &lt;em&gt;so obvious&lt;/em&gt; that I just don&#39;t get why no one else is doing it.&lt;/p&gt;
+				<description>&lt;p&gt;My friend &lt;a href=&quot;https://twitter.com/AngusAtEMC&quot;&gt;Angus&lt;/a&gt; and I have been tossing around the idea of a startup that automates personal investments (inspired by Jane, the AI from Ender&#39;s Game- I&#39;ll be talking more about it in a later post). I think we have a great idea. However, the idea seems &lt;em&gt;so obvious&lt;/em&gt; that I just don&#39;t get why no one else is doing it.&lt;/p&gt;
 
 &lt;p&gt;Look at &lt;a href=&quot;http://apptimize.com/company/team/&quot;&gt;Apptimize&lt;/a&gt;. Their team is absolutely nuts. Almost everyone went to MIT or Stanford, they have a ton of ex-Google alums, and they&#39;ve got people who competed at the IMO level. Yet their company is working to make A/B testing easier. At best, that&#39;s a multi-million dollar market. If Apptimize became the absolute best company at A/B testing in the world, they could have a worth of &lt;em&gt;maybe&lt;/em&gt; $500 million. At best. And that&#39;s stretching it.&lt;/p&gt;
 
 &lt;p&gt;With Jane, the potential market is huge- if we succeed, we could capture a large percentage of every person in the world&#39;s savings- a trillion dollar market. I don&#39;t understand why there&#39;s so little attention being dedicated to such an {interesting, lucrative, challenging} problem.&lt;/p&gt;
 </description>
-				<pubDate>Fri, 29 Aug 2014 00:00:00 -0600</pubDate>
+				<pubDate>Fri, 29 Aug 2014 00:00:00 +0100</pubDate>
 				<link>http://finbarr.ca/why-not/</link>
 				<guid isPermaLink="true">http://finbarr.ca/why-not/</guid>
 			</item>
@@ -69,7 +258,7 @@ X_t = \frac 1 2 X_{t-1} + X_{t-4} - \frac 1 2 X_{t-5} + w_t - \frac 1 4 w_{t-4}.
 &lt;p&gt;Consequently, we can see that &lt;script type=&quot;math/tex&quot;&gt;X_t&lt;/script&gt; is an ARIMA&lt;script type=&quot;math/tex&quot;&gt;(1, 0, 0) \times (0, 1, 1)_4&lt;/script&gt; process. &lt;/p&gt;
 
 </description>
-				<pubDate>Mon, 21 Apr 2014 00:00:00 -0600</pubDate>
+				<pubDate>Mon, 21 Apr 2014 00:00:00 +0100</pubDate>
 				<link>http://finbarr.ca/arima-arma-what/</link>
 				<guid isPermaLink="true">http://finbarr.ca/arima-arma-what/</guid>
 			</item>
@@ -160,7 +349,7 @@ X_{t} = \phi_1 X_{t-1} + \phi_2 X_{t-2} + w_t,
  %]]&gt;&lt;/script&gt;
 
 </description>
-				<pubDate>Mon, 03 Mar 2014 00:00:00 -0700</pubDate>
+				<pubDate>Mon, 03 Mar 2014 00:00:00 +0000</pubDate>
 				<link>http://finbarr.ca/solving-pacf/</link>
 				<guid isPermaLink="true">http://finbarr.ca/solving-pacf/</guid>
 			</item>

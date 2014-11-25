@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset=utf-8>
+    <meta name=viewport content="width=device-width, initial-scale=1.0">
+    <meta name=description content="Personal website for Finbarr Timbers">
+
+    <title>GET requests in OCaml | Finbarr Timbers</title>
+
+    <script src=http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML.js type=text/javascript></script>
+    <script>
+      MathJax.Hub.Config({
+      "HTML-CSS": {
+      linebreaks: {
+      automatic: true,
+      width: "70% container"
+      },
+      styles: {
+      ".MathJax .math": {
+      "border": "1px solid #ccc",
+      "margin": "0.1em 0",
+      "padding": "0.3em",
+      "vertical-align": "middle"
+      },
+      ".MathJax_Display .math": {
+      "border": "none",
+      "padding": "0",
+      }
+      },
+      scale: 90
+      }
+      });
+    </script>
+    <link href='http://fonts.googleapis.com/css?family=Lato:300|Yanone+Kaffeesatz:300' rel='stylesheet' type='text/css'>
+    <link rel=stylesheet type=text/css href=/css/pure-min.css>
+    <link rel=stylesheet type=text/css href=/css/github.css>
+    <link rel=stylesheet type=text/css href=/css/styles.css>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container pure-g-r">
+      <div class=pure-u-1-5>
+      </div>
+      <div class=pure-u-2-3>
+        <div class=author-info>
+        </div>
+      <div class=right-column>
+          <h1 class=author-name>
+            <a href=/ class="title">Finbarr Timbers</a>
+            <span id="social-media" class="right-side title">
+              <a href="https://github.com/timbers"> <i class="fa fa-github"></i></a>
+              <a href="https://twitter.com/finbarrtimbers"> <i class="fa fa-twitter"></i></a>
+            </span>
+          </h1>
+          <div class=nav>
+          </div>
+          <div class=post>
+    
+    <ul class=post-meta>
+    
+        
+    
+    
+        
+        <li><a href="/tags/#OCaml-ref">#OCaml</a></li>
+    
+        
+	        <li>&middot;</li>
+		
+        <li><a href="/tags/#http-ref">#http</a></li>
+    
+</ul>
+
+    <h1 class=title-large>GET requests in OCaml</h1>
+    <div class=content>
+        <p>I'm building <a href="old post">Jane</a> in OCaml, which is a strongly typed, static,
+functional language. It's most famously used by <a href="https://www.janestreet.com/">Jane Street</a>, a quantitative trading firm out of New York.
+I like OCaml for a number of reasons, but the biggest one is that the language
+has very good type inference, as good as Haskell. Consequently, you can write
+code that reads like Python, but refactors like C++. I find that I'll write code
+without the type annotations, and then go back and add them once it's done, which
+makes refactoring surprisingly easy.</p>
+
+<p>I'm building Jane as a backend server with a front end API. Most of my effort is
+going into the backend. One of the most important tasks that the code does is
+get updates for the prices of the securities in our portfolio. I do so via a
+get request to the <a href="http://dev.markitondemand.com/"><code>markitondemand.com</code></a> API.</p>
+
+<p>I found it shockingly difficult to perform a simple get request in OCaml, so
+I'm going to provide a detailed guide on how to do so here, and provide
+example code, as well as the commands to compile it. </p>
+
+<ol>
+  <li>
+    <p>Download the source from github. In the directory that you want to install the source code into, enter</p>
+
+    <p>git clone https://github.com/open-source-parsers/jsoncpp
+     cd jsoncpp</p>
+  </li>
+  <li>
+    <p>Create the makefiles. For this step, you must have cmake installed; if it is not installed, you can install it with your system package manager. <a href="On OS X, I use Homebrew, and on (e.g.) Ubuntu, the package manager is apt-get. On OS X, you would enter `brew install cmake` to install cmake, while on Ubuntu, you would run `apt-get install cmake`.">1</a> From jsoncpp/, run</p>
+
+    <p>mkdir -p build/debug
+     cd build/debug
+         cmake -DCMAKE_BUILD_TYPE=debug -DJSONCPP_LIB_BUILD_SHARED=OFF -G "Unix Makefiles" ../../../jsoncpp
+             make
+                 cd ../..</p>
+  </li>
+  <li>
+    <p>Enter <code>pwd</code> and make a note of the output. Now, go to the folder containing the code in which you want to use JSONcpp in. Create a new file called "example.cpp" and enter the following code (taken from Stack Overflow):</p>
+
+    <p>#include <fstream>
+     #include <iostream></iostream></fstream></p>
+
+    <p>#include "json/json.h"</p>
+
+    <p>int main() {
+         Json::Value root;
+                 std::ifstream file("test.json");
+                         file » root;
+                                 std::cout « root;
+                                     }</p>
+  </li>
+</ol>
+
+<p>Create another file called "test.json" with the json content you want to read; I used
+    {
+            "stocks": [
+                        {"symbol": "AAPL",
+                                     "amount": 1.03213,
+                                                  "last_price": 1.20},
+                                                              {"symbol": "MSFT",
+                                                                           "amount": 2.31039},
+                                                                                       {"symbol": "F",
+                                                                                                    "amount": 0.543589}
+                                                                                                            ]
+                                                                                                                }</p>
+
+<ol>
+  <li>
+    <p>Compile the code using a "Makefile." Using your favourite text editor, create a file called "Makefile" and enter the following code (replacing <code>JSONCPPPATH</code> with the results from running <code>pwd</code> earlier; mine looks like <code>/Users/ft/Source/jsoncpp/</code>):</p>
+
+    <p>CXX = g++
+     LDFLAGS = -LJSONCPPPATH/build/debug/lib -ljsoncpp
+         INC = -IJSONCPPPATH/include</p>
+
+    <p>main: main.cpp
+         $(CXX) -o main $(LDFLAGS) $(INC) main.cpp</p>
+  </li>
+</ol>
+
+<p>IMPORTANT: you have to indent the <code>$(CXX) -o main...</code> line with 1 TAB and not 4 SPACES or it won't work. GNU Make requires a tab for indentation.</p>
+
+<ol>
+  <li>Now, compile the code by running <code>make main</code>. You should now be able to run the code by entering <code>./main</code>. It will print the contents of your <code>test.json</code> file to your terminal.</li>
+</ol>
+
+
+    </div>
+</div>
+
+      </div>
+    </div>
+    </div>
+</body>
+</html>
