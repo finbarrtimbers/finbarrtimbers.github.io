@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Bold policy moves in Alberta 1: After Oil
+title: Alberta after oil
 tags: politics Alberta
 ---
 
