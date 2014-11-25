@@ -1,5 +1,14 @@
 a {
-    color: #000;
+    color: steelblue;
+    text-decoration: none;
+}
+
+.link-title {
+    color: steelblue;
+}
+
+.title {
+    color: black;
 }
 
 body {
@@ -7,7 +16,7 @@ body {
 }
 
 h1, h2, h3, h4 {
-    font-family: 'Yanone Kaffeesatz', Arial, Verdana, sans-serif;
+    font-family: 'Lato', Arial, Verdana, sans-serif;
     line-height: 1em;
 }
 
@@ -20,6 +29,10 @@ blockquote {
     font-style: italic;
     padding-left: 1em;
     margin-left: 1em;
+}
+
+.right-side {
+    float: right;
 }
 
 table {
@@ -55,6 +68,12 @@ pre {
     word-wrap: normal;
 }
 
+#social-media {
+    font-size: 1em;
+    padding: 0.1em 0em;
+}
+
+
 p code, ul code {
     background: #eee;
     border: 1px solid #ccc;
@@ -85,6 +104,7 @@ p code, ul code {
 
 .author-name {
     margin: 0.2em 0;
+    font-size: 3em;
 }
 
 .author-name a {
@@ -236,7 +256,7 @@ p.feature-image img {
     .container {
         margin: 3em 0;
     }
-    
+
     .author-info {
         float: none;
         margin: 0 auto 3em auto;

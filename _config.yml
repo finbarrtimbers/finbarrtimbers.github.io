@@ -6,7 +6,38 @@ url: "http://finbarr.ca"
 author_name: Finbarr Timbers
 author_image_path: /images/finbarr-and-candace.jpg
 author_bio: |
-    
+
+# Projects
+projects:
+ - name: Bug Deduplication
+   description: A system that automatically detects duplicate bug reports in OSS projects.
+   url: https://github.com/tannner/dedup
+
+ - name: Incanter
+   description: Statistical-computing & graphics environment for the JVM (contributor).
+   url: https://github.com/incanter/incanter
+
+ - name: Cascalog
+   description: Data processing and querying library for Clojure (contributor).
+   url: https://github.com/nathanmarz/cascalog
+
+# past gigs
+gigs:
+  - employer: LSE
+    url: http://lse.ac.uk
+    title: "Grad student"
+    description: Top economics school in the world.
+
+  - employer: Wildrose Caucus
+    url: http://www.wildrose.ca/
+    title: Policy & Research Analyst
+    description: The official opposition party in Alberta.
+
+  - employer: University of Alberta
+    url: http://www.ualberta.ca/~cfrei
+    title: Research Assistant
+    description: "Studied the prisoner's dilemma in continuous time, a problem from game theory."
+
 
 # External services
 about_url: "http://finbarr.ca/about/"
@@ -25,4 +56,3 @@ kramdown:
 permalink: /:title/
 relative_permalinks: false
 pygments: true
-
