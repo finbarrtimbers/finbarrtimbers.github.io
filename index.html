@@ -8,8 +8,8 @@ permalink: /
 
 {% for post in site.posts %}
 <div class=post>
-    <a class="link-title" href="{{ post.url }}">{{ post.title }}</a>
-    <span class="right-side"> {{ post.date | date: "%-d %B %Y" }} </span>
+  <a class="link-title" href="{{ post.url }}">{{ post.title }}</a>
+  <span class="right-side"> {{ post.date | date: "%-d %B %Y" }} </span>
 </div>
 {% endfor %}
 
@@ -32,3 +32,4 @@ permalink: /
   </div>
 </div>
 {% endfor %}
+

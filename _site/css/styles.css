@@ -3,6 +3,11 @@ a {
     text-decoration: none;
 }
 
+#hire-me {
+    color: grey;
+    font-size: 0.25em;
+}
+
 .link-title {
     color: steelblue;
 }

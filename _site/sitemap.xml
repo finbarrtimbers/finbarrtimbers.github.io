@@ -4,7 +4,7 @@
 
   <url>
     <loc>http://finbarr.ca</loc>
-    <lastmod>2014-11-29</lastmod>
+    <lastmod>2014-12-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -59,9 +59,11 @@
     
   
     
+  
+    
       <url>
         <loc>http://finbarr.ca/ideas/</loc>
-        <lastmod>2014-11-29</lastmod>
+        <lastmod>2014-12-05</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
       </url>
@@ -72,7 +74,7 @@
     
       <url>
         <loc>http://finbarr.ca/notes/</loc>
-        <lastmod>2014-11-29</lastmod>
+        <lastmod>2014-12-05</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
       </url>
@@ -81,7 +83,7 @@
     
       <url>
         <loc>http://finbarr.ca/projects/</loc>
-        <lastmod>2014-11-29</lastmod>
+        <lastmod>2014-12-05</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
       </url>
