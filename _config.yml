@@ -28,10 +28,10 @@ gigs:
     title: "Grad student"
     description: Top economics school in the world.
 
-  - employer: Wildrose Caucus
-    url: http://www.wildrose.ca/
+  - employer: Legislative Assembly Office 
+    url: http://www.assembly.ab.ca/
     title: Policy & Research Analyst
-    description: The official opposition party in Alberta.
+    description: The administrative branch of the Legislative Assembly of Alberta.
 
   - employer: University of Alberta
     url: http://www.ualberta.ca/~cfrei
