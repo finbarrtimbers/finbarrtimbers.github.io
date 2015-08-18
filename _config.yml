@@ -10,24 +10,19 @@ author_bio: |
 # Projects
 projects:
  - name: Bug Deduplication
+   url: http://finbarr.ca/dedup/
    description: A system that automatically detects duplicate bug reports in OSS projects.
    url: https://github.com/tannner/dedup
 
- - name: Incanter
-   description: Statistical-computing & graphics environment for the JVM (contributor).
-   url: https://github.com/incanter/incanter
-
- - name: Cascalog
-   description: Data processing and querying library for Clojure (contributor).
-   url: https://github.com/nathanmarz/cascalog
 
 # past gigs
 gigs:
-  - employer: LSE
-    url: http://lse.ac.uk
-    title: "Grad student"
-    description: Top economics school in the world.
-
+  - employer: Darkhorse Analytics
+    url: http://dha.io
+    title: "Analyst"
+    description: Analyst working on statistical projects. Work focuses on
+    coming up with novel methods of forecasting for clients. Heavy Python usage.
+    
   - employer: Legislative Assembly Office 
     url: http://www.assembly.ab.ca/
     title: Policy & Research Analyst
