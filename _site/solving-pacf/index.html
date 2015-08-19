@@ -1,175 +1,62 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset=utf-8>
-    <meta name=viewport content="width=device-width, initial-scale=1.0">
-    <meta name=description content="Personal website for Finbarr Timbers">
-
-    <title>Solving Partial Autocorrelation Functions | Finbarr Timbers</title>
-
-    <script src=http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML.js type=text/javascript></script>
-    <script>
-      MathJax.Hub.Config({
-      "HTML-CSS": {
-      linebreaks: {
-      automatic: true,
-      width: "70% container"
-      },
-      styles: {
-      ".MathJax .math": {
-      "border": "1px solid #ccc",
-      "margin": "0.1em 0",
-      "padding": "0.3em",
-      "vertical-align": "middle"
-      },
-      ".MathJax_Display .math": {
-      "border": "none",
-      "padding": "0",
-      }
-      },
-      scale: 90
-      }
-      });
-    </script>
-    <link href='http://fonts.googleapis.com/css?family=Lato:300|Yanone+Kaffeesatz:300' rel='stylesheet' type='text/css'>
-    <link rel=stylesheet type=text/css href=/css/pure-min.css>
-    <link rel=stylesheet type=text/css href=/css/github.css>
-    <link rel=stylesheet type=text/css href=/css/styles.css>
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-  </head>
-  <body>
-    <div class="container pure-g-r">
-      <div class=pure-u-1-5>
-      </div>
-      <div class=pure-u-2-3>
-        <div class=author-info>
-        </div>
-      <div class=right-column>
-          <h1 class=author-name>
-            <a href=/ class="title">Finbarr Timbers</a>
-            <a href="/hire-me" id="hire-me">
-              Hire me!
-            </a>
-            <span id="social-media" class="right-side title">
-              <a href="https://github.com/timbers"> <i class="fa fa-github"></i></a>
-              <a href="https://twitter.com/finbarrtimbers"> <i class="fa fa-twitter"></i></a>
-            </span>
-          </h1>
-          <div class=nav>
-          </div>
-          <div class=post>
-    
-    <ul class=post-meta>
-    
-        
-    
-    
-        
-        <li><a href="/tags/#time-series-ref">#time-series</a></li>
-    
-        
-	        <li>&middot;</li>
-		
-        <li><a href="/tags/#statistics-ref">#statistics</a></li>
-    
-        
-	        <li>&middot;</li>
-		
-        <li><a href="/tags/#ARMA-ref">#ARMA</a></li>
-    
-</ul>
-
-    <h1 class=title-large>Solving Partial Autocorrelation Functions</h1>
-    <div class=content>
-        <p>I've been studying time series through <a href="http://www.stat.pitt.edu/stoffer/tsa3/">TSA</a>. The book presents a structured approach to time series analysis, and covers the material fairly well; I was impressed with the description of what a partial autocorrelation function (PACF) is, as the book explained it more intuitively than the lecture notes did. I did find the description of how to actually solve for the PACF a bit confusing, so I wrote my own explanation. </p>
+<p>I've been studying time series through <a href="http://www.stat.pitt.edu/stoffer/tsa3/">TSA</a>. The book presents a structured
+approach to time series analysis, and covers the material fairly well; I was
+impressed with the description of what a partial autocorrelation function (PACF)
+is, as the book explained it more intuitively than the lecture notes did. I did
+find the description of how to actually solve for the PACF a bit confusing, so I
+wrote my own explanation.</p>
 
 <h2 id="partial-autocorrelation-functions">Partial Autocorrelation Functions</h2>
 
-<p>What are PACFs, and why would one want to use one? As explained in TSA, the PACF is useful as it provides an analog to the autocorrelation function, or ACF, but for autoregressive processes. The ACF is particularly useful as for an <script type="math/tex"> MA(q)</script>, the autocorrelation function <script type="math/tex">\gamma(m)</script> has the nice property that</p>
+<p>What are PACFs, and why would one want to use one? As explained in TSA, the PACF
+is useful as it provides an analog to the autocorrelation function, or ACF, but
+for autoregressive processes. The ACF is particularly useful as for an <script type="math/tex">MA(q)</script>, the autocorrelation function <script type="math/tex">\gamma(m)</script> has the nice property that</p>
 
-<script type="math/tex; mode=display">
-\begin{align*}
-  \gamma(m) = 0 \text{ for } m > q.
-\end{align*}
-</script>
+<script type="math/tex; mode=display">\begin{align*} \gamma(m) = 0 \text{ for } m > q.  \end{align*}</script>
 
-<p>Consequently, by plotting the ACF (as can be done <a href="http://bl.ocks.org/timbers/9318155">easily</a> in R), we can detect the order of the <script type="math/tex">MA(q)</script> process.</p>
+<p>Consequently, by plotting the ACF (as can be done
+<a href="http://bl.ocks.org/timbers/9318155">easily</a> in R), we can detect the order of
+the <script type="math/tex">MA(q)</script> process.</p>
 
-<p>The property fails for the ACF of an <script type="math/tex"> AR(p) </script> process. However, the PACF is here to step in and save the day. With the PACF defined as</p>
+<p>The property fails for the ACF of an <script type="math/tex">AR(p)</script> process. However, the PACF is
+here to step in and save the day. With the PACF defined as</p>
 
-<script type="math/tex; mode=display">
-\begin{align*}
-\phi_{mm} := \alpha^{\star}_{m, m},
-\end{align*}
-</script>
+<script type="math/tex; mode=display">\begin{align*} \phi_{mm} := \alpha^{\star}_{m, m}, \end{align*}</script>
 
-<p>where the <script type="math/tex"> \alpha^{\star}_{j, k} </script> are defined as</p>
+<p>where the <script type="math/tex">\alpha^{\star}_{j, k}</script> are defined as</p>
 
-<script type="math/tex; mode=display">
-\begin{align*}
-\alpha_{1, m}, \cdots, \alpha_{m, m} = \text{argmin} E(X_{t} - \alpha_{1, m} X_{t-1} - \cdots - \alpha_{m, m} X_{t-m})^2.
-\end{align*}
-</script>
+<script type="math/tex; mode=display">\begin{align*} \alpha_{1, m}, \cdots, \alpha_{m, m} = \text{argmin} E(X_{t} -
+\alpha_{1, m} X_{t-1} - \cdots - \alpha_{m, m} X_{t-m})^2.  \end{align*}</script>
 
-<p>Then, the PACF exhibits the property that for an <script type="math/tex"> AR(p) </script> process, <script type="math/tex"> \phi_{pp} = \phi_{p}</script>, and <script type="math/tex"> \phi_{mm} = 0</script> for <script type="math/tex"> m > p</script>; consequently, by calculating the PACF of a process, we can easily detect the order of it if it is autoregressive.</p>
+<p>Then, the PACF exhibits the property that for an <script type="math/tex">AR(p)</script> process, <script type="math/tex">\phi_{pp} = \phi_{p}</script>, and <script type="math/tex">\phi_{mm} = 0</script> for <script type="math/tex">m > p</script>; consequently, by
+calculating the PACF of a process, we can easily detect the order of it if it is
+autoregressive.</p>
 
 <h2 id="example-1">Example 1</h2>
 
 <p>Suppose we have the process</p>
 
-<script type="math/tex; mode=display">
-\begin{align*}
-X_{t} = \phi_1 X_{t-1} + \phi_2 X_{t-2} + w_t,
-\end{align*}
-</script>
+<script type="math/tex; mode=display">\begin{align*} X_{t} = \phi_1 X_{t-1} + \phi_2 X_{t-2} + w_t, \end{align*}</script>
 
-<table>
-  <tbody>
-    <tr>
-      <td>where <script type="math/tex"> w_t </script> is a sequence of uncorrelated variables with zero mean and constant variance. What is the PACF for this process? As the AR polynomial <script type="math/tex"> \phi(B) </script> has no roots with $$</td>
-      <td>B</td>
-      <td>\leq 1, X<em>{t} <script type="math/tex"> is a weakly stationary process; consequently,  we know that </script> \phi</em>{22} = \phi_2, \phi<em>{mm} = 0 <script type="math/tex"> for </script> m &gt; p <script type="math/tex">. Consequently, we only need to figure out </script>\phi</em>{11}$$. To find it, we must solve</td>
-    </tr>
-  </tbody>
-</table>
+<p>where <script type="math/tex">w_t</script> is a sequence of uncorrelated variables with zero mean and
+constant variance. What is the PACF for this process? As the AR polynomial <script type="math/tex">\phi(B)</script> has no roots with <script type="math/tex">|B| \leq 1,</script> <script type="math/tex">X_{t}</script> is a weakly stationary
+process; consequently, we know that <script type="math/tex">\phi_{22} = \phi_2, \phi_{mm} = 0</script> for
+<script type="math/tex">m > p</script>. Consequently, we only need to figure out <script type="math/tex">\phi_{11}</script>. To find it,
+we must solve</p>
 
-<script type="math/tex; mode=display">
+<script type="math/tex; mode=display">\begin{align*} \text{argmin} E(X_{t} - \phi_{11} X_{t-1})^2\\ \end{align*}</script>
 
-\begin{align*}
-\text{argmin} E(X_{t} - \phi_{11} X_{t-1})^2\\
-\end{align*}
-
-</script>
-
-<p>To do so, we take the derivative with respect to <script type="math/tex"> \phi_{11} </script> and set it equal to zero:</p>
+<p>To do so, we take the derivative with respect to <script type="math/tex">\phi_{11}</script> and set it
+equal to zero:</p>
 
 <script type="math/tex; mode=display">% <![CDATA[
+\begin{align*} &E[-2X_{t-1}(X_{t} - \phi_{11} X_{t-1})] = 0 \\ \iff &-2
+\gamma(1) + 2 \phi_{11} \gamma(0) = 0 \\ \iff & \phi_{11} = \rho(1) \end{align*} %]]></script>
 
-\begin{align*}
- &E[-2X_{t-1}(X_{t} - \phi_{11} X_{t-1})] = 0 \\
-\iff &-2 \gamma(1) + 2 \phi_{11} \gamma(0) = 0 \\
-\iff & \phi_{11} = \rho(1)
-\end{align*}
- %]]></script>
-
-<p>Now, we need to solve for <script type="math/tex"> \rho </script> in terms of <script type="math/tex"> \phi_{1}, \phi_{2} </script>. To do this, we exploit the Yule-Walker equations:</p>
+<p>Now, we need to solve for <script type="math/tex">\rho</script> in terms of <script type="math/tex">\phi_{1}, \phi_{2}</script>. To do
+this, we exploit the Yule-Walker equations:</p>
 
 <script type="math/tex; mode=display">% <![CDATA[
+\begin{align*} \gamma(1) - \phi_{1} \gamma(0) - \phi_{2} \gamma(1) &= 0\\
+\rho(1) &= \phi_{1} + \phi_{2} \rho(1) \\ \longrightarrow \phi_{11} = \rho(1) &=
+\frac{ \phi_{1} }{ 1 - \phi_{2} } \end{align*} %]]></script>
 
-\begin{align*}
-\gamma(1) - \phi_{1} \gamma(0) - \phi_{2} \gamma(1) &= 0\\
-\rho(1) &= \phi_{1} + \phi_{2} \rho(1) \\
-\longrightarrow \phi_{11} = \rho(1) &= \frac{ \phi_{1} }{ 1 - \phi_{2} }
-\end{align*}
-
- %]]></script>
-
-
-    </div>
-</div>
-
-      </div>
-    </div>
-    </div>
-</body>
-</html>

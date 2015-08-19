@@ -47,12 +47,8 @@
       <div class=right-column>
           <h1 class=author-name>
             <a href=/ class="title">Finbarr Timbers</a>
-            <a href="/hire-me" id="hire-me">
-              Hire me!
-            </a>
             <span id="social-media" class="right-side title">
               <a href="https://github.com/timbers"> <i class="fa fa-github"></i></a>
-              <a href="https://twitter.com/finbarrtimbers"> <i class="fa fa-twitter"></i></a>
             </span>
           </h1>
           <div class=nav>
@@ -80,47 +76,35 @@
 
 <p>Using <script type="math/tex">B</script> as the lag operator, i.e. <script type="math/tex">BX_t = X_{t-1}</script>, an <em>ARIMA(p, d, q) process</em> is a discrete time stochastic process of the form</p>
 
-<script type="math/tex; mode=display">
-\phi(B) (1 - B)^d X_t = \theta(B)w_t,
-</script>
+<script type="math/tex; mode=display">\phi(B) (1 - B)^d X_t = \theta(B)w_t,</script>
 
 <p>where <script type="math/tex">\phi</script> is a polynomial of degree <em>p</em>, and <script type="math/tex">\theta</script> is a polynomial of degree <em>q</em>. An <em>AR(p)</em> process is an ARIMA(<em>p, 0, 0</em>) process, and a MA(<em>q</em>) process is an ARIMA(<em>0, 0, q</em>) process. To make life even more complicated, we introduce the notion of seasonality:</p>
 
-<p>An ARIMA<script type="math/tex">(p, d, q) \times (P, D, Q)_s</script> model is a s.p. of the form </p>
+<p>An ARIMA<script type="math/tex">(p, d, q) \times (P, D, Q)_s</script> model is a s.p. of the form</p>
 
-<script type="math/tex; mode=display">
-\Phi(B^s) \phi(B) (1 - B^s)^D (1 - B)^d X_t = \Theta(B^s)\theta(B)w_t,
-</script>
+<script type="math/tex; mode=display">\Phi(B^s) \phi(B) (1 - B^s)^D (1 - B)^d X_t = \Theta(B^s)\theta(B)w_t,</script>
 
 <p>where <script type="math/tex">\Phi(B)</script> is a polynomial of degree <script type="math/tex">P</script>, and <script type="math/tex">\Theta(B)</script> is a polynomial of degree <script type="math/tex">Q</script>.</p>
 
 <h4 id="example">Example</h4>
 
-<p>Suppose we have the stochastic process </p>
+<p>Suppose we have the stochastic process</p>
 
-<script type="math/tex; mode=display">
-X_t = \frac 1 2 X_{t-1} + X_{t-4} - \frac 1 2 X_{t-5} + w_t - \frac 1 4 w_{t-4}.
-</script>
+<script type="math/tex; mode=display">X_t = \frac 1 2 X_{t-1} + X_{t-4} - \frac 1 2 X_{t-5} + w_t - \frac 1 4 w_{t-4}.</script>
 
-<p>How can we write this as an ARIMA<script type="math/tex">(p, d, q) \times (P, D, Q)_s</script> model? Note that </p>
+<p>How can we write this as an ARIMA<script type="math/tex">(p, d, q) \times (P, D, Q)_s</script> model? Note that</p>
 
-<script type="math/tex; mode=display">
-(1 - B^4) X_t = \frac 1 2 X_{t-1} - \frac 1 2 X_{t-5} + w_t - \frac 1 4 w_{t-4}.
-</script>
+<script type="math/tex; mode=display">(1 - B^4) X_t = \frac 1 2 X_{t-1} - \frac 1 2 X_{t-5} + w_t - \frac 1 4 w_{t-4}.</script>
 
-<p>We can rewrite this as </p>
+<p>We can rewrite this as</p>
 
-<script type="math/tex; mode=display">
-(1 - B^4) X_t - \frac{1}{2} B (1 - B^4)X_t = (1 - \frac 1 4 B^4) w_t,
-</script>
+<script type="math/tex; mode=display">(1 - B^4) X_t - \frac{1}{2} B (1 - B^4)X_t = (1 - \frac 1 4 B^4) w_t,</script>
 
 <p>or, more concisely,</p>
 
-<script type="math/tex; mode=display">
-(1 - B^4) (1 - \frac 1 2 B) X_t = (1 - \frac 1 4 B^4) w_t.
-</script>
+<script type="math/tex; mode=display">(1 - B^4) (1 - \frac 1 2 B) X_t = (1 - \frac 1 4 B^4) w_t.</script>
 
-<p>Consequently, we can see that <script type="math/tex">X_t</script> is an ARIMA<script type="math/tex">(1, 0, 0) \times (0, 1, 1)_4</script> process. </p>
+<p>Consequently, we can see that <script type="math/tex">X_t</script> is an ARIMA<script type="math/tex">(1, 0, 0) \times (0, 1, 1)_4</script> process.</p>
 
 
     </div>

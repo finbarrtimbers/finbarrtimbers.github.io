@@ -1,12 +1,18 @@
-# Detecting duplicate bug reports with contextual knowledge
+---
+layout: page 
+title: Bug report deduplication
+permalink: /dedup/
+---
+
 ## Introduction
 
-Previous work done by Alipour et al. came up with a methodology for detecting
-duplicate bug reports by comparing the unstructured text of the bug reports to
-subject-specific contextual material. Our first paper used lists of
-software-engineering terms, such as non-functional requirements and architecture
-keywords; our second paper used more abstract levels of context, using domain
-and project-specific context as well. 
+Previous work done by [Alipour et al.](http://softwareprocess.es/a/bugdedup.pdf)
+came up with a methodology for detecting duplicate bug reports by comparing the
+unstructured text of the bug reports to subject-specific contextual
+material. Our first paper used lists of software-engineering terms, such as
+non-functional requirements and architecture keywords; our second paper used
+more abstract levels of context, using domain and project-specific context as
+well.
 
 ## Our method
 
@@ -32,9 +38,13 @@ while being easily used across projects.
 
 ## Code
 
-The code is on [Github](https://github.com/timbers/dedup); it is currently
+Our code is on [Github](https://github.com/timbers/dedup). It is currently
 messy, and I am in the process of making it more presentable.
 
 ## Bibliography
+
+[Anahita Alipour. A contextual approach towards more accurate duplicate bug report detection. Master’s thesis, University of Alberta, Fall 2013.](http://webdocs.cs.ualberta.ca/~hindle1/2014/anahita-alipour-thesis.pdf)
+
+[Anahita Alipour, Abram Hindle, and Eleni Stroulia. A contextual approach towards more accurate duplicate bug report detection. In Proceedings of the Tenth International Workshop on Mining Software Repositories, pages 183–192. IEEE Press, 2013.](http://softwareprocess.es/a/bugdedup.pdf)
 
 [K. Aggarwal, T. Rutgers, F. Timbers, A. Hindle, R. Greiner, E. Stroulia. "Detecting Duplicate Bug Reports with Software Engineering Domain Knowledge". IEEE International Conference on Software Analysis, Evolution, and Reengineering, January 2015.](http://papersdb.cs.ualberta.ca/~papersdb/view_publication.php?pub_id=1125)
