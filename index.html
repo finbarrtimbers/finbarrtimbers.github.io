@@ -23,12 +23,12 @@ permalink: /
 </div>
 {% endfor %}
 
-<h2 class="section"> Past Gigs </h2>
-{% for gig in site.gigs %}
+<h2 class="section"> Work Experience </h2>
+{% for job in site.jobs %}
 <div class=post>
-    <a class="link-title" href="{{ gig.url }}">{{ gig.employer }}</a> &mdash; {{gig.title}}
+    <a class="link-title" href="{{ job.url }}">{{ job.employer }}</a> &mdash; {{job.title}}
   <div>
-    {{ gig.description }}
+    {{ job.description }}
   </div>
 </div>
 {% endfor %}
