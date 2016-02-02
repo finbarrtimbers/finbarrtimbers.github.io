@@ -20,8 +20,8 @@ jobs:
     url: http://dha.io
     title: "Analyst"
     description: Analyst working on statistical projects. Work focuses on coming up with novel methods of forecasting for clients. Heavy Python usage.
-    
-  - employer: Legislative Assembly Office 
+
+  - employer: Legislative Assembly Office
     url: http://www.assembly.ab.ca/
     title: Policy & Research Analyst
     description: The administrative branch of the Legislative Assembly of Alberta.
