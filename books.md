@@ -6,6 +6,7 @@ permalink: /books/
 
 
 # Fiction
+
 ## Scifi
 
 - [Seveneves](https://en.wikipedia.org/wiki/Seveneves): "realistic" scifi.
@@ -32,6 +33,7 @@ Currently reading. Well written so far. Tells one version of the Arthurian legen
 
 
 # Non-fiction
+
 ## Atul Gawande
 Dr. Gawande is an excellent writer, and I've read every one of his books multiple times,
 in addition to all of his [articles](http://atulgawande.com/articles/).
