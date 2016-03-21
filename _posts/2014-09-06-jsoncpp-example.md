@@ -26,7 +26,7 @@ beginners out), here's a full example of how to use [JSONcpp][jsoncpp] in your c
         cd ../..
 
 
-3. Enter `pwd` and make a note of the output. Now, go to the folder containing the code in which you want to use JSONcpp in. Create a new file called "example.cpp" and enter the following code (taken from Stack Overflow):
+3. Enter `pwd` and make a note of the output. Now, go to the folder containing the code in which you want to use JSONcpp in. Create a new file called "main.cpp" and enter the following code (taken from Stack Overflow):
 
 
         #include <fstream>
@@ -62,7 +62,7 @@ beginners out), here's a full example of how to use [JSONcpp][jsoncpp] in your c
 
 
         CXX = g++
-        LDFLAGS = -LJSONCPPPATH/build/debug/lib -ljsoncpp
+        LDFLAGS = -LJSONCPPPATH/build/depug/src/lib_json -ljsoncpp
         INC = -IJSONCPPPATH/include
 
         main: main.cpp
