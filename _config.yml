@@ -48,4 +48,3 @@ kramdown:
 # Site settings
 permalink: /:title/
 relative_permalinks: false
-pygments: true
