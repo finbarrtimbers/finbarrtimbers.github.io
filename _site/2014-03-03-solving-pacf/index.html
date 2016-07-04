@@ -1,0 +1,62 @@
+<p>I've been studying time series through <a href="http://www.stat.pitt.edu/stoffer/tsa3/">TSA</a>. The book presents a structured
+approach to time series analysis, and covers the material fairly well; I was
+impressed with the description of what a partial autocorrelation function (PACF)
+is, as the book explained it more intuitively than the lecture notes did. I did
+find the description of how to actually solve for the PACF a bit confusing, so I
+wrote my own explanation.</p>
+
+<h2 id="partial-autocorrelation-functions">Partial Autocorrelation Functions</h2>
+
+<p>What are PACFs, and why would one want to use one? As explained in TSA, the PACF
+is useful as it provides an analog to the autocorrelation function, or ACF, but
+for autoregressive processes. The ACF is particularly useful as for an <script type="math/tex">MA(q)</script>, the autocorrelation function <script type="math/tex">\gamma(m)</script> has the nice property that</p>
+
+<script type="math/tex; mode=display">\begin{align*} \gamma(m) = 0 \text{ for } m > q.  \end{align*}</script>
+
+<p>Consequently, by plotting the ACF (as can be done
+<a href="http://bl.ocks.org/timbers/9318155">easily</a> in R), we can detect the order of
+the <script type="math/tex">MA(q)</script> process.</p>
+
+<p>The property fails for the ACF of an <script type="math/tex">AR(p)</script> process. However, the PACF is
+here to step in and save the day. With the PACF defined as</p>
+
+<script type="math/tex; mode=display">\begin{align*} \phi_{mm} := \alpha^{\star}_{m, m}, \end{align*}</script>
+
+<p>where the <script type="math/tex">\alpha^{\star}_{j, k}</script> are defined as</p>
+
+<script type="math/tex; mode=display">\begin{align*} \alpha_{1, m}, \cdots, \alpha_{m, m} = \text{argmin} E(X_{t} -
+\alpha_{1, m} X_{t-1} - \cdots - \alpha_{m, m} X_{t-m})^2.  \end{align*}</script>
+
+<p>Then, the PACF exhibits the property that for an <script type="math/tex">AR(p)</script> process, <script type="math/tex">\phi_{pp} = \phi_{p}</script>, and <script type="math/tex">\phi_{mm} = 0</script> for <script type="math/tex">m > p</script>; consequently, by
+calculating the PACF of a process, we can easily detect the order of it if it is
+autoregressive.</p>
+
+<h2 id="example-1">Example 1</h2>
+
+<p>Suppose we have the process</p>
+
+<script type="math/tex; mode=display">\begin{align*} X_{t} = \phi_1 X_{t-1} + \phi_2 X_{t-2} + w_t, \end{align*}</script>
+
+<p>where <script type="math/tex">w_t</script> is a sequence of uncorrelated variables with zero mean and
+constant variance. What is the PACF for this process? As the AR polynomial <script type="math/tex">\phi(B)</script> has no roots with <script type="math/tex">|B| \leq 1,</script> <script type="math/tex">X_{t}</script> is a weakly stationary
+process; consequently, we know that <script type="math/tex">\phi_{22} = \phi_2, \phi_{mm} = 0</script> for
+<script type="math/tex">m > p</script>. Consequently, we only need to figure out <script type="math/tex">\phi_{11}</script>. To find it,
+we must solve</p>
+
+<script type="math/tex; mode=display">\begin{align*} \text{argmin} E(X_{t} - \phi_{11} X_{t-1})^2\\ \end{align*}</script>
+
+<p>To do so, we take the derivative with respect to <script type="math/tex">\phi_{11}</script> and set it
+equal to zero:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align*} &E[-2X_{t-1}(X_{t} - \phi_{11} X_{t-1})] = 0 \\ \iff &-2
+\gamma(1) + 2 \phi_{11} \gamma(0) = 0 \\ \iff & \phi_{11} = \rho(1) \end{align*} %]]></script>
+
+<p>Now, we need to solve for <script type="math/tex">\rho</script> in terms of <script type="math/tex">\phi_{1}, \phi_{2}</script>. To do
+this, we exploit the Yule-Walker equations:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{align*} \gamma(1) - \phi_{1} \gamma(0) - \phi_{2} \gamma(1) &= 0\\
+\rho(1) &= \phi_{1} + \phi_{2} \rho(1) \\ \longrightarrow \phi_{11} = \rho(1) &=
+\frac{ \phi_{1} }{ 1 - \phi_{2} } \end{align*} %]]></script>
+
