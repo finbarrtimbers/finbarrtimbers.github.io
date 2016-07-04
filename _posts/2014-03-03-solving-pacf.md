@@ -1,7 +1,7 @@
 ---
 layout: post
-title: Solving Partial Autocorrelation Functions tags:
-time-series statistics ARMA
+title: Solving Partial Autocorrelation Functions
+tags: time-series statistics ARMA
 ---
 
 I've been studying time series through [TSA][1]. The book presents a structured
