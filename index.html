@@ -16,9 +16,14 @@ permalink: /
 <h2 class="section"> Talks </h2>
 {% for talk in site.talks %}
 <div class=post>
-  <a class="link-title" href="{{ talk.url }}">{{ talk.name }}</a>
-  <div>
-    {{ talk.description }}
+  <div class="talk-title">
+    <h3> {{ talk.name }} </h3>
+    <div>
+      {{ talk.conference | markdownify}}
+    </div>
+    <div>
+      {{ talk.slides | markdownify}}
+    </div>
   </div>
 </div>
 {% endfor %}
@@ -28,7 +33,7 @@ permalink: /
 <div class=post>
   <a class="link-title" href="{{ project.url }}">{{ project.name }}</a>
   <div>
-    {{ project.description }}
+    {{ project.description | markdownify }}
   </div>
 </div>
 {% endfor %}
@@ -43,4 +48,3 @@ permalink: /
   </div>
 </div>
 {% endfor %}
-
