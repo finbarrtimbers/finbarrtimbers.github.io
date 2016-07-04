@@ -11,12 +11,12 @@ author_bio: |
 projects:
  - name: Bug Deduplication
    url: /dedup/
-   description: A system that automatically detects duplicate bug reports in OSS projects. Turned into two papers, one [published](http://papersdb.cs.ualberta.ca/~papersdb/view_publication.php?pub_id=1125), one not (yet). No public link for the second one yet.
+84;0;0c   description: A system that automatically detects duplicate bug reports in OSS projects. Turned into two papers, one [published](http://papersdb.cs.ualberta.ca/~papersdb/view_publication.php?pub_id=1125), one not (yet). No public link for the second one yet.
 
 # Talks
 talks:
  - name: Automating your work away (useR! 2016)
-   url: /user2016/
+   url: /user-2016.html
    description: At Darkhorse Analytics, a statistical consulting firm, many of our client documents are similar. We used KnitR to speed up the process of creating them and make it less error-prone. https://github.com/finblarr/useR-2016/
 
 
