@@ -11,7 +11,9 @@ author_bio: |
 projects:
  - name: Bug Deduplication
    url: /dedup/
-   description: A system that automatically detects duplicate bug reports in OSS projects.
+   description: | A system that automatically detects duplicate bug reports in 
+                | OSS projects. Turned into two papers, one 
+                | [published](http://papersdb.cs.ualberta.ca/~papersdb/view_publication.php?pub_id=1125), one not (yet). No public link for the second one yet.
 
 # Talks
 talks:
