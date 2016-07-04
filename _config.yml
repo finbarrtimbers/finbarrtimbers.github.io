@@ -13,6 +13,15 @@ projects:
    url: /dedup/
    description: A system that automatically detects duplicate bug reports in OSS projects.
 
+# Talks
+talks:
+ - name: useR 2016: Automating your work away
+   url: /user2016/
+   description: | At Darkhorse Analytics, a statistical consulting firm, many
+                | of our client documents are similar. We used KnitR to speed 
+                | up the process of creating them and make it less error-prone.
+                | Github: https://github.com/finblarr/useR-2016/
+
 
 # work experience
 jobs:
@@ -34,8 +43,8 @@ jobs:
 
 # External services
 about_url: "http://finbarr.ca/about/"
-github_url: "https://github.com/timbers"
-twitter_url: "https://twitter.com/finbarrtimbers"
+github_url: "https://github.com/finblarr"
+twitter_url: "https://twitter.com/finblarr"
 linkedin_url: "http://www.linkedin.com/profile/view?id=129265392"
 email: "finbarrtimbers@gmail.com"
 

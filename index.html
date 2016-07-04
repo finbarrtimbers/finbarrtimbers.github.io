@@ -14,6 +14,16 @@ permalink: /
 {% endfor %}
 
 <h2 class="section"> Projects </h2>
+{% for project in site.talks %}
+<div class=post>
+  <a class="link-title" href="{{ talk.url }}">{{ talk.name }}</a>
+  <div>
+    {{ talk.description }}
+  </div>
+</div>
+{% endfor %}
+
+<h2 class="section"> Projects </h2>
 {% for project in site.projects %}
 <div class=post>
   <a class="link-title" href="{{ project.url }}">{{ project.name }}</a>
@@ -22,6 +32,7 @@ permalink: /
   </div>
 </div>
 {% endfor %}
+
 
 <h2 class="section"> Work Experience </h2>
 {% for job in site.jobs %}
