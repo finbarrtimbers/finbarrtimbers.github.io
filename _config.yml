@@ -16,7 +16,7 @@ projects:
 # Talks
 talks:
  - name: "Automating your work away"
-   conference: "[UseR! 2016](user2016.org), [Stanford University](Stanford.edu), Stanford, CA, Tuesday, June 28th, 2016."
+   conference: "[UseR! 2016](http://www.user2016.org), [Stanford University](http://www.Stanford.edu), Stanford, CA, Tuesday, June 28th, 2016."
    slides: "Slides: [HTML](http://finbarr.ca/slides/useR-2016.html#1), [PDF](http://finbarr.ca/slides/useR-2016.pdf)."
 
 # work experience
