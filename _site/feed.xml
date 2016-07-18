@@ -8,93 +8,103 @@
 		<atom:link href="http://finbarr.ca/feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
-				<title>GET requests in OCaml</title>
-				<description>&lt;p&gt;I&#39;ve been working a lot lately in OCaml, which is a strongly typed, static,
-functional language. It is most famously used by &lt;a href=&quot;https://www.janestreet.com/&quot;&gt;Jane Street&lt;/a&gt;, a quantitative trading firm out of New York.
-I like OCaml for a number of reasons, but the biggest one is that the language
-has very good type inference, as good as Haskell. Consequently, you can write
-code that reads like Python, but refactors like C++. I find that I&#39;ll write code
-without the type annotations, and then go back and add them once it&#39;s done, which
-makes refactoring surprisingly easy.&lt;/p&gt;
+				<title>What benefit is there for Tesla Motors and SolarCity to merge?</title>
+				<description>&lt;p&gt;There are two main benefits:&lt;/p&gt;
 
-&lt;p&gt;One of the most important tasks that the code does is
-get updates for the prices of the securities in our portfolio. I do so via a
-get request to the &lt;a href=&quot;http://dev.markitondemand.com/&quot;&gt;&lt;code&gt;markitondemand.com&lt;/code&gt;&lt;/a&gt; API.&lt;/p&gt;
+&lt;p&gt;1) Tesla &amp;amp; SolarCity have a weird financial structure that&#39;s putting Elon Musk
+under personal financial pressure. My understanding is that Tesla has a lot of
+money, while SolarCity does not, so this helps Musk personally.&lt;/p&gt;
 
-&lt;p&gt;I found it shockingly difficult to perform a simple get request in OCaml, so
-I&#39;m going to provide a detailed guide on how to do so here, and provide
-example code, as well as the commands to compile it.&lt;/p&gt;
+&lt;p&gt;2) Synergy. One of the major requirements for mass adoption of solar technology
+at home is that batteries be good, and cheap. Tesla has great battery tech, so
+this lets the firms work together. There are also similar advantages in admin
+staff, particularly for financial reporting, etc.&lt;/p&gt;
 
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;Download the source from github. In the directory that you want to install the source code into, enter&lt;/p&gt;
+&lt;p&gt;If you would like more detailed analysis of either company, please get in touch
+with me at
+&lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#102;&amp;#105;&amp;#110;&amp;#098;&amp;#097;&amp;#114;&amp;#114;&amp;#064;&amp;#100;&amp;#097;&amp;#114;&amp;#107;&amp;#104;&amp;#111;&amp;#114;&amp;#115;&amp;#101;&amp;#097;&amp;#110;&amp;#097;&amp;#108;&amp;#121;&amp;#116;&amp;#105;&amp;#099;&amp;#115;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&quot;&gt;&amp;#102;&amp;#105;&amp;#110;&amp;#098;&amp;#097;&amp;#114;&amp;#114;&amp;#064;&amp;#100;&amp;#097;&amp;#114;&amp;#107;&amp;#104;&amp;#111;&amp;#114;&amp;#115;&amp;#101;&amp;#097;&amp;#110;&amp;#097;&amp;#108;&amp;#121;&amp;#116;&amp;#105;&amp;#099;&amp;#115;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&lt;/a&gt;.&lt;/p&gt;
+</description>
+				<pubDate>Mon, 27 Jun 2016 00:00:00 -0600</pubDate>
+				<link>http://finbarr.ca/Why-would-Tesla-and-Solar-City-merge/</link>
+				<guid isPermaLink="true">http://finbarr.ca/Why-would-Tesla-and-Solar-City-merge/</guid>
+			</item>
+		
+			<item>
+				<title>How will Brexit affect Alberta & Canada?</title>
+				<description>&lt;p&gt;On Thursday night, Britain voted to leave the EU. The vote was called Brexit.
+In light of Brexit, Canadian &amp;amp; Alberta business owners/executives are wondering
+what effects Brexit will have on their businesses. In this article, I provide an
+overview of what business people in Canada can expect to happen.&lt;/p&gt;
 
-    &lt;pre&gt;&lt;code&gt; git clone https://github.com/open-source-parsers/jsoncpp
- cd jsoncpp
-&lt;/code&gt;&lt;/pre&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Create the makefiles. For this step, you must have cmake installed; if it is not installed, you can install it with your system package manager. &lt;a href=&quot;On OS X, I use Homebrew, and on (e.g.) Ubuntu, the package manager is apt-get. On OS X, you would enter `brew install cmake` to install cmake, while on Ubuntu, you would run `apt-get install cmake`.&quot;&gt;1&lt;/a&gt; From jsoncpp/, run&lt;/p&gt;
-
-    &lt;pre&gt;&lt;code&gt; mkdir -p build/debug
- cd build/debug
- cmake -DCMAKE_BUILD_TYPE=debug -DJSONCPP_LIB_BUILD_SHARED=OFF -G &quot;Unix Makefiles&quot; ../../../jsoncpp
- make
- cd ../..
-&lt;/code&gt;&lt;/pre&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Enter &lt;code&gt;pwd&lt;/code&gt; and make a note of the output. Now, go to the folder containing the code in which you want to use JSONcpp in. Create a new file called &quot;example.cpp&quot; and enter the following code (taken from Stack Overflow):&lt;/p&gt;
-
-    &lt;pre&gt;&lt;code&gt; #include &amp;lt;fstream&amp;gt;
- #include &amp;lt;iostream&amp;gt;   
- #include &quot;json/json.h&quot;
-
- int main() {
-     Json::Value root;
-     std::ifstream file(&quot;test.json&quot;);
-     file &amp;gt;&amp;gt; root;
-     std::cout &amp;lt;&amp;lt; root;
- }
-&lt;/code&gt;&lt;/pre&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Create another file called &quot;test.json&quot; with the json content you want to read; I used&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;    {&quot;stocks&quot;: [{&quot;symbol&quot;: &quot;AAPL&quot;,
-                 &quot;amount&quot;: 1.03213,
-                 &quot;last_price&quot;: 1.20},
-                {&quot;symbol&quot;: &quot;MSFT&quot;,
-                 &quot;amount&quot;: 2.31039},
-                {&quot;symbol&quot;: &quot;F&quot;,
-                 &quot;amount&quot;: 0.543589}]}
-&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Brexit will have two direct effects for Canadians to worry about:&lt;/p&gt;
 
 &lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;Compile the code using a &quot;Makefile.&quot; Using your favourite text editor, create a file called &quot;Makefile&quot; and enter the following code (replacing &lt;code&gt;JSONCPPPATH&lt;/code&gt; with the results from running &lt;code&gt;pwd&lt;/code&gt; earlier; mine looks like &lt;code&gt;/Users/ft/Source/jsoncpp/&lt;/code&gt;):&lt;/p&gt;
-
-    &lt;pre&gt;&lt;code&gt; CXX = g++
- LDFLAGS = -LJSONCPPPATH/build/debug/lib -ljsoncpp
- INC = -IJSONCPPPATH/include
-
- main: main.cpp
-     $(CXX) -o main $(LDFLAGS) $(INC) main.cpp
-&lt;/code&gt;&lt;/pre&gt;
-  &lt;/li&gt;
+  &lt;li&gt;As the referendum is a nonbinding vote and has no direct effect other than to
+demonstrate the political will of the British people, the immediate effect
+of the vote will be to create immense instability. Markets are spooked
+as it is unclear what will happen to Britain during negotiations, as
+European countries have expressed their interest in punishing Britain so as
+to provide a disincentive to other countries that seek to leave the European
+Union.&lt;/li&gt;
+  &lt;li&gt;Once Brexit occurs, Britain will almost certainly trade less with the EU,
+and correspondingly, trade more with other countries, such as Canada, which
+is currently Britain&#39;s 3rd largest non-EU trading partner. If the pound
+continues to devalue, as is likely, then British exports should soar. 
+Consequently, if there are Canadian companies looking to purchase goods &amp;amp;
+services from British companies, now is an excellent time to do so. British
+executives will be looking to reassure their shareholders/employees that
+their companies are well prepared to weather the upcoming negotiations, and
+will welcome the opportunity to secure non-EU contracts.&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;IMPORTANT: you have to indent the &lt;code&gt;$(CXX) -o main...&lt;/code&gt; line with 1 TAB and not 4 SPACES or it won&#39;t work. GNU Make requires a tab for indentation.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/CAD-GBP.png&quot; alt=&quot;Exchange rate between CAD and GBP, for the month prior to June 26th. Credit: http://www.xe.com/.&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;What should Canadian companies do?&lt;/p&gt;
 
 &lt;ol&gt;
-  &lt;li&gt;Now, compile the code by running &lt;code&gt;make main&lt;/code&gt;. You should now be able to run the code by entering &lt;code&gt;./main&lt;/code&gt;. It will print the contents of your &lt;code&gt;test.json&lt;/code&gt; file to your terminal.&lt;/li&gt;
+  &lt;li&gt;Remain calm. Britain will be okay, although it will likely struggle
+internally (the continued decline of small towns in Britain is likely to
+continue). Estimates of the impact on GDP range from &lt;a href=&quot;http://cep.lse.ac.uk/pubs/download/EA022.pdf&quot;&gt;3.1%&lt;/a&gt; to &lt;a href=&quot;http://cep.lse.ac.uk/pubs/download/brexit02.pdf&quot;&gt;9.5%&lt;/a&gt;, which
+although bad, are not catastrophic. Britain will still have one of the
+world&#39;s ten largest economies.&lt;/li&gt;
+  &lt;li&gt;If acquisitions of British talent/property/assets have been planned, now is
+an excellent time to continue. The current devaluation of the British pound
+represents a buying opportunity— up to a 10% discount over what assets
+would have been priced at last week. The tech sector in London, called the
+Silicon Roundabout, is reeling as many of the clients are from Europe. Smart
+Canadian companies can exploit this to secure valuable talent. Google has
+done this, with much of the team behind their recent Go playing AI coming
+from DeepMind, a British AI startup.&lt;/li&gt;
+  &lt;li&gt;Seek to strengthen trade ties with Britain.  Companies will be struggling
+with the uncertainty, and will welcome the opportunity to reassure their
+shareholders and employees that everything is business as usual.&lt;/li&gt;
 &lt;/ol&gt;
+
+&lt;p&gt;If you represent a business/government that requires more extensive advice on
+Brexit, or would like more detailed estimates on the economic impacts of Brexit
+or similar economic events, please get in touch with me at
+&lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#102;&amp;#105;&amp;#110;&amp;#098;&amp;#097;&amp;#114;&amp;#114;&amp;#064;&amp;#100;&amp;#097;&amp;#114;&amp;#107;&amp;#104;&amp;#111;&amp;#114;&amp;#115;&amp;#101;&amp;#097;&amp;#110;&amp;#097;&amp;#108;&amp;#121;&amp;#116;&amp;#105;&amp;#099;&amp;#115;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&quot;&gt;&amp;#102;&amp;#105;&amp;#110;&amp;#098;&amp;#097;&amp;#114;&amp;#114;&amp;#064;&amp;#100;&amp;#097;&amp;#114;&amp;#107;&amp;#104;&amp;#111;&amp;#114;&amp;#115;&amp;#101;&amp;#097;&amp;#110;&amp;#097;&amp;#108;&amp;#121;&amp;#116;&amp;#105;&amp;#099;&amp;#115;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&lt;/a&gt;.&lt;/p&gt;
 
 </description>
-				<pubDate>Fri, 10 Oct 2014 00:00:00 -0600</pubDate>
-				<link>http://finbarr.ca/GET-requests-ocaml/</link>
-				<guid isPermaLink="true">http://finbarr.ca/GET-requests-ocaml/</guid>
+				<pubDate>Sun, 26 Jun 2016 00:00:00 -0600</pubDate>
+				<link>http://finbarr.ca/Brexit/</link>
+				<guid isPermaLink="true">http://finbarr.ca/Brexit/</guid>
+			</item>
+		
+			<item>
+				<title>Excellent description of how hashtables work</title>
+				<description>&lt;p&gt;I&#39;m working through the &lt;a href=&quot;http://www.amazon.ca/Algorithm-Design-Manual-Steven-Skiena/dp/1849967202&quot;&gt;Algorithm Design Manual&lt;/a&gt; to
+improve the efficiency of my coding.&lt;/p&gt;
+
+&lt;p&gt;I came across an excellent description of how hashtables work:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/hashtables.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;I can&#39;t think of a better way to describe them. What an excellent metaphor.&lt;/p&gt;
+</description>
+				<pubDate>Sat, 15 Aug 2015 00:00:00 -0600</pubDate>
+				<link>http://finbarr.ca/excellent-description-of-hashtables/</link>
+				<guid isPermaLink="true">http://finbarr.ca/excellent-description-of-hashtables/</guid>
 			</item>
 		
 			<item>
@@ -108,24 +118,26 @@ beginners out), here&#39;s a full example of how to use &lt;a href=&quot;https:/
   &lt;li&gt;
     &lt;p&gt;Download the source from github. In the directory that you want to install the source code into, enter&lt;/p&gt;
 
-    &lt;pre&gt;&lt;code&gt; git clone https://github.com/open-source-parsers/jsoncpp
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; git clone https://github.com/open-source-parsers/jsoncpp
  cd jsoncpp
 &lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
   &lt;/li&gt;
   &lt;li&gt;
     &lt;p&gt;Create the makefiles. For this step, you must have cmake installed; if it is not installed, you can install it with your system package manager. &lt;a href=&quot;On OS X, I use Homebrew, and on (e.g.) Ubuntu, the package manager is apt-get. On OS X, you would enter `brew install cmake` to install cmake, while on Ubuntu, you would run `apt-get install cmake`.&quot;&gt;1&lt;/a&gt; From jsoncpp/, run&lt;/p&gt;
 
-    &lt;pre&gt;&lt;code&gt; mkdir -p build/debug
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; mkdir -p build/debug
  cd build/debug
  cmake -DCMAKE_BUILD_TYPE=debug -DJSONCPP_LIB_BUILD_SHARED=OFF -G &quot;Unix Makefiles&quot; ../../../jsoncpp
  make
  cd ../..
 &lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
   &lt;/li&gt;
   &lt;li&gt;
-    &lt;p&gt;Enter &lt;code&gt;pwd&lt;/code&gt; and make a note of the output. Now, go to the folder containing the code in which you want to use JSONcpp in. Create a new file called &quot;example.cpp&quot; and enter the following code (taken from Stack Overflow):&lt;/p&gt;
+    &lt;p&gt;Enter &lt;code class=&quot;highlighter-rouge&quot;&gt;pwd&lt;/code&gt; and make a note of the output. Now, go to the folder containing the code in which you want to use JSONcpp in. Create a new file called &quot;main.cpp&quot; and enter the following code (taken from Stack Overflow):&lt;/p&gt;
 
-    &lt;pre&gt;&lt;code&gt; #include &amp;lt;fstream&amp;gt;
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; #include &amp;lt;fstream&amp;gt;
  #include &amp;lt;iostream&amp;gt;
 
  #include &quot;json/json.h&quot;
@@ -137,37 +149,40 @@ beginners out), here&#39;s a full example of how to use &lt;a href=&quot;https:/
      std::cout &amp;lt;&amp;lt; root;
  }
 &lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
 
     &lt;p&gt;Create another file called &quot;test.json&quot; with the json content you want to read; I used&lt;/p&gt;
 
-    &lt;pre&gt;&lt;code&gt; {
-     &quot;stocks&quot;: [
-         {&quot;symbol&quot;: &quot;AAPL&quot;,
-          &quot;amount&quot;: 1.03213,
-          &quot;last_price&quot;: 1.20},
-         {&quot;symbol&quot;: &quot;MSFT&quot;,
-          &quot;amount&quot;: 2.31039},
-         {&quot;symbol&quot;: &quot;F&quot;,
-          &quot;amount&quot;: 0.543589}
-          ]
-  }
-&lt;/code&gt;&lt;/pre&gt;
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+     &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;stocks&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+         &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;symbol&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;AAPL&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+          &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;amount&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;1.03213&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+          &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;last_price&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;1.20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+         &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;symbol&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;MSFT&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+          &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;amount&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;2.31039&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+         &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;symbol&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;F&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+          &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;amount&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.543589&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+          &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
   &lt;/li&gt;
   &lt;li&gt;
-    &lt;p&gt;Compile the code using a &quot;Makefile.&quot; Using your favourite text editor, create a file called &quot;Makefile&quot; and enter the following code (replacing &lt;code&gt;JSONCPPPATH&lt;/code&gt; with the results from running &lt;code&gt;pwd&lt;/code&gt; earlier; mine looks like &lt;code&gt;/Users/ft/Source/jsoncpp/&lt;/code&gt;):&lt;/p&gt;
+    &lt;p&gt;Compile the code using a &quot;Makefile.&quot; Using your favourite text editor, create a file called &quot;Makefile&quot; and enter the following code (replacing &lt;code class=&quot;highlighter-rouge&quot;&gt;JSONCPPPATH&lt;/code&gt; with the results from running &lt;code class=&quot;highlighter-rouge&quot;&gt;pwd&lt;/code&gt; earlier; mine looks like &lt;code class=&quot;highlighter-rouge&quot;&gt;/Users/ft/Source/jsoncpp/&lt;/code&gt;):&lt;/p&gt;
 
-    &lt;pre&gt;&lt;code&gt; CXX = g++
- LDFLAGS = -LJSONCPPPATH/build/debug/lib -ljsoncpp
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; CXX = g++
+ LDFLAGS = -LJSONCPPPATH/build/depug/src/lib_json -ljsoncpp
  INC = -IJSONCPPPATH/include
 
  main: main.cpp
      $(CXX) -o main $(LDFLAGS) $(INC) main.cpp
 &lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
 
-    &lt;p&gt;IMPORTANT: you have to indent the &lt;code&gt;$(CXX) -o main...&lt;/code&gt; line with 1 TAB and not 4 SPACES or it won&#39;t work. GNU Make requires a tab for indentation.&lt;/p&gt;
+    &lt;p&gt;IMPORTANT: you have to indent the &lt;code class=&quot;highlighter-rouge&quot;&gt;$(CXX) -o main...&lt;/code&gt; line with 1 TAB and not 4 SPACES or it won&#39;t work. GNU Make requires a tab for indentation.&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
-    &lt;p&gt;Now, compile the code by running &lt;code&gt;make main&lt;/code&gt;. You should now be able to run the code by entering &lt;code&gt;./main&lt;/code&gt;. It will print the contents of your &lt;code&gt;test.json&lt;/code&gt; file to your terminal.&lt;/p&gt;
+    &lt;p&gt;Now, compile the code by running &lt;code class=&quot;highlighter-rouge&quot;&gt;make main&lt;/code&gt;. You should now be able to run the code by entering &lt;code class=&quot;highlighter-rouge&quot;&gt;./main&lt;/code&gt;. It will print the contents of your &lt;code class=&quot;highlighter-rouge&quot;&gt;test.json&lt;/code&gt; file to your terminal.&lt;/p&gt;
   &lt;/li&gt;
 &lt;/ol&gt;
 
@@ -220,7 +235,7 @@ beginners out), here&#39;s a full example of how to use &lt;a href=&quot;https:/
 			</item>
 		
 			<item>
-				<title>Solving Pacf</title>
+				<title>Solving Partial Autocorrelation Functions</title>
 				<description>&lt;p&gt;I&#39;ve been studying time series through &lt;a href=&quot;http://www.stat.pitt.edu/stoffer/tsa3/&quot;&gt;TSA&lt;/a&gt;. The book presents a structured
 approach to time series analysis, and covers the material fairly well; I was
 impressed with the description of what a partial autocorrelation function (PACF)

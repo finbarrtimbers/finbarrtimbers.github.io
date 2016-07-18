@@ -4,15 +4,29 @@
 
   <url>
     <loc>http://finbarr.ca</loc>
-    <lastmod>2015-08-18</lastmod>
+    <lastmod>2016-07-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
   
   <url>
-    <loc>http://finbarr.ca/GET-requests-ocaml/</loc>
-    <lastmod>2014-10-10</lastmod>
+    <loc>http://finbarr.ca/Why-would-Tesla-and-Solar-City-merge/</loc>
+    <lastmod>2016-06-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://finbarr.ca/Brexit/</loc>
+    <lastmod>2016-06-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://finbarr.ca/excellent-description-of-hashtables/</loc>
+    <lastmod>2015-08-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -44,8 +58,17 @@
   
     
       <url>
+        <loc>http://finbarr.ca/reading/</loc>
+        <lastmod>2016-07-04</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.5</priority>
+      </url>
+    
+  
+    
+      <url>
         <loc>http://finbarr.ca/dedup/</loc>
-        <lastmod>2015-08-18</lastmod>
+        <lastmod>2016-07-04</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
       </url>
@@ -58,7 +81,7 @@
     
       <url>
         <loc>http://finbarr.ca/notes/</loc>
-        <lastmod>2015-08-18</lastmod>
+        <lastmod>2016-07-04</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
       </url>
@@ -67,7 +90,16 @@
     
       <url>
         <loc>http://finbarr.ca/projects/</loc>
-        <lastmod>2015-08-18</lastmod>
+        <lastmod>2016-07-04</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.5</priority>
+      </url>
+    
+  
+    
+      <url>
+        <loc>http://finbarr.ca/schedule/</loc>
+        <lastmod>2016-07-04</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
       </url>

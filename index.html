@@ -13,15 +13,31 @@ permalink: /
 </div>
 {% endfor %}
 
+<h2 class="section"> Talks </h2>
+{% for talk in site.talks %}
+<div class=post>
+  <div class="talk-title">
+    <h3> {{ talk.name }} </h3>
+    <div>
+      {{ talk.conference | markdownify}}
+    </div>
+    <div>
+      {{ talk.slides | markdownify}}
+    </div>
+  </div>
+</div>
+{% endfor %}
+
 <h2 class="section"> Projects </h2>
 {% for project in site.projects %}
 <div class=post>
   <a class="link-title" href="{{ project.url }}">{{ project.name }}</a>
   <div>
-    {{ project.description }}
+    {{ project.description | markdownify }}
   </div>
 </div>
 {% endfor %}
+
 
 <h2 class="section"> Work Experience </h2>
 {% for job in site.jobs %}
@@ -32,4 +48,3 @@ permalink: /
   </div>
 </div>
 {% endfor %}
-

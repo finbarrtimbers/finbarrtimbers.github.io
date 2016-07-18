@@ -1,8 +1,13 @@
 ---
 layout: page
-title: Book recommendations
-permalink: /books/
+title: Reading recommendations
+permalink: /reading/
 ---
+
+# Articles
+## Hiring
+- http://www.asktheheadhunter.com/halethalrep.htm
+
 
 
 # Fiction

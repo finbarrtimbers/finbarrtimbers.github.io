@@ -11,13 +11,18 @@ author_bio: |
 projects:
  - name: Bug Deduplication
    url: /dedup/
-   description: A system that automatically detects duplicate bug reports in
-    OSS projects using machine learning techniques.
+   description: A system that automatically detects duplicate bug reports in OSS projects. Turned into two papers, one [published](http://papersdb.cs.ualberta.ca/~papersdb/view_publication.php?pub_id=1125), one not (yet). No public link for the second one yet.
  - name: Political Consulting
    url: /consulting/
    description: I work as a consultant for political parties/candidates at the
     municipal and provincial level in addition to my work for Darkhorse
     Analytics.
+
+# Talks
+talks:
+ - name: "Automating your work away"
+   conference: "[UseR! 2016](http://www.user2016.org), [Stanford University](http://www.Stanford.edu), Stanford, CA, Tuesday, June 28th, 2016."
+   slides: "Slides: [HTML](http://finbarr.ca/slides/useR-2016.html#1), [PDF](http://finbarr.ca/slides/useR-2016.pdf)."
 
 # work experience
 jobs:
@@ -39,8 +44,8 @@ jobs:
 
 # External services
 about_url: "http://finbarr.ca/about/"
-github_url: "https://github.com/timbers"
-twitter_url: "https://twitter.com/finbarrtimbers"
+github_url: "https://github.com/finblarr"
+twitter_url: "https://twitter.com/finblarr"
 linkedin_url: "http://www.linkedin.com/profile/view?id=129265392"
 email: "finbarrtimbers@gmail.com"
 
@@ -53,4 +58,3 @@ kramdown:
 # Site settings
 permalink: /:title/
 relative_permalinks: false
-pygments: true

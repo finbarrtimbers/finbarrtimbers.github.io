@@ -38,6 +38,20 @@
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
   </head>
   <body>
+    <!-- Google Tag Manager -->
+    <noscript>
+      <iframe src="//www.googletagmanager.com/ns.html?id=GTM-5ZDGMP" height="0"
+              width="0" style="display:none;visibility:hidden">
+      </iframe>
+    </noscript>
+    <script>
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-5ZDGMP');
+    </script>
+    <!-- End Google Tag Manager -->
     <div class="container pure-g-r">
       <div class=pure-u-1-5>
       </div>
@@ -48,7 +62,7 @@
           <h1 class=author-name>
             <a href=/ class="title">Finbarr Timbers</a>
             <span id="social-media" class="right-side title">
-              <a href="https://github.com/timbers"> <i class="fa fa-github"></i></a>
+              <a href="https://github.com/finblarr"> <i class="fa fa-github"></i></a>
             </span>
           </h1>
           <div class=nav>
@@ -56,8 +70,6 @@
           <div class=post>
     
     <ul class=post-meta>
-    
-        
     
     
         
@@ -86,24 +98,26 @@ beginners out), here's a full example of how to use <a href="https://github.com/
   <li>
     <p>Download the source from github. In the directory that you want to install the source code into, enter</p>
 
-    <pre><code> git clone https://github.com/open-source-parsers/jsoncpp
+    <div class="highlighter-rouge"><pre class="highlight"><code> git clone https://github.com/open-source-parsers/jsoncpp
  cd jsoncpp
 </code></pre>
+    </div>
   </li>
   <li>
     <p>Create the makefiles. For this step, you must have cmake installed; if it is not installed, you can install it with your system package manager. <a href="On OS X, I use Homebrew, and on (e.g.) Ubuntu, the package manager is apt-get. On OS X, you would enter `brew install cmake` to install cmake, while on Ubuntu, you would run `apt-get install cmake`.">1</a> From jsoncpp/, run</p>
 
-    <pre><code> mkdir -p build/debug
+    <div class="highlighter-rouge"><pre class="highlight"><code> mkdir -p build/debug
  cd build/debug
  cmake -DCMAKE_BUILD_TYPE=debug -DJSONCPP_LIB_BUILD_SHARED=OFF -G "Unix Makefiles" ../../../jsoncpp
  make
  cd ../..
 </code></pre>
+    </div>
   </li>
   <li>
-    <p>Enter <code>pwd</code> and make a note of the output. Now, go to the folder containing the code in which you want to use JSONcpp in. Create a new file called "example.cpp" and enter the following code (taken from Stack Overflow):</p>
+    <p>Enter <code class="highlighter-rouge">pwd</code> and make a note of the output. Now, go to the folder containing the code in which you want to use JSONcpp in. Create a new file called "main.cpp" and enter the following code (taken from Stack Overflow):</p>
 
-    <pre><code> #include &lt;fstream&gt;
+    <div class="highlighter-rouge"><pre class="highlight"><code> #include &lt;fstream&gt;
  #include &lt;iostream&gt;
 
  #include "json/json.h"
@@ -115,37 +129,40 @@ beginners out), here's a full example of how to use <a href="https://github.com/
      std::cout &lt;&lt; root;
  }
 </code></pre>
+    </div>
 
     <p>Create another file called "test.json" with the json content you want to read; I used</p>
 
-    <pre><code> {
-     "stocks": [
-         {"symbol": "AAPL",
-          "amount": 1.03213,
-          "last_price": 1.20},
-         {"symbol": "MSFT",
-          "amount": 2.31039},
-         {"symbol": "F",
-          "amount": 0.543589}
-          ]
-  }
-</code></pre>
+    <div class="highlighter-rouge"><pre class="highlight"><code><span class="w"> </span><span class="p">{</span><span class="w">
+     </span><span class="nt">"stocks"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+         </span><span class="p">{</span><span class="nt">"symbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AAPL"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.03213</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"last_price"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.20</span><span class="p">},</span><span class="w">
+         </span><span class="p">{</span><span class="nt">"symbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MSFT"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">2.31039</span><span class="p">},</span><span class="w">
+         </span><span class="p">{</span><span class="nt">"symbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"F"</span><span class="p">,</span><span class="w">
+          </span><span class="nt">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.543589</span><span class="p">}</span><span class="w">
+          </span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span></code></pre>
+    </div>
   </li>
   <li>
-    <p>Compile the code using a "Makefile." Using your favourite text editor, create a file called "Makefile" and enter the following code (replacing <code>JSONCPPPATH</code> with the results from running <code>pwd</code> earlier; mine looks like <code>/Users/ft/Source/jsoncpp/</code>):</p>
+    <p>Compile the code using a "Makefile." Using your favourite text editor, create a file called "Makefile" and enter the following code (replacing <code class="highlighter-rouge">JSONCPPPATH</code> with the results from running <code class="highlighter-rouge">pwd</code> earlier; mine looks like <code class="highlighter-rouge">/Users/ft/Source/jsoncpp/</code>):</p>
 
-    <pre><code> CXX = g++
- LDFLAGS = -LJSONCPPPATH/build/debug/lib -ljsoncpp
+    <div class="highlighter-rouge"><pre class="highlight"><code> CXX = g++
+ LDFLAGS = -LJSONCPPPATH/build/depug/src/lib_json -ljsoncpp
  INC = -IJSONCPPPATH/include
 
  main: main.cpp
      $(CXX) -o main $(LDFLAGS) $(INC) main.cpp
 </code></pre>
+    </div>
 
-    <p>IMPORTANT: you have to indent the <code>$(CXX) -o main...</code> line with 1 TAB and not 4 SPACES or it won't work. GNU Make requires a tab for indentation.</p>
+    <p>IMPORTANT: you have to indent the <code class="highlighter-rouge">$(CXX) -o main...</code> line with 1 TAB and not 4 SPACES or it won't work. GNU Make requires a tab for indentation.</p>
   </li>
   <li>
-    <p>Now, compile the code by running <code>make main</code>. You should now be able to run the code by entering <code>./main</code>. It will print the contents of your <code>test.json</code> file to your terminal.</p>
+    <p>Now, compile the code by running <code class="highlighter-rouge">make main</code>. You should now be able to run the code by entering <code class="highlighter-rouge">./main</code>. It will print the contents of your <code class="highlighter-rouge">test.json</code> file to your terminal.</p>
   </li>
 </ol>
 
