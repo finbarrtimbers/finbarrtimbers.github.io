@@ -20,9 +20,12 @@ projects:
 
 # Talks
 talks:
- - name: "Automating your work away"
+ - name: "SQL: What is it, why would I use it, and how can it help me analyse public data?"
+   conference: "[Alberta Open Data Summit](http://albertaopendatasummit.ca/), [Edmonton Public Library](http://www.epl.ca), Edmonton, AB, Saturday, October 15th, 2016."
+   slides: "Slides: n/a (yet!)
+- name: "Automating your work away"
    conference: "[UseR! 2016](http://www.user2016.org), [Stanford University](http://www.Stanford.edu), Stanford, CA, Tuesday, June 28th, 2016."
-   slides: "Slides: [HTML](http://finbarr.ca/slides/useR-2016.html#1), [PDF](http://finbarr.ca/slides/useR-2016.pdf)."
+   slides: "Slides: [HTML](http://finbarr.ca/slides/useR-2016.html#1), [PDF](http://finbarr.ca/slides/useR-2016.pdf), [Video](https://channel9.msdn.com/Events/useR-international-R-User-conference/useR2016/Automating-our-work-away-One-consulting-firms-experience-with-KnitR)."
 
 # work experience
 jobs:
