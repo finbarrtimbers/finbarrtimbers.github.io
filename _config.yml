@@ -5,13 +5,17 @@ url: "http://finbarr.ca"
 # Author info
 author_name: Finbarr Timbers
 author_image_path: /images/finbarr-and-candace.jpg
-author_bio: |
+author_bio: "Analyst at [Darkhorse Analytics](http://www.dha.io)"
 
 # Projects
 projects:
  - name: Bug Deduplication
    url: /dedup/
-   description: A system that automatically detects duplicate bug reports in OSS projects. Turned into two papers, one [published](http://papersdb.cs.ualberta.ca/~papersdb/view_publication.php?pub_id=1125), one not (yet). No public link for the second one yet.
+   description: |
+                | A system that automatically detects duplicate bug reports in
+                | OSS projects. Turned into two papers, one
+                | [published](http://papersdb.cs.ualberta.ca/~papersdb/view_publication.php?pub_id=1125),
+                | one not (yet). No public link for the second one yet.
  - name: Political Consulting
    url: /consulting/
    description: I work as a consultant for political parties/candidates at the
@@ -20,10 +24,11 @@ projects:
 
 # Talks
 talks:
- - name: "SQL: What is it, why would I use it, and how can it help me analyse public data?"
-   conference: "[Alberta Open Data Summit](http://albertaopendatasummit.ca/), [Edmonton Public Library](http://www.epl.ca), Edmonton, AB, Saturday, October 15th, 2016."
-   slides: "Slides: n/a (yet!)
-- name: "Automating your work away"
+ - name: "SQL: What is it, why would I use it, and how can it help me analyse (public) data?"
+   conference: "[Alberta Open Data Summit](http://albertaopendatasummit.ca/), [Edmonton Public Library](http://www.epl.ca), Edmonton, AB, October 15th, 2016."
+   slides: "Slides: N/A (yet!)"
+
+ - name: "Automating your work away"
    conference: "[UseR! 2016](http://www.user2016.org), [Stanford University](http://www.Stanford.edu), Stanford, CA, Tuesday, June 28th, 2016."
    slides: "Slides: [HTML](http://finbarr.ca/slides/useR-2016.html#1), [PDF](http://finbarr.ca/slides/useR-2016.pdf), [Video](https://channel9.msdn.com/Events/useR-international-R-User-conference/useR2016/Automating-our-work-away-One-consulting-firms-experience-with-KnitR)."
 
