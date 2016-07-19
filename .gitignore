@@ -1,4 +1,1 @@
-# - name: GoA Edits
-    #   url: https://twitter.com/goaedits
-    #   description: I host & run a version of [CongressEdits](https://en.wikipedia.org/wiki/CongressEdits) that tweets
-    #   anonymous changes to Wikipedia from Government of Alberta accounts.
+_site/
