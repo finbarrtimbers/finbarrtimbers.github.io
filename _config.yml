@@ -13,9 +13,8 @@ projects:
    url: /dedup/
    description: |
                 | A system that automatically detects duplicate bug reports in
-                | OSS projects. Turned into two papers, one
-                | [published](http://papersdb.cs.ualberta.ca/~papersdb/view_publication.php?pub_id=1125),
-                | one not (yet). No public link for the second one yet.
+                | OSS projects. Turned into two papers, one  [published](http://papersdb.cs.ualberta.ca/~papersdb/view_publication.php?pub_id=1125), one not (yet).
+                | No public link for the second one yet.
  - name: Political Consulting
    url: /consulting/
    description: I work as a consultant for political parties/candidates at the
