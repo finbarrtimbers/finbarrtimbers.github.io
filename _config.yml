@@ -29,7 +29,7 @@ talks:
 
  - name: "Docker: What is it, how do you use it, and why should you care?"
    conference: "[Internal at Darkhorse Analytics](http://www.dha.io). Edmonton, AB, July 27th, 2016."
-   slides: "Slides: [PDF](http://finbarr.ca/slides/docker-dha.pdf)."
+   slides: "Slides: [PDF](http://finbarr.ca/slides/docker-demo.pdf)."
 
  - name: "Automating your work away"
    conference: "[UseR! 2016](http://www.user2016.org), [Stanford University](http://www.Stanford.edu), Stanford, CA, Tuesday, June 28th, 2016."
