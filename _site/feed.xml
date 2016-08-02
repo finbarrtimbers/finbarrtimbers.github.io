@@ -8,6 +8,22 @@
 		<atom:link href="http://finbarr.ca/feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
+				<title>Inequality</title>
+				<description>&lt;p&gt;I&#39;ve been thinking about Trump lately, and why he&#39;s doing well, particularly,
+why his anti-trade message has resonated so much with voters. As someone who
+was trained in economics, I find th&lt;/p&gt;
+
+&lt;p&gt;I read^&lt;a href=&quot;https://medium.com/@boxerbk/confused-why-donald-trumps-message-is-resonating-1154c977697b?utm_content=buffer3a171&amp;amp;utm_medium=social&amp;amp;utm_source=facebook.com&amp;amp;utm_campaign=buffer#.zbwvkmmmx&quot;&gt;1&lt;/a&gt;,&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;images/inequality.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+</description>
+				<pubDate>Tue, 02 Aug 2016 00:00:00 -0600</pubDate>
+				<link>http://finbarr.ca/Inequality/</link>
+				<guid isPermaLink="true">http://finbarr.ca/Inequality/</guid>
+			</item>
+		
+			<item>
 				<title>Pokemon Go can't move the dial for Nintendo</title>
 				<description>&lt;p&gt;Nintendo&#39;s shares have soared in the last month since Pokemon Go was released.
 On July 7th, Nintendo was valued at ~15 000 JPY per share, and as
@@ -16,9 +32,10 @@ of July 19th, Nintendo&#39;s shares were trading at ~32 000 JPY per share- a
 
 &lt;p&gt;&lt;img src=&quot;../images/TYO.jpg&quot; alt=&quot;Line chart of Nintendo stock price&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;Nintendo released a statement &lt;a href=&quot;https://www.nintendo.co.jp/ir/pdf/2016/160722e.pdf&quot;&gt;1&lt;/a&gt; after the close of trading on Friday, July 22nd,
-noting that Nintendo owns 32% of The Pokemon Company, which will receive a
-licensing fee from Niantic, the company that owns Pokemon Go.&lt;/p&gt;
+&lt;p&gt;Nintendo released a &lt;a href=&quot;https://www.nintendo.co.jp/ir/pdf/2016/160722e.pdf&quot;&gt;statement&lt;/a&gt;
+after the close of trading on Friday, July 22nd, noting that Nintendo owns 32%
+of The Pokemon Company, which will receive a licensing fee from Niantic, the
+company that owns Pokemon Go.&lt;/p&gt;
 
 &lt;p&gt;As a result, Nintendo&#39;s max revenue from Pokemon Go is:&lt;/p&gt;
 
@@ -27,11 +44,11 @@ revenue going to The Pokemon Company) * Share of Pokemon Co. owned by Nintendo&l
 
 &lt;p&gt;Which is roughly&lt;/p&gt;
 
-&lt;p&gt;Pokemon Go Revenue * 0.7 * X * 0.32, = Pokemon Go Revenue * 0.2 X,&lt;/p&gt;
+&lt;p&gt;Pokemon Go Revenue * 0.7 * X * 0.32 = Pokemon Go Revenue * 0.2 * X,&lt;/p&gt;
 
 &lt;p&gt;where X is the share of Niantic&#39;s revenue going to The Pokemon Company. Let&#39;s
 assume that Niantic has extremely low costs, so that all of the revenue from
-Pokemon Go is pure profit &lt;a href=&quot;That&#39;s actually not as insane of an assumption to make as one might think.&quot;&gt;2&lt;/a&gt;, and let&#39;s assume that The Pokemon Company owns
+Pokemon Go is pure profit &lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;, and let&#39;s assume that The Pokemon Company owns
 half of Niantic, which is a pretty optimistic estimate of The Pokemon Company&#39;s
 share. I&#39;d be surprised if The Pokemon Company owned even 25% of Niantic.&lt;/p&gt;
 
@@ -51,10 +68,17 @@ would increase by ~3 billion, which is an 8% increase. That&#39;s great,
 particularly for a large corporation like Nintendo, but nowhere near the level
 that the share price is at currently. So traders have a lot of correcting to do.&lt;/p&gt;
 
-&lt;p&gt;Most of Niantic&#39;s costs come from paying salaries, which is a sunk cost, and a
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot;&gt;
+      &lt;p&gt;That&#39;s actually not as insane of an assumption to make as one might think.
+Most of Niantic&#39;s costs come from paying salaries, which is a sunk cost, and a
 lot of the development work for Pokemon Go was done already for Ingress, so
 Niantic was able to produce Pokemon Go for less money than it would have taken
-for, say, Nintendo to build Pokemon Go from scratch.&lt;/p&gt;
+for, say, Nintendo to build Pokemon Go from scratch. &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
 </description>
 				<pubDate>Mon, 25 Jul 2016 00:00:00 -0600</pubDate>
 				<link>http://finbarr.ca/Pokemon-Go/</link>

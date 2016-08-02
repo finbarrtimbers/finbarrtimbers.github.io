@@ -13,13 +13,7 @@ projects:
    url: /dedup/
    description: |
                 | A system that automatically detects duplicate bug reports in
-                | OSS projects. Turned into two papers, one  [published](http://papersdb.cs.ualberta.ca/~papersdb/view_publication.php?pub_id=1125), one not (yet).
-                | No public link for the second one yet.
- - name: Political Consulting
-   url: /consulting/
-   description: I work as a consultant for political parties/candidates at the
-    municipal and provincial level in addition to my work for Darkhorse
-    Analytics.
+                | OSS projects. Turned into two papers, one [published](http://papersdb.cs.ualberta.ca/~papersdb/view_publication.php?pub_id=1125), one forthcoming.
 
 # Talks
 talks:
@@ -40,17 +34,25 @@ jobs:
   - employer: Darkhorse Analytics
     url: http://dha.io
     title: "Analyst"
-    description: Analyst working on statistical projects. Work focuses on coming up with novel methods of forecasting for clients. Heavy Python usage.
+    description: |
+                 | Analyst working on statistical projects. Work focuses on
+                 | coming up with novel methods of forecasting for
+                 | clients. Heavy Python usage.
 
   - employer: Legislative Assembly Office
     url: http://www.assembly.ab.ca/
     title: Policy & Research Analyst
-    description: The administrative branch of the Legislative Assembly of Alberta.
+    description: |
+                 | The administrative branch of the Legislative Assembly of
+                 | Alberta.
 
   - employer: University of Alberta
     url: http://www.ualberta.ca/~cfrei
     title: Research Assistant
-    description: Under Dr. Christoph Frei's supervision, I worked on modelling the prisoner's dilemma in continuous time, a problem from game theory.
+    description: |
+                 | Under Dr. Christoph Frei's supervision, I worked on modelling
+                 | the prisoner's dilemma in continuous time, a problem from
+                 | game theory.
 
 
 # External services

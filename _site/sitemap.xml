@@ -4,11 +4,18 @@
 
   <url>
     <loc>http://finbarr.ca</loc>
-    <lastmod>2016-07-25</lastmod>
+    <lastmod>2016-08-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
+  
+  <url>
+    <loc>http://finbarr.ca/Inequality/</loc>
+    <lastmod>2016-08-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
   
   <url>
     <loc>http://finbarr.ca/Pokemon-Go/</loc>
@@ -73,7 +80,7 @@
     
       <url>
         <loc>http://finbarr.ca/reading/</loc>
-        <lastmod>2016-07-25</lastmod>
+        <lastmod>2016-08-02</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
       </url>
@@ -82,7 +89,7 @@
     
       <url>
         <loc>http://finbarr.ca/dedup/</loc>
-        <lastmod>2016-07-25</lastmod>
+        <lastmod>2016-08-02</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
       </url>
@@ -95,7 +102,7 @@
     
       <url>
         <loc>http://finbarr.ca/notes/</loc>
-        <lastmod>2016-07-25</lastmod>
+        <lastmod>2016-08-02</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
       </url>
@@ -104,7 +111,7 @@
     
       <url>
         <loc>http://finbarr.ca/projects/</loc>
-        <lastmod>2016-07-25</lastmod>
+        <lastmod>2016-08-02</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
       </url>
@@ -113,7 +120,7 @@
     
       <url>
         <loc>http://finbarr.ca/schedule/</loc>
-        <lastmod>2016-07-25</lastmod>
+        <lastmod>2016-08-02</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
       </url>

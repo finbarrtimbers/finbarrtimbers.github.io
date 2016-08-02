@@ -4,16 +4,28 @@ title: Finbarr Timbers
 permalink: /
 ---
 
-<h2 class="section"> Posts </h2>
+<h1 class="section"> Posts </h1>
 
 {% for post in site.posts %}
 <div class=post>
   <a class="link-title" href="{{ post.url }}">{{ post.title }}</a>
-  <span class="right-side"> {{ post.date | date: "%-d %B %Y" }} </span>
+   {{ post.date | date: "%-d %B %Y" }}
 </div>
 {% endfor %}
 
-<h2 class="section"> Talks </h2>
+<h1 class="section"> Projects </h1>
+{% for project in site.projects %}
+<div class="post">
+  <h2>
+    <a class="link-title" href="{{ project.url }}">{{ project.name }}</a>
+  </h2>
+  <div>
+    {{ project.description | markdownify }}
+  </div>
+</div>
+{% endfor %}
+
+<h1 class="section"> Talks </h1>
 {% for talk in site.talks %}
 <div class=post>
   <div class="talk-title">
@@ -28,23 +40,17 @@ permalink: /
 </div>
 {% endfor %}
 
-<h2 class="section"> Projects </h2>
-{% for project in site.projects %}
-<div class=post>
-  <a class="link-title" href="{{ project.url }}">{{ project.name }}</a>
-  <div>
-    {{ project.description | markdownify }}
-  </div>
-</div>
-{% endfor %}
-
 
 <h2 class="section"> Work Experience </h2>
 {% for job in site.jobs %}
 <div class=post>
-    <a class="link-title" href="{{ job.url }}">{{ job.employer }}</a> &mdash; {{job.title}}
+  <div class="job-title">
+    <h3>
+      {{job.title }}, {{ job.employer}}
+    </h3>
+  </div>
   <div>
-    {{ job.description }}
+    {{ job.description | markdownify }}
   </div>
 </div>
 {% endfor %}

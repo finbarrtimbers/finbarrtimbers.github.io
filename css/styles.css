@@ -1,6 +1,5 @@
 a {
-    color: steelblue;
-    text-decoration: none;
+    font-size: 2em;
 }
 
 #hire-me {
@@ -18,6 +17,7 @@ a {
 
 body {
     font-family: Lato, Georgia, Cambria, "Times New Roman", Times, serif;
+    margin-bottom: 2cm;
 }
 
 h1, h2, h3, h4 {
