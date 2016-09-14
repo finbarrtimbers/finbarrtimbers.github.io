@@ -29,6 +29,10 @@ i {
     vertical-align: middle;
 }
 
+td {
+    font-size: 1.4rem;
+}
+
 blockquote {
     border-left: 1px solid #eee;
     font-style: italic;
