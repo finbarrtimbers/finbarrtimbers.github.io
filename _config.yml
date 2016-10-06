@@ -21,8 +21,8 @@ talks:
    conference: "[Alberta Open Data Summit](http://albertaopendatasummit.ca/), [Edmonton Public Library](http://www.epl.ca), Edmonton, AB, October 15th, 2016."
    slides: "Slides: N/A (yet!)"
 
- - name: "Docker: What is it, how do you use it, and why should you care?"
-   conference: "[Internal at Darkhorse Analytics](http://www.dha.io). Edmonton, AB, July 27th, 2016."
+ - name: "A talker on Docker: How containers can make your work more reproducible, accessible, and ready for production"
+   conference: "[Edmonton Data Science Meetup](http://www.meetup.com/startupedmonton/events/231589029/). Edmonton, AB, October 5th, 2016."
    slides: "Slides: [PDF](http://finbarr.ca/slides/docker-demo.pdf)."
 
  - name: "Automating your work away"
