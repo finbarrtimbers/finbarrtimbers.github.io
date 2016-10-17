@@ -17,10 +17,6 @@ projects:
 
 # Talks
 talks:
- - name: "SQL: What is it, why would I use it, and how can it help me analyse (public) data?"
-   conference: "[Alberta Open Data Summit](http://albertaopendatasummit.ca/), [Edmonton Public Library](http://www.epl.ca), Edmonton, AB, October 15th, 2016."
-   slides: "Slides: N/A (yet!)"
-
  - name: "A talker on Docker: How containers can make your work more reproducible, accessible, and ready for production"
    conference: "[Edmonton Data Science Meetup](http://www.meetup.com/startupedmonton/events/231589029/). Edmonton, AB, October 5th, 2016."
    slides: "Slides: [PDF](http://finbarr.ca/slides/docker-demo.pdf)."
