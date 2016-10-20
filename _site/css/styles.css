@@ -18,6 +18,7 @@ a {
 body {
     font-family: Lato, Georgia, Cambria, "Times New Roman", Times, serif;
     margin-bottom: 2cm;
+    padding-bottom: 2cm;
 }
 
 h1, h2, h3, h4 {
