@@ -30,6 +30,3 @@ Source: http://www.imagemagick.org/discourse-server/viewtopic.php?t=12619
 `convert image.gif -fuzz XX% -transparent white result.gif`
 
 where the smaller the %, the closer to true white or conversely, the larger the %, the more variation from white is allowed to become transparent.
-
-
-# https://www.gnu.org/software/make/manual/html_node/File-Name-Functions.html

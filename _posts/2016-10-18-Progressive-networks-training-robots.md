@@ -47,7 +47,7 @@ One advantage of this is that the columns of a prognet do not have to be
 identical, which allows us to train a deep neural net using simulation, and
 then hook the simulated network into the prognet. See figure.
 
-![](images/prognet-architecture.png)
+![](/images/prognet-architecture.png)
 
 The risk here is that any rewards will be so sparse that it will be impossible
 to learn effectively. The authors get around that by having the initial policy

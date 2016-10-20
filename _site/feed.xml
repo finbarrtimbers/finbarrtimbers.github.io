@@ -8,26 +8,220 @@
 		<atom:link href="http://finbarr.ca/feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
+				<title></title>
+				<description>&lt;h2 id=&quot;xgboost-a-scalable-tree-boosting-systemhttparxivorgabs160302754&quot;&gt;&lt;a href=&quot;http://arxiv.org/abs/1603.02754&quot;&gt;XGBoost: A Scalable Tree Boosting System&lt;/a&gt;&lt;/h2&gt;
+
+&lt;h3 id=&quot;abstract&quot;&gt;Abstract&lt;/h3&gt;
+
+&lt;p&gt;Tree boosting is a highly effective and widely used machine learning method. In
+this paper, we describe a scalable end-to-end tree boosting system called
+XGBoost, which is used widely by data scientists to achieve state-of-the-art
+results on many machine learning challenges. We propose a novel sparsity-aware
+algorithm for sparse data and weighted quantile sketch for approximate tree
+learning. More importantly, we provide insights on cache access patterns, data
+compression and sharding to build a scalable tree boosting system. By combining
+these insights, XGBoost scales beyond billions of examples using far fewer
+resources than existing systems.&lt;/p&gt;
+
+&lt;h3 id=&quot;notes&quot;&gt;Notes&lt;/h3&gt;
+
+&lt;p&gt;A lot of the notes are taken from XGBoost&#39;s
+&lt;a href=&quot;http://xgboost.readthedocs.io/en/latest/model.html&quot;&gt;tutorial&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Gradient Boosting is a ML technique that takes a number of weak leearners and
+combines them into a single strong learner. Gradient Boosted Trees are a subset
+of the general problem that applies gradient boosting to trees. XGBoost uses
+tree ensembles, which are sets of classification and regression trees (CART).
+In a CART model, we create a series of trees that split the sample based on
+their features into different leaves, and assign each leaf a different score.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;images/xgboost-twocart.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The trees try to complement each other. The complexity of the trees are defined
+as $\Omega(f) = \gamma T + \frac{1}{2} \lambda \sum_{j=1}^T w_j^2$, where
+$w_j$ is the weight of each leaf, and $T$ is the number of leaves.&lt;/p&gt;
+
+&lt;p&gt;XGBoost implements this algorithm and has been particularly successful, being
+used in many successful Kaggle competitions. XGBoost is extremely fast due to
+a series of algorithmic tricks. The paper reviews these tricks.&lt;/p&gt;
+</description>
+				<pubDate>Thu, 20 Oct 2016 09:42:06 -0600</pubDate>
+				<link>http://finbarr.ca/2016-09-20-Machine-learning-lit-review/</link>
+				<guid isPermaLink="true">http://finbarr.ca/2016-09-20-Machine-learning-lit-review/</guid>
+			</item>
+		
+			<item>
+				<title>Generative Adversarial Networks and Actor-Critic methods</title>
+				<description>&lt;h1 id=&quot;connecting-generative-adversarial-networks-and-actor-critic-methodshttpsarxivorgabs161001945&quot;&gt;&lt;a href=&quot;https://arxiv.org/abs/1610.01945&quot;&gt;Connecting Generative Adversarial Networks and Actor-Critic Methods&lt;/a&gt;&lt;/h1&gt;
+
+&lt;h3 id=&quot;abstract&quot;&gt;Abstract&lt;/h3&gt;
+
+&lt;p&gt;Both generative adversarial networks (GAN) in unsupervised learning and
+actor-critic methods in reinforcement learning (RL) have gained a reputation for
+being difficult to optimize. Practitioners in both fields have amassed a large
+number of strategies to mitigate these instabilities and improve training. Here
+we show that GANs can be viewed as actor-critic methods in an environment where
+the actor cannot affect the reward. We review the strategies for stabilizing
+training for each class of models, both those that generalize between the two
+and those that are particular to that model. We also review a number of
+extensions to GANs and RL algorithms with even more complicated information
+flow. We hope that by highlighting this formal connection we will encourage both
+GAN and RL communities to develop general, scalable, and stable algorithms for
+multilevel optimization with deep networks, and to draw inspiration across
+communities.&lt;/p&gt;
+
+&lt;h3 id=&quot;notes&quot;&gt;Notes&lt;/h3&gt;
+
+&lt;p&gt;The paper discusses how similar Generative Adversial Networks are to
+Actor-Critic methods, and how both methods are difficult to optimize.&lt;/p&gt;
+
+&lt;p&gt;GANs are models with two neural networks, one that generates images and one that
+tries to classify images. The generator tries to best the classifier.&lt;/p&gt;
+
+&lt;p&gt;Actor-Critic methods are models from reinforcement learning in which a model
+learns an action-value function $Q^\pi(s, a)$ that predicts the expected
+discounted reward (the Critic), and a policy that is optimal for that value (the
+Actor).&lt;/p&gt;
+
+&lt;p&gt;The paper shows how GANs can be constructed as an Actor-Critic model, and
+discusses the strategies that can be used to optimize each type of model, with
+the idea being that these strategies can be used to optimize the other type of
+model.&lt;/p&gt;
+</description>
+				<pubDate>Wed, 19 Oct 2016 00:00:00 -0600</pubDate>
+				<link>http://finbarr.ca/generative-adverserial-networks-and-actor-critics/</link>
+				<guid isPermaLink="true">http://finbarr.ca/generative-adverserial-networks-and-actor-critics/</guid>
+			</item>
+		
+			<item>
+				<title>Progressive networks training robots</title>
+				<description>&lt;h2 id=&quot;sim-to-real-robot-learning-from-pixels-with-progressive-netshttpsarxivorgabs161004286&quot;&gt;&lt;a href=&quot;https://arxiv.org/abs/1610.04286&quot;&gt;Sim-to-Real Robot Learning from Pixels with Progressive Nets&lt;/a&gt;&lt;/h2&gt;
+
+&lt;h3 id=&quot;abstract&quot;&gt;Abstract&lt;/h3&gt;
+
+&lt;p&gt;Applying end-to-end learning to solve complex, interactive, pixel-driven control
+tasks on a robot is an unsolved problem. Deep Reinforcement Learning algorithms
+are too slow to achieve performance on a real robot, but their potential has
+been demonstrated in simulated environments. We propose using progressive
+networks to bridge the reality gap and transfer learned policies from simulation
+to the real world. The progressive net approach is a general framework that
+enables reuse of everything from low-level visual features to high-level
+policies for transfer to new tasks, enabling a compositional, yet simple,
+approach to building complex skills. We present an early demonstration of this
+approach with a number of experiments in the domain of robot manipulation that
+focus on bridging the reality gap. Unlike other proposed approaches, our
+real-world experiments demonstrate successful task learning from raw visual
+input on a fully actuated robot manipulator. Moreover, rather than relying on
+model-based trajectory optimisation, the task learning is accomplished using
+only deep reinforcement learning and sparse rewards.&lt;/p&gt;
+
+&lt;h3 id=&quot;notes&quot;&gt;Notes&lt;/h3&gt;
+
+&lt;p&gt;It&#39;s really difficult to use deep RL to train pixel-driven robots. This paper
+tries to do so using progressive networks. The paper is useful as it provides
+a proof-of-concept by which deep RL can be used on a real robot.&lt;/p&gt;
+
+&lt;p&gt;Progressive nets are an architecture that connects each layer of previously
+learnt network columns to each new column. They were used successfully by
+@rusu16 on to train a model on a number of different Atari games.&lt;/p&gt;
+
+&lt;p&gt;In a progressive network (prognet), you initially train a deep network with hidden layers
+$h_i^{(1)}$ and parameters $\Theta^{(1)}$ to convergence. When you switch to a
+second task, $\Theta^{(1)}$ is frozen, and a new column with parameters
+$\Theta^{(2)}$ is instantiated, with each hidden layer $h_i^{(2)}$ receiving
+input from both $h_{i-1}^{(2)}$ and $h_{i-1}^{(1)}$ via lateral connections.
+Effectively, a progresive network is one in which you have $N$ deep neural
+networks, each connected laterally. Consequently, we have $N$ policies, and
+are thus learning a probability distribution over all states and actions.&lt;/p&gt;
+
+&lt;p&gt;One advantage of this is that the columns of a prognet do not have to be
+identical, which allows us to train a deep neural net using simulation, and
+then hook the simulated network into the prognet. See figure.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/prognet-architecture.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The risk here is that any rewards will be so sparse that it will be impossible
+to learn effectively. The authors get around that by having the initial policy
+of the agent identical to the previous column, and then learning on it.&lt;/p&gt;
+
+&lt;p&gt;The authors tested the system on a robot trying to pick up a ball. They found a
+strong increase in performance, and that the prognet was less sensitive to
+hyperparameter selection.&lt;/p&gt;
+</description>
+				<pubDate>Tue, 18 Oct 2016 00:00:00 -0600</pubDate>
+				<link>http://finbarr.ca/Progressive-networks-training-robots/</link>
+				<guid isPermaLink="true">http://finbarr.ca/Progressive-networks-training-robots/</guid>
+			</item>
+		
+			<item>
+				<title>Off-Policy reinforcement learning</title>
+				<description>&lt;h1 id=&quot;safe-and-efficient-off-policy-reinforcement-learninghttpsarxivorgabs160602647&quot;&gt;&lt;a href=&quot;https://arxiv.org/abs/1606.02647&quot;&gt;Safe and Efficient Off-Policy Reinforcement Learning&lt;/a&gt;&lt;/h1&gt;
+
+&lt;h3 id=&quot;abstract&quot;&gt;Abstract&lt;/h3&gt;
+
+&lt;p&gt;In this work, we take a fresh look at some old and new algorithms for
+off-policy, return-based reinforcement learning. Expressing these in a common
+form, we derive a novel algorithm, Retrace(λ), with three desired properties:
+(1) low variance; (2) safety, as it safely uses samples collected from any
+behaviour policy, whatever its degree of &quot;off-policyness&quot;; and (3) efficiency,
+as it makes the best use of samples collected from near on-policy behaviour
+policies. We analyse the contractive nature of the related operator under both
+off-policy policy evaluation and control settings and derive online sample-based
+algorithms. To our knowledge, this is the first return-based off-policy control
+algorithm converging a.s. to Q∗ without the GLIE assumption (Greedy in the Limit
+with Infinite Exploration). As a corollary, we prove the convergence of Watkins&#39;
+Q(λ), which was still an open problem. We illustrate the benefits of Retrace(λ)
+on a standard suite of Atari 2600 games.&lt;/p&gt;
+
+&lt;h3 id=&quot;notes&quot;&gt;Notes&lt;/h3&gt;
+
+&lt;p&gt;In reinformcement learning, Q-learning is a technique that is commonly used. In
+it, a Q-function is defined which returns the discounted expected value for each
+state. The Q-function is updated with each iteration:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;Q(s_t, a_t) = Q(s_t, a_t) + \alpha \cdot (r_{t+1} + \gamma \cdot \max_a Q(s_{t+1}, a) - Q(s_t, a_t)),&lt;/script&gt;
+
+&lt;p&gt;where $r_{t+1}$ is the reward observed after performing $a_t$ in $s_t$, and
+where $\alpha_t(s, a) \in (0, 1]$ is the learning rate.&lt;/p&gt;
+
+&lt;p&gt;In reinforcement learning, there is a trade-off in the definition of the update
+target: should one estimate Monte Carlo returns or bootstrap from an existing
+Q-function? Return-based methods are better behaved when combined with function
+approximation, and quickly respond to exploration, but bootstrap methods are
+easier to apply to off-policy data.&lt;/p&gt;
+
+&lt;p&gt;An off-policy learner learns the value of the optimal policy independently of
+the agent&#39;s actions. An on-policy learner learns the value of the policy being
+carried out by the agent. This paper shows that learning from returns can be
+consistent with off-policy learning.&lt;/p&gt;
+</description>
+				<pubDate>Tue, 18 Oct 2016 00:00:00 -0600</pubDate>
+				<link>http://finbarr.ca/Off-Policy-Reinforcement-Learning/</link>
+				<guid isPermaLink="true">http://finbarr.ca/Off-Policy-Reinforcement-Learning/</guid>
+			</item>
+		
+			<item>
 				<title>Inequality</title>
 				<description>&lt;p&gt;Article discussing how Trump is winning thanks to voters who have been harmed
 by globalization &lt;a href=&quot;https://medium.com/@boxerbk/confused-why-donald-trumps-message-is-resonating-1154c977697b?utm_content=buffer3a171&amp;amp;utm_medium=social&amp;amp;utm_source=facebook.com&amp;amp;utm_campaign=buffer#.zbwvkmmmx&quot;&gt;1&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;The article has a stunning graph:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;images/inequality.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;../images/inequality.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;The point made by the article is reinforced by the academic literature [2, 3]
+&lt;p&gt;The point made by the article is reinforced by the academic literature (&lt;a href=&quot;http://science.sciencemag.org/content/344/6186/838?utm_content=bufferd9928&amp;amp;utm_medium=social&amp;amp;utm_source=facebook.com&amp;amp;utm_campaign=buffer&quot;&gt;2&lt;/a&gt;, &lt;a href=&quot;http://davidcard.berkeley.edu/papers/skill-tech-change.pdf?utm_content=buffer27cc7&amp;amp;utm_medium=social&amp;amp;utm_source=facebook.com&amp;amp;utm_campaign=buffer&quot;&gt;3&lt;/a&gt;)
 which claims that inequality is driven by difference in skills. Medium-skilled
-workers are making less money because their jobs are being automated^[Think of
+workers are making less money because their jobs are being automated. Think of
 the typical accounting department in a large corporation circa 1950— you&#39;d
-have teams of people doing simple math. Now, Excel has replaced that.].
+have teams of people doing simple math. Now, Excel has replaced that.
 Low-skilled workers are unaffected as their jobs aren&#39;t valuable enough to
 automate.&lt;/p&gt;
 
 &lt;p&gt;High-skilled analytical workers, on the other hand. are making much more money as
 technology has radically enabled their work. Think of economics. It was next
 to impossible to run 2 million regressions&lt;a href=&quot;http://www.nber.org/papers/w6252&quot;&gt;5&lt;/a&gt; in the 1950s, but now, any laptop
-could do that no problem.&lt;/p&gt;
+could do that no problem. As a result, economists are much more valuable.
+Similarly for computer programmers.&lt;/p&gt;
 
 </description>
 				<pubDate>Tue, 02 Aug 2016 00:00:00 -0600</pubDate>
@@ -228,203 +422,6 @@ improve the efficiency of my coding.&lt;/p&gt;
 				<pubDate>Sat, 15 Aug 2015 00:00:00 -0600</pubDate>
 				<link>http://finbarr.ca/excellent-description-of-hashtables/</link>
 				<guid isPermaLink="true">http://finbarr.ca/excellent-description-of-hashtables/</guid>
-			</item>
-		
-			<item>
-				<title>Full example for using JSONcpp on Unix</title>
-				<description>&lt;p&gt;I&#39;ve been trying to parse JSON files with C++, and I&#39;ve found a distinct lack of
-full examples on how to do so. Specifically, I&#39;ve struggled to find the proper
-commands to actually compile the code. For future reference (and to help any
-beginners out), here&#39;s a full example of how to use &lt;a href=&quot;https://github.com/open-source-parsers/jsoncpp&quot; title=&quot;JSONcpp on github&quot;&gt;JSONcpp&lt;/a&gt; in your code (N.B. You&#39;re supposed to enter all of the following code in your terminal).&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;Download the source from github. In the directory that you want to install the source code into, enter&lt;/p&gt;
-
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; git clone https://github.com/open-source-parsers/jsoncpp
- cd jsoncpp
-&lt;/code&gt;&lt;/pre&gt;
-    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Create the makefiles. For this step, you must have cmake installed; if it is not installed, you can install it with your system package manager. &lt;a href=&quot;On OS X, I use Homebrew, and on (e.g.) Ubuntu, the package manager is apt-get. On OS X, you would enter `brew install cmake` to install cmake, while on Ubuntu, you would run `apt-get install cmake`.&quot;&gt;1&lt;/a&gt; From jsoncpp/, run&lt;/p&gt;
-
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; mkdir -p build/debug
- cd build/debug
- cmake -DCMAKE_BUILD_TYPE=debug -DJSONCPP_LIB_BUILD_SHARED=OFF -G &quot;Unix Makefiles&quot; ../../../jsoncpp
- make
- cd ../..
-&lt;/code&gt;&lt;/pre&gt;
-    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Enter &lt;code class=&quot;highlighter-rouge&quot;&gt;pwd&lt;/code&gt; and make a note of the output. Now, go to the folder containing the code in which you want to use JSONcpp in. Create a new file called &quot;main.cpp&quot; and enter the following code (taken from Stack Overflow):&lt;/p&gt;
-
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; #include &amp;lt;fstream&amp;gt;
- #include &amp;lt;iostream&amp;gt;
-
- #include &quot;json/json.h&quot;
-
- int main() {
-     Json::Value root;
-     std::ifstream file(&quot;test.json&quot;);
-     file &amp;gt;&amp;gt; root;
-     std::cout &amp;lt;&amp;lt; root;
- }
-&lt;/code&gt;&lt;/pre&gt;
-    &lt;/div&gt;
-
-    &lt;p&gt;Create another file called &quot;test.json&quot; with the json content you want to read; I used&lt;/p&gt;
-
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-     &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;stocks&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-         &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;symbol&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;AAPL&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-          &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;amount&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;1.03213&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-          &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;last_price&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;1.20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-         &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;symbol&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;MSFT&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-          &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;amount&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;2.31039&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-         &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;symbol&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;F&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-          &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;amount&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.543589&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-          &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
-    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Compile the code using a &quot;Makefile.&quot; Using your favourite text editor, create a file called &quot;Makefile&quot; and enter the following code (replacing &lt;code class=&quot;highlighter-rouge&quot;&gt;JSONCPPPATH&lt;/code&gt; with the results from running &lt;code class=&quot;highlighter-rouge&quot;&gt;pwd&lt;/code&gt; earlier; mine looks like &lt;code class=&quot;highlighter-rouge&quot;&gt;/Users/ft/Source/jsoncpp/&lt;/code&gt;):&lt;/p&gt;
-
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; CXX = g++
- LDFLAGS = -LJSONCPPPATH/build/depug/src/lib_json -ljsoncpp
- INC = -IJSONCPPPATH/include
-
- main: main.cpp
-     $(CXX) -o main $(LDFLAGS) $(INC) main.cpp
-&lt;/code&gt;&lt;/pre&gt;
-    &lt;/div&gt;
-
-    &lt;p&gt;IMPORTANT: you have to indent the &lt;code class=&quot;highlighter-rouge&quot;&gt;$(CXX) -o main...&lt;/code&gt; line with 1 TAB and not 4 SPACES or it won&#39;t work. GNU Make requires a tab for indentation.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Now, compile the code by running &lt;code class=&quot;highlighter-rouge&quot;&gt;make main&lt;/code&gt;. You should now be able to run the code by entering &lt;code class=&quot;highlighter-rouge&quot;&gt;./main&lt;/code&gt;. It will print the contents of your &lt;code class=&quot;highlighter-rouge&quot;&gt;test.json&lt;/code&gt; file to your terminal.&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-</description>
-				<pubDate>Sat, 06 Sep 2014 00:00:00 -0600</pubDate>
-				<link>http://finbarr.ca/jsoncpp-example/</link>
-				<guid isPermaLink="true">http://finbarr.ca/jsoncpp-example/</guid>
-			</item>
-		
-			<item>
-				<title>ARIMA, ARMA, what's the difference?</title>
-				<description>&lt;p&gt;I&#39;m working through &lt;a href=&quot;[1]&quot;&gt;TSA&lt;/a&gt;, and I noticed that some of my classmates are struggling to understand the difference between an ARIMA process, an AR process, and a MA process, not to mention seasonal version of the above.&lt;/p&gt;
-
-&lt;p&gt;Using &lt;script type=&quot;math/tex&quot;&gt;B&lt;/script&gt; as the lag operator, i.e. &lt;script type=&quot;math/tex&quot;&gt;BX_t = X_{t-1}&lt;/script&gt;, an &lt;em&gt;ARIMA(p, d, q) process&lt;/em&gt; is a discrete time stochastic process of the form&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;\phi(B) (1 - B)^d X_t = \theta(B)w_t,&lt;/script&gt;
-
-&lt;p&gt;where &lt;script type=&quot;math/tex&quot;&gt;\phi&lt;/script&gt; is a polynomial of degree &lt;em&gt;p&lt;/em&gt;, and &lt;script type=&quot;math/tex&quot;&gt;\theta&lt;/script&gt; is a polynomial of degree &lt;em&gt;q&lt;/em&gt;. An &lt;em&gt;AR(p)&lt;/em&gt; process is an ARIMA(&lt;em&gt;p, 0, 0&lt;/em&gt;) process, and a MA(&lt;em&gt;q&lt;/em&gt;) process is an ARIMA(&lt;em&gt;0, 0, q&lt;/em&gt;) process. To make life even more complicated, we introduce the notion of seasonality:&lt;/p&gt;
-
-&lt;p&gt;An ARIMA&lt;script type=&quot;math/tex&quot;&gt;(p, d, q) \times (P, D, Q)_s&lt;/script&gt; model is a s.p. of the form&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;\Phi(B^s) \phi(B) (1 - B^s)^D (1 - B)^d X_t = \Theta(B^s)\theta(B)w_t,&lt;/script&gt;
-
-&lt;p&gt;where &lt;script type=&quot;math/tex&quot;&gt;\Phi(B)&lt;/script&gt; is a polynomial of degree &lt;script type=&quot;math/tex&quot;&gt;P&lt;/script&gt;, and &lt;script type=&quot;math/tex&quot;&gt;\Theta(B)&lt;/script&gt; is a polynomial of degree &lt;script type=&quot;math/tex&quot;&gt;Q&lt;/script&gt;.&lt;/p&gt;
-
-&lt;h4 id=&quot;example&quot;&gt;Example&lt;/h4&gt;
-
-&lt;p&gt;Suppose we have the stochastic process&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;X_t = \frac 1 2 X_{t-1} + X_{t-4} - \frac 1 2 X_{t-5} + w_t - \frac 1 4 w_{t-4}.&lt;/script&gt;
-
-&lt;p&gt;How can we write this as an ARIMA&lt;script type=&quot;math/tex&quot;&gt;(p, d, q) \times (P, D, Q)_s&lt;/script&gt; model? Note that&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;(1 - B^4) X_t = \frac 1 2 X_{t-1} - \frac 1 2 X_{t-5} + w_t - \frac 1 4 w_{t-4}.&lt;/script&gt;
-
-&lt;p&gt;We can rewrite this as&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;(1 - B^4) X_t - \frac{1}{2} B (1 - B^4)X_t = (1 - \frac 1 4 B^4) w_t,&lt;/script&gt;
-
-&lt;p&gt;or, more concisely,&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;(1 - B^4) (1 - \frac 1 2 B) X_t = (1 - \frac 1 4 B^4) w_t.&lt;/script&gt;
-
-&lt;p&gt;Consequently, we can see that &lt;script type=&quot;math/tex&quot;&gt;X_t&lt;/script&gt; is an ARIMA&lt;script type=&quot;math/tex&quot;&gt;(1, 0, 0) \times (0, 1, 1)_4&lt;/script&gt; process.&lt;/p&gt;
-
-</description>
-				<pubDate>Mon, 21 Apr 2014 00:00:00 -0600</pubDate>
-				<link>http://finbarr.ca/arima-arma-what/</link>
-				<guid isPermaLink="true">http://finbarr.ca/arima-arma-what/</guid>
-			</item>
-		
-			<item>
-				<title>Solving Partial Autocorrelation Functions</title>
-				<description>&lt;p&gt;I&#39;ve been studying time series through &lt;a href=&quot;http://www.stat.pitt.edu/stoffer/tsa3/&quot;&gt;TSA&lt;/a&gt;. The book presents a structured
-approach to time series analysis, and covers the material fairly well; I was
-impressed with the description of what a partial autocorrelation function (PACF)
-is, as the book explained it more intuitively than the lecture notes did. I did
-find the description of how to actually solve for the PACF a bit confusing, so I
-wrote my own explanation.&lt;/p&gt;
-
-&lt;h2 id=&quot;partial-autocorrelation-functions&quot;&gt;Partial Autocorrelation Functions&lt;/h2&gt;
-
-&lt;p&gt;What are PACFs, and why would one want to use one? As explained in TSA, the PACF
-is useful as it provides an analog to the autocorrelation function, or ACF, but
-for autoregressive processes. The ACF is particularly useful as for an &lt;script type=&quot;math/tex&quot;&gt;MA(q)&lt;/script&gt;, the autocorrelation function &lt;script type=&quot;math/tex&quot;&gt;\gamma(m)&lt;/script&gt; has the nice property that&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{align*} \gamma(m) = 0 \text{ for } m &gt; q.  \end{align*}&lt;/script&gt;
-
-&lt;p&gt;Consequently, by plotting the ACF (as can be done
-&lt;a href=&quot;http://bl.ocks.org/timbers/9318155&quot;&gt;easily&lt;/a&gt; in R), we can detect the order of
-the &lt;script type=&quot;math/tex&quot;&gt;MA(q)&lt;/script&gt; process.&lt;/p&gt;
-
-&lt;p&gt;The property fails for the ACF of an &lt;script type=&quot;math/tex&quot;&gt;AR(p)&lt;/script&gt; process. However, the PACF is
-here to step in and save the day. With the PACF defined as&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{align*} \phi_{mm} := \alpha^{\star}_{m, m}, \end{align*}&lt;/script&gt;
-
-&lt;p&gt;where the &lt;script type=&quot;math/tex&quot;&gt;\alpha^{\star}_{j, k}&lt;/script&gt; are defined as&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{align*} \alpha_{1, m}, \cdots, \alpha_{m, m} = \text{argmin} E(X_{t} -
-\alpha_{1, m} X_{t-1} - \cdots - \alpha_{m, m} X_{t-m})^2.  \end{align*}&lt;/script&gt;
-
-&lt;p&gt;Then, the PACF exhibits the property that for an &lt;script type=&quot;math/tex&quot;&gt;AR(p)&lt;/script&gt; process, &lt;script type=&quot;math/tex&quot;&gt;\phi_{pp} = \phi_{p}&lt;/script&gt;, and &lt;script type=&quot;math/tex&quot;&gt;\phi_{mm} = 0&lt;/script&gt; for &lt;script type=&quot;math/tex&quot;&gt;m &gt; p&lt;/script&gt;; consequently, by
-calculating the PACF of a process, we can easily detect the order of it if it is
-autoregressive.&lt;/p&gt;
-
-&lt;h2 id=&quot;example-1&quot;&gt;Example 1&lt;/h2&gt;
-
-&lt;p&gt;Suppose we have the process&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{align*} X_{t} = \phi_1 X_{t-1} + \phi_2 X_{t-2} + w_t, \end{align*}&lt;/script&gt;
-
-&lt;p&gt;where &lt;script type=&quot;math/tex&quot;&gt;w_t&lt;/script&gt; is a sequence of uncorrelated variables with zero mean and
-constant variance. What is the PACF for this process? As the AR polynomial &lt;script type=&quot;math/tex&quot;&gt;\phi(B)&lt;/script&gt; has no roots with &lt;script type=&quot;math/tex&quot;&gt;|B| \leq 1,&lt;/script&gt; &lt;script type=&quot;math/tex&quot;&gt;X_{t}&lt;/script&gt; is a weakly stationary
-process; consequently, we know that &lt;script type=&quot;math/tex&quot;&gt;\phi_{22} = \phi_2, \phi_{mm} = 0&lt;/script&gt; for
-&lt;script type=&quot;math/tex&quot;&gt;m &gt; p&lt;/script&gt;. Consequently, we only need to figure out &lt;script type=&quot;math/tex&quot;&gt;\phi_{11}&lt;/script&gt;. To find it,
-we must solve&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{align*} \text{argmin} E(X_{t} - \phi_{11} X_{t-1})^2\\ \end{align*}&lt;/script&gt;
-
-&lt;p&gt;To do so, we take the derivative with respect to &lt;script type=&quot;math/tex&quot;&gt;\phi_{11}&lt;/script&gt; and set it
-equal to zero:&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
-\begin{align*} &amp;E[-2X_{t-1}(X_{t} - \phi_{11} X_{t-1})] = 0 \\ \iff &amp;-2
-\gamma(1) + 2 \phi_{11} \gamma(0) = 0 \\ \iff &amp; \phi_{11} = \rho(1) \end{align*} %]]&gt;&lt;/script&gt;
-
-&lt;p&gt;Now, we need to solve for &lt;script type=&quot;math/tex&quot;&gt;\rho&lt;/script&gt; in terms of &lt;script type=&quot;math/tex&quot;&gt;\phi_{1}, \phi_{2}&lt;/script&gt;. To do
-this, we exploit the Yule-Walker equations:&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
-\begin{align*} \gamma(1) - \phi_{1} \gamma(0) - \phi_{2} \gamma(1) &amp;= 0\\
-\rho(1) &amp;= \phi_{1} + \phi_{2} \rho(1) \\ \longrightarrow \phi_{11} = \rho(1) &amp;=
-\frac{ \phi_{1} }{ 1 - \phi_{2} } \end{align*} %]]&gt;&lt;/script&gt;
-
-</description>
-				<pubDate>Mon, 03 Mar 2014 00:00:00 -0700</pubDate>
-				<link>http://finbarr.ca/solving-pacf/</link>
-				<guid isPermaLink="true">http://finbarr.ca/solving-pacf/</guid>
 			</item>
 		
 	</channel>

@@ -1,13 +1,10 @@
-<ul class=post-meta>
+<div class=post-meta>
     {% if post %}
         {% assign item = post %}
     {% else %}
         {% assign item = page %}
     {% endif %}
     {% for tag in item.tags %}
-        {% if forloop.index != 1 %}
-	        <li>&middot;</li>
-		{% endif %}
-        <li><a href="/tags/#{{ tag }}-ref">#{{ tag }}</a></li>
+        <a href="/tags/#{{ tag }}-ref">#{{ tag }}</a>
     {% endfor %}
-</ul>
+</div>
