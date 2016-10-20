@@ -34,7 +34,7 @@ Actor-Critic methods, and how both methods are difficult to optimize.&lt;/p&gt;
 tries to classify images. The generator tries to best the classifier.&lt;/p&gt;
 
 &lt;p&gt;Actor-Critic methods are models from reinforcement learning in which a model
-learns an action-value function $Q^\pi(s, a)$ that predicts the expected
+learns an action-value function &lt;script type=&quot;math/tex&quot;&gt;Q^\pi(s, a)&lt;/script&gt; that predicts the expected
 discounted reward (the Critic), and a policy that is optimal for that value (the
 Actor).&lt;/p&gt;
 
@@ -49,10 +49,8 @@ model.&lt;/p&gt;
 			</item>
 		
 			<item>
-				<title>Progressive networks training robots</title>
-				<description>&lt;h2 id=&quot;sim-to-real-robot-learning-from-pixels-with-progressive-netshttpsarxivorgabs161004286&quot;&gt;&lt;a href=&quot;https://arxiv.org/abs/1610.04286&quot;&gt;Sim-to-Real Robot Learning from Pixels with Progressive Nets&lt;/a&gt;&lt;/h2&gt;
-
-&lt;h3 id=&quot;abstract&quot;&gt;Abstract&lt;/h3&gt;
+				<title>Using simulated data to train robots</title>
+				<description>&lt;h3 id=&quot;abstracthttpsarxivorgabs161004286&quot;&gt;&lt;a href=&quot;https://arxiv.org/abs/1610.04286&quot;&gt;Abstract&lt;/a&gt;&lt;/h3&gt;
 
 &lt;p&gt;Applying end-to-end learning to solve complex, interactive, pixel-driven control
 tasks on a robot is an unsolved problem. Deep Reinforcement Learning algorithms
@@ -81,12 +79,12 @@ learnt network columns to each new column. They were used successfully by
 @rusu16 on to train a model on a number of different Atari games.&lt;/p&gt;
 
 &lt;p&gt;In a progressive network (prognet), you initially train a deep network with hidden layers
-$h_i^{(1)}$ and parameters $\Theta^{(1)}$ to convergence. When you switch to a
-second task, $\Theta^{(1)}$ is frozen, and a new column with parameters
-$\Theta^{(2)}$ is instantiated, with each hidden layer $h_i^{(2)}$ receiving
-input from both $h_{i-1}^{(2)}$ and $h_{i-1}^{(1)}$ via lateral connections.
-Effectively, a progresive network is one in which you have $N$ deep neural
-networks, each connected laterally. Consequently, we have $N$ policies, and
+&lt;script type=&quot;math/tex&quot;&gt;h_i^{(1)}&lt;/script&gt; and parameters &lt;script type=&quot;math/tex&quot;&gt;\Theta^{(1)}&lt;/script&gt; to convergence. When you switch to a
+second task, &lt;script type=&quot;math/tex&quot;&gt;\Theta^{(1)}&lt;/script&gt; is frozen, and a new column with parameters
+&lt;script type=&quot;math/tex&quot;&gt;\Theta^{(2)}&lt;/script&gt; is instantiated, with each hidden layer &lt;script type=&quot;math/tex&quot;&gt;h_i^{(2)}&lt;/script&gt; receiving
+input from both &lt;script type=&quot;math/tex&quot;&gt;h_{i-1}^{(2)}&lt;/script&gt; and &lt;script type=&quot;math/tex&quot;&gt;h_{i-1}^{(1)}&lt;/script&gt; via lateral connections.
+Effectively, a progresive network is one in which you have &lt;script type=&quot;math/tex&quot;&gt;N&lt;/script&gt; deep neural
+networks, each connected laterally. Consequently, we have &lt;script type=&quot;math/tex&quot;&gt;N&lt;/script&gt; policies, and
 are thus learning a probability distribution over all states and actions.&lt;/p&gt;
 
 &lt;p&gt;One advantage of this is that the columns of a prognet do not have to be

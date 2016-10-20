@@ -16,9 +16,9 @@ permalink: /
 <h1 class="section"> Projects </h1>
 {% for project in site.projects %}
 <div class="post">
-  <h2>
+  <h3>
     <a class="link-title" href="{{ project.url }}">{{ project.name }}</a>
-  </h2>
+  </h3>
   <div>
     {{ project.description | markdownify }}
   </div>
@@ -41,7 +41,7 @@ permalink: /
 {% endfor %}
 
 
-<h2 class="section"> Work Experience </h2>
+<h1 class="section"> Work Experience </h1>
 {% for job in site.jobs %}
 <div class=post>
   <div class="job-title">
@@ -51,6 +51,17 @@ permalink: /
   </div>
   <div>
     {{ job.description | markdownify }}
+  </div>
+</div>
+{% endfor %}
+
+<h1 class="section"> Education </h1>
+{% for degree in site.degrees %}
+<div class=post>
+  <div class="school">
+    <h3>
+      <a href={{degree.url}}> {{degree.school}}, {{degree.degree}} </a>
+    </h3>
   </div>
 </div>
 {% endfor %}

@@ -21,7 +21,7 @@ talks:
    conference: "[Edmonton Data Science Meetup](http://www.meetup.com/startupedmonton/events/231589029/). Edmonton, AB, October 5th, 2016."
    slides: "Slides: [PDF](http://finbarr.ca/slides/docker-demo.pdf)."
 
- - name: "Automating your work away"
+ - name: "Automating your work away: One consulting firm's experience using KnitR"
    conference: "[UseR! 2016](http://www.user2016.org), [Stanford University](http://www.Stanford.edu), Stanford, CA, Tuesday, June 28th, 2016."
    slides: "Slides: [HTML](http://finbarr.ca/slides/useR-2016.html#1), [PDF](http://finbarr.ca/slides/useR-2016.pdf), [Video](https://channel9.msdn.com/Events/useR-international-R-User-conference/useR2016/Automating-our-work-away-One-consulting-firms-experience-with-KnitR)."
 
@@ -38,9 +38,7 @@ jobs:
   - employer: Legislative Assembly Office
     url: http://www.assembly.ab.ca/
     title: Policy & Research Analyst
-    description: |
-                 | The administrative branch of the Legislative Assembly of
-                 | Alberta.
+    description: Financial policy researcher for opposition party.
 
   - employer: University of Alberta
     url: http://www.ualberta.ca/~cfrei
@@ -49,6 +47,16 @@ jobs:
                  | Under Dr. Christoph Frei's supervision, I worked on modelling
                  | the prisoner's dilemma in continuous time, a problem from
                  | game theory.
+
+# education
+degrees:
+  - school: London School of Economics
+    url: http://www.lse.ac.uk/study/graduate/taughtProgrammes2016/msceconometricsandmathematicaleconomics.aspx
+    degree: "MSc Econometrics and Mathematical Economics"
+  - school: University of Alberta
+    url: https://www.ualberta.ca/mathematical-and-statistical-sciences/undergraduate-studies/programs/mathematics-and-economics
+    degree: "BSc Honors in Mathematics and Economics"
+
 
 
 # External services
