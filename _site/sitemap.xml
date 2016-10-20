@@ -11,13 +11,6 @@
 
   
   <url>
-    <loc>http://finbarr.ca/2016-09-20-Machine-learning-lit-review/</loc>
-    <lastmod>2016-10-20</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>http://finbarr.ca/generative-adverserial-networks-and-actor-critics/</loc>
     <lastmod>2016-10-19</lastmod>
     <changefreq>weekly</changefreq>
@@ -34,6 +27,13 @@
   <url>
     <loc>http://finbarr.ca/Off-Policy-Reinforcement-Learning/</loc>
     <lastmod>2016-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://finbarr.ca/Machine-learning-lit-review/</loc>
+    <lastmod>2016-09-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>

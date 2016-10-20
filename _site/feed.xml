@@ -8,53 +8,8 @@
 		<atom:link href="http://finbarr.ca/feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
-				<title></title>
-				<description>&lt;h2 id=&quot;xgboost-a-scalable-tree-boosting-systemhttparxivorgabs160302754&quot;&gt;&lt;a href=&quot;http://arxiv.org/abs/1603.02754&quot;&gt;XGBoost: A Scalable Tree Boosting System&lt;/a&gt;&lt;/h2&gt;
-
-&lt;h3 id=&quot;abstract&quot;&gt;Abstract&lt;/h3&gt;
-
-&lt;p&gt;Tree boosting is a highly effective and widely used machine learning method. In
-this paper, we describe a scalable end-to-end tree boosting system called
-XGBoost, which is used widely by data scientists to achieve state-of-the-art
-results on many machine learning challenges. We propose a novel sparsity-aware
-algorithm for sparse data and weighted quantile sketch for approximate tree
-learning. More importantly, we provide insights on cache access patterns, data
-compression and sharding to build a scalable tree boosting system. By combining
-these insights, XGBoost scales beyond billions of examples using far fewer
-resources than existing systems.&lt;/p&gt;
-
-&lt;h3 id=&quot;notes&quot;&gt;Notes&lt;/h3&gt;
-
-&lt;p&gt;A lot of the notes are taken from XGBoost&#39;s
-&lt;a href=&quot;http://xgboost.readthedocs.io/en/latest/model.html&quot;&gt;tutorial&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Gradient Boosting is a ML technique that takes a number of weak leearners and
-combines them into a single strong learner. Gradient Boosted Trees are a subset
-of the general problem that applies gradient boosting to trees. XGBoost uses
-tree ensembles, which are sets of classification and regression trees (CART).
-In a CART model, we create a series of trees that split the sample based on
-their features into different leaves, and assign each leaf a different score.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;images/xgboost-twocart.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;The trees try to complement each other. The complexity of the trees are defined
-as $\Omega(f) = \gamma T + \frac{1}{2} \lambda \sum_{j=1}^T w_j^2$, where
-$w_j$ is the weight of each leaf, and $T$ is the number of leaves.&lt;/p&gt;
-
-&lt;p&gt;XGBoost implements this algorithm and has been particularly successful, being
-used in many successful Kaggle competitions. XGBoost is extremely fast due to
-a series of algorithmic tricks. The paper reviews these tricks.&lt;/p&gt;
-</description>
-				<pubDate>Thu, 20 Oct 2016 09:42:06 -0600</pubDate>
-				<link>http://finbarr.ca/2016-09-20-Machine-learning-lit-review/</link>
-				<guid isPermaLink="true">http://finbarr.ca/2016-09-20-Machine-learning-lit-review/</guid>
-			</item>
-		
-			<item>
 				<title>Generative Adversarial Networks and Actor-Critic methods</title>
-				<description>&lt;h1 id=&quot;connecting-generative-adversarial-networks-and-actor-critic-methodshttpsarxivorgabs161001945&quot;&gt;&lt;a href=&quot;https://arxiv.org/abs/1610.01945&quot;&gt;Connecting Generative Adversarial Networks and Actor-Critic Methods&lt;/a&gt;&lt;/h1&gt;
-
-&lt;h3 id=&quot;abstract&quot;&gt;Abstract&lt;/h3&gt;
+				<description>&lt;h3 id=&quot;abstracthttpsarxivorgabs161001945&quot;&gt;&lt;a href=&quot;https://arxiv.org/abs/1610.01945&quot;&gt;Abstract&lt;/a&gt;&lt;/h3&gt;
 
 &lt;p&gt;Both generative adversarial networks (GAN) in unsupervised learning and
 actor-critic methods in reinforcement learning (RL) have gained a reputation for
@@ -154,10 +109,8 @@ hyperparameter selection.&lt;/p&gt;
 			</item>
 		
 			<item>
-				<title>Off-Policy reinforcement learning</title>
-				<description>&lt;h1 id=&quot;safe-and-efficient-off-policy-reinforcement-learninghttpsarxivorgabs160602647&quot;&gt;&lt;a href=&quot;https://arxiv.org/abs/1606.02647&quot;&gt;Safe and Efficient Off-Policy Reinforcement Learning&lt;/a&gt;&lt;/h1&gt;
-
-&lt;h3 id=&quot;abstract&quot;&gt;Abstract&lt;/h3&gt;
+				<title>Safe and Efficient Off-Policy Reinforcement Learning</title>
+				<description>&lt;h2 id=&quot;abstracthttpsarxivorgabs160602647&quot;&gt;&lt;a href=&quot;https://arxiv.org/abs/1606.02647&quot;&gt;Abstract&lt;/a&gt;&lt;/h2&gt;
 
 &lt;p&gt;In this work, we take a fresh look at some old and new algorithms for
 off-policy, return-based reinforcement learning. Expressing these in a common
@@ -173,7 +126,7 @@ with Infinite Exploration). As a corollary, we prove the convergence of Watkins&
 Q(λ), which was still an open problem. We illustrate the benefits of Retrace(λ)
 on a standard suite of Atari 2600 games.&lt;/p&gt;
 
-&lt;h3 id=&quot;notes&quot;&gt;Notes&lt;/h3&gt;
+&lt;h2 id=&quot;notes&quot;&gt;Notes&lt;/h2&gt;
 
 &lt;p&gt;In reinformcement learning, Q-learning is a technique that is commonly used. In
 it, a Q-function is defined which returns the discounted expected value for each
@@ -181,8 +134,8 @@ state. The Q-function is updated with each iteration:&lt;/p&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;Q(s_t, a_t) = Q(s_t, a_t) + \alpha \cdot (r_{t+1} + \gamma \cdot \max_a Q(s_{t+1}, a) - Q(s_t, a_t)),&lt;/script&gt;
 
-&lt;p&gt;where $r_{t+1}$ is the reward observed after performing $a_t$ in $s_t$, and
-where $\alpha_t(s, a) \in (0, 1]$ is the learning rate.&lt;/p&gt;
+&lt;p&gt;where &lt;script type=&quot;math/tex&quot;&gt;r_{t+1}&lt;/script&gt; is the reward observed after performing &lt;script type=&quot;math/tex&quot;&gt;a_t&lt;/script&gt; in &lt;script type=&quot;math/tex&quot;&gt;s_t&lt;/script&gt;, and
+where &lt;script type=&quot;math/tex&quot;&gt;\alpha_t(s, a) \in (0, 1]&lt;/script&gt; is the learning rate.&lt;/p&gt;
 
 &lt;p&gt;In reinforcement learning, there is a trade-off in the definition of the update
 target: should one estimate Monte Carlo returns or bootstrap from an existing
@@ -198,6 +151,47 @@ consistent with off-policy learning.&lt;/p&gt;
 				<pubDate>Tue, 18 Oct 2016 00:00:00 -0600</pubDate>
 				<link>http://finbarr.ca/Off-Policy-Reinforcement-Learning/</link>
 				<guid isPermaLink="true">http://finbarr.ca/Off-Policy-Reinforcement-Learning/</guid>
+			</item>
+		
+			<item>
+				<title>XGBoost: A scalable tree boosting system</title>
+				<description>&lt;h3 id=&quot;abstracthttparxivorgabs160302754&quot;&gt;&lt;a href=&quot;http://arxiv.org/abs/1603.02754&quot;&gt;Abstract&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;Tree boosting is a highly effective and widely used machine learning method. In
+this paper, we describe a scalable end-to-end tree boosting system called
+XGBoost, which is used widely by data scientists to achieve state-of-the-art
+results on many machine learning challenges. We propose a novel sparsity-aware
+algorithm for sparse data and weighted quantile sketch for approximate tree
+learning. More importantly, we provide insights on cache access patterns, data
+compression and sharding to build a scalable tree boosting system. By combining
+these insights, XGBoost scales beyond billions of examples using far fewer
+resources than existing systems.&lt;/p&gt;
+
+&lt;h3 id=&quot;notes&quot;&gt;Notes&lt;/h3&gt;
+
+&lt;p&gt;A lot of the notes are taken from XGBoost&#39;s
+&lt;a href=&quot;http://xgboost.readthedocs.io/en/latest/model.html&quot;&gt;tutorial&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Gradient Boosting is a ML technique that takes a number of weak learners and
+combines them into a single strong learner. Gradient Boosted Trees are a subset
+of the general problem that applies gradient boosting to trees. XGBoost uses
+tree ensembles, which are sets of classification and regression trees (CART).
+In a CART model, we create a series of trees that split the sample based on
+their features into different leaves, and assign each leaf a different score.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/xgboost.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The trees try to complement each other. The complexity of the trees are defined
+as &lt;script type=&quot;math/tex&quot;&gt;\Omega(f) = \gamma T + \frac{1}{2} \lambda \sum_{j=1}^T w_j^2&lt;/script&gt;, where
+&lt;script type=&quot;math/tex&quot;&gt;w_j&lt;/script&gt; is the weight of each leaf, and &lt;script type=&quot;math/tex&quot;&gt;T&lt;/script&gt; is the number of leaves.&lt;/p&gt;
+
+&lt;p&gt;XGBoost implements this algorithm and has been particularly successful, being
+used in many successful Kaggle competitions. XGBoost is extremely fast due to
+a series of algorithmic tricks. The paper reviews these tricks.&lt;/p&gt;
+</description>
+				<pubDate>Tue, 20 Sep 2016 00:00:00 -0600</pubDate>
+				<link>http://finbarr.ca/Machine-learning-lit-review/</link>
+				<guid isPermaLink="true">http://finbarr.ca/Machine-learning-lit-review/</guid>
 			</item>
 		
 			<item>

@@ -1,12 +1,11 @@
 ---
 layout: post
-title: Progressive networks training robots
+title: Using simulated data to train robots
 tags: papers machine-learning
 ---
 
-## [Sim-to-Real Robot Learning from Pixels with Progressive Nets](https://arxiv.org/abs/1610.04286)
+### [Abstract](https://arxiv.org/abs/1610.04286)
 
-### Abstract
 
 Applying end-to-end learning to solve complex, interactive, pixel-driven control
 tasks on a robot is an unsolved problem. Deep Reinforcement Learning algorithms
@@ -35,12 +34,12 @@ learnt network columns to each new column. They were used successfully by
 @rusu16 on to train a model on a number of different Atari games.
 
 In a progressive network (prognet), you initially train a deep network with hidden layers
-$h_i^{(1)}$ and parameters $\Theta^{(1)}$ to convergence. When you switch to a
-second task, $\Theta^{(1)}$ is frozen, and a new column with parameters
-$\Theta^{(2)}$ is instantiated, with each hidden layer $h_i^{(2)}$ receiving
-input from both $h_{i-1}^{(2)}$ and $h_{i-1}^{(1)}$ via lateral connections.
-Effectively, a progresive network is one in which you have $N$ deep neural
-networks, each connected laterally. Consequently, we have $N$ policies, and
+$$h_i^{(1)}$$ and parameters $$\Theta^{(1)}$$ to convergence. When you switch to a
+second task, $$\Theta^{(1)}$$ is frozen, and a new column with parameters
+$$\Theta^{(2)}$$ is instantiated, with each hidden layer $$h_i^{(2)}$$ receiving
+input from both $$h_{i-1}^{(2)}$$ and $$h_{i-1}^{(1)}$$ via lateral connections.
+Effectively, a progresive network is one in which you have $$N$$ deep neural
+networks, each connected laterally. Consequently, we have $$N$$ policies, and
 are thus learning a probability distribution over all states and actions.
 
 One advantage of this is that the columns of a prognet do not have to be

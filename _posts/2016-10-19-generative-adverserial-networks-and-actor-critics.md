@@ -4,9 +4,7 @@ title: Generative Adversarial Networks and Actor-Critic methods
 tags: papers machine-learning
 ---
 
-# [Connecting Generative Adversarial Networks and Actor-Critic Methods](https://arxiv.org/abs/1610.01945)
-
-### Abstract
+### [Abstract](https://arxiv.org/abs/1610.01945)
 
 Both generative adversarial networks (GAN) in unsupervised learning and
 actor-critic methods in reinforcement learning (RL) have gained a reputation for
@@ -31,7 +29,7 @@ GANs are models with two neural networks, one that generates images and one that
 tries to classify images. The generator tries to best the classifier.
 
 Actor-Critic methods are models from reinforcement learning in which a model
-learns an action-value function $Q^\pi(s, a)$ that predicts the expected
+learns an action-value function $$Q^\pi(s, a)$$ that predicts the expected
 discounted reward (the Critic), and a policy that is optimal for that value (the
 Actor).
 

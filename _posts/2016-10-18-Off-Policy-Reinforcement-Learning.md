@@ -1,12 +1,10 @@
 ---
 layout: post
-title: Off-Policy reinforcement learning
+title: Safe and Efficient Off-Policy Reinforcement Learning
 tags: papers machine-learning
 ---
 
-# [Safe and Efficient Off-Policy Reinforcement Learning](https://arxiv.org/abs/1606.02647)
-
-### Abstract
+## [Abstract](https://arxiv.org/abs/1606.02647)
 
 In this work, we take a fresh look at some old and new algorithms for
 off-policy, return-based reinforcement learning. Expressing these in a common
@@ -22,7 +20,7 @@ with Infinite Exploration). As a corollary, we prove the convergence of Watkins'
 Q(λ), which was still an open problem. We illustrate the benefits of Retrace(λ)
 on a standard suite of Atari 2600 games.
 
-### Notes
+## Notes
 
 In reinformcement learning, Q-learning is a technique that is commonly used. In
 it, a Q-function is defined which returns the discounted expected value for each
@@ -32,8 +30,8 @@ $$
 Q(s_t, a_t) = Q(s_t, a_t) + \alpha \cdot (r_{t+1} + \gamma \cdot \max_a Q(s_{t+1}, a) - Q(s_t, a_t)),
 $$
 
-where $r_{t+1}$ is the reward observed after performing $a_t$ in $s_t$, and
-where $\alpha_t(s, a) \in (0, 1]$ is the learning rate.
+where $$r_{t+1}$$ is the reward observed after performing $$a_t$$ in $$s_t$$, and
+where $$\alpha_t(s, a) \in (0, 1]$$ is the learning rate.
 
 In reinforcement learning, there is a trade-off in the definition of the update
 target: should one estimate Monte Carlo returns or bootstrap from an existing
