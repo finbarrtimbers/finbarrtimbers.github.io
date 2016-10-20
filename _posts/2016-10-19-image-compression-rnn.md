@@ -38,9 +38,9 @@ $$
 b_t = B(E_t(r_{t-1})), \hat{x}_t = D_t(b_t) + \gamma \hat{x}_{t-1}, r_t = x - \hat{x_t}, r_0 = x, \hat{x}_0 = 0,
 $$
 
-where $D_t$ and $E_t$ represent the decoder/encoder at iteration $t$. The model
-thus becomes better and better with each iteration, and after $k$ iterations,
-the model has produced $m \times k$ bits in total, where $m$ is a value
+where $$D_t$$ and $$E_t$$ represent the decoder/encoder at iteration $$t$$. The model
+thus becomes better and better with each iteration, and after $$k$$ iterations,
+the model has produced $$m \times k$$ bits in total, where $$m$$ is a value
 determined by $$B$$. Thus, by reducing the number of iterations needed, the
 model can achieve smaller image sizes..
 
@@ -92,5 +92,3 @@ from the previous iterations, making the final image the sum of all iterations.
 
 3. *Residual Scaling*: the residual is scaled up over iterations to compensate
 for the fact that the residual is supposed to decrease with each iteration.
-
-## Entropy Coding
