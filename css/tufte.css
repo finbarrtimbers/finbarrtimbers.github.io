@@ -41,6 +41,7 @@ html { font-size: 15px; }
 body { width: 87.5%;
        margin-left: auto;
        margin-right: auto;
+       margin-bottom: 2cm;
        padding-left: 12.5%;
        font-family: et-book, Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
        background-color: #fffff8;
@@ -109,13 +110,13 @@ div.epigraph > blockquote > footer > cite { font-style: italic; }
 
 blockquote { font-size: 1.4rem; }
 
-blockquote p { width: 50%; }
+blockquote p { width: 75%; }
 
-blockquote footer { width: 50%;
+blockquote footer { width: 75%;
                     font-size: 1.1rem;
                     text-align: right; }
 
-ol, ul { width: 45%;
+ol, ul { width: 75%;
          -webkit-padding-start: 5%;
          -webkit-padding-end: 5%; }
 
@@ -229,7 +230,7 @@ h1 .code, h2 .code, h3 .code { font-size: 0.80em; }
 
 .marginnote .code, .sidenote .code { font-size: 1rem; }
 
-pre.code { width: 52.5%;
+pre.code { width: 72.5%;
            padding-left: 2.5%;
            overflow-x: auto; }
 
