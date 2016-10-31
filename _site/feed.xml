@@ -8,6 +8,113 @@
 		<atom:link href="http://finbarr.ca/feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
+				<title>Full Resolution Image Compression with Recurrent Neural Networks</title>
+				<description>&lt;h3 id=&quot;abstracthttpsarxivorgabs160805148&quot;&gt;&lt;a href=&quot;https://arxiv.org/abs/1608.05148&quot;&gt;Abstract&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;This paper presents a set of full-resolution lossy image compression methods
+based on neural networks. Each of the architectures we describe can provide
+variable compression rates during deployment without requiring retraining of the
+network: each network need only be trained once. All of our architectures
+consist of a recurrent neural network (RNN)-based encoder and decoder, a
+binarizer, and a neural network for entropy coding. We compare RNN types (LSTM,
+associative LSTM) and introduce a new hybrid of GRU and ResNet. We also study
+&quot;one-shot&quot; versus additive reconstruction architectures and introduce a new
+scaled-additive framework. We compare to previous work, showing improvements of
+4.3%-8.8% AUC (area under the rate-distortion curve), depending on the
+perceptual metric used. As far as we know, this is the first neural network
+architecture that is able to outperform JPEG at image compression across most
+bitrates on the rate-distortion curve on the Kodak dataset images, with and
+without the aid of entropy coding.&lt;/p&gt;
+
+&lt;h3 id=&quot;notes&quot;&gt;Notes&lt;/h3&gt;
+
+&lt;p&gt;It&#39;s been thought that neural nets should be good at image compression, but
+there haven&#39;t been any results to indciate that this is true across a variety
+of scenarios (i.e. with the exception of dedicated, one-off image compression
+nets). A previous paper by one of the authors was able to do this, but only for
+32 x 32 images. This paper tries to generalize that.&lt;/p&gt;
+
+&lt;p&gt;The authors use a three component architecture comprised of an encoding network
+&lt;script type=&quot;math/tex&quot;&gt;E&lt;/script&gt;, a binarizer &lt;script type=&quot;math/tex&quot;&gt;B&lt;/script&gt;, and a decoding network &lt;script type=&quot;math/tex&quot;&gt;D&lt;/script&gt;. The input images are
+encoded, turned into binary, transmitted through the network, and then decoded.
+The authors represent a single iteration of their network as:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;b_t = B(E_t(r_{t-1})), \hat{x}_t = D_t(b_t) + \gamma \hat{x}_{t-1}, r_t = x - \hat{x_t}, r_0 = x, \hat{x}_0 = 0,&lt;/script&gt;
+
+&lt;p&gt;where &lt;script type=&quot;math/tex&quot;&gt;D_t&lt;/script&gt; and &lt;script type=&quot;math/tex&quot;&gt;E_t&lt;/script&gt; represent the decoder/encoder at iteration &lt;script type=&quot;math/tex&quot;&gt;t&lt;/script&gt;. The model
+thus becomes better and better with each iteration, and after &lt;script type=&quot;math/tex&quot;&gt;k&lt;/script&gt; iterations,
+the model has produced &lt;script type=&quot;math/tex&quot;&gt;m \times k&lt;/script&gt; bits in total, where &lt;script type=&quot;math/tex&quot;&gt;m&lt;/script&gt; is a value
+determined by &lt;script type=&quot;math/tex&quot;&gt;B&lt;/script&gt;. Thus, by reducing the number of iterations needed, the
+model can achieve smaller image sizes..&lt;/p&gt;
+
+&lt;p&gt;The encoder and decoder are RNNs, with two convolutional kernels. The authors
+explored a number of different types of RNNs^[LSTMs, associative LSTMs, GRUs.],
+and a number of different reconstruction frameworks^[One-shot reconstruction,
+additive reconstruction, and residual scaling.]&lt;/p&gt;
+
+&lt;p&gt;The authors used two sets of training data:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;The data from the previous paper that contained 32x32 images, and&lt;/li&gt;
+  &lt;li&gt;A random sample of 6 million 1280x720 images on the web, decomposed into
+non-overlapping 32x32 tiles, and samples the 100 tiles with the worst
+compression ratio under PNG, with the goal of finding the &quot;hard-to-compress&quot;
+data, theoretically yielding a better compression model.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;They ran the model for 1 million epochs, and picked the models with the largest
+area under the curve when both of their metrics are plotted against each other.
+The best model was able to slightly beat JPEG. However, this doesn&#39;t do the
+results justice, as the results are remarkably good, and look much better
+than JPEG.&lt;/p&gt;
+
+&lt;h3 id=&quot;rnns&quot;&gt;RNNs&lt;/h3&gt;
+
+&lt;p&gt;Three types explored here:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;em&gt;LSTMs&lt;/em&gt;: A RNN structure that contains LSTM blocks, which are network units
+that can remember a value for an arbitrary length of time. A LSTM block contains
+gates that determine when the input is significant enough to remember, when it
+should continue to remember or forget the value, and when it should output the
+value.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;em&gt;Associative LSTMs&lt;/em&gt;: Not clear. Need to read more.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;em&gt;GRUs&lt;/em&gt;: A LSTM that merges the forget and input gates into a single &quot;update&quot;
+gate, making it simpler than LSTM models.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;reconstruction-frameworks&quot;&gt;Reconstruction frameworks&lt;/h3&gt;
+
+&lt;p&gt;Three types explored here:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;em&gt;One-shot Reconstruction&lt;/em&gt;: a process in which the full image is predicted
+after each iteration of the decoder. Each iteration has access to more bits,
+which should allow for a better reconstruction.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;em&gt;Additive Reconstruction&lt;/em&gt;: each iteration tries to reconstruct the residual
+from the previous iterations, making the final image the sum of all iterations.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;em&gt;Residual Scaling&lt;/em&gt;: the residual is scaled up over iterations to compensate
+for the fact that the residual is supposed to decrease with each iteration.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+</description>
+				<pubDate>Wed, 19 Oct 2016 00:00:00 -0600</pubDate>
+				<link>http://finbarr.ca/image-compression-rnn/</link>
+				<guid isPermaLink="true">http://finbarr.ca/image-compression-rnn/</guid>
+			</item>
+		
+			<item>
 				<title>Generative Adversarial Networks and Actor-Critic methods</title>
 				<description>&lt;h3 id=&quot;abstracthttpsarxivorgabs161001945&quot;&gt;&lt;a href=&quot;https://arxiv.org/abs/1610.01945&quot;&gt;Abstract&lt;/a&gt;&lt;/h3&gt;
 
@@ -188,216 +295,8 @@ used in many successful Kaggle competitions. XGBoost is extremely fast due to
 a series of algorithmic tricks. The paper reviews these tricks.&lt;/p&gt;
 </description>
 				<pubDate>Tue, 20 Sep 2016 00:00:00 -0600</pubDate>
-				<link>http://finbarr.ca/Machine-learning-lit-review/</link>
-				<guid isPermaLink="true">http://finbarr.ca/Machine-learning-lit-review/</guid>
-			</item>
-		
-			<item>
-				<title>Inequality</title>
-				<description>&lt;p&gt;Article discussing how Trump is winning thanks to voters who have been harmed
-by globalization &lt;a href=&quot;https://medium.com/@boxerbk/confused-why-donald-trumps-message-is-resonating-1154c977697b?utm_content=buffer3a171&amp;amp;utm_medium=social&amp;amp;utm_source=facebook.com&amp;amp;utm_campaign=buffer#.zbwvkmmmx&quot;&gt;1&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;The article has a stunning graph:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;../images/inequality.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;The point made by the article is reinforced by the academic literature (&lt;a href=&quot;http://science.sciencemag.org/content/344/6186/838?utm_content=bufferd9928&amp;amp;utm_medium=social&amp;amp;utm_source=facebook.com&amp;amp;utm_campaign=buffer&quot;&gt;2&lt;/a&gt;, &lt;a href=&quot;http://davidcard.berkeley.edu/papers/skill-tech-change.pdf?utm_content=buffer27cc7&amp;amp;utm_medium=social&amp;amp;utm_source=facebook.com&amp;amp;utm_campaign=buffer&quot;&gt;3&lt;/a&gt;)
-which claims that inequality is driven by difference in skills. Medium-skilled
-workers are making less money because their jobs are being automated. Think of
-the typical accounting department in a large corporation circa 1950— you&#39;d
-have teams of people doing simple math. Now, Excel has replaced that.
-Low-skilled workers are unaffected as their jobs aren&#39;t valuable enough to
-automate.&lt;/p&gt;
-
-&lt;p&gt;High-skilled analytical workers, on the other hand. are making much more money as
-technology has radically enabled their work. Think of economics. It was next
-to impossible to run 2 million regressions&lt;a href=&quot;http://www.nber.org/papers/w6252&quot;&gt;5&lt;/a&gt; in the 1950s, but now, any laptop
-could do that no problem. As a result, economists are much more valuable.
-Similarly for computer programmers.&lt;/p&gt;
-
-</description>
-				<pubDate>Tue, 02 Aug 2016 00:00:00 -0600</pubDate>
-				<link>http://finbarr.ca/Inequality/</link>
-				<guid isPermaLink="true">http://finbarr.ca/Inequality/</guid>
-			</item>
-		
-			<item>
-				<title>Pokemon Go can't move the dial for Nintendo</title>
-				<description>&lt;p&gt;Nintendo&#39;s shares have soared in the last month since Pokemon Go was released.
-On July 7th, Nintendo was valued at ~15 000 JPY per share, and as
-of July 19th, Nintendo&#39;s shares were trading at ~32 000 JPY per share- a
-100% increase in less than two weeks.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;../images/TYO.jpg&quot; alt=&quot;Line chart of Nintendo stock price&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Nintendo released a &lt;a href=&quot;https://www.nintendo.co.jp/ir/pdf/2016/160722e.pdf&quot;&gt;statement&lt;/a&gt;
-after the close of trading on Friday, July 22nd, noting that Nintendo owns 32%
-of The Pokemon Company, which will receive a licensing fee from Niantic, the
-company that owns Pokemon Go.&lt;/p&gt;
-
-&lt;p&gt;As a result, Nintendo&#39;s max revenue from Pokemon Go is:&lt;/p&gt;
-
-&lt;p&gt;Pokemon Go Revenue * (1 - share taken by Apple/Google) * (Share of Niantic&#39;s
-revenue going to The Pokemon Company) * Share of Pokemon Co. owned by Nintendo&lt;/p&gt;
-
-&lt;p&gt;Which is roughly&lt;/p&gt;
-
-&lt;p&gt;Pokemon Go Revenue * 0.7 * X * 0.32 = Pokemon Go Revenue * 0.2 * X,&lt;/p&gt;
-
-&lt;p&gt;where X is the share of Niantic&#39;s revenue going to The Pokemon Company. Let&#39;s
-assume that Niantic has extremely low costs, so that all of the revenue from
-Pokemon Go is pure profit &lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;, and let&#39;s assume that The Pokemon Company owns
-half of Niantic, which is a pretty optimistic estimate of The Pokemon Company&#39;s
-share. I&#39;d be surprised if The Pokemon Company owned even 25% of Niantic.&lt;/p&gt;
-
-&lt;p&gt;With that assumption, Nintendo has a claim to 10% of Pokemon Go&#39;s revenues,
-which means that even if Pokemon Go makes $1 billion annually, Nintendo will
-receive an additional $100 million annually. Given Nintendo&#39;s historical P/E
-ratio of 80 (which is, in my opinion, is very high), that means that as a hard
-upper limit, Pokemon Go could add $8 billion to Nintendo&#39;s market cap— a 20%
-increase.&lt;/p&gt;
-
-&lt;p&gt;For context, Nintendo&#39;s share price has doubled.&lt;/p&gt;
-
-&lt;p&gt;Keep in mind that this assumption is based on Pokemon Go earning $1 billion
-annually. That&#39;s a lot of lures. If Pokemon go is only making (&quot;only&quot;) $1
-million per day, for annual revenue of $360 million, Nintendo&#39;s share price
-would increase by ~3 billion, which is an 8% increase. That&#39;s great,
-particularly for a large corporation like Nintendo, but nowhere near the level
-that the share price is at currently. So traders have a lot of correcting to do.&lt;/p&gt;
-
-&lt;div class=&quot;footnotes&quot;&gt;
-  &lt;ol&gt;
-    &lt;li id=&quot;fn:1&quot;&gt;
-      &lt;p&gt;That&#39;s actually not as insane of an assumption to make as one might think.
-Most of Niantic&#39;s costs come from paying salaries, which is a sunk cost, and a
-lot of the development work for Pokemon Go was done already for Ingress, so
-Niantic was able to produce Pokemon Go for less money than it would have taken
-for, say, Nintendo to build Pokemon Go from scratch. &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-  &lt;/ol&gt;
-&lt;/div&gt;
-</description>
-				<pubDate>Mon, 25 Jul 2016 00:00:00 -0600</pubDate>
-				<link>http://finbarr.ca/Pokemon-Go/</link>
-				<guid isPermaLink="true">http://finbarr.ca/Pokemon-Go/</guid>
-			</item>
-		
-			<item>
-				<title>Follow-up on Brexit</title>
-				<description>&lt;p&gt;I&#39;ve had a few requests for more resources on Brexit, specifically, for
-references in the academic literature that addresses the economic impact of
-Britain leaving the EU.&lt;/p&gt;
-
-&lt;p&gt;Specific to Brexit, there&#39;s a bunch of great work done by the CEPR, which is
-less technical but is a good overview for non-economists &lt;a href=&quot;http://voxeu.org/taxonomy/term/5467&quot;&gt;5&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Slightly more technical articles by the CEP, which is LSE&#39;s policy branch:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&quot;What would be the economic effects of the UK leaving the European Union on living standards of British people?&quot; &lt;a href=&quot;http://cep.lse.ac.uk/pubs/download/pa016_tech.pdf&quot;&gt;1&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&quot;The consequences of Brexit for UK trade and living standards&quot; &lt;a href=&quot;http://cep.lse.ac.uk/pubs/download/brexit02.pdf&quot;&gt;2&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&quot;Life after BREXIT: What are the UK’s options outside the European Union?&quot; &lt;a href=&quot;http://cep.lse.ac.uk/pubs/download/brexit01.pdf&quot;&gt;3&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;A lot of the underlying economic analysis is based on the trade literature, as
- Brexit can be modelled as the opposite of signing a free trade agreement. So
- there&#39;s work like &lt;a href=&quot;http://cep.lse.ac.uk/pubs/download/dp1261.pdf&quot;&gt;4&lt;/a&gt; that estimates the impact of that, which can be reversed
- to estimate the impacts of Brexit.&lt;/p&gt;
-
-&lt;p&gt;If you represent a business/government that requires more extensive advice on
-Brexit, or would like more detailed estimates on the economic impacts of Brexit
-or similar economic events, please get in touch with me at
-&lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#102;&amp;#105;&amp;#110;&amp;#098;&amp;#097;&amp;#114;&amp;#114;&amp;#064;&amp;#100;&amp;#097;&amp;#114;&amp;#107;&amp;#104;&amp;#111;&amp;#114;&amp;#115;&amp;#101;&amp;#097;&amp;#110;&amp;#097;&amp;#108;&amp;#121;&amp;#116;&amp;#105;&amp;#099;&amp;#115;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&quot;&gt;&amp;#102;&amp;#105;&amp;#110;&amp;#098;&amp;#097;&amp;#114;&amp;#114;&amp;#064;&amp;#100;&amp;#097;&amp;#114;&amp;#107;&amp;#104;&amp;#111;&amp;#114;&amp;#115;&amp;#101;&amp;#097;&amp;#110;&amp;#097;&amp;#108;&amp;#121;&amp;#116;&amp;#105;&amp;#099;&amp;#115;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&lt;/a&gt;.&lt;/p&gt;
-
-</description>
-				<pubDate>Mon, 18 Jul 2016 00:00:00 -0600</pubDate>
-				<link>http://finbarr.ca/Brexit-followup/</link>
-				<guid isPermaLink="true">http://finbarr.ca/Brexit-followup/</guid>
-			</item>
-		
-			<item>
-				<title>What benefit is there for Tesla Motors and SolarCity to merge?</title>
-				<description>&lt;p&gt;There are two main benefits:&lt;/p&gt;
-
-&lt;p&gt;1) Tesla &amp;amp; SolarCity have a weird financial structure that&#39;s putting Elon Musk
-under personal financial pressure. My understanding is that Tesla has a lot of
-money, while SolarCity does not, so this helps Musk personally.&lt;/p&gt;
-
-&lt;p&gt;2) Synergy. One of the major requirements for mass adoption of solar technology
-at home is that batteries be good, and cheap. Tesla has great battery tech, so
-this lets the firms work together. There are also similar advantages in admin
-staff, particularly for financial reporting, etc.&lt;/p&gt;
-
-&lt;p&gt;If you would like more detailed analysis of either company, please get in touch
-with me at
-&lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#102;&amp;#105;&amp;#110;&amp;#098;&amp;#097;&amp;#114;&amp;#114;&amp;#064;&amp;#100;&amp;#097;&amp;#114;&amp;#107;&amp;#104;&amp;#111;&amp;#114;&amp;#115;&amp;#101;&amp;#097;&amp;#110;&amp;#097;&amp;#108;&amp;#121;&amp;#116;&amp;#105;&amp;#099;&amp;#115;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&quot;&gt;&amp;#102;&amp;#105;&amp;#110;&amp;#098;&amp;#097;&amp;#114;&amp;#114;&amp;#064;&amp;#100;&amp;#097;&amp;#114;&amp;#107;&amp;#104;&amp;#111;&amp;#114;&amp;#115;&amp;#101;&amp;#097;&amp;#110;&amp;#097;&amp;#108;&amp;#121;&amp;#116;&amp;#105;&amp;#099;&amp;#115;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&lt;/a&gt;.&lt;/p&gt;
-</description>
-				<pubDate>Mon, 27 Jun 2016 00:00:00 -0600</pubDate>
-				<link>http://finbarr.ca/Why-would-Tesla-and-Solar-City-merge/</link>
-				<guid isPermaLink="true">http://finbarr.ca/Why-would-Tesla-and-Solar-City-merge/</guid>
-			</item>
-		
-			<item>
-				<title>How will Brexit affect Alberta & Canada?</title>
-				<description>&lt;p&gt;On Thursday night, Britain voted to leave the EU. The vote was called Brexit.
-In light of Brexit, Canadian &amp;amp; Alberta business owners/executives are wondering
-what effects Brexit will have on their businesses. In this article, I provide an
-overview of what business people in Canada can expect to happen.&lt;/p&gt;
-
-&lt;p&gt;Brexit will have two direct effects for Canadians to worry about:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;As the referendum is a nonbinding vote and has no direct effect other than to
-demonstrate the political will of the British people, the immediate effect
-of the vote will be to create immense instability. Markets are spooked
-as it is unclear what will happen to Britain during negotiations, as
-European countries have expressed their interest in punishing Britain so as
-to provide a disincentive to other countries that seek to leave the European
-Union.&lt;/li&gt;
-  &lt;li&gt;Once Brexit occurs, Britain will almost certainly trade less with the EU,
-and correspondingly, trade more with other countries, such as Canada, which
-is currently Britain&#39;s 3rd largest non-EU trading partner. If the pound
-continues to devalue, as is likely, then British exports should soar. 
-Consequently, if there are Canadian companies looking to purchase goods &amp;amp;
-services from British companies, now is an excellent time to do so. British
-executives will be looking to reassure their shareholders/employees that
-their companies are well prepared to weather the upcoming negotiations, and
-will welcome the opportunity to secure non-EU contracts.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/CAD-GBP.png&quot; alt=&quot;Exchange rate between CAD and GBP, for the month prior to June 26th. Credit: http://www.xe.com/.&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;What should Canadian companies do?&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Remain calm. Britain will be okay, although it will likely struggle
-internally (the continued decline of small towns in Britain is likely to
-continue). Estimates of the impact on GDP range from &lt;a href=&quot;http://cep.lse.ac.uk/pubs/download/EA022.pdf&quot;&gt;3.1%&lt;/a&gt; to &lt;a href=&quot;http://cep.lse.ac.uk/pubs/download/brexit02.pdf&quot;&gt;9.5%&lt;/a&gt;, which
-although bad, are not catastrophic. Britain will still have one of the
-world&#39;s ten largest economies.&lt;/li&gt;
-  &lt;li&gt;If acquisitions of British talent/property/assets have been planned, now is
-an excellent time to continue. The current devaluation of the British pound
-represents a buying opportunity— up to a 10% discount over what assets
-would have been priced at last week. The tech sector in London, called the
-Silicon Roundabout, is reeling as many of the clients are from Europe. Smart
-Canadian companies can exploit this to secure valuable talent. Google has
-done this, with much of the team behind their recent Go playing AI coming
-from DeepMind, a British AI startup.&lt;/li&gt;
-  &lt;li&gt;Seek to strengthen trade ties with Britain.  Companies will be struggling
-with the uncertainty, and will welcome the opportunity to reassure their
-shareholders and employees that everything is business as usual.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;If you represent a business/government that requires more extensive advice on
-Brexit, or would like more detailed estimates on the economic impacts of Brexit
-or similar economic events, please get in touch with me at
-&lt;a href=&quot;&amp;#109;&amp;#097;&amp;#105;&amp;#108;&amp;#116;&amp;#111;:&amp;#102;&amp;#105;&amp;#110;&amp;#098;&amp;#097;&amp;#114;&amp;#114;&amp;#064;&amp;#100;&amp;#097;&amp;#114;&amp;#107;&amp;#104;&amp;#111;&amp;#114;&amp;#115;&amp;#101;&amp;#097;&amp;#110;&amp;#097;&amp;#108;&amp;#121;&amp;#116;&amp;#105;&amp;#099;&amp;#115;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&quot;&gt;&amp;#102;&amp;#105;&amp;#110;&amp;#098;&amp;#097;&amp;#114;&amp;#114;&amp;#064;&amp;#100;&amp;#097;&amp;#114;&amp;#107;&amp;#104;&amp;#111;&amp;#114;&amp;#115;&amp;#101;&amp;#097;&amp;#110;&amp;#097;&amp;#108;&amp;#121;&amp;#116;&amp;#105;&amp;#099;&amp;#115;&amp;#046;&amp;#099;&amp;#111;&amp;#109;&lt;/a&gt;.&lt;/p&gt;
-
-</description>
-				<pubDate>Sun, 26 Jun 2016 00:00:00 -0600</pubDate>
-				<link>http://finbarr.ca/Brexit/</link>
-				<guid isPermaLink="true">http://finbarr.ca/Brexit/</guid>
+				<link>http://finbarr.ca/xgboost/</link>
+				<guid isPermaLink="true">http://finbarr.ca/xgboost/</guid>
 			</item>
 		
 			<item>
@@ -414,6 +313,203 @@ improve the efficiency of my coding.&lt;/p&gt;
 				<pubDate>Sat, 15 Aug 2015 00:00:00 -0600</pubDate>
 				<link>http://finbarr.ca/excellent-description-of-hashtables/</link>
 				<guid isPermaLink="true">http://finbarr.ca/excellent-description-of-hashtables/</guid>
+			</item>
+		
+			<item>
+				<title>Full example for using JSONcpp on Unix</title>
+				<description>&lt;p&gt;I&#39;ve been trying to parse JSON files with C++, and I&#39;ve found a distinct lack of
+full examples on how to do so. Specifically, I&#39;ve struggled to find the proper
+commands to actually compile the code. For future reference (and to help any
+beginners out), here&#39;s a full example of how to use &lt;a href=&quot;https://github.com/open-source-parsers/jsoncpp&quot; title=&quot;JSONcpp on github&quot;&gt;JSONcpp&lt;/a&gt; in your code (N.B. You&#39;re supposed to enter all of the following code in your terminal).&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Download the source from github. In the directory that you want to install the source code into, enter&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; git clone https://github.com/open-source-parsers/jsoncpp
+ cd jsoncpp
+&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Create the makefiles. For this step, you must have cmake installed; if it is not installed, you can install it with your system package manager. &lt;a href=&quot;On OS X, I use Homebrew, and on (e.g.) Ubuntu, the package manager is apt-get. On OS X, you would enter `brew install cmake` to install cmake, while on Ubuntu, you would run `apt-get install cmake`.&quot;&gt;1&lt;/a&gt; From jsoncpp/, run&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; mkdir -p build/debug
+ cd build/debug
+ cmake -DCMAKE_BUILD_TYPE=debug -DJSONCPP_LIB_BUILD_SHARED=OFF -G &quot;Unix Makefiles&quot; ../../../jsoncpp
+ make
+ cd ../..
+&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Enter &lt;code class=&quot;highlighter-rouge&quot;&gt;pwd&lt;/code&gt; and make a note of the output. Now, go to the folder containing the code in which you want to use JSONcpp in. Create a new file called &quot;main.cpp&quot; and enter the following code (taken from Stack Overflow):&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; #include &amp;lt;fstream&amp;gt;
+ #include &amp;lt;iostream&amp;gt;
+
+ #include &quot;json/json.h&quot;
+
+ int main() {
+     Json::Value root;
+     std::ifstream file(&quot;test.json&quot;);
+     file &amp;gt;&amp;gt; root;
+     std::cout &amp;lt;&amp;lt; root;
+ }
+&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+
+    &lt;p&gt;Create another file called &quot;test.json&quot; with the json content you want to read; I used&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+     &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;stocks&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+         &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;symbol&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;AAPL&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+          &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;amount&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;1.03213&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+          &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;last_price&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;1.20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+         &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;symbol&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;MSFT&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+          &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;amount&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;2.31039&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+         &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;symbol&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;F&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+          &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;amount&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.543589&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+          &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Compile the code using a &quot;Makefile.&quot; Using your favourite text editor, create a file called &quot;Makefile&quot; and enter the following code (replacing &lt;code class=&quot;highlighter-rouge&quot;&gt;JSONCPPPATH&lt;/code&gt; with the results from running &lt;code class=&quot;highlighter-rouge&quot;&gt;pwd&lt;/code&gt; earlier; mine looks like &lt;code class=&quot;highlighter-rouge&quot;&gt;/Users/ft/Source/jsoncpp/&lt;/code&gt;):&lt;/p&gt;
+
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; CXX = g++
+ LDFLAGS = -LJSONCPPPATH/build/depug/src/lib_json -ljsoncpp
+ INC = -IJSONCPPPATH/include
+
+ main: main.cpp
+     $(CXX) -o main $(LDFLAGS) $(INC) main.cpp
+&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+
+    &lt;p&gt;IMPORTANT: you have to indent the &lt;code class=&quot;highlighter-rouge&quot;&gt;$(CXX) -o main...&lt;/code&gt; line with 1 TAB and not 4 SPACES or it won&#39;t work. GNU Make requires a tab for indentation.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Now, compile the code by running &lt;code class=&quot;highlighter-rouge&quot;&gt;make main&lt;/code&gt;. You should now be able to run the code by entering &lt;code class=&quot;highlighter-rouge&quot;&gt;./main&lt;/code&gt;. It will print the contents of your &lt;code class=&quot;highlighter-rouge&quot;&gt;test.json&lt;/code&gt; file to your terminal.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+</description>
+				<pubDate>Sat, 06 Sep 2014 00:00:00 -0600</pubDate>
+				<link>http://finbarr.ca/jsoncpp-example/</link>
+				<guid isPermaLink="true">http://finbarr.ca/jsoncpp-example/</guid>
+			</item>
+		
+			<item>
+				<title>ARIMA, ARMA, what's the difference?</title>
+				<description>&lt;p&gt;I&#39;m working through &lt;a href=&quot;[1]&quot;&gt;TSA&lt;/a&gt;, and I noticed that some of my classmates are struggling to understand the difference between an ARIMA process, an AR process, and a MA process, not to mention seasonal version of the above.&lt;/p&gt;
+
+&lt;p&gt;Using &lt;script type=&quot;math/tex&quot;&gt;B&lt;/script&gt; as the lag operator, i.e. &lt;script type=&quot;math/tex&quot;&gt;BX_t = X_{t-1}&lt;/script&gt;, an &lt;em&gt;ARIMA(p, d, q) process&lt;/em&gt; is a discrete time stochastic process of the form&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\phi(B) (1 - B)^d X_t = \theta(B)w_t,&lt;/script&gt;
+
+&lt;p&gt;where &lt;script type=&quot;math/tex&quot;&gt;\phi&lt;/script&gt; is a polynomial of degree &lt;em&gt;p&lt;/em&gt;, and &lt;script type=&quot;math/tex&quot;&gt;\theta&lt;/script&gt; is a polynomial of degree &lt;em&gt;q&lt;/em&gt;. An &lt;em&gt;AR(p)&lt;/em&gt; process is an ARIMA(&lt;em&gt;p, 0, 0&lt;/em&gt;) process, and a MA(&lt;em&gt;q&lt;/em&gt;) process is an ARIMA(&lt;em&gt;0, 0, q&lt;/em&gt;) process. To make life even more complicated, we introduce the notion of seasonality:&lt;/p&gt;
+
+&lt;p&gt;An ARIMA&lt;script type=&quot;math/tex&quot;&gt;(p, d, q) \times (P, D, Q)_s&lt;/script&gt; model is a s.p. of the form&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\Phi(B^s) \phi(B) (1 - B^s)^D (1 - B)^d X_t = \Theta(B^s)\theta(B)w_t,&lt;/script&gt;
+
+&lt;p&gt;where &lt;script type=&quot;math/tex&quot;&gt;\Phi(B)&lt;/script&gt; is a polynomial of degree &lt;script type=&quot;math/tex&quot;&gt;P&lt;/script&gt;, and &lt;script type=&quot;math/tex&quot;&gt;\Theta(B)&lt;/script&gt; is a polynomial of degree &lt;script type=&quot;math/tex&quot;&gt;Q&lt;/script&gt;.&lt;/p&gt;
+
+&lt;h4 id=&quot;example&quot;&gt;Example&lt;/h4&gt;
+
+&lt;p&gt;Suppose we have the stochastic process&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;X_t = \frac 1 2 X_{t-1} + X_{t-4} - \frac 1 2 X_{t-5} + w_t - \frac 1 4 w_{t-4}.&lt;/script&gt;
+
+&lt;p&gt;How can we write this as an ARIMA&lt;script type=&quot;math/tex&quot;&gt;(p, d, q) \times (P, D, Q)_s&lt;/script&gt; model? Note that&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;(1 - B^4) X_t = \frac 1 2 X_{t-1} - \frac 1 2 X_{t-5} + w_t - \frac 1 4 w_{t-4}.&lt;/script&gt;
+
+&lt;p&gt;We can rewrite this as&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;(1 - B^4) X_t - \frac{1}{2} B (1 - B^4)X_t = (1 - \frac 1 4 B^4) w_t,&lt;/script&gt;
+
+&lt;p&gt;or, more concisely,&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;(1 - B^4) (1 - \frac 1 2 B) X_t = (1 - \frac 1 4 B^4) w_t.&lt;/script&gt;
+
+&lt;p&gt;Consequently, we can see that &lt;script type=&quot;math/tex&quot;&gt;X_t&lt;/script&gt; is an ARIMA&lt;script type=&quot;math/tex&quot;&gt;(1, 0, 0) \times (0, 1, 1)_4&lt;/script&gt; process.&lt;/p&gt;
+
+</description>
+				<pubDate>Mon, 21 Apr 2014 00:00:00 -0600</pubDate>
+				<link>http://finbarr.ca/arima-arma-what/</link>
+				<guid isPermaLink="true">http://finbarr.ca/arima-arma-what/</guid>
+			</item>
+		
+			<item>
+				<title>Solving Partial Autocorrelation Functions</title>
+				<description>&lt;p&gt;I&#39;ve been studying time series through &lt;a href=&quot;http://www.stat.pitt.edu/stoffer/tsa3/&quot;&gt;TSA&lt;/a&gt;. The book presents a structured
+approach to time series analysis, and covers the material fairly well; I was
+impressed with the description of what a partial autocorrelation function (PACF)
+is, as the book explained it more intuitively than the lecture notes did. I did
+find the description of how to actually solve for the PACF a bit confusing, so I
+wrote my own explanation.&lt;/p&gt;
+
+&lt;h2 id=&quot;partial-autocorrelation-functions&quot;&gt;Partial Autocorrelation Functions&lt;/h2&gt;
+
+&lt;p&gt;What are PACFs, and why would one want to use one? As explained in TSA, the PACF
+is useful as it provides an analog to the autocorrelation function, or ACF, but
+for autoregressive processes. The ACF is particularly useful as for an &lt;script type=&quot;math/tex&quot;&gt;MA(q)&lt;/script&gt;, the autocorrelation function &lt;script type=&quot;math/tex&quot;&gt;\gamma(m)&lt;/script&gt; has the nice property that&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{align*} \gamma(m) = 0 \text{ for } m &gt; q.  \end{align*}&lt;/script&gt;
+
+&lt;p&gt;Consequently, by plotting the ACF (as can be done
+&lt;a href=&quot;http://bl.ocks.org/timbers/9318155&quot;&gt;easily&lt;/a&gt; in R), we can detect the order of
+the &lt;script type=&quot;math/tex&quot;&gt;MA(q)&lt;/script&gt; process.&lt;/p&gt;
+
+&lt;p&gt;The property fails for the ACF of an &lt;script type=&quot;math/tex&quot;&gt;AR(p)&lt;/script&gt; process. However, the PACF is
+here to step in and save the day. With the PACF defined as&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{align*} \phi_{mm} := \alpha^{\star}_{m, m}, \end{align*}&lt;/script&gt;
+
+&lt;p&gt;where the &lt;script type=&quot;math/tex&quot;&gt;\alpha^{\star}_{j, k}&lt;/script&gt; are defined as&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{align*} \alpha_{1, m}, \cdots, \alpha_{m, m} = \text{argmin} E(X_{t} -
+\alpha_{1, m} X_{t-1} - \cdots - \alpha_{m, m} X_{t-m})^2.  \end{align*}&lt;/script&gt;
+
+&lt;p&gt;Then, the PACF exhibits the property that for an &lt;script type=&quot;math/tex&quot;&gt;AR(p)&lt;/script&gt; process, &lt;script type=&quot;math/tex&quot;&gt;\phi_{pp} = \phi_{p}&lt;/script&gt;, and &lt;script type=&quot;math/tex&quot;&gt;\phi_{mm} = 0&lt;/script&gt; for &lt;script type=&quot;math/tex&quot;&gt;m &gt; p&lt;/script&gt;; consequently, by
+calculating the PACF of a process, we can easily detect the order of it if it is
+autoregressive.&lt;/p&gt;
+
+&lt;h2 id=&quot;example-1&quot;&gt;Example 1&lt;/h2&gt;
+
+&lt;p&gt;Suppose we have the process&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{align*} X_{t} = \phi_1 X_{t-1} + \phi_2 X_{t-2} + w_t, \end{align*}&lt;/script&gt;
+
+&lt;p&gt;where &lt;script type=&quot;math/tex&quot;&gt;w_t&lt;/script&gt; is a sequence of uncorrelated variables with zero mean and
+constant variance. What is the PACF for this process? As the AR polynomial &lt;script type=&quot;math/tex&quot;&gt;\phi(B)&lt;/script&gt; has no roots with &lt;script type=&quot;math/tex&quot;&gt;|B| \leq 1,&lt;/script&gt; &lt;script type=&quot;math/tex&quot;&gt;X_{t}&lt;/script&gt; is a weakly stationary
+process; consequently, we know that &lt;script type=&quot;math/tex&quot;&gt;\phi_{22} = \phi_2, \phi_{mm} = 0&lt;/script&gt; for
+&lt;script type=&quot;math/tex&quot;&gt;m &gt; p&lt;/script&gt;. Consequently, we only need to figure out &lt;script type=&quot;math/tex&quot;&gt;\phi_{11}&lt;/script&gt;. To find it,
+we must solve&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{align*} \text{argmin} E(X_{t} - \phi_{11} X_{t-1})^2\\ \end{align*}&lt;/script&gt;
+
+&lt;p&gt;To do so, we take the derivative with respect to &lt;script type=&quot;math/tex&quot;&gt;\phi_{11}&lt;/script&gt; and set it
+equal to zero:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{align*} &amp;E[-2X_{t-1}(X_{t} - \phi_{11} X_{t-1})] = 0 \\ \iff &amp;-2
+\gamma(1) + 2 \phi_{11} \gamma(0) = 0 \\ \iff &amp; \phi_{11} = \rho(1) \end{align*} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;Now, we need to solve for &lt;script type=&quot;math/tex&quot;&gt;\rho&lt;/script&gt; in terms of &lt;script type=&quot;math/tex&quot;&gt;\phi_{1}, \phi_{2}&lt;/script&gt;. To do
+this, we exploit the Yule-Walker equations:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{align*} \gamma(1) - \phi_{1} \gamma(0) - \phi_{2} \gamma(1) &amp;= 0\\
+\rho(1) &amp;= \phi_{1} + \phi_{2} \rho(1) \\ \longrightarrow \phi_{11} = \rho(1) &amp;=
+\frac{ \phi_{1} }{ 1 - \phi_{2} } \end{align*} %]]&gt;&lt;/script&gt;
+
+</description>
+				<pubDate>Mon, 03 Mar 2014 00:00:00 -0700</pubDate>
+				<link>http://finbarr.ca/solving-pacf/</link>
+				<guid isPermaLink="true">http://finbarr.ca/solving-pacf/</guid>
 			</item>
 		
 	</channel>

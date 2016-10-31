@@ -286,3 +286,7 @@ p.feature-image img {
         padding: 0 2em;
     }
 }
+
+.MathJax_Display {
+    font-size: 2em;
+}
