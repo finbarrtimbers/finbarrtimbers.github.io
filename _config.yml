@@ -11,9 +11,7 @@ author_bio: "Analyst at [Darkhorse Analytics](http://www.dha.io)"
 projects:
  - name: Bug Deduplication
    url: /dedup/
-   description: |
-                | A system that automatically detects duplicate bug reports in
-                | OSS projects. Turned into two papers, one [published](http://papersdb.cs.ualberta.ca/~papersdb/view_publication.php?pub_id=1125), one forthcoming.
+   description: "A system that automatically detects duplicate bug reports."
 
 # Talks
 talks:
@@ -30,23 +28,17 @@ jobs:
   - employer: Darkhorse Analytics
     url: http://dha.io
     title: "Analyst"
-    description: |
-                 | Analyst working on statistical projects. Work focuses on
-                 | coming up with novel methods of forecasting for
-                 | clients. Heavy Python usage.
+    description: "Statistical consultant. Modelling novel problems for clients."
 
   - employer: Legislative Assembly Office
     url: http://www.assembly.ab.ca/
     title: Policy & Research Analyst
-    description: Financial policy researcher for opposition party.
+    description: "Financial policy researcher."
 
   - employer: University of Alberta
     url: http://www.ualberta.ca/~cfrei
     title: Research Assistant
-    description: |
-                 | Under Dr. Christoph Frei's supervision, I worked on modelling
-                 | the prisoner's dilemma in continuous time, a problem from
-                 | game theory.
+    description: "Studied the prisoner's dilemma in continuous time."
 
 # education
 degrees:
