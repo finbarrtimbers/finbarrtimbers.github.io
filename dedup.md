@@ -1,5 +1,5 @@
 ---
-layout: page 
+layout: page
 title: Bug report deduplication
 permalink: /dedup/
 ---
@@ -34,14 +34,14 @@ We have an extension to our first paper currently under consideration for
 publication. The extension shows that general software engineering features
 (features based on the similarity to extremely general textbooks and
 documentation) can be used to predict a large number of the duplicate reports
-while being easily used across projects. 
+while being easily used across projects.
 
 ## Code
 
 Our code is on [Github](https://github.com/timbers/dedup). It is currently
 messy, and I am in the process of making it more presentable.
 
-## Bibliography
+## References
 
 [Anahita Alipour. A contextual approach towards more accurate duplicate bug report detection. Master’s thesis, University of Alberta, Fall 2013.](http://webdocs.cs.ualberta.ca/~hindle1/2014/anahita-alipour-thesis.pdf)
 
