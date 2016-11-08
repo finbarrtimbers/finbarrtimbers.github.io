@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Reading recommendations
+title: Programming books you might want to consider reading
 permalink: /reading/
 ---
 

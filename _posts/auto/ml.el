@@ -2,6 +2,7 @@
  "ml"
  (lambda ()
    (LaTeX-add-bibitems
-    "rusu16"))
+    "rusu16"
+    "zeiler2014"))
  :bibtex)
 

@@ -1,9 +1,5 @@
----
-layout: post
-title: Alberta after oil
-tags: politics Alberta
----
-
+clf = GridSearchCV(SVC(C=1), tuned_parameters, cv=5,
+                       scoring='%s_macro' % score)
 The Albertan economy lives and dies on the price of oil. That's problematic. Oil revenues are highly volatile, and don't conform to forecasts, as Robin Campbell is currently finding out. Problematic as this is, it's a problem that's familiar to one despicable breed of person- economists. A central problem of public economics is dealing with cyclical trends. As recent budgetary issues have shown, Alberta desperately needs to enact acyclical measures to flatten out the boom/bust cycle. The best way to do this is to create alternate sources of revenue that aren't tied to the price of oil.
 
 The best way to do so? Increase spending on post-secondary education. However, the government shouldn't do so blindly. Alberta does not need more humanities grads, or more fine arts grads, or even more economics grads (as handsome, intelligent, and well spoken as we are). Alberta needs more people educated in the trades, in the hard sciences, and in business.

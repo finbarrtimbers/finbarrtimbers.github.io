@@ -45,9 +45,8 @@ determined by $$B$$. Thus, by reducing the number of iterations needed, the
 model can achieve smaller image sizes..
 
 The encoder and decoder are RNNs, with two convolutional kernels. The authors
-explored a number of different types of RNNs^[LSTMs, associative LSTMs, GRUs.],
-and a number of different reconstruction frameworks^[One-shot reconstruction,
-additive reconstruction, and residual scaling.]
+explored a number of different types of RNNs,
+and a number of different reconstruction frameworks
 
 The authors used two sets of training data:
 
