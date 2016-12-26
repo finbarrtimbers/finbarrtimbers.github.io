@@ -1,0 +1,10 @@
+---
+layout: page
+title: Calendar
+permalink: /calendar/
+---
+
+<iframe
+src="https://calendar.google.com/calendar/embed?src=finbarrtimbers%40gmail.com&ctz=America/Edmonton"
+style="border: 0" width="800" height="600" frameborder="0"
+scrolling="no"></iframe>

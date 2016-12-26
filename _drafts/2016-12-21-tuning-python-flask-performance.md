@@ -4,7 +4,15 @@ title: Tuning Python Flask performance
 tags: python flask performance
 ---
 
-I am having speed issues with my Python Flask application. I integrated the
+I am having speed issues with my Python Flask application. I began by making a
+few, simple changes to confirm with best practices:
+
+1. I moved as many scripts as possible from CDNs to being hosted locally.
+2. I minified all of my scripts & HTML.
+3. I set Nginx to gzip every response.
+
+
+I integrated the
 Werkzeug profiler as so:
 
 I then used [gprof2dot](https://github.com/jrfonseca/gprof2dot) to convert the
