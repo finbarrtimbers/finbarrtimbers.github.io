@@ -4,6 +4,10 @@ title: Programming books you might want to consider reading
 permalink: /reading/
 ---
 
+Book lists I like:
+
+- [Patrick Collison](http://www.patrickcollison.com/bookshelf)
+
 # Articles
 ## Hiring
 - http://www.asktheheadhunter.com/halethalrep.htm
