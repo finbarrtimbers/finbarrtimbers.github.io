@@ -79,3 +79,13 @@ reasonably confident that changing my DNS servers didn't affect the
 The calls to `read` are coming largely from `get_user_info`, my function
 that returns the user's custom data from Stormpath. I'm going to try to have
 that call the user less.
+
+I now download the Stripe Plan object as a dictionary, and store it in
+`.pkl` format locally. I then read it in when necessary. This is effectively
+free (tests had it taking <0.0001s). In production, I'll move this to using
+a cache. I'll want to do the same thing in a few places:
+
+1. The `repositories` object
+2. The `issues_count` object
+
+I can look at using something like `memcache`.
