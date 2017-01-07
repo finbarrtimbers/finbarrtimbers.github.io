@@ -4,7 +4,10 @@ title: Tuning Python Flask performance
 tags: python flask performance
 ---
 
-I am having speed issues with my Python Flask application. I began by making a
+I am having speed issues with my Python Flask application. I currently have
+9.9s request times; I want request times <1s.
+
+I began by making a
 few, simple changes to confirm with best practices:
 
 1. I moved as many scripts as possible from CDNs to being hosted locally.
@@ -18,7 +21,7 @@ Werkzeug profiler as so:
 I then used [gprof2dot](https://github.com/jrfonseca/gprof2dot) to convert the
 profiler outputs into a graph visualization, which is much easier to understand:
 
-![](images/python_flask_call_graph.png)
+![](images/python_flask_call_graph_v1.png)
 
 Looking at the graph, my performance hits are happening in a few places:
 
@@ -53,3 +56,26 @@ instructions for each byte that it does look at."
 
 As such, my first job will be to check if I can just not call the
 `_socket.getaddrinfo` function calls.
+
+I did this by changing the DNS settings. The change took N characters, and
+consisted of adding `--dns 8.8.4.4 --dns 8.8.8.8` to my call to Docker to start
+the container. That immediately took my request time down to 3.5s (3552ms).
+
+Now, my call graph looks like this:
+
+![](images/python_flask_call_graph_v2.png)
+
+My bottlenecks, however, appear to be the same:
+
+1. `method 'read' of '_ssl._SSLSocket' objects` (1139x, 37.41%)
+2. `method 'do_handshake' of '_ssl.SSLSocket' objects` (16.32%)
+3. `method 'connect' of '_socket.socket' objects` (6.34%)
+
+These correspond to roughly the same amount of time. 37% of 3.55s is 1.31s,
+while 16% * 9.9s is 1.58s, roughly equivalent. As a result, I can feel
+reasonably confident that changing my DNS servers didn't affect the
+`_ssl.SSLSocket` calls.
+
+The calls to `read` are coming largely from `get_user_info`, my function
+that returns the user's custom data from Stormpath. I'm going to try to have
+that call the user less.
