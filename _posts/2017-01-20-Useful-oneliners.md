@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Useful One-liners
+title: Useful Bash One-liners
 tags: bash
 ---
 
