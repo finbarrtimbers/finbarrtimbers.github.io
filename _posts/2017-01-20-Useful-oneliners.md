@@ -4,7 +4,7 @@ title: Useful Bash One-liners
 tags: bash
 ---
 
-The following are a handful of oneliners that I've found consistently useful.
+The following are a handful of oneliners that I've consistently found useful.
 I found most of them elsewhere online; I wrote very few of these.
 
 ## Download a page and all linked pages/documents:
@@ -39,6 +39,7 @@ where the smaller the %, the closer to true white or conversely, the larger the
 
 ## Diff contents of two folders
 
-Checks which files are different
+Checks which files are different between the folders `dir1` and `dir2`. I've
+used this more times than I'd care to admit.
 
 `diff -qr dir1 dir2`
