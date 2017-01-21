@@ -4,6 +4,10 @@ title: Programming books you might want to consider reading
 permalink: /reading/
 ---
 
+Book lists I like:
+
+- [Patrick Collison](http://www.patrickcollison.com/bookshelf)
+
 # Articles
 ## Hiring
 - http://www.asktheheadhunter.com/halethalrep.htm
@@ -67,3 +71,6 @@ This is the second edition of The Visual Display of Quantitative Information. Re
 - [The Everything Store](https://www.amazon.ca/Everything-Store-Jeff-Bezos-Amazon-ebook/dp/B00BWQW73E): The story of Jeff Bezos (and, incidentally, Amazon.com).
   Amazon is, arguably, the most important technology company in the world. This
   book describes the company's rise to fame.
+- [In the Plex](https://www.amazon.ca/Plex-Google-Thinks-Works-Shapes/dp/1455875724):
+  The story of Google. Describes how GOogle thinks & operates, and how they
+  rose to be one of the world's most valuable companies.

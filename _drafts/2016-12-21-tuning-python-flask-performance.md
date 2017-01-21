@@ -57,6 +57,9 @@ instructions for each byte that it does look at."
 As such, my first job will be to check if I can just not call the
 `_socket.getaddrinfo` function calls.
 
+Turns out I can't, at least without killing one of my two calls to the APIs
+that I use (Stripe's & Stormpath's).
+
 I did this by changing the DNS settings. The change took N characters, and
 consisted of adding `--dns 8.8.4.4 --dns 8.8.8.8` to my call to Docker to start
 the container. That immediately took my request time down to 3.5s (3552ms).
@@ -89,3 +92,43 @@ a cache. I'll want to do the same thing in a few places:
 2. The `issues_count` object
 
 I can look at using something like `memcache`.
+
+I added DNS settings, using Google's nameservers instead of the default:
+
+    docker --dns 8.8.4.4 --dns 8.8.8.8
+
+That took my code from 9.9s to 3.5s, a 64% decrease.
+
+I then modified the `get_user_info` function, which provided all of the info
+needed for every view in one function, into a number of separate functions for
+each view, restricting the number of calls to the `user.custom_data` Stormpath
+API. Streamlining my `get_user_*_info` functions reduced my time significantly,
+taking the time for a call to 1.8s, a 48% decrease.
+
+![](images/python_flask_call_graph_v3.png)
+
+However, this didn't appear to affect the main bottlenecks identified
+previously. My current bottlenecks are, totalling 83.62% (1.5s) of my execution
+time:
+
+1. `method 'read' of '_ssl._SSLSocket' objects` (49.30%, 1131x)
+2. `method 'do_handshake' of '_ssl._SSLSocket' objects` (14.34%, 2x)
+3. `_socket.getaddrinfo` (12.32%, 2x)
+4. `method 'connect' of '_socket.socket' objects` (7.66%, 2x)
+
+Notice that the number of `read` calls barely changed. Moving up the graph,
+there are two main sources of `read` calls:
+
+1. `get_repositories_data`
+2. `user.save`
+
+At a higher level, 97.15% of my time is spent in the `get_user_account_info`
+(70.66%) and `get_plans` (26.49%) functions. As a result, I need to focus my
+attention on those functions.
+
+For `get_user_account_info`, 70.66% of my time equates to approximately 1.27s;
+my next step will be to try to create a test that measures this directly so that
+I can make it a regression test to detect when this is occurring in the future.
+
+When it comes to `get_plans`, 26.49% of my time equates to 0.48s. I'll try to
+do the same here.
