@@ -1,8 +1,10 @@
 ---
 layout: post
-title: BugDedupe writeup
+title: How I designed my machine learning app
 tags: machine learning
 ---
+
+## Introduction
 
 Approximately ten thousand years ago, during undergrad, I made what was probably
 the best decision of my academic career and took
@@ -12,6 +14,8 @@ CS department allow me into the course, as I was missing approximately every
 prerequisite for the class, but convince them I did, and I was introduced to the
 body of techniques known as machine learning. The course required me to complete
 a group project, and my group worked on the problem of bug report deduplication.
+
+## Inspiration
 
 Managing the flood of bug reports that pour in is a problem for any sizable
 software project. Android has some
