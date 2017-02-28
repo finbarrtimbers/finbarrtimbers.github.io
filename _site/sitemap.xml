@@ -3,71 +3,134 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
   <url>
-    <loc>http://finbarr.ca</loc>
-    <lastmod>2016-10-31</lastmod>
+    <loc>http://localhost:4000</loc>
+    <lastmod>2017-02-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
   
   <url>
-    <loc>http://finbarr.ca/image-compression-rnn/</loc>
+    <loc>http://localhost:4000/2016-11-10-SqueezeNet/</loc>
+    <lastmod>2017-02-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://localhost:4000/2016-10-20-representation-learning-overview/</loc>
+    <lastmod>2017-02-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://localhost:4000/Bugdedupe/</loc>
+    <lastmod>2017-02-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://localhost:4000/defense/</loc>
+    <lastmod>2017-02-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://localhost:4000/Useful-oneliners/</loc>
+    <lastmod>2017-01-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://localhost:4000/web-fonts-rmd/</loc>
+    <lastmod>2017-01-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://localhost:4000/minecraft/</loc>
+    <lastmod>2017-01-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://localhost:4000/softwar-academic/</loc>
+    <lastmod>2016-12-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://localhost:4000/ridge-regression-with-cross-validation/</loc>
+    <lastmod>2016-10-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://localhost:4000/image-compression-rnn/</loc>
     <lastmod>2016-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://finbarr.ca/generative-adverserial-networks-and-actor-critics/</loc>
+    <loc>http://localhost:4000/generative-adverserial-networks-and-actor-critics/</loc>
     <lastmod>2016-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://finbarr.ca/Progressive-networks-training-robots/</loc>
+    <loc>http://localhost:4000/Progressive-networks-training-robots/</loc>
     <lastmod>2016-10-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://finbarr.ca/Off-Policy-Reinforcement-Learning/</loc>
+    <loc>http://localhost:4000/Off-Policy-Reinforcement-Learning/</loc>
     <lastmod>2016-10-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://finbarr.ca/xgboost/</loc>
+    <loc>http://localhost:4000/xgboost/</loc>
     <lastmod>2016-09-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://finbarr.ca/excellent-description-of-hashtables/</loc>
+    <loc>http://localhost:4000/excellent-description-of-hashtables/</loc>
     <lastmod>2015-08-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://finbarr.ca/jsoncpp-example/</loc>
+    <loc>http://localhost:4000/jsoncpp-example/</loc>
     <lastmod>2014-09-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://finbarr.ca/arima-arma-what/</loc>
+    <loc>http://localhost:4000/arima-arma-what/</loc>
     <lastmod>2014-04-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://finbarr.ca/solving-pacf/</loc>
+    <loc>http://localhost:4000/solving-pacf/</loc>
     <lastmod>2014-03-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -79,8 +142,8 @@
   
     
       <url>
-        <loc>http://finbarr.ca/reading/</loc>
-        <lastmod>2016-10-31</lastmod>
+        <loc>http://localhost:4000/reading/</loc>
+        <lastmod>2017-02-27</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
       </url>
@@ -88,8 +151,17 @@
   
     
       <url>
-        <loc>http://finbarr.ca/dedup/</loc>
-        <lastmod>2016-10-31</lastmod>
+        <loc>http://localhost:4000/calendar/</loc>
+        <lastmod>2017-02-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.5</priority>
+      </url>
+    
+  
+    
+      <url>
+        <loc>http://localhost:4000/dedup/</loc>
+        <lastmod>2017-02-27</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
       </url>
@@ -101,8 +173,8 @@
   
     
       <url>
-        <loc>http://finbarr.ca/notes/</loc>
-        <lastmod>2016-10-31</lastmod>
+        <loc>http://localhost:4000/notes/</loc>
+        <lastmod>2017-02-27</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
       </url>
@@ -110,8 +182,8 @@
   
     
       <url>
-        <loc>http://finbarr.ca/projects/</loc>
-        <lastmod>2016-10-31</lastmod>
+        <loc>http://localhost:4000/projects/</loc>
+        <lastmod>2017-02-27</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
       </url>
@@ -119,8 +191,8 @@
   
     
       <url>
-        <loc>http://finbarr.ca/schedule/</loc>
-        <lastmod>2016-10-31</lastmod>
+        <loc>http://localhost:4000/schedule/</loc>
+        <lastmod>2017-02-27</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
       </url>

@@ -4,12 +4,553 @@
   <channel>
 		<title>Finbarr Timbers</title>
 		<description>Personal website for Finbarr Timbers</description>
-		<link>http://finbarr.ca</link>
-		<atom:link href="http://finbarr.ca/feed.xml" rel="self" type="application/rss+xml" />
+		<link>http://localhost:4000</link>
+		<atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
+		
+			<item>
+				<title></title>
+				<description>&lt;h3 id=&quot;abstract&quot;&gt;&lt;a href=&quot;https://arxiv.org/abs/1602.07360&quot;&gt;Abstract&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;Recent research on deep neural networks has focused primarily on improving
+accuracy. For a given accuracy level, it is typically possible to identify
+multiple DNN architectures that achieve that accuracy level. With equivalent
+accuracy, smaller DNN architectures offer at least three advantages: (1) Smaller
+DNNs require less communication across servers during distributed training. (2)
+Smaller DNNs require less bandwidth to export a new model from the cloud to an
+autonomous car. (3) Smaller DNNs are more feasible to deploy on FPGAs and other
+hardware with limited memory. To provide all of these advantages, we propose a
+small DNN architecture called SqueezeNet. SqueezeNet achieves AlexNet-level
+accuracy on ImageNet with 50x fewer parameters. Additionally, with model
+compression techniques we are able to compress SqueezeNet to less than 0.5MB
+(510x smaller than AlexNet).&lt;/p&gt;
+
+&lt;h3 id=&quot;notes&quot;&gt;Notes&lt;/h3&gt;
+</description>
+				<pubDate>Mon, 27 Feb 2017 20:53:14 -0700</pubDate>
+				<link>http://localhost:4000/2016-11-10-SqueezeNet/</link>
+				<guid isPermaLink="true">http://localhost:4000/2016-11-10-SqueezeNet/</guid>
+			</item>
+		
+			<item>
+				<title></title>
+				<description>&lt;h3 id=&quot;abstract&quot;&gt;&lt;a href=&quot;https://arxiv.org/abs/1206.5538&quot;&gt;Abstract&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;The success of machine learning algorithms generally depends on data
+representation, and we hypothesize that this is because different
+representations can entangle and hide more or less the different explanatory
+factors of variation behind the data. Although specific domain knowledge can be
+used to help design representations, learning with generic priors can also be
+used, and the quest for AI is motivating the design of more powerful
+representation-learning algorithms implementing such priors. This paper reviews
+recent work in the area of unsupervised feature learning and deep learning,
+covering advances in probabilistic models, auto-encoders, manifold learning, and
+deep networks. This motivates longer-term unanswered questions about the
+appropriate objectives for learning good representations, for computing
+representations (i.e., inference), and the geometrical connections between
+representation learning, density estimation and manifold learning.&lt;/p&gt;
+
+&lt;h3 id=&quot;notes&quot;&gt;Notes&lt;/h3&gt;
+
+&lt;p&gt;Data representation is key to machine learning, and there are entire fields of
+computer science dedicated to detecting features from data (e.g. computer
+vision). Recent developments using convolutional network models [@zeiler2014]
+have shown that convnets can automatically learn features from the data. This
+automated feature detection is extremely powerful, and provides a lot of value.
+To allow computers to better understand the world, it is important to figure out
+how computers can learn optimal representations of the world.&lt;/p&gt;
+
+&lt;p&gt;The authors discuss desirable features for a given representation. These
+include smoothness (&lt;script type=&quot;math/tex&quot;&gt;x \approx y&lt;/script&gt; should imply that &lt;script type=&quot;math/tex&quot;&gt;f(x) \approx f(y)&lt;/script&gt;),
+manifolds (i.e. detecting the relevant dimensions in high-dimensionality data),
+sparsity, simplicity, and learning factors that help explain aspects of
+variation, not one off factors. The authors discuss the curse of
+dimensionality, namely that complication grows exponentially with the number
+of dimensions, and so for a high-dimensionality object, it is exponentially
+more difficult to learn a smooth representation when compared to a
+lower-dimensionality object.&lt;/p&gt;
+
+&lt;p&gt;The paper focuses on how expressive certain representations are, comparing
+models like RBMs, auto-encoders, and multi-layer neural networks to more
+traditional algorithms like one-hot representations, Gaussian mixtures, and
+nearest neighbour algorithms, discussing how the former can represent up to
+&lt;script type=&quot;math/tex&quot;&gt;O(2^k)&lt;/script&gt; input regions using only &lt;script type=&quot;math/tex&quot;&gt;O(N)&lt;/script&gt; inputs, while the latter can
+only represent &lt;script type=&quot;math/tex&quot;&gt;O(N)&lt;/script&gt; regions using &lt;script type=&quot;math/tex&quot;&gt;O(N)&lt;/script&gt; inputs. This is both good and
+bad, as you can have representations that are too precise with some of the more
+advanced representations.&lt;/p&gt;
+
+&lt;p&gt;Deep learning is discussed, focusing on how deep networks evolve their own
+internal representation of the data.&lt;/p&gt;
+</description>
+				<pubDate>Mon, 27 Feb 2017 20:53:14 -0700</pubDate>
+				<link>http://localhost:4000/2016-10-20-representation-learning-overview/</link>
+				<guid isPermaLink="true">http://localhost:4000/2016-10-20-representation-learning-overview/</guid>
+			</item>
+		
+			<item>
+				<title>How I designed my machine learning app</title>
+				<description>&lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
+
+&lt;p&gt;Approximately ten thousand years ago, during undergrad, I made what was probably
+the best decision of my academic career and took
+&lt;a href=&quot;https://webdocs.cs.ualberta.ca/~greiner/&quot;&gt;Russ Greiner's&lt;/a&gt; CMPUT 466 class at
+the University of Alberta. As a math major, it took some convincing to let the
+CS department allow me into the course, as I was missing approximately every
+prerequisite for the class, but convince them I did, and I was introduced to the
+body of techniques known as machine learning. The course required me to complete
+a group project, and my group worked on the problem of bug report deduplication.&lt;/p&gt;
+
+&lt;h2 id=&quot;inspiration&quot;&gt;Inspiration&lt;/h2&gt;
+
+&lt;p&gt;Managing the flood of bug reports that pour in is a problem for any sizable
+software project. Android has some
+&lt;a href=&quot;https://code.google.com/p/android/issues/list?num=100&amp;amp;start=0&quot;&gt;53 636&lt;/a&gt;  bug
+reports as of the time of writing, and if you search &quot;bug report triage&quot; in
+&lt;a href=&quot;https://scholar.google.ca/scholar?q=bug+report+triage&amp;amp;btnG=&amp;amp;hl=en&amp;amp;as_sdt=0%2C5&quot;&gt;Google Scholar&lt;/a&gt;,
+you get almost 4000 results for academic work. The cost of managing bug reports
+is huge, too— if each bug report takes a quarter of an hour to administer (read,
+compare to previous bug reports, link them, and assign to a developer), then the
+Android community has spent 13 409 hours, or 32 work years managing bug reports.
+That ignores the number of internal bug reports that Google's QA staff would
+have found and reported. If we assume a typical Software Engineer costs
+$100 000 annually, that's $3.2 million that the Android community has dedicated
+to bug triage.&lt;/p&gt;
+
+&lt;p&gt;The &lt;a href=&quot;http://finbarr.ca/dedup/&quot;&gt;project&lt;/a&gt; that my team worked on focused on
+analysing the text of the bug reports and using features generated from those to
+classify the bug reports. We developed a series of features that used reference
+material (textbooks, manuals, documentation) to create subject specific word
+lists, from which we generated numerical comparison scores. From this, we were
+able to get a series of subject scores (e.g. Android security: 0.2). The work
+proved remarkably successful, almost matching the performance of word lists that
+were manually extracted. With very little tuning, we were able to correctly
+classify 97% of bug reports, and I suspect that with some modelling effort
+(hyperparameter optimization, investigating some more complicated models) that
+could be improved on.&lt;/p&gt;
+
+&lt;p&gt;That was several years ago. The code that performed the bug report deduplication has
+been sitting around on Github for a few years, untouched. It seemed to me that
+bug report deduplication was a problem with a clear solution that hadn't been
+implemented by anyone. I've been looking for a side project to do that will let
+me learn more about product development and deploying machine learning in
+production environments, instead of just academic experimental settings, so I
+took it upon myself to turn the academic code into a web app. I was able to
+recruit a few of my friends to help, and we built
+&lt;a href=&quot;http://www.bugdedupe.com&quot;&gt;BugDedupe&lt;/a&gt;. It's still in a very early stage, so I'm
+looking for feedback and feature requests. The goal is to have the site be free
+for open source repositories and small (private) side projects, charging larger
+repositories to recoup my costs. If you have feedback or feature requests, or
+just want to chat, shoot me an email at finbarrtimbers@gmail.com.&lt;/p&gt;
+
+&lt;p&gt;When I started building BugDedupe, I hadn't seen many posts about how teams
+designed their machine learning web apps, so I wanted to write about how we
+approached ours, to get feedback and to help others doing the same.&lt;/p&gt;
+
+&lt;h2 id=&quot;myself&quot;&gt;Myself&lt;/h2&gt;
+
+&lt;p&gt;I'm a stats/ML guy who does a lot of number crunching in Python at my day job
+(Numpy/sklearn/SciPy). I've been wanting to learn more about the whole Python
+stack, and particularly web dev, so that I can learn how to make products from
+end-to-end. As a consultant, I get all of my projects to the MVP stage and then
+have to start again on the next one for a new client. I wanted to work on
+something that I could polish and grow, and given my stats background,
+BugDedupe seemed like a great opportunity.&lt;/p&gt;
+
+&lt;h2 id=&quot;background&quot;&gt;Background:&lt;/h2&gt;
+
+&lt;p&gt;We developed an automated &lt;a href=&quot;http://finbarr.ca/dedup&quot;&gt;method&lt;/a&gt; of predicting
+whether or not two bug reports are duplicates of each other. We did this by
+analysing the text of the bug report and comparing it to each other, and to
+reference texts (e.g. we had bug reports for a Java project, and we compared
+them to different chapters of a Java textbook to get subject scores— allowing
+us to say that a given report is 30\% cryptography and 45\% networking). This
+gave us a number of features that we could run through a machine learning
+classifier. We used a number of different ones and got really high results—
+97\%. The method worked, and we tested it on real world data— the bug reports
+from Android, and Eclipse, among others. The only remaining problem was figuring
+out how to make the service available online.&lt;/p&gt;
+
+&lt;h2 id=&quot;layout&quot;&gt;Layout&lt;/h2&gt;
+
+&lt;p&gt;At the start of the project, I was pretty confused about how to develop the
+site. I've been a fan of functional programming for a long time, and try to
+develop all of my projects in a functional manner.In that light, I decided to
+use a stateless architecture for the app. All of the state of the app (users,
+data, etc.) would be stored in the MySQL database, and the server would exist
+only to render it onto the web; similarly, the machine learning processes would
+interact uniquely with the database. As a result, we can have anything except
+the database crash at any time, and we won't lose any data. The database is
+regularly backed up, and as we're using Google Cloud SQL, it's in good hands.
+If, god willing, we run into scaling problems, we feel that our architecture will
+also allow us to focus only on optimizing the specific parts that are
+bottlenecking our performance, as everything is logically separated.&lt;/p&gt;
+
+&lt;h2 id=&quot;hosting&quot;&gt;Hosting&lt;/h2&gt;
+
+&lt;p&gt;I've been using Docker at work and like it a lot. I decided to encapsulate each
+separate component in a container, and run them on Google Cloud Platform, as
+I like what Google's doing with &lt;a href=&quot;https://kubernetes.io/&quot;&gt;Kubernetes&lt;/a&gt;. Once I
+had the components in Docker, it was straightforwardt to launch them on Google
+Container Engine.&lt;/p&gt;
+
+&lt;p&gt;I found it surprisingly easy. It sucked getting started, but now that
+everything's set up, it's super easy to work with, and kubernetes makes a lot of
+the administrative tasks go away (e.g. managing secrets/environment variables,
+restarting Python, scaling).&lt;/p&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;While some things surprised me (particularly the latency of APIs- I was using
+Stormpath for authentication, and it started adding up to 6 seconds per
+request), overall, I'm extremely happy with how the program turned out. I think
+that having everything interact only with the database and itself managed to
+reduce complexity significantly, so that I only had to think about how the
+current component interacted with the database, instead of having to worry about
+how it fit in with all of the other components of the stack. The test now is to
+get more users, and see how we perform at scale. The more users we get, the
+more accurate our classifier will be, and the more useful our service will be,
+so we need to get that flywheel rolling as fast as we can.&lt;/p&gt;
+
+&lt;p&gt;If you found this useful, or if you have any feedback, please send me an email
+at finbarrtimbers@gmail.com. I'd love to hear what you think of our
+architecture.&lt;/p&gt;
+</description>
+				<pubDate>Tue, 21 Feb 2017 00:00:00 -0700</pubDate>
+				<link>http://localhost:4000/Bugdedupe/</link>
+				<guid isPermaLink="true">http://localhost:4000/Bugdedupe/</guid>
+			</item>
+		
+			<item>
+				<title>Securing yourself against online tracking</title>
+				<description>&lt;p&gt;I've had a few people email me asking how they can protect themselves online,
+and what combination of tools they should use. I thought I'd write up my advice
+here so that others can beenfit.&lt;/p&gt;
+
+&lt;h1 id=&quot;overview&quot;&gt;Overview&lt;/h1&gt;
+
+&lt;p&gt;Online security is weird. You start taking reasonable
+measures, and all of a sudden, you're wearing a tinfoil hat and air-gapping
+all of your computers. You can go crazy with security, so it's important to
+be realistic about the types of threats that you face, and choose security
+options based on the threats you're worried about.&lt;/p&gt;
+
+&lt;p&gt;There's some stuff that you definitely &lt;em&gt;should&lt;/em&gt; do, and then after that, you
+start getting deeper and deeper into paranoia territory. How deep you want to
+go depends on how worried you are (and remember— you're not paranoid if they
+really &lt;em&gt;are&lt;/em&gt; out to get you).&lt;/p&gt;
+
+&lt;p&gt;You should definitely do three things:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Install uBlock Origin &amp;amp; Privacy Badger.&lt;/li&gt;
+  &lt;li&gt;Use a password manager like LastPass to generate secure passwords.&lt;/li&gt;
+  &lt;li&gt;Encrypt all of your hard drives.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;After that, it depends on how worried you are. If you're concerned that people
+might be trying to log into your accounts, or access your computers illicitly,
+you should look at installing two-factor authentication on your email accounts,
+password manager, and computers.&lt;/p&gt;
+
+&lt;h2 id=&quot;ublock-origin&quot;&gt;uBlock Origin&lt;/h2&gt;
+
+&lt;p&gt;uBlock Origin is an ad blocker that's super lightweight, and just works (there's
+been some weird controversies about ad blockers… Google 'Adblock Plus' if
+you're interested). It blocks requests by default, so that, e.g., Google
+Analytics can't track your visits to sites. This might break some sites, but you
+can disable it for those sites.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://chrome.google.com/webstore/detail/ublock-origin/cjpalhdlnbpafiamejdnhcphjbkeiagm?hl=en&quot;&gt;Link&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;privacy-badger&quot;&gt;Privacy Badger&lt;/h2&gt;
+
+&lt;p&gt;Privacy Badger is a tool made by the EFF (a non-profit that focuses on digital
+rights) that blocks spying ads and invisible trackers. This would, for instance,
+block the images that BananaTags uses to track forwards from loading.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://chrome.google.com/webstore/detail/privacy-badger/pkehgijcmpdhfbdbbnkijodmdjhbjlgp&quot;&gt;Link&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;password-managers&quot;&gt;Password managers&lt;/h2&gt;
+
+&lt;p&gt;Password Managers are tools that manage your passwords for you. This allows you
+to come up much more complex passwords that are randomly generated, and to share
+them securely (no more emailing passwords, or sharing a Google Sheet).&lt;/p&gt;
+
+&lt;p&gt;LastPass is the one that I'm most familiar with, and it has a free tier that
+satisfies most of your needs.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.lastpass.com/&quot;&gt;Link&lt;/a&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;less-crucial-security-options&quot;&gt;Less crucial security options&lt;/h1&gt;
+
+&lt;h2 id=&quot;two-factor-authentication-2fa&quot;&gt;Two Factor Authentication (2FA):&lt;/h2&gt;
+
+&lt;p&gt;2FA is a system where you are required to prove your identity in a second,
+independent way. As a result, having 2FA enabled guarantees that merely having
+your password isn't enough to access your account. If John Podesta had 2FA
+enabled, Russia wouldn't have been able to hack his emails.&lt;/p&gt;
+
+&lt;p&gt;You can enable 2FA on Gmail, Lastpass, and to login to Windows. There are
+multiple ways of using 2FA:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Have a code sent by SMS to your phone&lt;/li&gt;
+  &lt;li&gt;Use an app on your phone that generates codes&lt;/li&gt;
+  &lt;li&gt;Use a physical stick that generates a code (so you don't have to type
+anything- just push a button).&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;I'm currently demoing a Yubikey (one of the physical 2FA keys) for work; I'll
+update this with a review afterwards.&lt;/p&gt;
+
+&lt;h2 id=&quot;iba-opt-out&quot;&gt;IBA Opt-out&lt;/h2&gt;
+
+&lt;p&gt;IBA Opt-out opts you out of Google's interest-based ads, which makes it so that
+other sites can't track you through the ads. This is Google only, so it's less
+useful than the other tools.&lt;/p&gt;
+
+&lt;p&gt;https://chrome.google.com/webstore/detail/iba-opt-out-by-google/gbiekjoijknlhijdjbaadobpkdhmoebb?hl=en&lt;/p&gt;
+
+&lt;h2 id=&quot;https-everywhere&quot;&gt;HTTPS Everywhere&lt;/h2&gt;
+
+&lt;p&gt;Also by the EFF, HTTPS Everywhere makes it so that all of your pages use HTTPS
+if supported. It's useful to defend against sites that try to inject ads or
+unwanted material (e.g. on Greyhound, the bus wifi automatically takes over the
+ads). Unsecured connections can be used for man-in-the-middle (MITM) attacks,
+where a page steals your data by snooping on your traffic. That shouldn't be a
+problem as every site you use should use HTTPS, but there's no harm in using
+HTTPS.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.eff.org/https-everywhere%20&quot;&gt;Link&lt;/a&gt;&lt;/p&gt;
+</description>
+				<pubDate>Sat, 04 Feb 2017 00:00:00 -0700</pubDate>
+				<link>http://localhost:4000/defense/</link>
+				<guid isPermaLink="true">http://localhost:4000/defense/</guid>
+			</item>
+		
+			<item>
+				<title>Useful Bash One-liners</title>
+				<description>&lt;p&gt;The following are a handful of oneliners that I've consistently found useful.
+I found most of them elsewhere online; I wrote very few of these.&lt;/p&gt;
+
+&lt;h2 id=&quot;download-a-page-and-all-linked-pagesdocuments&quot;&gt;Download a page and all linked pages/documents:&lt;/h2&gt;
+
+&lt;p&gt;Download &lt;code class=&quot;highlighter-rouge&quot;&gt;$PAGE&lt;/code&gt; and all linked pages/documents, to a depth of &lt;code class=&quot;highlighter-rouge&quot;&gt;$NUM&lt;/code&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;wget -r &quot;$NUM&quot; &quot;$PAGE&quot;&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;e.g. &lt;code class=&quot;highlighter-rouge&quot;&gt;wget -r 1 https://courses.cs.washington.edu/courses/cse455/14au/notes/&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Taken from &lt;a href=&quot;http://superuser.com/questions/274414/how-to-save-all-the-webpages-linked-from-one&quot;&gt;Stack Overflow&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;recursively-unrar-files&quot;&gt;Recursively unrar files&lt;/h2&gt;
+
+&lt;p&gt;You can replace &lt;code class=&quot;highlighter-rouge&quot;&gt;unrar e&lt;/code&gt; with any other command as well (e.g. &lt;code class=&quot;highlighter-rouge&quot;&gt;unzip&lt;/code&gt;).&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;find ./ -name '*.rar' -execdir unrar e {} \;&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;turn-white-backgrounds-transparent&quot;&gt;Turn white backgrounds transparent&lt;/h2&gt;
+
+&lt;p&gt;I use this all the time. I found it on the &lt;a href=&quot;http://www.imagemagick.org/discourse-server/viewtopic.php?t=12619&quot;&gt;Imagemagick&lt;/a&gt; forums.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;convert image.gif -transparent white result.gif (or use result.png)&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Alternately, if the image has an off-white background:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;convert image.gif -fuzz XX% -transparent white result.gif&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;where the smaller the %, the closer to true white or conversely, the larger the
+%, the more variation from white is allowed to become transparent.&lt;/p&gt;
+
+&lt;h2 id=&quot;diff-contents-of-two-folders&quot;&gt;Diff contents of two folders&lt;/h2&gt;
+
+&lt;p&gt;Checks which files are different between the folders &lt;code class=&quot;highlighter-rouge&quot;&gt;dir1&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;dir2&lt;/code&gt;. I've
+used this more times than I'd care to admit.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&lt;span class=&quot;gh&quot;&gt;diff -qr dir1 dir2&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;
+</description>
+				<pubDate>Fri, 20 Jan 2017 00:00:00 -0700</pubDate>
+				<link>http://localhost:4000/Useful-oneliners/</link>
+				<guid isPermaLink="true">http://localhost:4000/Useful-oneliners/</guid>
+			</item>
+		
+			<item>
+				<title>Including web fonts in RMarkdown</title>
+				<description>&lt;p&gt;I didn't see this anywhere online, so I thought I'd quickly write up how to add
+web fonts to a RMarkdown presentation.&lt;/p&gt;
+
+&lt;p&gt;You have a RMarkdown presentation using ioslides:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;---
+title: &quot;Best Presentation Ever&quot;
+author: &quot;Finbarr Timbers&quot;
+date: &quot;January 19, 2017&quot;
+output: ioslides_presentation
+css: assets/styles.css
+logo: assets/logo.png
+incremental: true
+widescreen: true
+---
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Create a file &lt;code class=&quot;highlighter-rouge&quot;&gt;header.html&lt;/code&gt; including a link to the fonts you want to use in the
+same folder as your RMarkdown document&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;link href=&quot;https://fonts.googleapis.com/css?family=Open+Sans&quot; rel=&quot;stylesheet&quot;&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Then, add an &lt;code class=&quot;highlighter-rouge&quot;&gt;includes&lt;/code&gt; section to the header of your RMarkdown document:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;---
+title: &quot;Best Presentation Ever&quot;
+author: &quot;Finbarr Timbers&quot;
+date: &quot;January 19, 2017&quot;
+output:
+    ioslides_presentation:
+        includes: header.html
+css: assets/styles.css
+logo: assets/logo.png
+incremental: true
+widescreen: true
+---
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;You're done! Should work properly.&lt;/p&gt;
+</description>
+				<pubDate>Thu, 19 Jan 2017 00:00:00 -0700</pubDate>
+				<link>http://localhost:4000/web-fonts-rmd/</link>
+				<guid isPermaLink="true">http://localhost:4000/web-fonts-rmd/</guid>
+			</item>
+		
+			<item>
+				<title>A Deep Hierarchical Approach to Lifelong Learning in Minecraft</title>
+				<description>&lt;h2 id=&quot;abstract&quot;&gt;&lt;a href=&quot;https://arxiv.org/abs/1604.07255&quot;&gt;Abstract&lt;/a&gt;&lt;/h2&gt;
+
+&lt;p&gt;We propose a lifelong learning system that has the ability to reuse and transfer
+knowledge from one task to another while efficiently retaining the previously
+learned knowledge-base. Knowledge is transferred by learning reusable skills to
+solve tasks in Minecraft, a popular video game which is an unsolved and
+high-dimensional lifelong learning problem. These reusable skills, which we
+refer to as Deep Skill Networks, are then incorporated into our novel
+Hierarchical Deep Reinforcement Learning Network (H-DRLN) architecture using two
+techniques: (1) a deep skill array and (2) skill distillation, our novel
+variation of policy distillation (Rusu et. al. 2015) for learning skills. Skill
+distillation enables the HDRLN to efficiently retain knowledge and therefore
+scale in lifelong learning, by accumulating knowledge and encapsulating multiple
+reusable skills into a single distilled network. The H-DRLN exhibits superior
+performance and lower learning sample complexity compared to the regular Deep Q
+Network (Mnih et. al. 2015) in sub-domains of Minecraft.&lt;/p&gt;
+
+&lt;h2 id=&quot;notes&quot;&gt;Notes&lt;/h2&gt;
+
+&lt;p&gt;Paper discusses how previously trained neural networks (called skills) can be
+used to create an adaptable, more general AI that can respond to varied
+scenarios.&lt;/p&gt;
+</description>
+				<pubDate>Tue, 03 Jan 2017 00:00:00 -0700</pubDate>
+				<link>http://localhost:4000/minecraft/</link>
+				<guid isPermaLink="true">http://localhost:4000/minecraft/</guid>
+			</item>
+		
+			<item>
+				<title>Larry Ellison on consulting costs</title>
+				<description>&lt;p&gt;I'm currently reading &lt;a href=&quot;https://www.amazon.ca/Softwar-Intimate-Portrait-Ellison-Oracle/dp/0743225058&quot;&gt;Softwar&lt;/a&gt;,
+a book about Oracle's rise. The book is brilliant, and it descibes at length
+Larry Ellison's sales process. There was a passage describing a meeting that
+Larry had that explains far more about enterprise sales than it should:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;larry-ellison-softwar-academic.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+</description>
+				<pubDate>Tue, 06 Dec 2016 00:00:00 -0700</pubDate>
+				<link>http://localhost:4000/softwar-academic/</link>
+				<guid isPermaLink="true">http://localhost:4000/softwar-academic/</guid>
+			</item>
+		
+			<item>
+				<title>Minimal example of how to do model selection in Python</title>
+				<description>&lt;p&gt;I've had a few people ask me how to do model selection correctly. Here's a
+minimal example with &lt;code class=&quot;highlighter-rouge&quot;&gt;sklearn&lt;/code&gt; in Python.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-{python}&quot;&gt;from sklearn.metrics import mean_squared_error
+from sklearn.model_selection import cross_val_score
+from sklearn.linear_model import Ridge
+
+import numpy as np
+import pandas as pd
+
+# Load and process the data. In production, I'd split this into a function.
+df = pd.read_csv('data.csv')
+X = df[['import_val', 'origin_export_rca', 'origin_import_rca',
+        'origin_eci', 'dest_export_rca', 'dest_import_rca', 'dest_eci']]
+y = df['export_val']
+X = X.as_matrix()
+y = y.as_matrix()
+
+# Train the model. Again, in production, I'd make this a function.
+model = Ridge()
+scores = cross_val_score(model, X, y, cv=5, scoring='mean_squared_error')
+mean_mse, std_mse = np.mean(scores), np.std(scores)
+print(&quot;mean MSE: %.2E, std MSE: %.2E&quot; %(K, mean_mse, std_mse))
+model.fit(X, y)
+print(&quot;Writing predictions to file...&quot;)
+df['Predicted'] = pd.Series(model.predict(X), index=df.index)
+df.to_csv('pred_file.csv')
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;extensions&quot;&gt;Extensions&lt;/h2&gt;
+
+&lt;p&gt;There are a number of ways you can modify this to make it ready for production.
+I'll talk about a few of the most obvious ones:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Running the cross validation in parallel.&lt;/li&gt;
+  &lt;li&gt;Using a grid search to find the optimal parameters to use in the model.&lt;/li&gt;
+  &lt;li&gt;Pass the types of the columns to Pandas to load the data quicker and with
+less memory. If you pass the types, you also have the added benefit of checking
+that the data is the right type, and that there aren't any sneaky &lt;code class=&quot;highlighter-rouge&quot;&gt;None&lt;/code&gt; in
+your dataframe.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Pass &lt;code class=&quot;highlighter-rouge&quot;&gt;n_jobs=-1&lt;/code&gt; to &lt;code class=&quot;highlighter-rouge&quot;&gt;cross_val_score&lt;/code&gt; to run the cross validation in parallel:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-{python}&quot;&gt;scores = cross_val_score(model, X, y, cv=5, scoring='mean_squared_error',
+                         n_jobs=-1)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Use `grid search CV to determine the optimal parameters to use:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-{python}&quot;&gt;from sklearn.model_selection import GridSearchCV
+
+parameters = {'normalize': [True, False],
+              'fit_intercept': [True, False],
+              'alpha': [0, 0.2, 0.4, 0.6, 0.8, 1.0]}
+model = GridSearchCV(Ridge(), parameters, cv=5,
+                     scoring='mean_squared_error')
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Tell Pandas what the types of the columns are to &lt;em&gt;massively&lt;/em&gt; speed up loading
+the data and to use significantly less memory:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-{python}&quot;&gt;df = pd.read_csv('data.csv', dtype={var: float for var in ['import_val',
+                                                           'origin_export_rca',
+                                                           'origin_import_rca',
+                                                           'origin_eci',
+                                                           'dest_export_rca',
+                                                           'dest_import_rca',
+                                                           'dest_eci',
+                                                           'export_val']})
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+				<pubDate>Wed, 26 Oct 2016 00:00:00 -0600</pubDate>
+				<link>http://localhost:4000/ridge-regression-with-cross-validation/</link>
+				<guid isPermaLink="true">http://localhost:4000/ridge-regression-with-cross-validation/</guid>
+			</item>
 		
 			<item>
 				<title>Full Resolution Image Compression with Recurrent Neural Networks</title>
-				<description>&lt;h3 id=&quot;abstracthttpsarxivorgabs160805148&quot;&gt;&lt;a href=&quot;https://arxiv.org/abs/1608.05148&quot;&gt;Abstract&lt;/a&gt;&lt;/h3&gt;
+				<description>&lt;h3 id=&quot;abstract&quot;&gt;&lt;a href=&quot;https://arxiv.org/abs/1608.05148&quot;&gt;Abstract&lt;/a&gt;&lt;/h3&gt;
 
 &lt;p&gt;This paper presents a set of full-resolution lossy image compression methods
 based on neural networks. Each of the architectures we describe can provide
@@ -28,8 +569,8 @@ without the aid of entropy coding.&lt;/p&gt;
 
 &lt;h3 id=&quot;notes&quot;&gt;Notes&lt;/h3&gt;
 
-&lt;p&gt;It&#39;s been thought that neural nets should be good at image compression, but
-there haven&#39;t been any results to indciate that this is true across a variety
+&lt;p&gt;It's been thought that neural nets should be good at image compression, but
+there haven't been any results to indciate that this is true across a variety
 of scenarios (i.e. with the exception of dedicated, one-off image compression
 nets). A previous paper by one of the authors was able to do this, but only for
 32 x 32 images. This paper tries to generalize that.&lt;/p&gt;
@@ -48,9 +589,8 @@ determined by &lt;script type=&quot;math/tex&quot;&gt;B&lt;/script&gt;. Thus, by
 model can achieve smaller image sizes..&lt;/p&gt;
 
 &lt;p&gt;The encoder and decoder are RNNs, with two convolutional kernels. The authors
-explored a number of different types of RNNs^[LSTMs, associative LSTMs, GRUs.],
-and a number of different reconstruction frameworks^[One-shot reconstruction,
-additive reconstruction, and residual scaling.]&lt;/p&gt;
+explored a number of different types of RNNs,
+and a number of different reconstruction frameworks&lt;/p&gt;
 
 &lt;p&gt;The authors used two sets of training data:&lt;/p&gt;
 
@@ -64,7 +604,7 @@ data, theoretically yielding a better compression model.&lt;/li&gt;
 
 &lt;p&gt;They ran the model for 1 million epochs, and picked the models with the largest
 area under the curve when both of their metrics are plotted against each other.
-The best model was able to slightly beat JPEG. However, this doesn&#39;t do the
+The best model was able to slightly beat JPEG. However, this doesn't do the
 results justice, as the results are remarkably good, and look much better
 than JPEG.&lt;/p&gt;
 
@@ -110,406 +650,8 @@ for the fact that the residual is supposed to decrease with each iteration.&lt;/
 &lt;/ol&gt;
 </description>
 				<pubDate>Wed, 19 Oct 2016 00:00:00 -0600</pubDate>
-				<link>http://finbarr.ca/image-compression-rnn/</link>
-				<guid isPermaLink="true">http://finbarr.ca/image-compression-rnn/</guid>
-			</item>
-		
-			<item>
-				<title>Generative Adversarial Networks and Actor-Critic methods</title>
-				<description>&lt;h3 id=&quot;abstracthttpsarxivorgabs161001945&quot;&gt;&lt;a href=&quot;https://arxiv.org/abs/1610.01945&quot;&gt;Abstract&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;Both generative adversarial networks (GAN) in unsupervised learning and
-actor-critic methods in reinforcement learning (RL) have gained a reputation for
-being difficult to optimize. Practitioners in both fields have amassed a large
-number of strategies to mitigate these instabilities and improve training. Here
-we show that GANs can be viewed as actor-critic methods in an environment where
-the actor cannot affect the reward. We review the strategies for stabilizing
-training for each class of models, both those that generalize between the two
-and those that are particular to that model. We also review a number of
-extensions to GANs and RL algorithms with even more complicated information
-flow. We hope that by highlighting this formal connection we will encourage both
-GAN and RL communities to develop general, scalable, and stable algorithms for
-multilevel optimization with deep networks, and to draw inspiration across
-communities.&lt;/p&gt;
-
-&lt;h3 id=&quot;notes&quot;&gt;Notes&lt;/h3&gt;
-
-&lt;p&gt;The paper discusses how similar Generative Adversial Networks are to
-Actor-Critic methods, and how both methods are difficult to optimize.&lt;/p&gt;
-
-&lt;p&gt;GANs are models with two neural networks, one that generates images and one that
-tries to classify images. The generator tries to best the classifier.&lt;/p&gt;
-
-&lt;p&gt;Actor-Critic methods are models from reinforcement learning in which a model
-learns an action-value function &lt;script type=&quot;math/tex&quot;&gt;Q^\pi(s, a)&lt;/script&gt; that predicts the expected
-discounted reward (the Critic), and a policy that is optimal for that value (the
-Actor).&lt;/p&gt;
-
-&lt;p&gt;The paper shows how GANs can be constructed as an Actor-Critic model, and
-discusses the strategies that can be used to optimize each type of model, with
-the idea being that these strategies can be used to optimize the other type of
-model.&lt;/p&gt;
-</description>
-				<pubDate>Wed, 19 Oct 2016 00:00:00 -0600</pubDate>
-				<link>http://finbarr.ca/generative-adverserial-networks-and-actor-critics/</link>
-				<guid isPermaLink="true">http://finbarr.ca/generative-adverserial-networks-and-actor-critics/</guid>
-			</item>
-		
-			<item>
-				<title>Using simulated data to train robots</title>
-				<description>&lt;h3 id=&quot;abstracthttpsarxivorgabs161004286&quot;&gt;&lt;a href=&quot;https://arxiv.org/abs/1610.04286&quot;&gt;Abstract&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;Applying end-to-end learning to solve complex, interactive, pixel-driven control
-tasks on a robot is an unsolved problem. Deep Reinforcement Learning algorithms
-are too slow to achieve performance on a real robot, but their potential has
-been demonstrated in simulated environments. We propose using progressive
-networks to bridge the reality gap and transfer learned policies from simulation
-to the real world. The progressive net approach is a general framework that
-enables reuse of everything from low-level visual features to high-level
-policies for transfer to new tasks, enabling a compositional, yet simple,
-approach to building complex skills. We present an early demonstration of this
-approach with a number of experiments in the domain of robot manipulation that
-focus on bridging the reality gap. Unlike other proposed approaches, our
-real-world experiments demonstrate successful task learning from raw visual
-input on a fully actuated robot manipulator. Moreover, rather than relying on
-model-based trajectory optimisation, the task learning is accomplished using
-only deep reinforcement learning and sparse rewards.&lt;/p&gt;
-
-&lt;h3 id=&quot;notes&quot;&gt;Notes&lt;/h3&gt;
-
-&lt;p&gt;It&#39;s really difficult to use deep RL to train pixel-driven robots. This paper
-tries to do so using progressive networks. The paper is useful as it provides
-a proof-of-concept by which deep RL can be used on a real robot.&lt;/p&gt;
-
-&lt;p&gt;Progressive nets are an architecture that connects each layer of previously
-learnt network columns to each new column. They were used successfully by
-@rusu16 on to train a model on a number of different Atari games.&lt;/p&gt;
-
-&lt;p&gt;In a progressive network (prognet), you initially train a deep network with hidden layers
-&lt;script type=&quot;math/tex&quot;&gt;h_i^{(1)}&lt;/script&gt; and parameters &lt;script type=&quot;math/tex&quot;&gt;\Theta^{(1)}&lt;/script&gt; to convergence. When you switch to a
-second task, &lt;script type=&quot;math/tex&quot;&gt;\Theta^{(1)}&lt;/script&gt; is frozen, and a new column with parameters
-&lt;script type=&quot;math/tex&quot;&gt;\Theta^{(2)}&lt;/script&gt; is instantiated, with each hidden layer &lt;script type=&quot;math/tex&quot;&gt;h_i^{(2)}&lt;/script&gt; receiving
-input from both &lt;script type=&quot;math/tex&quot;&gt;h_{i-1}^{(2)}&lt;/script&gt; and &lt;script type=&quot;math/tex&quot;&gt;h_{i-1}^{(1)}&lt;/script&gt; via lateral connections.
-Effectively, a progresive network is one in which you have &lt;script type=&quot;math/tex&quot;&gt;N&lt;/script&gt; deep neural
-networks, each connected laterally. Consequently, we have &lt;script type=&quot;math/tex&quot;&gt;N&lt;/script&gt; policies, and
-are thus learning a probability distribution over all states and actions.&lt;/p&gt;
-
-&lt;p&gt;One advantage of this is that the columns of a prognet do not have to be
-identical, which allows us to train a deep neural net using simulation, and
-then hook the simulated network into the prognet. See figure.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/prognet-architecture.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;The risk here is that any rewards will be so sparse that it will be impossible
-to learn effectively. The authors get around that by having the initial policy
-of the agent identical to the previous column, and then learning on it.&lt;/p&gt;
-
-&lt;p&gt;The authors tested the system on a robot trying to pick up a ball. They found a
-strong increase in performance, and that the prognet was less sensitive to
-hyperparameter selection.&lt;/p&gt;
-</description>
-				<pubDate>Tue, 18 Oct 2016 00:00:00 -0600</pubDate>
-				<link>http://finbarr.ca/Progressive-networks-training-robots/</link>
-				<guid isPermaLink="true">http://finbarr.ca/Progressive-networks-training-robots/</guid>
-			</item>
-		
-			<item>
-				<title>Safe and Efficient Off-Policy Reinforcement Learning</title>
-				<description>&lt;h2 id=&quot;abstracthttpsarxivorgabs160602647&quot;&gt;&lt;a href=&quot;https://arxiv.org/abs/1606.02647&quot;&gt;Abstract&lt;/a&gt;&lt;/h2&gt;
-
-&lt;p&gt;In this work, we take a fresh look at some old and new algorithms for
-off-policy, return-based reinforcement learning. Expressing these in a common
-form, we derive a novel algorithm, Retrace(λ), with three desired properties:
-(1) low variance; (2) safety, as it safely uses samples collected from any
-behaviour policy, whatever its degree of &quot;off-policyness&quot;; and (3) efficiency,
-as it makes the best use of samples collected from near on-policy behaviour
-policies. We analyse the contractive nature of the related operator under both
-off-policy policy evaluation and control settings and derive online sample-based
-algorithms. To our knowledge, this is the first return-based off-policy control
-algorithm converging a.s. to Q∗ without the GLIE assumption (Greedy in the Limit
-with Infinite Exploration). As a corollary, we prove the convergence of Watkins&#39;
-Q(λ), which was still an open problem. We illustrate the benefits of Retrace(λ)
-on a standard suite of Atari 2600 games.&lt;/p&gt;
-
-&lt;h2 id=&quot;notes&quot;&gt;Notes&lt;/h2&gt;
-
-&lt;p&gt;In reinformcement learning, Q-learning is a technique that is commonly used. In
-it, a Q-function is defined which returns the discounted expected value for each
-state. The Q-function is updated with each iteration:&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;Q(s_t, a_t) = Q(s_t, a_t) + \alpha \cdot (r_{t+1} + \gamma \cdot \max_a Q(s_{t+1}, a) - Q(s_t, a_t)),&lt;/script&gt;
-
-&lt;p&gt;where &lt;script type=&quot;math/tex&quot;&gt;r_{t+1}&lt;/script&gt; is the reward observed after performing &lt;script type=&quot;math/tex&quot;&gt;a_t&lt;/script&gt; in &lt;script type=&quot;math/tex&quot;&gt;s_t&lt;/script&gt;, and
-where &lt;script type=&quot;math/tex&quot;&gt;\alpha_t(s, a) \in (0, 1]&lt;/script&gt; is the learning rate.&lt;/p&gt;
-
-&lt;p&gt;In reinforcement learning, there is a trade-off in the definition of the update
-target: should one estimate Monte Carlo returns or bootstrap from an existing
-Q-function? Return-based methods are better behaved when combined with function
-approximation, and quickly respond to exploration, but bootstrap methods are
-easier to apply to off-policy data.&lt;/p&gt;
-
-&lt;p&gt;An off-policy learner learns the value of the optimal policy independently of
-the agent&#39;s actions. An on-policy learner learns the value of the policy being
-carried out by the agent. This paper shows that learning from returns can be
-consistent with off-policy learning.&lt;/p&gt;
-</description>
-				<pubDate>Tue, 18 Oct 2016 00:00:00 -0600</pubDate>
-				<link>http://finbarr.ca/Off-Policy-Reinforcement-Learning/</link>
-				<guid isPermaLink="true">http://finbarr.ca/Off-Policy-Reinforcement-Learning/</guid>
-			</item>
-		
-			<item>
-				<title>XGBoost: A scalable tree boosting system</title>
-				<description>&lt;h3 id=&quot;abstracthttparxivorgabs160302754&quot;&gt;&lt;a href=&quot;http://arxiv.org/abs/1603.02754&quot;&gt;Abstract&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;Tree boosting is a highly effective and widely used machine learning method. In
-this paper, we describe a scalable end-to-end tree boosting system called
-XGBoost, which is used widely by data scientists to achieve state-of-the-art
-results on many machine learning challenges. We propose a novel sparsity-aware
-algorithm for sparse data and weighted quantile sketch for approximate tree
-learning. More importantly, we provide insights on cache access patterns, data
-compression and sharding to build a scalable tree boosting system. By combining
-these insights, XGBoost scales beyond billions of examples using far fewer
-resources than existing systems.&lt;/p&gt;
-
-&lt;h3 id=&quot;notes&quot;&gt;Notes&lt;/h3&gt;
-
-&lt;p&gt;A lot of the notes are taken from XGBoost&#39;s
-&lt;a href=&quot;http://xgboost.readthedocs.io/en/latest/model.html&quot;&gt;tutorial&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Gradient Boosting is a ML technique that takes a number of weak learners and
-combines them into a single strong learner. Gradient Boosted Trees are a subset
-of the general problem that applies gradient boosting to trees. XGBoost uses
-tree ensembles, which are sets of classification and regression trees (CART).
-In a CART model, we create a series of trees that split the sample based on
-their features into different leaves, and assign each leaf a different score.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/xgboost.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;The trees try to complement each other. The complexity of the trees are defined
-as &lt;script type=&quot;math/tex&quot;&gt;\Omega(f) = \gamma T + \frac{1}{2} \lambda \sum_{j=1}^T w_j^2&lt;/script&gt;, where
-&lt;script type=&quot;math/tex&quot;&gt;w_j&lt;/script&gt; is the weight of each leaf, and &lt;script type=&quot;math/tex&quot;&gt;T&lt;/script&gt; is the number of leaves.&lt;/p&gt;
-
-&lt;p&gt;XGBoost implements this algorithm and has been particularly successful, being
-used in many successful Kaggle competitions. XGBoost is extremely fast due to
-a series of algorithmic tricks. The paper reviews these tricks.&lt;/p&gt;
-</description>
-				<pubDate>Tue, 20 Sep 2016 00:00:00 -0600</pubDate>
-				<link>http://finbarr.ca/xgboost/</link>
-				<guid isPermaLink="true">http://finbarr.ca/xgboost/</guid>
-			</item>
-		
-			<item>
-				<title>Excellent description of how hashtables work</title>
-				<description>&lt;p&gt;I&#39;m working through the &lt;a href=&quot;http://www.amazon.ca/Algorithm-Design-Manual-Steven-Skiena/dp/1849967202&quot;&gt;Algorithm Design Manual&lt;/a&gt; to
-improve the efficiency of my coding.&lt;/p&gt;
-
-&lt;p&gt;I came across an excellent description of how hashtables work:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/hashtables.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;I can&#39;t think of a better way to describe them. What an excellent metaphor.&lt;/p&gt;
-</description>
-				<pubDate>Sat, 15 Aug 2015 00:00:00 -0600</pubDate>
-				<link>http://finbarr.ca/excellent-description-of-hashtables/</link>
-				<guid isPermaLink="true">http://finbarr.ca/excellent-description-of-hashtables/</guid>
-			</item>
-		
-			<item>
-				<title>Full example for using JSONcpp on Unix</title>
-				<description>&lt;p&gt;I&#39;ve been trying to parse JSON files with C++, and I&#39;ve found a distinct lack of
-full examples on how to do so. Specifically, I&#39;ve struggled to find the proper
-commands to actually compile the code. For future reference (and to help any
-beginners out), here&#39;s a full example of how to use &lt;a href=&quot;https://github.com/open-source-parsers/jsoncpp&quot; title=&quot;JSONcpp on github&quot;&gt;JSONcpp&lt;/a&gt; in your code (N.B. You&#39;re supposed to enter all of the following code in your terminal).&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;Download the source from github. In the directory that you want to install the source code into, enter&lt;/p&gt;
-
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; git clone https://github.com/open-source-parsers/jsoncpp
- cd jsoncpp
-&lt;/code&gt;&lt;/pre&gt;
-    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Create the makefiles. For this step, you must have cmake installed; if it is not installed, you can install it with your system package manager. &lt;a href=&quot;On OS X, I use Homebrew, and on (e.g.) Ubuntu, the package manager is apt-get. On OS X, you would enter `brew install cmake` to install cmake, while on Ubuntu, you would run `apt-get install cmake`.&quot;&gt;1&lt;/a&gt; From jsoncpp/, run&lt;/p&gt;
-
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; mkdir -p build/debug
- cd build/debug
- cmake -DCMAKE_BUILD_TYPE=debug -DJSONCPP_LIB_BUILD_SHARED=OFF -G &quot;Unix Makefiles&quot; ../../../jsoncpp
- make
- cd ../..
-&lt;/code&gt;&lt;/pre&gt;
-    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Enter &lt;code class=&quot;highlighter-rouge&quot;&gt;pwd&lt;/code&gt; and make a note of the output. Now, go to the folder containing the code in which you want to use JSONcpp in. Create a new file called &quot;main.cpp&quot; and enter the following code (taken from Stack Overflow):&lt;/p&gt;
-
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; #include &amp;lt;fstream&amp;gt;
- #include &amp;lt;iostream&amp;gt;
-
- #include &quot;json/json.h&quot;
-
- int main() {
-     Json::Value root;
-     std::ifstream file(&quot;test.json&quot;);
-     file &amp;gt;&amp;gt; root;
-     std::cout &amp;lt;&amp;lt; root;
- }
-&lt;/code&gt;&lt;/pre&gt;
-    &lt;/div&gt;
-
-    &lt;p&gt;Create another file called &quot;test.json&quot; with the json content you want to read; I used&lt;/p&gt;
-
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-     &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;stocks&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-         &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;symbol&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;AAPL&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-          &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;amount&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;1.03213&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-          &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;last_price&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;1.20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-         &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;symbol&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;MSFT&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-          &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;amount&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;2.31039&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-         &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;symbol&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;F&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-          &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;amount&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.543589&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-          &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
-    &lt;/div&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Compile the code using a &quot;Makefile.&quot; Using your favourite text editor, create a file called &quot;Makefile&quot; and enter the following code (replacing &lt;code class=&quot;highlighter-rouge&quot;&gt;JSONCPPPATH&lt;/code&gt; with the results from running &lt;code class=&quot;highlighter-rouge&quot;&gt;pwd&lt;/code&gt; earlier; mine looks like &lt;code class=&quot;highlighter-rouge&quot;&gt;/Users/ft/Source/jsoncpp/&lt;/code&gt;):&lt;/p&gt;
-
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; CXX = g++
- LDFLAGS = -LJSONCPPPATH/build/depug/src/lib_json -ljsoncpp
- INC = -IJSONCPPPATH/include
-
- main: main.cpp
-     $(CXX) -o main $(LDFLAGS) $(INC) main.cpp
-&lt;/code&gt;&lt;/pre&gt;
-    &lt;/div&gt;
-
-    &lt;p&gt;IMPORTANT: you have to indent the &lt;code class=&quot;highlighter-rouge&quot;&gt;$(CXX) -o main...&lt;/code&gt; line with 1 TAB and not 4 SPACES or it won&#39;t work. GNU Make requires a tab for indentation.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Now, compile the code by running &lt;code class=&quot;highlighter-rouge&quot;&gt;make main&lt;/code&gt;. You should now be able to run the code by entering &lt;code class=&quot;highlighter-rouge&quot;&gt;./main&lt;/code&gt;. It will print the contents of your &lt;code class=&quot;highlighter-rouge&quot;&gt;test.json&lt;/code&gt; file to your terminal.&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-</description>
-				<pubDate>Sat, 06 Sep 2014 00:00:00 -0600</pubDate>
-				<link>http://finbarr.ca/jsoncpp-example/</link>
-				<guid isPermaLink="true">http://finbarr.ca/jsoncpp-example/</guid>
-			</item>
-		
-			<item>
-				<title>ARIMA, ARMA, what's the difference?</title>
-				<description>&lt;p&gt;I&#39;m working through &lt;a href=&quot;[1]&quot;&gt;TSA&lt;/a&gt;, and I noticed that some of my classmates are struggling to understand the difference between an ARIMA process, an AR process, and a MA process, not to mention seasonal version of the above.&lt;/p&gt;
-
-&lt;p&gt;Using &lt;script type=&quot;math/tex&quot;&gt;B&lt;/script&gt; as the lag operator, i.e. &lt;script type=&quot;math/tex&quot;&gt;BX_t = X_{t-1}&lt;/script&gt;, an &lt;em&gt;ARIMA(p, d, q) process&lt;/em&gt; is a discrete time stochastic process of the form&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;\phi(B) (1 - B)^d X_t = \theta(B)w_t,&lt;/script&gt;
-
-&lt;p&gt;where &lt;script type=&quot;math/tex&quot;&gt;\phi&lt;/script&gt; is a polynomial of degree &lt;em&gt;p&lt;/em&gt;, and &lt;script type=&quot;math/tex&quot;&gt;\theta&lt;/script&gt; is a polynomial of degree &lt;em&gt;q&lt;/em&gt;. An &lt;em&gt;AR(p)&lt;/em&gt; process is an ARIMA(&lt;em&gt;p, 0, 0&lt;/em&gt;) process, and a MA(&lt;em&gt;q&lt;/em&gt;) process is an ARIMA(&lt;em&gt;0, 0, q&lt;/em&gt;) process. To make life even more complicated, we introduce the notion of seasonality:&lt;/p&gt;
-
-&lt;p&gt;An ARIMA&lt;script type=&quot;math/tex&quot;&gt;(p, d, q) \times (P, D, Q)_s&lt;/script&gt; model is a s.p. of the form&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;\Phi(B^s) \phi(B) (1 - B^s)^D (1 - B)^d X_t = \Theta(B^s)\theta(B)w_t,&lt;/script&gt;
-
-&lt;p&gt;where &lt;script type=&quot;math/tex&quot;&gt;\Phi(B)&lt;/script&gt; is a polynomial of degree &lt;script type=&quot;math/tex&quot;&gt;P&lt;/script&gt;, and &lt;script type=&quot;math/tex&quot;&gt;\Theta(B)&lt;/script&gt; is a polynomial of degree &lt;script type=&quot;math/tex&quot;&gt;Q&lt;/script&gt;.&lt;/p&gt;
-
-&lt;h4 id=&quot;example&quot;&gt;Example&lt;/h4&gt;
-
-&lt;p&gt;Suppose we have the stochastic process&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;X_t = \frac 1 2 X_{t-1} + X_{t-4} - \frac 1 2 X_{t-5} + w_t - \frac 1 4 w_{t-4}.&lt;/script&gt;
-
-&lt;p&gt;How can we write this as an ARIMA&lt;script type=&quot;math/tex&quot;&gt;(p, d, q) \times (P, D, Q)_s&lt;/script&gt; model? Note that&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;(1 - B^4) X_t = \frac 1 2 X_{t-1} - \frac 1 2 X_{t-5} + w_t - \frac 1 4 w_{t-4}.&lt;/script&gt;
-
-&lt;p&gt;We can rewrite this as&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;(1 - B^4) X_t - \frac{1}{2} B (1 - B^4)X_t = (1 - \frac 1 4 B^4) w_t,&lt;/script&gt;
-
-&lt;p&gt;or, more concisely,&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;(1 - B^4) (1 - \frac 1 2 B) X_t = (1 - \frac 1 4 B^4) w_t.&lt;/script&gt;
-
-&lt;p&gt;Consequently, we can see that &lt;script type=&quot;math/tex&quot;&gt;X_t&lt;/script&gt; is an ARIMA&lt;script type=&quot;math/tex&quot;&gt;(1, 0, 0) \times (0, 1, 1)_4&lt;/script&gt; process.&lt;/p&gt;
-
-</description>
-				<pubDate>Mon, 21 Apr 2014 00:00:00 -0600</pubDate>
-				<link>http://finbarr.ca/arima-arma-what/</link>
-				<guid isPermaLink="true">http://finbarr.ca/arima-arma-what/</guid>
-			</item>
-		
-			<item>
-				<title>Solving Partial Autocorrelation Functions</title>
-				<description>&lt;p&gt;I&#39;ve been studying time series through &lt;a href=&quot;http://www.stat.pitt.edu/stoffer/tsa3/&quot;&gt;TSA&lt;/a&gt;. The book presents a structured
-approach to time series analysis, and covers the material fairly well; I was
-impressed with the description of what a partial autocorrelation function (PACF)
-is, as the book explained it more intuitively than the lecture notes did. I did
-find the description of how to actually solve for the PACF a bit confusing, so I
-wrote my own explanation.&lt;/p&gt;
-
-&lt;h2 id=&quot;partial-autocorrelation-functions&quot;&gt;Partial Autocorrelation Functions&lt;/h2&gt;
-
-&lt;p&gt;What are PACFs, and why would one want to use one? As explained in TSA, the PACF
-is useful as it provides an analog to the autocorrelation function, or ACF, but
-for autoregressive processes. The ACF is particularly useful as for an &lt;script type=&quot;math/tex&quot;&gt;MA(q)&lt;/script&gt;, the autocorrelation function &lt;script type=&quot;math/tex&quot;&gt;\gamma(m)&lt;/script&gt; has the nice property that&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{align*} \gamma(m) = 0 \text{ for } m &gt; q.  \end{align*}&lt;/script&gt;
-
-&lt;p&gt;Consequently, by plotting the ACF (as can be done
-&lt;a href=&quot;http://bl.ocks.org/timbers/9318155&quot;&gt;easily&lt;/a&gt; in R), we can detect the order of
-the &lt;script type=&quot;math/tex&quot;&gt;MA(q)&lt;/script&gt; process.&lt;/p&gt;
-
-&lt;p&gt;The property fails for the ACF of an &lt;script type=&quot;math/tex&quot;&gt;AR(p)&lt;/script&gt; process. However, the PACF is
-here to step in and save the day. With the PACF defined as&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{align*} \phi_{mm} := \alpha^{\star}_{m, m}, \end{align*}&lt;/script&gt;
-
-&lt;p&gt;where the &lt;script type=&quot;math/tex&quot;&gt;\alpha^{\star}_{j, k}&lt;/script&gt; are defined as&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{align*} \alpha_{1, m}, \cdots, \alpha_{m, m} = \text{argmin} E(X_{t} -
-\alpha_{1, m} X_{t-1} - \cdots - \alpha_{m, m} X_{t-m})^2.  \end{align*}&lt;/script&gt;
-
-&lt;p&gt;Then, the PACF exhibits the property that for an &lt;script type=&quot;math/tex&quot;&gt;AR(p)&lt;/script&gt; process, &lt;script type=&quot;math/tex&quot;&gt;\phi_{pp} = \phi_{p}&lt;/script&gt;, and &lt;script type=&quot;math/tex&quot;&gt;\phi_{mm} = 0&lt;/script&gt; for &lt;script type=&quot;math/tex&quot;&gt;m &gt; p&lt;/script&gt;; consequently, by
-calculating the PACF of a process, we can easily detect the order of it if it is
-autoregressive.&lt;/p&gt;
-
-&lt;h2 id=&quot;example-1&quot;&gt;Example 1&lt;/h2&gt;
-
-&lt;p&gt;Suppose we have the process&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{align*} X_{t} = \phi_1 X_{t-1} + \phi_2 X_{t-2} + w_t, \end{align*}&lt;/script&gt;
-
-&lt;p&gt;where &lt;script type=&quot;math/tex&quot;&gt;w_t&lt;/script&gt; is a sequence of uncorrelated variables with zero mean and
-constant variance. What is the PACF for this process? As the AR polynomial &lt;script type=&quot;math/tex&quot;&gt;\phi(B)&lt;/script&gt; has no roots with &lt;script type=&quot;math/tex&quot;&gt;|B| \leq 1,&lt;/script&gt; &lt;script type=&quot;math/tex&quot;&gt;X_{t}&lt;/script&gt; is a weakly stationary
-process; consequently, we know that &lt;script type=&quot;math/tex&quot;&gt;\phi_{22} = \phi_2, \phi_{mm} = 0&lt;/script&gt; for
-&lt;script type=&quot;math/tex&quot;&gt;m &gt; p&lt;/script&gt;. Consequently, we only need to figure out &lt;script type=&quot;math/tex&quot;&gt;\phi_{11}&lt;/script&gt;. To find it,
-we must solve&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;\begin{align*} \text{argmin} E(X_{t} - \phi_{11} X_{t-1})^2\\ \end{align*}&lt;/script&gt;
-
-&lt;p&gt;To do so, we take the derivative with respect to &lt;script type=&quot;math/tex&quot;&gt;\phi_{11}&lt;/script&gt; and set it
-equal to zero:&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
-\begin{align*} &amp;E[-2X_{t-1}(X_{t} - \phi_{11} X_{t-1})] = 0 \\ \iff &amp;-2
-\gamma(1) + 2 \phi_{11} \gamma(0) = 0 \\ \iff &amp; \phi_{11} = \rho(1) \end{align*} %]]&gt;&lt;/script&gt;
-
-&lt;p&gt;Now, we need to solve for &lt;script type=&quot;math/tex&quot;&gt;\rho&lt;/script&gt; in terms of &lt;script type=&quot;math/tex&quot;&gt;\phi_{1}, \phi_{2}&lt;/script&gt;. To do
-this, we exploit the Yule-Walker equations:&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
-\begin{align*} \gamma(1) - \phi_{1} \gamma(0) - \phi_{2} \gamma(1) &amp;= 0\\
-\rho(1) &amp;= \phi_{1} + \phi_{2} \rho(1) \\ \longrightarrow \phi_{11} = \rho(1) &amp;=
-\frac{ \phi_{1} }{ 1 - \phi_{2} } \end{align*} %]]&gt;&lt;/script&gt;
-
-</description>
-				<pubDate>Mon, 03 Mar 2014 00:00:00 -0700</pubDate>
-				<link>http://finbarr.ca/solving-pacf/</link>
-				<guid isPermaLink="true">http://finbarr.ca/solving-pacf/</guid>
+				<link>http://localhost:4000/image-compression-rnn/</link>
+				<guid isPermaLink="true">http://localhost:4000/image-compression-rnn/</guid>
 			</item>
 		
 	</channel>

@@ -273,3 +273,8 @@ label.margin-toggle:not(.sidenote-number) { display: none; }
                             div.table-wrapper, table, table.booktabs { width: 85%; }
                             div.table-wrapper { border-right: 1px solid #efefef; }
                             img { width: 100%; } }
+
+
+.fa-github, .fa-twitter {
+    font-size: 0.5em;
+}
