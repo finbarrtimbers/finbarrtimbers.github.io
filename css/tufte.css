@@ -44,7 +44,7 @@ body { width: 87.5%;
        margin-bottom: 2cm;
        padding-left: 12.5%;
        font-family: et-book, Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
-       background-color: #fffff8;
+       background-color: #fffffe;
        color: #111;
        max-width: 1400px;
        counter-reset: sidenote-counter; }
@@ -273,3 +273,8 @@ label.margin-toggle:not(.sidenote-number) { display: none; }
                             div.table-wrapper, table, table.booktabs { width: 85%; }
                             div.table-wrapper { border-right: 1px solid #efefef; }
                             img { width: 100%; } }
+
+
+.fa-github, .fa-twitter {
+    font-size: 0.5em;
+}

@@ -9,6 +9,9 @@ author_bio: "Analyst at [Darkhorse Analytics](http://www.dha.io)"
 
 # Projects
 projects:
+ - name: BugDedupe
+   url: http://www.bugdedupe.com
+   description: "A web application that helps you manage your Github bug reports."
  - name: Bug Deduplication
    url: /dedup/
    description: "A system that automatically detects duplicate bug reports."
