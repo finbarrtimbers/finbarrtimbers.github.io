@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Unit tests don't detect errors- they make you write down your assumptions
+title: Unit tests make you write down your assumptions
 tags:
 ---
 
@@ -8,7 +8,7 @@ I've been fighting with recurring errors the whole time I've been working on
 [BugDedupe](http://www.bugdedupe.com). I keep changing some aspect of the
 frontend, and inadvertently break the site. The way to prevent this, of course,
 is by using unit tests. I know that I should have unit tests, and I do, but not
-at anywhere near the coverage that I need (I'm currently at 31% code
+at anywhere near the coverage that I need (I'm currently at 29% code
 coverage).
 
 The reason for the abysmal amount of code coverage is that I don't know how to
