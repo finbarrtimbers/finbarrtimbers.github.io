@@ -33,18 +33,8 @@ talks:
 jobs:
   - employer: Darkhorse Analytics
     url: http://dha.io
-    title: "Analyst"
-    description: "Statistical consultant. Modelling novel problems for clients."
-
-  - employer: Legislative Assembly Office
-    url: http://www.assembly.ab.ca/
-    title: Policy & Research Analyst
-    description: "Financial policy researcher."
-
-  - employer: University of Alberta
-    url: http://www.ualberta.ca/~cfrei
-    title: Research Assistant
-    description: "Studied the prisoner's dilemma in continuous time."
+    title: "Data Scientist"
+    description: "Modelling novel problems for clients using machine learning and caffeine."
 
 # education
 degrees:
