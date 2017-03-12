@@ -5,14 +5,17 @@ url: "http://finbarr.ca"
 # Author info
 author_name: Finbarr Timbers
 author_image_path: /images/finbarr-and-candace.jpg
-author_bio: "Analyst at [Darkhorse Analytics](http://www.dha.io)"
+author_bio: "Data Scientist at [Darkhorse Analytics](http://www.dha.io)"
 
 # Projects
 projects:
- - name: BugDedupe
+ - name: www.BugDedupe.com
    url: http://www.bugdedupe.com
-   description: "A web application that helps you manage your Github bug reports."
- - name: Bug Deduplication
+   description: |
+     I wanted to learn how to make a machine learning based SaaS
+     app that goes straight from raw data to predictions, so I made one as a
+     side project based on my research with a few friends.
+ - name: Automated textual analysis for bug report deduplication
    url: /dedup/
    description: "A system that automatically detects duplicate bug reports."
 
