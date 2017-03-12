@@ -38,15 +38,6 @@ jobs:
     title: "Data Scientist"
     description: "Modelling novel problems for clients using machine learning and caffeine."
 
-# education
-degrees:
-  - school: London School of Economics
-    url: http://www.lse.ac.uk/study/graduate/taughtProgrammes2016/msceconometricsandmathematicaleconomics.aspx
-    degree: "MSc Econometrics and Mathematical Economics"
-  - school: University of Alberta
-    url: https://www.ualberta.ca/mathematical-and-statistical-sciences/undergraduate-studies/programs/mathematics-and-economics
-    degree: "BSc Honors in Mathematics and Economics"
-
 
 
 # External services
