@@ -9,4 +9,4 @@ a book about Oracle's rise. The book is brilliant, and it descibes at length
 Larry Ellison's sales process. There was a passage describing a meeting that
 Larry had that explains far more about enterprise sales than it should:
 
-![](larry-ellison-softwar-academic.png)
+![](/images/larry-ellison-softwar-academic.png)
