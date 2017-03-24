@@ -5,14 +5,19 @@ url: "http://finbarr.ca"
 # Author info
 author_name: Finbarr Timbers
 author_image_path: /images/finbarr-and-candace.jpg
-author_bio: "Analyst at [Darkhorse Analytics](http://www.dha.io)"
+author_bio: "Data Scientist at [Darkhorse Analytics](http://www.dha.io)"
 
 # Projects
 projects:
- - name: BugDedupe
+ - name: www.BugDedupe.com
    url: http://www.bugdedupe.com
-   description: "A web application that helps you manage your Github bug reports."
- - name: Bug Deduplication
+   description: |
+     I wanted to learn how to make a machine learning based SaaS
+     app that goes straight from raw data to predictions, so I made one as a
+     side project based on my research with a few friends.
+
+     It is LIVE. Use it to merge your bugs!
+ - name: Automated textual analysis for bug report deduplication
    url: /dedup/
    description: "A system that automatically detects duplicate bug reports."
 
@@ -30,27 +35,8 @@ talks:
 jobs:
   - employer: Darkhorse Analytics
     url: http://dha.io
-    title: "Analyst"
-    description: "Statistical consultant. Modelling novel problems for clients."
-
-  - employer: Legislative Assembly Office
-    url: http://www.assembly.ab.ca/
-    title: Policy & Research Analyst
-    description: "Financial policy researcher."
-
-  - employer: University of Alberta
-    url: http://www.ualberta.ca/~cfrei
-    title: Research Assistant
-    description: "Studied the prisoner's dilemma in continuous time."
-
-# education
-degrees:
-  - school: London School of Economics
-    url: http://www.lse.ac.uk/study/graduate/taughtProgrammes2016/msceconometricsandmathematicaleconomics.aspx
-    degree: "MSc Econometrics and Mathematical Economics"
-  - school: University of Alberta
-    url: https://www.ualberta.ca/mathematical-and-statistical-sciences/undergraduate-studies/programs/mathematics-and-economics
-    degree: "BSc Honors in Mathematics and Economics"
+    title: "Data Scientist"
+    description: "Modelling novel problems for clients using machine learning and caffeine."
 
 
 
