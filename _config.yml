@@ -5,18 +5,21 @@ url: "http://finbarr.ca"
 # Author info
 author_name: Finbarr Timbers
 author_image_path: /images/finbarr-and-candace.jpg
-author_bio: "Data Scientist at [Darkhorse Analytics](http://www.dha.io)"
+author_bio: |
+  ML Engineer/Data Scientist at [Darkhorse Analytics](http://www.dha.io)
 
 # Projects
 projects:
  - name: www.BugDedupe.com
    url: http://www.bugdedupe.com
    description: |
-     I wanted to learn how to make a machine learning based SaaS
-     app that goes straight from raw data to predictions, so I made one as a
-     side project based on my research with a few friends.
+     I turned my academic research into a SaaS app that automatically analysed &
+     deduplicate bug reports. Unfortunately, it was too expensive for me to
+     keep running, but I have the code & can deploy it with a few hours work.
 
-     It is LIVE. Use it to merge your bugs!
+     If anyone's interested in using this at their company, I'd love to talk to
+     you.
+
  - name: Automated textual analysis for bug report deduplication
    url: /dedup/
    description: "A system that automatically detects duplicate bug reports."
@@ -35,8 +38,12 @@ talks:
 jobs:
   - employer: Darkhorse Analytics
     url: http://dha.io
-    title: "Data Scientist"
-    description: "Modelling novel problems for clients using machine learning and caffeine."
+    title: "ML Engineer/Data Scientist"
+    description: |
+      Used my background in academic research to come up with highly
+      scalable algorithms based on machine learning to solve our clients
+      needs. Solutions were typically based on the state of the art academic
+      literature.
 
 
 
