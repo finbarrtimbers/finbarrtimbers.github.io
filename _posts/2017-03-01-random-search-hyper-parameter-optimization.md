@@ -116,7 +116,7 @@ researcher conduct a sequential manual search. The authors quote [1] on how to
 effectively conduct sequential manual optimization, which is quite insightful.
 The setting used in the experiment is one with 32 different hyper parameters,
 which, if each parameter had two possible values, would create a parameter space
-with $$2^32$$ members- far too large to evaluate with a grid search. In the
+with $$2^{32}$$ members- far too large to evaluate with a grid search. In the
 experiment, random search performed well, but not as well as with the neural
 networks, finding a better model than manual search in 1 data set, an equally
 good model in 4 data sets, and an inferior model in 3 data sets.
