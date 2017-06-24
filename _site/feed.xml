@@ -8,58 +8,6 @@
 		<atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
-				<title>Attention is all you need</title>
-				<description>&lt;h2 id=&quot;abstract&quot;&gt;&lt;a href=&quot;https://arxiv.org/abs/1706.03762&quot;&gt;Abstract&lt;/a&gt;&lt;/h2&gt;
-
-&lt;p&gt;The dominant sequence transduction models are based on complex recurrent or
-convolutional neural networks in an encoder-decoder configuration. The best
-performing models also connect the encoder and decoder through an attention
-mechanism. We propose a new simple network architecture, the Transformer, based
-solely on attention mechanisms, dispensing with recurrence and convolutions
-entirely. Experiments on two machine translation tasks show these models to be
-superior in quality while being more parallelizable and requiring significantly
-less time to train. Our model achieves 28.4 BLEU on the WMT 2014
-English-to-German translation task, improving over the existing best results,
-including ensembles by over 2 BLEU. On the WMT 2014 English-to-French
-translation task, our model establishes a new single-model state-of-the-art BLEU
-score of 41.0 after training for 3.5 days on eight GPUs, a small fraction of the
-training costs of the best models from the literature. We show that the
-Transformer generalizes well to other tasks by applying it successfully to
-English constituency parsing both with large and limited training data.&lt;/p&gt;
-
-&lt;h2 id=&quot;notes&quot;&gt;Notes&lt;/h2&gt;
-
-&lt;p&gt;This paper is focused on .
-This is a problem as&lt;/p&gt;
-
-&lt;h2 id=&quot;conclusions&quot;&gt;Conclusions&lt;/h2&gt;
-
-&lt;p&gt;Strong paper, effectively lays out how training deep networks can be scaled
-effectively. This sort of yeoman's work is needed in the field.&lt;/p&gt;
-
-&lt;p&gt;Concerns:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;Continues the trend of papers that rely on resources only available at a
-handful of industrial labs. No academic researcher that's not affiliated with
-a large tech company would be able to muster the 256 GPUs required to reproduce
-this work.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;The amount of proprietary code required for this is a bit insane; you have to
-have an infrastructure that can support the communication between GPUs required
-here. Similar to my first point. Reproducibility suffers.&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-</description>
-				<pubDate>Wed, 21 Jun 2017 00:00:00 -0600</pubDate>
-				<link>http://localhost:4000/attention/</link>
-				<guid isPermaLink="true">http://localhost:4000/attention/</guid>
-			</item>
-		
-			<item>
 				<title>Accurate, Large Minibatch SGD: Training ImageNet in 1 Hour</title>
 				<description>&lt;h2 id=&quot;abstract&quot;&gt;&lt;a href=&quot;https://research.fb.com/wp-content/uploads/2017/06/imagenet1kin1h5.pdf?&quot;&gt;Abstract&lt;/a&gt;&lt;/h2&gt;
 
@@ -117,22 +65,22 @@ to match the accuracy between small and large minibatches.&lt;/p&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
 w_{t+k} = w_t - \eta \frac{1}{n} \sum \limits_{j &lt; k} \sum
-\limits_{x \in \mathcal{B}_j} \grad l(x, w_{t + j}) %]]&gt;&lt;/script&gt;
+\limits_{x \in \mathcal{B}_j} \nabla l(x, w_{t + j}) %]]&gt;&lt;/script&gt;
 
-&lt;p&gt;when taking a single step with a minibatch &lt;script type=&quot;math/tex&quot;&gt;\cup_j \mathcal{B}_j&lt;/script&gt; of size
-&lt;script type=&quot;math/tex&quot;&gt;kn&lt;/script&gt; and learning rate &lt;script type=&quot;math/tex&quot;&gt;\eta'&lt;/script&gt;, the weight vector is instead&lt;/p&gt;
+&lt;p&gt;When, instead, we take asingle step with a minibatch &lt;script type=&quot;math/tex&quot;&gt;\cup_j \mathcal{B}_j&lt;/script&gt; of size
+&lt;script type=&quot;math/tex&quot;&gt;kn&lt;/script&gt; and learning rate &lt;script type=&quot;math/tex&quot;&gt;\eta'&lt;/script&gt;, the updated weight vector is instead&lt;/p&gt;
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
 w_{t+1}' = w_t - \eta' \frac{1}{n} \sum \limits_{j &lt; k} \sum
-\limits_{x \in \mathcal{B}_j} \grad l(x, w_t), %]]&gt;&lt;/script&gt;
+\limits_{x \in \mathcal{B}_j} \nabla l(x, w_t), %]]&gt;&lt;/script&gt;
 
 &lt;p&gt;which is different. However, if &lt;script type=&quot;math/tex&quot;&gt;\Delta l(x, w_t)&lt;/script&gt; is close in value to
-&lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
-\Delta l(x, w_{t+j})$ for $j &lt; k$, then setting %]]&gt;&lt;/script&gt;\eta' = kn&lt;script type=&quot;math/tex&quot;&gt;makes it so
-that&lt;/script&gt;w_{t+1} \approx w_{t+k}$$ (I would imagine that you could formalize this
-with an epsilon-delta proof). The paper notes that the two updates can only
-be similar when the linear scaling rule is used; in other words, the linear
-scaling rule is necessary, but not sufficient.&lt;/p&gt;
+&lt;script type=&quot;math/tex&quot;&gt;\Delta l(x, w_{t+j})&lt;/script&gt; for &lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
+j &lt; k %]]&gt;&lt;/script&gt;, then setting &lt;script type=&quot;math/tex&quot;&gt;\eta' = kn&lt;/script&gt; makes it so
+that &lt;script type=&quot;math/tex&quot;&gt;w_{t+1} \approx w_{t+k}&lt;/script&gt; (I would imagine that you could formalize this
+with an epsilon-delta proof fairly easily). The paper notes that the two updates
+can only be similar when the linear scaling rule is used; in other words, the
+linear scaling rule is necessary, but not sufficient.&lt;/p&gt;
 
 &lt;p&gt;The authors note that the assumption that the two gradients are similar doesn't
 hold during the initial training, when the weights are rapidly changing, and
@@ -273,15 +221,15 @@ optimization algorithms.&lt;/p&gt;
 
 &lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
 
-&lt;p&gt;A learning algorithm $\mathcal{A}$ can be thought of as a functional (a function
-that operates on functions) that maps a data set $\mathcal{X}^{\text{train}}$ to
-a function $f$. We can think of $\mathcal{A}$ as a function itself, and write
-it as $\mathcal{A}(\mathcal{X}^{\text{train}}, \lambda)$, where $\lambda$ is a
+&lt;p&gt;A learning algorithm &lt;script type=&quot;math/tex&quot;&gt;\mathcal{A}&lt;/script&gt; can be thought of as a functional (a function
+that operates on functions) that maps a data set &lt;script type=&quot;math/tex&quot;&gt;\mathcal{X}^{\text{train}}&lt;/script&gt; to
+a function &lt;script type=&quot;math/tex&quot;&gt;f&lt;/script&gt;. We can think of &lt;script type=&quot;math/tex&quot;&gt;\mathcal{A}&lt;/script&gt; as a function itself, and write
+it as &lt;script type=&quot;math/tex&quot;&gt;\mathcal{A}(\mathcal{X}^{\text{train}}, \lambda)&lt;/script&gt;, where &lt;script type=&quot;math/tex&quot;&gt;\lambda&lt;/script&gt; is a
 vector of so-called &quot;hyper-parameters&quot;, which change how the algorithm operates.
-An example is $\alpha$, the $L_1$ penalty in
+An example is &lt;script type=&quot;math/tex&quot;&gt;\alpha&lt;/script&gt;, the &lt;script type=&quot;math/tex&quot;&gt;L_1&lt;/script&gt; penalty in
 &lt;a href=&quot;http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Lasso.html&quot;&gt;Lasso&lt;/a&gt;.
-Finding $\lambda$ is called the &quot;hyper-parameter optimization problem&quot;, which
-consists of finding $\lambda^\star$ that minimizes the expected error of the
+Finding &lt;script type=&quot;math/tex&quot;&gt;\lambda&lt;/script&gt; is called the &quot;hyper-parameter optimization problem&quot;, which
+consists of finding &lt;script type=&quot;math/tex&quot;&gt;\lambda^\star&lt;/script&gt; that minimizes the expected error of the
 algorithm over the set of all possible training sets. Said expected error
 cannot be characterized, and as a result, solutions to the hyper-parameter
 optimization problem take two forms:&lt;/p&gt;
@@ -297,8 +245,8 @@ parameters and uses the best one.&lt;/p&gt;
 &lt;/ol&gt;
 
 &lt;p&gt;Approach 2 is guaranteed to find the optimal combination, but it is extremely
-computationally expensive, growing at a rate of O($p^n$), where $p$ is the
-number of different values each parameter can take, and $n$ is the number of
+computationally expensive, growing at a rate of O(&lt;script type=&quot;math/tex&quot;&gt;p^n&lt;/script&gt;), where &lt;script type=&quot;math/tex&quot;&gt;p&lt;/script&gt; is the
+number of different values each parameter can take, and &lt;script type=&quot;math/tex&quot;&gt;n&lt;/script&gt; is the number of
 different parameters. Typically, manual search is used to minimize the number
 of possible values that each parameter can take, and then a grid search is
 performed over the remaining values.&lt;/p&gt;
@@ -326,8 +274,8 @@ trials, while even with 16 or 32 trials, MNIST rotated background images were
 still exhibiting significant variation.&lt;/p&gt;
 
 &lt;p&gt;The authors use these results to note that in many cases, the effective
-dimensionality of $\psi$ ,the hyper-parameter space, is much lower than the
-possible dimensionality of $\psi$. In other words, many of the parameters only
+dimensionality of &lt;script type=&quot;math/tex&quot;&gt;\psi&lt;/script&gt; ,the hyper-parameter space, is much lower than the
+possible dimensionality of &lt;script type=&quot;math/tex&quot;&gt;\psi&lt;/script&gt;. In other words, many of the parameters only
 have a small number of possible values that are useful.&lt;/p&gt;
 
 &lt;h2 id=&quot;random-vs-sequential-manual-optimization&quot;&gt;Random vs. sequential manual optimization&lt;/h2&gt;
@@ -337,7 +285,7 @@ researcher conduct a sequential manual search. The authors quote &lt;a href=&quo
 effectively conduct sequential manual optimization, which is quite insightful.
 The setting used in the experiment is one with 32 different hyper parameters,
 which, if each parameter had two possible values, would create a parameter space
-with $2^32$ members- far too large to evaluate with a grid search. In the
+with &lt;script type=&quot;math/tex&quot;&gt;2^32&lt;/script&gt; members- far too large to evaluate with a grid search. In the
 experiment, random search performed well, but not as well as with the neural
 networks, finding a better model than manual search in 1 data set, an equally
 good model in 4 data sets, and an inferior model in 3 data sets.&lt;/p&gt;
@@ -782,6 +730,30 @@ Larry had that explains far more about enterprise sales than it should:&lt;/p&gt
 				<pubDate>Tue, 06 Dec 2016 00:00:00 -0700</pubDate>
 				<link>http://localhost:4000/softwar-academic/</link>
 				<guid isPermaLink="true">http://localhost:4000/softwar-academic/</guid>
+			</item>
+		
+			<item>
+				<title>SqueezeNet: AlexNet-level accuracy with 50x fewer parameters and <0.5mb model size</title>
+				<description>&lt;h3 id=&quot;abstract&quot;&gt;&lt;a href=&quot;https://arxiv.org/abs/1602.07360&quot;&gt;Abstract&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;Recent research on deep neural networks has focused primarily on improving
+accuracy. For a given accuracy level, it is typically possible to identify
+multiple DNN architectures that achieve that accuracy level. With equivalent
+accuracy, smaller DNN architectures offer at least three advantages: (1) Smaller
+DNNs require less communication across servers during distributed training. (2)
+Smaller DNNs require less bandwidth to export a new model from the cloud to an
+autonomous car. (3) Smaller DNNs are more feasible to deploy on FPGAs and other
+hardware with limited memory. To provide all of these advantages, we propose a
+small DNN architecture called SqueezeNet. SqueezeNet achieves AlexNet-level
+accuracy on ImageNet with 50x fewer parameters. Additionally, with model
+compression techniques we are able to compress SqueezeNet to less than 0.5MB
+(510x smaller than AlexNet).&lt;/p&gt;
+
+&lt;h3 id=&quot;notes&quot;&gt;Notes&lt;/h3&gt;
+</description>
+				<pubDate>Thu, 10 Nov 2016 00:00:00 -0700</pubDate>
+				<link>http://localhost:4000/SqueezeNet/</link>
+				<guid isPermaLink="true">http://localhost:4000/SqueezeNet/</guid>
 			</item>
 		
 	</channel>

@@ -60,23 +60,23 @@ $$n$$, the weight vector is
 
 $$
 w_{t+k} = w_t - \eta \frac{1}{n} \sum \limits_{j < k} \sum
-\limits_{x \in \mathcal{B}_j} \grad l(x, w_{t + j})
+\limits_{x \in \mathcal{B}_j} \nabla l(x, w_{t + j})
 $$
 
-when taking a single step with a minibatch $$\cup_j \mathcal{B}_j$$ of size
-$$kn$$ and learning rate $$\eta'$$, the weight vector is instead
+When, instead, we take asingle step with a minibatch $$\cup_j \mathcal{B}_j$$ of size
+$$kn$$ and learning rate $$\eta'$$, the updated weight vector is instead
 
 $$
 w_{t+1}' = w_t - \eta' \frac{1}{n} \sum \limits_{j < k} \sum
-\limits_{x \in \mathcal{B}_j} \grad l(x, w_t),
+\limits_{x \in \mathcal{B}_j} \nabla l(x, w_t),
 $$
 
 which is different. However, if $$\Delta l(x, w_t)$$ is close in value to
-$$\Delta l(x, w_{t+j})$ for $j < k$, then setting $$\eta' = kn$$ makes it so
+$$\Delta l(x, w_{t+j})$$ for $$j < k$$, then setting $$\eta' = kn$$ makes it so
 that $$w_{t+1} \approx w_{t+k}$$ (I would imagine that you could formalize this
-with an epsilon-delta proof). The paper notes that the two updates can only
-be similar when the linear scaling rule is used; in other words, the linear
-scaling rule is necessary, but not sufficient.
+with an epsilon-delta proof fairly easily). The paper notes that the two updates
+can only be similar when the linear scaling rule is used; in other words, the
+linear scaling rule is necessary, but not sufficient.
 
 The authors note that the assumption that the two gradients are similar doesn't
 hold during the initial training, when the weights are rapidly changing, and

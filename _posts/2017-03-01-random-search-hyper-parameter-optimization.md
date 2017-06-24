@@ -28,21 +28,46 @@ techniques for hyper-parameter optimization; this work shows that random search 
 against which to judge progress in the development of adaptive (sequential) hyper-parameter
 optimization algorithms.
 
-# Summary
+## Notes
 
-## Introduction
+This paper is focused on hyperparameter optimization. Hyperparameter
+optimization (HPO) is the process by which the optimal hyperparameters for a
+machine learning model are picked (shocking, I know). Hyperparameters are the
+parameters of the model that are set outside of the training process; in a
+neural network, for example, the size and shape of the network is a
+hyperparameter, as is the learning rate. The hyperparameters massively affect
+the performance of the model, and HPO can dramatically improve the performance
+of a model.
 
-A learning algorithm $\mathcal{A}$ can be thought of as a functional (a function
-that operates on functions) that maps a data set $\mathcal{X}^{\text{train}}$ to
-a function $f$. We can think of $\mathcal{A}$ as a function itself, and write
-it as $\mathcal{A}(\mathcal{X}^{\text{train}}, \lambda)$, where $\lambda$ is a
+As an anecdote of why HPO is important, I was training a model that used a RNN
+to predict values in a time series. By changing the weight initializations of
+our network, we were able to dramatically improve performance. We found the
+right value for the initialization through HPO.
+
+HPO is a problem as the previous best practice on how to find the optimal
+hyperparameter was to perform a grid search, which is extraordinarily
+expensive. This is because the number of steps required in the search grows
+exponentially; with 5 hyperparameters, each with 5 possible values, you have
+$$5^5 = 3125$$ possible configurations. If you have 10 hyperparameters, you have
+$$10^5 = 100000$$ different configurations-- 32 times as many configurations to
+search. Moreover, the process isn't perfectly parallelizable as you have to
+assign the configurations consistently. This paper, when it came out, was highly
+influential as it presented a better way to search for the best hyperparameters.
+
+
+## Theoretical background
+
+A learning algorithm $$\mathcal{A}$$ can be thought of as a functional (a function
+that operates on functions) that maps a data set $$\mathcal{X}^{\text{train}}$$ to
+a function $$f$$. We can think of $$\mathcal{A}$$ as a function itself, and write
+it as $$\mathcal{A}(\mathcal{X}^{\text{train}}, \lambda)$$, where $$\lambda$$ is a
 vector of so-called "hyper-parameters", which change how the algorithm operates.
-An example is $\alpha$, the $L_1$ penalty in
+An example is $$\alpha$$, the $$L_1$$ penalty in
 [Lasso](http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Lasso.html).
-Finding $\lambda$ is called the "hyper-parameter optimization problem", which
-consists of finding $\lambda^\star$ that minimizes the expected error of the
-algorithm over the set of all possible training sets. Said expected error
-cannot be characterized, and as a result, solutions to the hyper-parameter
+Finding $$\lambda$$ is called the "hyper-parameter optimization problem", which
+consists of finding $$\lambda^\star$$ that minimizes the expected error of the
+algorithm over the set of all possible training sets. Since it is impossible to
+actually calculate the expected error, solutions to the hyper-parameter
 optimization problem take two forms:
 
 1. The manual approach, where a researcher tries a number of different
@@ -51,8 +76,8 @@ parameters and uses the best one.
 2. Grid search, where all of the different combinations of parameters are tried.
 
 Approach 2 is guaranteed to find the optimal combination, but it is extremely
-computationally expensive, growing at a rate of O($p^n$), where $p$ is the
-number of different values each parameter can take, and $n$ is the number of
+computationally expensive, growing at a rate of O($$p^n$$), where $$p$$ is the
+number of different values each parameter can take, and $$n$$ is the number of
 different parameters. Typically, manual search is used to minimize the number
 of possible values that each parameter can take, and then a grid search is
 performed over the remaining values.
@@ -80,8 +105,8 @@ trials, while even with 16 or 32 trials, MNIST rotated background images were
 still exhibiting significant variation.
 
 The authors use these results to note that in many cases, the effective
-dimensionality of $\psi$ ,the hyper-parameter space, is much lower than the
-possible dimensionality of $\psi$. In other words, many of the parameters only
+dimensionality of $$\psi$$ ,the hyper-parameter space, is much lower than the
+possible dimensionality of $$\psi$$. In other words, many of the parameters only
 have a small number of possible values that are useful.
 
 ## Random vs. sequential manual optimization
@@ -91,7 +116,7 @@ researcher conduct a sequential manual search. The authors quote [1] on how to
 effectively conduct sequential manual optimization, which is quite insightful.
 The setting used in the experiment is one with 32 different hyper parameters,
 which, if each parameter had two possible values, would create a parameter space
-with $2^32$ members- far too large to evaluate with a grid search. In the
+with $$2^32$$ members- far too large to evaluate with a grid search. In the
 experiment, random search performed well, but not as well as with the neural
 networks, finding a better model than manual search in 1 data set, an equally
 good model in 4 data sets, and an inferior model in 3 data sets.
@@ -108,12 +133,30 @@ started, and scaled without difficulty.
 
 # Comments
 
-The paper makes a lot of sense, and I'm persuaded to swap out grid search for a
-randomized search in my own work. I'd like to see some sort of sequential
-randomized grid search that works iteratively, alternating between performing a
-randomized grid search over a subset of the parameter space, and then selecting
-a new, smaller subset to search over (in effect, performing gradient descent
-over the parameter space). Perhaps that exists and I need to find a paper
-discussing that.
+The paper makes a lot of sense, and it's been pretty effective at convincing
+researchers to switch away from using grid searches. I use randomized search
+myself. Some more detailed notes:
+
+1. I'd like to see some sort of sequential randomized grid search that works
+iteratively, alternating between performing a randomized grid search over a
+subset of the parameter space, and then selecting a new, smaller subset to
+search over (in effect, performing gradient descent over the parameter
+space). Perhaps that exists and I need to find a paper discussing that. That is
+what happens practically.
+
+2. I was talking to a startup founder working on a deep learning product about
+   HPO a few weeks ago and he mentioned that he considers HPO to be CapEx, in
+   the sense that it's an investment in the model, just like code. I agree, and
+   that changed how I think about HPO.
+
+3. Intuitively, it makes sense that there would be some smarter way to explore
+   the hyperparameter space than to use a random search. There's been a lot of
+   interesting work that uses Bayesian Optimization to find the optimal
+   hyperparameters, and some interesting work by Google that uses RNNs to
+   perform their HPO [2, 3]. I'll be interested to see where that leads. Google
+   has been developing a system called "AutoML" that does this automatically,
+   which will be useful when it's released.
 
 [1]: https://dl.acm.org/citation.cfm?id=1273556
+[2]: https://research.googleblog.com/2017/05/using-machine-learning-to-explore.html
+[3]: https://arxiv.org/abs/1611.01578
