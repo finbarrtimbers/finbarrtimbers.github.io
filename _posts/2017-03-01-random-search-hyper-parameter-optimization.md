@@ -1,6 +1,6 @@
 ---
 layout: post
-title:Random Search for Hyper-Parameter Optimization
+title: "Random Search for Hyper-Parameter Optimization"
 tags: machine learning statistics papers
 ---
 

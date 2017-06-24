@@ -4,22 +4,36 @@
 
   <url>
     <loc>http://localhost:4000</loc>
-    <lastmod>2017-02-27</lastmod>
+    <lastmod>2017-06-23</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
   
   <url>
-    <loc>http://localhost:4000/2016-11-10-SqueezeNet/</loc>
-    <lastmod>2017-02-27</lastmod>
+    <loc>http://localhost:4000/attention/</loc>
+    <lastmod>2017-06-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://localhost:4000/2016-10-20-representation-learning-overview/</loc>
-    <lastmod>2017-02-27</lastmod>
+    <loc>http://localhost:4000/imagenet-1-hour/</loc>
+    <lastmod>2017-06-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://localhost:4000/testing/</loc>
+    <lastmod>2017-03-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://localhost:4000/random-search-hyper-parameter-optimization/</loc>
+    <lastmod>2017-03-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -67,8 +81,22 @@
   </url>
   
   <url>
+    <loc>http://localhost:4000/SqueezeNet/</loc>
+    <lastmod>2016-11-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>http://localhost:4000/ridge-regression-with-cross-validation/</loc>
     <lastmod>2016-10-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://localhost:4000/representation-learning-overview/</loc>
+    <lastmod>2016-10-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -143,7 +171,7 @@
     
       <url>
         <loc>http://localhost:4000/reading/</loc>
-        <lastmod>2017-02-27</lastmod>
+        <lastmod>2017-06-23</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
       </url>
@@ -152,7 +180,7 @@
     
       <url>
         <loc>http://localhost:4000/calendar/</loc>
-        <lastmod>2017-02-27</lastmod>
+        <lastmod>2017-06-23</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
       </url>
@@ -161,7 +189,7 @@
     
       <url>
         <loc>http://localhost:4000/dedup/</loc>
-        <lastmod>2017-02-27</lastmod>
+        <lastmod>2017-06-23</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
       </url>
@@ -174,7 +202,7 @@
     
       <url>
         <loc>http://localhost:4000/notes/</loc>
-        <lastmod>2017-02-27</lastmod>
+        <lastmod>2017-06-23</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
       </url>
@@ -183,7 +211,7 @@
     
       <url>
         <loc>http://localhost:4000/projects/</loc>
-        <lastmod>2017-02-27</lastmod>
+        <lastmod>2017-06-23</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
       </url>
@@ -192,7 +220,7 @@
     
       <url>
         <loc>http://localhost:4000/schedule/</loc>
-        <lastmod>2017-02-27</lastmod>
+        <lastmod>2017-06-23</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
       </url>

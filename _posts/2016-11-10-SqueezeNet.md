@@ -1,6 +1,6 @@
 ---
 layout: post
-title: SqueezeNet: AlexNet-level accuracy with 50x fewer parameters and <0.5mb model size
+title: "SqueezeNet: AlexNet-level accuracy with 50x fewer parameters and <0.5mb model size"
 tags: papers machine-learning
 ---
 
