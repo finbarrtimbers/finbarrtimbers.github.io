@@ -47,4 +47,4 @@ messy, and I am in the process of making it more presentable.
 
 [Anahita Alipour, Abram Hindle, and Eleni Stroulia. A contextual approach towards more accurate duplicate bug report detection. In Proceedings of the Tenth International Workshop on Mining Software Repositories, pages 183–192. IEEE Press, 2013.](http://softwareprocess.es/a/bugdedup.pdf)
 
-[K. Aggarwal, T. Rutgers, F. Timbers, A. Hindle, R. Greiner, E. Stroulia. "Detecting Duplicate Bug Reports with Software Engineering Domain Knowledge". IEEE International Conference on Software Analysis, Evolution, and Reengineering, January 2015.](http://papersdb.cs.ualberta.ca/~papersdb/view_publication.php?pub_id=1125)
+[K. Aggarwal, T. Rutgers, F. Timbers, A. Hindle, R. Greiner, E. Stroulia. "Detecting Duplicate Bug Reports with Software Engineering Domain Knowledge". IEEE International Conference on Software Analysis, Evolution, and Reengineering, January 2015.](http://softwareprocess.es/pubs/aggarwal2015SANER-dedup.pdf)

@@ -16,6 +16,17 @@ between distributions.
 
 ## Notes
 
+This paper is focused on unsupervised learning (UL). Unsupervised learning is
+difficult because it's rarely clear what the right answer is when it comes to an
+unsupervised learning problem, so it's difficult to train. The paper focuses on
+using UL to learn a probability distribution, which historically is done by
+deciding on some family of distributions and choosing appropriate parameters for
+the distribution. For instance, you could decide that your family of
+distributions is normal, in which case you would choose the mean and standard
+deviation, typically by using maximum likelihood estimation (MLE).
+
+
+
 This paper is focused on Generative Adversarial Networks (GANs).
 This is a problem as
 
