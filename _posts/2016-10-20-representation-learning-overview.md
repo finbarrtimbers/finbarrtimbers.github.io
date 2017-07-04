@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Representation Learning: A Review and New Perspectives
+title: "Representation Learning: A Review and New Perspectives"
 tags: papers machine-learning
 ---
 

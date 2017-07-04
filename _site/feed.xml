@@ -8,82 +8,401 @@
 		<atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
-				<title></title>
-				<description>&lt;h3 id=&quot;abstract&quot;&gt;&lt;a href=&quot;https://arxiv.org/abs/1602.07360&quot;&gt;Abstract&lt;/a&gt;&lt;/h3&gt;
+				<title>Outrageously Large Neural Networks: The sparsely-gated Mixture-of-Experts layer</title>
+				<description>&lt;h2 id=&quot;abstract&quot;&gt;&lt;a href=&quot;https://openreview.net/pdf?id=B1ckMDqlg&quot;&gt;Abstract&lt;/a&gt;&lt;/h2&gt;
 
-&lt;p&gt;Recent research on deep neural networks has focused primarily on improving
-accuracy. For a given accuracy level, it is typically possible to identify
-multiple DNN architectures that achieve that accuracy level. With equivalent
-accuracy, smaller DNN architectures offer at least three advantages: (1) Smaller
-DNNs require less communication across servers during distributed training. (2)
-Smaller DNNs require less bandwidth to export a new model from the cloud to an
-autonomous car. (3) Smaller DNNs are more feasible to deploy on FPGAs and other
-hardware with limited memory. To provide all of these advantages, we propose a
-small DNN architecture called SqueezeNet. SqueezeNet achieves AlexNet-level
-accuracy on ImageNet with 50x fewer parameters. Additionally, with model
-compression techniques we are able to compress SqueezeNet to less than 0.5MB
-(510x smaller than AlexNet).&lt;/p&gt;
+&lt;p&gt;The capacity of a neural network to absorb information is limited by its number of
+parameters. Conditional computation, where parts of the network are active on a
+per-example basis, has been proposed in theory as a way of dramatically increasing
+model capacity without a proportional increase in computation. In practice,
+however, there are significant algorithmic and performance challenges. In this
+work, we address these challenges and finally realize the promise of conditional
+computation, achieving greater than 1000x improvements in model capacity with
+only minor losses in computational efficiency on modern GPU clusters. We introduce
+a Sparsely-Gated Mixture-of-Experts layer (MoE), consisting of up to
+thousands of feed-forward sub-networks. A trainable gating network determines
+a sparse combination of these experts to use for each example. We apply the MoE
+to the tasks of language modeling and machine translation, where model capacity
+is critical for absorbing the vast quantities of knowledge available in the training
+corpora. We present model architectures in which a MoE with up to 137 billion
+parameters is applied convolutionally between stacked LSTM layers. On large
+language modeling and machine translation benchmarks, these models achieve
+significantly better results than state-of-the-art at lower computational cost.&lt;/p&gt;
 
-&lt;h3 id=&quot;notes&quot;&gt;Notes&lt;/h3&gt;
+&lt;h2 id=&quot;notes&quot;&gt;Notes&lt;/h2&gt;
+
+&lt;p&gt;The paper centers around the fact that a neural net of size N requires O(N^2)
+computations to execute, which is problematic, as the ability of the network to
+learn data is roughly O(N). The authors propose a method to conduct conditional
+computation, which is a process in which different parts of the network are
+activated depending on the sample, thereby saving significant computational
+effort.&lt;/p&gt;
+
+&lt;p&gt;Their results indicate that they achieved this- they achieve SOTA results on NMT
+(WMT En -&amp;gt; Fr &amp;amp; En -&amp;gt; De, Wu et. al 2016) despite much less training (1/6th of
+the time).&lt;/p&gt;
+
+&lt;p&gt;Effectively, the paper presents a way to produce strong models while
+significantly reducing computational complexity.&lt;/p&gt;
 </description>
-				<pubDate>Mon, 27 Feb 2017 20:53:14 -0700</pubDate>
-				<link>http://localhost:4000/2016-11-10-SqueezeNet/</link>
-				<guid isPermaLink="true">http://localhost:4000/2016-11-10-SqueezeNet/</guid>
+				<pubDate>Sat, 01 Jul 2017 00:00:00 -0600</pubDate>
+				<link>http://localhost:4000/outrageously-large-networks/</link>
+				<guid isPermaLink="true">http://localhost:4000/outrageously-large-networks/</guid>
 			</item>
 		
 			<item>
-				<title></title>
-				<description>&lt;h3 id=&quot;abstract&quot;&gt;&lt;a href=&quot;https://arxiv.org/abs/1206.5538&quot;&gt;Abstract&lt;/a&gt;&lt;/h3&gt;
+				<title>Accurate, Large Minibatch SGD: Training ImageNet in 1 Hour</title>
+				<description>&lt;h2 id=&quot;abstract&quot;&gt;&lt;a href=&quot;https://research.fb.com/wp-content/uploads/2017/06/imagenet1kin1h5.pdf?&quot;&gt;Abstract&lt;/a&gt;&lt;/h2&gt;
 
-&lt;p&gt;The success of machine learning algorithms generally depends on data
-representation, and we hypothesize that this is because different
-representations can entangle and hide more or less the different explanatory
-factors of variation behind the data. Although specific domain knowledge can be
-used to help design representations, learning with generic priors can also be
-used, and the quest for AI is motivating the design of more powerful
-representation-learning algorithms implementing such priors. This paper reviews
-recent work in the area of unsupervised feature learning and deep learning,
-covering advances in probabilistic models, auto-encoders, manifold learning, and
-deep networks. This motivates longer-term unanswered questions about the
-appropriate objectives for learning good representations, for computing
-representations (i.e., inference), and the geometrical connections between
-representation learning, density estimation and manifold learning.&lt;/p&gt;
+&lt;p&gt;Deep learning thrives with large neural networks and large datasets. However,
+larger networks and larger datasets result in longer training times that impede
+research and development progress. Distributed synchronous SGD offers a
+potential solution to this problem by dividing SGD minibatches over a pool of
+parallel workers. Yet to make this scheme efficient, the per-worker workload
+must be large, which implies nontrivial growth in the SGD minibatch size. In
+this paper, we empirically show that on the ImageNet dataset large minibatches
+cause optimization dif- ficulties, but when these are addressed the trained
+networks exhibit good generalization. Specifically, we show no loss of accuracy
+when training with large minibatch sizes up to 8192 images. To achieve this
+result, we adopt a linear scaling rule for adjusting learning rates as a
+function of minibatch size and develop a new warmup scheme that overcomes
+optimization challenges early in training. With these simple techniques, our
+Caffe2-based system trains ResNet- 50 with a minibatch size of 8192 on 256 GPUs
+in one hour, while matching small minibatch accuracy. Using commodity hardware,
+our implementation achieves ∼90% scaling efficiency when moving from 8 to 256
+GPUs. This system enables us to train visual recognition models on internetscale
+data with high efficiency.&lt;/p&gt;
 
-&lt;h3 id=&quot;notes&quot;&gt;Notes&lt;/h3&gt;
+&lt;h2 id=&quot;notes&quot;&gt;Notes&lt;/h2&gt;
 
-&lt;p&gt;Data representation is key to machine learning, and there are entire fields of
-computer science dedicated to detecting features from data (e.g. computer
-vision). Recent developments using convolutional network models [@zeiler2014]
-have shown that convnets can automatically learn features from the data. This
-automated feature detection is extremely powerful, and provides a lot of value.
-To allow computers to better understand the world, it is important to figure out
-how computers can learn optimal representations of the world.&lt;/p&gt;
+&lt;p&gt;This paper is focused on parallelizing model training across multiple GPUs. This
+is a problem as it is currently typically quite difficult to get reasonable
+speedups when using multiple GPUs to train a model (by difficult, I mean that
+you get significantly less than linear speedups).&lt;/p&gt;
 
-&lt;p&gt;The authors discuss desirable features for a given representation. These
-include smoothness (&lt;script type=&quot;math/tex&quot;&gt;x \approx y&lt;/script&gt; should imply that &lt;script type=&quot;math/tex&quot;&gt;f(x) \approx f(y)&lt;/script&gt;),
-manifolds (i.e. detecting the relevant dimensions in high-dimensionality data),
-sparsity, simplicity, and learning factors that help explain aspects of
-variation, not one off factors. The authors discuss the curse of
-dimensionality, namely that complication grows exponentially with the number
-of dimensions, and so for a high-dimensionality object, it is exponentially
-more difficult to learn a smooth representation when compared to a
-lower-dimensionality object.&lt;/p&gt;
+&lt;p&gt;In this paper, by Facebook Research, the authors are able to get &lt;em&gt;almost&lt;/em&gt; linear
+speedups moving from 8 to 256 GPUs (0.9x), which is quite good. Using 256 GPUs,
+the authors are able to train the ResNet-50 model in 1 hour (to give you an
+idea of how impressive this is, the ImageNet dataset consists of 750 GB of
+data). AlexNet, which was the breakthrough paper that was a large
+contributor to Deep Learning's current popularity, took 5-6 days to train for 90
+epochs on two NVIDIA GTX 580s, which is equivalent to 288 GPU hours &lt;a href=&quot;https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks&quot;&gt;1&lt;/a&gt;.&lt;/p&gt;
 
-&lt;p&gt;The paper focuses on how expressive certain representations are, comparing
-models like RBMs, auto-encoders, and multi-layer neural networks to more
-traditional algorithms like one-hot representations, Gaussian mixtures, and
-nearest neighbour algorithms, discussing how the former can represent up to
-&lt;script type=&quot;math/tex&quot;&gt;O(2^k)&lt;/script&gt; input regions using only &lt;script type=&quot;math/tex&quot;&gt;O(N)&lt;/script&gt; inputs, while the latter can
-only represent &lt;script type=&quot;math/tex&quot;&gt;O(N)&lt;/script&gt; regions using &lt;script type=&quot;math/tex&quot;&gt;O(N)&lt;/script&gt; inputs. This is both good and
-bad, as you can have representations that are too precise with some of the more
-advanced representations.&lt;/p&gt;
+&lt;p&gt;The trick that they use to do this is to use a large minibatch size consisting
+of 8192 images. Using a large minibatch size makes it much easier to fully
+exploit the GPUs, and hence makes training run faster, however, it makes each
+gradient update noisier, making the training potentially take longer to
+converge (or making it so that training might converge to a &lt;em&gt;wrong&lt;/em&gt;,
+i.e. non-optimal, answer). Additionally, if you are using multiple GPUs, you
+have to synchronize the weights after each minibatch update, so having smaller
+minibatches causes the required communication overhead to drastically increase.&lt;/p&gt;
 
-&lt;p&gt;Deep learning is discussed, focusing on how deep networks evolve their own
-internal representation of the data.&lt;/p&gt;
+&lt;p&gt;To compensate for the noise introduced by the large minibatch size used here,
+the authors used a &quot;Linear Scaling Rule&quot;, where they multiplied the learning
+rate by &lt;script type=&quot;math/tex&quot;&gt;k&lt;/script&gt; when they used a minibatch size of &lt;script type=&quot;math/tex&quot;&gt;k&lt;/script&gt;. This allowed the authors
+to match the accuracy between small and large minibatches.&lt;/p&gt;
+
+&lt;p&gt;The authors note that the linear scaling rule is nice theoretically as, after
+&lt;script type=&quot;math/tex&quot;&gt;k&lt;/script&gt; iterations of SGD with a learning rate of &lt;script type=&quot;math/tex&quot;&gt;\eta&lt;/script&gt; and a minibatch of
+&lt;script type=&quot;math/tex&quot;&gt;n&lt;/script&gt;, the weight vector is&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+w_{t+k} = w_t - \eta \frac{1}{n} \sum \limits_{j &lt; k} \sum
+\limits_{x \in \mathcal{B}_j} \nabla l(x, w_{t + j}) %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;When, instead, we take asingle step with a minibatch &lt;script type=&quot;math/tex&quot;&gt;\cup_j \mathcal{B}_j&lt;/script&gt; of size
+&lt;script type=&quot;math/tex&quot;&gt;kn&lt;/script&gt; and learning rate &lt;script type=&quot;math/tex&quot;&gt;\eta'&lt;/script&gt;, the updated weight vector is instead&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+w_{t+1}' = w_t - \eta' \frac{1}{n} \sum \limits_{j &lt; k} \sum
+\limits_{x \in \mathcal{B}_j} \nabla l(x, w_t), %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;which is different. However, if &lt;script type=&quot;math/tex&quot;&gt;\Delta l(x, w_t)&lt;/script&gt; is close in value to
+&lt;script type=&quot;math/tex&quot;&gt;\Delta l(x, w_{t+j})&lt;/script&gt; for &lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
+j &lt; k %]]&gt;&lt;/script&gt;, then setting &lt;script type=&quot;math/tex&quot;&gt;\eta' = kn&lt;/script&gt; makes it so
+that &lt;script type=&quot;math/tex&quot;&gt;w_{t+1} \approx w_{t+k}&lt;/script&gt; (I would imagine that you could formalize this
+with an epsilon-delta proof fairly easily). The paper notes that the two updates
+can only be similar when the linear scaling rule is used; in other words, the
+linear scaling rule is necessary, but not sufficient.&lt;/p&gt;
+
+&lt;p&gt;The authors note that the assumption that the two gradients are similar doesn't
+hold during the initial training, when the weights are rapidly changing, and
+that the results hold only for a large, but finite, range of minibatch sizes
+(which for ImageNet is as large as 8192). The authors use a &quot;warmup&quot; phase to
+mitigate the problems with divergence during initial training, where the model
+uses less aggressive learning rates, and then switches to the linear scaling
+rule after 5 epochs. That didn't work, and instead, they used a gradual warmup
+that brought the learning rate to increase at a constant rate per iteration
+so that it reached &lt;script type=&quot;math/tex&quot;&gt;\eta' = k \eta&lt;/script&gt; after 5 epochs, which worked better.&lt;/p&gt;
+
+&lt;p&gt;The authors then go on to discuss results, namely that they were able to train
+ResNet-50 in one hour while still getting state of the art results.&lt;/p&gt;
+
+&lt;p&gt;What's novel about this is the size of the parallelization; presumably there's
+nothing special about using 256 GPUs, and if someone had the resources available
+(&lt;em&gt;cough&lt;/em&gt; Google &lt;em&gt;cough&lt;/em&gt;), one could scale this further. Given that GPUs seem to
+be following Moore's law and doubling in performance every 18 months, this paper
+seems to be important; if we can train a state of the art model in one hour
+using 256 GPUs today, then within 3 years, we could train one in 15 minutes. If
+someone wanted to scale the number of GPUs higher, they could train the model in
+under 10 minutes.&lt;/p&gt;
+
+&lt;p&gt;Conversely, researchers currently tolerate several weeks of
+training time (Mozilla's implementation of
+&lt;a href=&quot;https://github.com/mozilla/DeepSpeech&quot;&gt;Baidu's DeepSpeech&lt;/a&gt; model takes
+Mozilla roughly 10 days to train on 4 high end GPUs &lt;a href=&quot;https://github.com/mozilla/DeepSpeech/issues/630&quot;&gt;2&lt;/a&gt;); if the amount of model
+that can be trained in that time drastically increases, all of a sudden
+researchers are able to consider datasets that are radically larger, and can
+start approaching even higher performance levels.&lt;/p&gt;
+
+&lt;h2 id=&quot;conclusions&quot;&gt;Conclusions&lt;/h2&gt;
+
+&lt;p&gt;Strong paper, effectively lays out how training deep networks can be scaled
+effectively. This sort of yeoman's work is needed in the field.&lt;/p&gt;
+
+&lt;p&gt;Concerns:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;Continues the trend of papers that rely on resources only available at a
+handful of industrial labs. No academic researcher that's not affiliated with
+a large tech company would be able to muster the 256 GPUs required to reproduce
+this work.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;The amount of proprietary code required for this is a bit insane; you have to
+have an infrastructure that can support the communication between GPUs required
+here. Similar to my first point. Reproducibility suffers.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
 </description>
-				<pubDate>Mon, 27 Feb 2017 20:53:14 -0700</pubDate>
-				<link>http://localhost:4000/2016-10-20-representation-learning-overview/</link>
-				<guid isPermaLink="true">http://localhost:4000/2016-10-20-representation-learning-overview/</guid>
+				<pubDate>Tue, 20 Jun 2017 00:00:00 -0600</pubDate>
+				<link>http://localhost:4000/imagenet-1-hour/</link>
+				<guid isPermaLink="true">http://localhost:4000/imagenet-1-hour/</guid>
+			</item>
+		
+			<item>
+				<title>Tests make you write down your assumptions</title>
+				<description>&lt;p&gt;I've been fighting with recurring errors the whole time I've been working on
+&lt;a href=&quot;http://www.bugdedupe.com&quot;&gt;BugDedupe&lt;/a&gt;. I keep changing some aspect of the
+frontend, and inadvertently break the site. The way to prevent this, of course,
+is by having a comprehensive test suite. I know that I should have tests, and I do, but not
+at anywhere near the coverage that I need (I'm currently at 29% code
+coverage).&lt;/p&gt;
+
+&lt;p&gt;The reason for the abysmal amount of code coverage is that I don't know how to
+write the tests that I need. For instance, to test that BugDedupe is merging
+rows correctly, I need to:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Set up a test database.&lt;/li&gt;
+  &lt;li&gt;Set up a test Github account.&lt;/li&gt;
+  &lt;li&gt;Mock the &lt;code class=&quot;highlighter-rouge&quot;&gt;POST&lt;/code&gt; request for Flask.&lt;/li&gt;
+  &lt;li&gt;Figure out how Flask's app environments work so that I can get the correct
+context for &lt;code class=&quot;highlighter-rouge&quot;&gt;flask.g&lt;/code&gt; and the &lt;code class=&quot;highlighter-rouge&quot;&gt;user&lt;/code&gt; objects that are used throughout the routes.
+&lt;code class=&quot;highlighter-rouge&quot;&gt;flask.g&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;user&lt;/code&gt; are objects that can be called at any point in the application
+context for Flask without you having to explicitly set &lt;code class=&quot;highlighter-rouge&quot;&gt;user = ...&lt;/code&gt;. This is
+good- it makes it really easy to use them- but it's bad as I don't &lt;em&gt;really&lt;/em&gt;
+know how they work.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;The reason I've been avoiding writing the tests is that it's really difficult
+to write tests when you don't know &lt;em&gt;exactly&lt;/em&gt; what your code is doing, and you
+don't have a clear understanding of how the framework you're using works.
+However, it turns out that it's really difficult to write code that works
+correctly when you don't have a clear understanding of how your framework works.
+So I'm taking the time to figure out exactly what's going on, and so far, it's
+definitely been worth it.&lt;/p&gt;
+
+&lt;p&gt;For instance, I found out how &lt;code class=&quot;highlighter-rouge&quot;&gt;flask.g&lt;/code&gt; works- it turns out that Flask creates
+multiple &lt;a href=&quot;http://flask.pocoo.org/docs/0.12/appcontext/&quot;&gt;contexts&lt;/a&gt; that store
+data that are needed on a per-request basis. &lt;code class=&quot;highlighter-rouge&quot;&gt;flask.g&lt;/code&gt; stores data on the
+application context, so it makes data available to different functions
+during one request. It's effectively a super-global variable. You can't just use
+a global variable to replace &lt;code class=&quot;highlighter-rouge&quot;&gt;flask.g&lt;/code&gt; as then it would break in threaded
+environments, which are necessary when you're trying to serve many users. That's
+cool. I wouldn't have learned that today if I hadn't been writing tests
+that needed to call &lt;code class=&quot;highlighter-rouge&quot;&gt;flask.g&lt;/code&gt; and store data there. I would only have learned it
+when I introduced some nasty bug.&lt;/p&gt;
+
+&lt;p&gt;In short, if you don't know exactly what's going on in your code, then you
+should write tests and formalize your knowledge.&lt;/p&gt;
+</description>
+				<pubDate>Sun, 05 Mar 2017 00:00:00 -0700</pubDate>
+				<link>http://localhost:4000/testing/</link>
+				<guid isPermaLink="true">http://localhost:4000/testing/</guid>
+			</item>
+		
+			<item>
+				<title>Random Search for Hyper-Parameter Optimization</title>
+				<description>&lt;h1 id=&quot;abstract&quot;&gt;&lt;a href=&quot;http://www.jmlr.org/papers/volume13/bergstra12a/bergstra12a.pdf&quot;&gt;Abstract&lt;/a&gt;&lt;/h1&gt;
+
+&lt;p&gt;Grid search and manual search are the most widely used strategies for hyper-parameter optimization.
+This paper shows empirically and theoretically that randomly chosen trials are more efficient
+for hyper-parameter optimization than trials on a grid. Empirical evidence comes from a comparison
+with a large previous study that used grid search and manual search to configure neural networks
+and deep belief networks. Compared with neural networks configured by a pure grid search,
+we find that random search over the same domain is able to find models that are as good or better
+within a small fraction of the computation time. Granting random search the same computational
+budget, random search finds better models by effectively searching a larger, less promising con-
+figuration space. Compared with deep belief networks configured by a thoughtful combination of
+manual search and grid search, purely random search over the same 32-dimensional configuration
+space found statistically equal performance on four of seven data sets, and superior performance
+on one of seven. A Gaussian process analysis of the function from hyper-parameters to validation
+set performance reveals that for most data sets only a few of the hyper-parameters really matter,
+but that different hyper-parameters are important on different data sets. This phenomenon makes
+grid search a poor choice for configuring algorithms for new data sets. Our analysis casts some
+light on why recent “High Throughput” methods achieve surprising success—they appear to search
+through a large number of hyper-parameters because most hyper-parameters do not matter much.
+We anticipate that growing interest in large hierarchical models will place an increasing burden on
+techniques for hyper-parameter optimization; this work shows that random search is a natural baseline
+against which to judge progress in the development of adaptive (sequential) hyper-parameter
+optimization algorithms.&lt;/p&gt;
+
+&lt;h2 id=&quot;notes&quot;&gt;Notes&lt;/h2&gt;
+
+&lt;p&gt;This paper is focused on hyperparameter optimization. Hyperparameter
+optimization (HPO) is the process by which the optimal hyperparameters for a
+machine learning model are picked (shocking, I know). Hyperparameters are the
+parameters of the model that are set outside of the training process; in a
+neural network, for example, the size and shape of the network is a
+hyperparameter, as is the learning rate. The hyperparameters massively affect
+the performance of the model, and HPO can dramatically improve the performance
+of a model.&lt;/p&gt;
+
+&lt;p&gt;As an anecdote of why HPO is important, I was training a model that used a RNN
+to predict values in a time series. By changing the weight initializations of
+our network, we were able to dramatically improve performance. We found the
+right value for the initialization through HPO.&lt;/p&gt;
+
+&lt;p&gt;HPO is a problem as the previous best practice on how to find the optimal
+hyperparameter was to perform a grid search, which is extraordinarily
+expensive. This is because the number of steps required in the search grows
+exponentially; with 5 hyperparameters, each with 5 possible values, you have
+&lt;script type=&quot;math/tex&quot;&gt;5^5 = 3125&lt;/script&gt; possible configurations. If you have 10 hyperparameters, you have
+&lt;script type=&quot;math/tex&quot;&gt;10^5 = 100000&lt;/script&gt; different configurations– 32 times as many configurations to
+search. Moreover, the process isn't perfectly parallelizable as you have to
+assign the configurations consistently. This paper, when it came out, was highly
+influential as it presented a better way to search for the best hyperparameters.&lt;/p&gt;
+
+&lt;h2 id=&quot;theoretical-background&quot;&gt;Theoretical background&lt;/h2&gt;
+
+&lt;p&gt;A learning algorithm &lt;script type=&quot;math/tex&quot;&gt;\mathcal{A}&lt;/script&gt; can be thought of as a functional (a function
+that operates on functions) that maps a data set &lt;script type=&quot;math/tex&quot;&gt;\mathcal{X}^{\text{train}}&lt;/script&gt; to
+a function &lt;script type=&quot;math/tex&quot;&gt;f&lt;/script&gt;. We can think of &lt;script type=&quot;math/tex&quot;&gt;\mathcal{A}&lt;/script&gt; as a function itself, and write
+it as &lt;script type=&quot;math/tex&quot;&gt;\mathcal{A}(\mathcal{X}^{\text{train}}, \lambda)&lt;/script&gt;, where &lt;script type=&quot;math/tex&quot;&gt;\lambda&lt;/script&gt; is a
+vector of so-called &quot;hyper-parameters&quot;, which change how the algorithm operates.
+An example is &lt;script type=&quot;math/tex&quot;&gt;\alpha&lt;/script&gt;, the &lt;script type=&quot;math/tex&quot;&gt;L_1&lt;/script&gt; penalty in
+&lt;a href=&quot;http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Lasso.html&quot;&gt;Lasso&lt;/a&gt;.
+Finding &lt;script type=&quot;math/tex&quot;&gt;\lambda&lt;/script&gt; is called the &quot;hyper-parameter optimization problem&quot;, which
+consists of finding &lt;script type=&quot;math/tex&quot;&gt;\lambda^\star&lt;/script&gt; that minimizes the expected error of the
+algorithm over the set of all possible training sets. Since it is impossible to
+actually calculate the expected error, solutions to the hyper-parameter
+optimization problem take two forms:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;The manual approach, where a researcher tries a number of different
+parameters and uses the best one.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Grid search, where all of the different combinations of parameters are tried.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Approach 2 is guaranteed to find the optimal combination, but it is extremely
+computationally expensive, growing at a rate of O(&lt;script type=&quot;math/tex&quot;&gt;p^n&lt;/script&gt;), where &lt;script type=&quot;math/tex&quot;&gt;p&lt;/script&gt; is the
+number of different values each parameter can take, and &lt;script type=&quot;math/tex&quot;&gt;n&lt;/script&gt; is the number of
+different parameters. Typically, manual search is used to minimize the number
+of possible values that each parameter can take, and then a grid search is
+performed over the remaining values.&lt;/p&gt;
+
+&lt;p&gt;Manual search has advantages and disadvantages; on the one hand, it can work
+well, and it can give researchers insight into how the algorithm works. On the
+flip side, it's not reproducible, and has no guarantee of success, particularly
+in higher dimension spaces.&lt;/p&gt;
+
+&lt;p&gt;Consequently, the authors present a randomized variant of grid search that
+randomly searches the space of all possible hyper-parameters. Random search
+ends up being more practical than grid search as it can be applied using a
+cluster of unreliable computers, and new trials can easily be added to the
+search as all trials are i.i.d.&lt;/p&gt;
+
+&lt;h2 id=&quot;random-vs-grid-for-neural-networks&quot;&gt;Random vs. Grid for neural networks&lt;/h2&gt;
+
+&lt;p&gt;This part of the paper is heavily inspired by Larochelle (2007) &lt;a href=&quot;https://dl.acm.org/citation.cfm?id=1273556&quot;&gt;1&lt;/a&gt;.
+The authors use a variety of classification datasets, including a number of
+variants of MNIST, to perform hyper-parameter optimization on a series of
+neural networks.The authors note that the variation of the hyper-parameter
+optimization varies significantly with the datasets; for MNIST basic,
+experiments with 4 or 8 trials often had the same performance as much bigger
+trials, while even with 16 or 32 trials, MNIST rotated background images were
+still exhibiting significant variation.&lt;/p&gt;
+
+&lt;p&gt;The authors use these results to note that in many cases, the effective
+dimensionality of &lt;script type=&quot;math/tex&quot;&gt;\psi&lt;/script&gt; ,the hyper-parameter space, is much lower than the
+possible dimensionality of &lt;script type=&quot;math/tex&quot;&gt;\psi&lt;/script&gt;. In other words, many of the parameters only
+have a small number of possible values that are useful.&lt;/p&gt;
+
+&lt;h2 id=&quot;random-vs-sequential-manual-optimization&quot;&gt;Random vs. sequential manual optimization&lt;/h2&gt;
+
+&lt;p&gt;The authors discuss an experiment by &lt;a href=&quot;https://dl.acm.org/citation.cfm?id=1273556&quot;&gt;1&lt;/a&gt; comparing randomized grid search with having a
+researcher conduct a sequential manual search. The authors quote &lt;a href=&quot;https://dl.acm.org/citation.cfm?id=1273556&quot;&gt;1&lt;/a&gt; on how to
+effectively conduct sequential manual optimization, which is quite insightful.
+The setting used in the experiment is one with 32 different hyper parameters,
+which, if each parameter had two possible values, would create a parameter space
+with &lt;script type=&quot;math/tex&quot;&gt;2^{32}&lt;/script&gt; members- far too large to evaluate with a grid search. In the
+experiment, random search performed well, but not as well as with the neural
+networks, finding a better model than manual search in 1 data set, an equally
+good model in 4 data sets, and an inferior model in 3 data sets.&lt;/p&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;The authors suggest using randomized search instead of grid search in almost
+every scenario, noting that although more complicated approaches are better
+(e.g. adaptive search algorithms), they're more complicated, while a randomized
+grid search is a much cheaper way of evaluating more of the search space. The
+randomized search, similar to the grid search, is trivially parallelizable, and
+can be scaled much more rapidly than an adaptive search, and can stopped,
+started, and scaled without difficulty.&lt;/p&gt;
+
+&lt;h1 id=&quot;comments&quot;&gt;Comments&lt;/h1&gt;
+
+&lt;p&gt;The paper makes a lot of sense, and it's been pretty effective at convincing
+researchers to switch away from using grid searches. I use randomized search
+myself. Some more detailed notes:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;I'd like to see some sort of sequential randomized grid search that works
+iteratively, alternating between performing a randomized grid search over a
+subset of the parameter space, and then selecting a new, smaller subset to
+search over (in effect, performing gradient descent over the parameter
+space). Perhaps that exists and I need to find a paper discussing that. That is
+what happens practically.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;I was talking to a startup founder working on a deep learning product about
+HPO a few weeks ago and he mentioned that he considers HPO to be CapEx, in
+the sense that it's an investment in the model, just like code. I agree, and
+that changed how I think about HPO.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Intuitively, it makes sense that there would be some smarter way to explore
+the hyperparameter space than to use a random search. There's been a lot of
+interesting work that uses Bayesian Optimization to find the optimal
+hyperparameters, and some interesting work by Google that uses RNNs to
+perform their HPO [2, 3]. I'll be interested to see where that leads. Google
+has been developing a system called &quot;AutoML&quot; that does this automatically,
+which will be useful when it's released.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+</description>
+				<pubDate>Wed, 01 Mar 2017 00:00:00 -0700</pubDate>
+				<link>http://localhost:4000/random-search-hyper-parameter-optimization/</link>
+				<guid isPermaLink="true">http://localhost:4000/random-search-hyper-parameter-optimization/</guid>
 			</item>
 		
 			<item>
@@ -329,16 +648,27 @@ HTTPS.&lt;/p&gt;
 		
 			<item>
 				<title>Useful Bash One-liners</title>
-				<description>&lt;p&gt;The following are a handful of oneliners that I've consistently found useful.
-I found most of them elsewhere online; I wrote very few of these.&lt;/p&gt;
+				<description>&lt;p&gt;I have a file in my home folder that contains Bash oneliners that I use
+regularly (I'm a huge nerd, naturally).  I found most of them elsewhere online;
+I wrote very few of these from scratch.&lt;/p&gt;
 
 &lt;h2 id=&quot;download-a-page-and-all-linked-pagesdocuments&quot;&gt;Download a page and all linked pages/documents:&lt;/h2&gt;
 
 &lt;p&gt;Download &lt;code class=&quot;highlighter-rouge&quot;&gt;$PAGE&lt;/code&gt; and all linked pages/documents, to a depth of &lt;code class=&quot;highlighter-rouge&quot;&gt;$NUM&lt;/code&gt;:&lt;/p&gt;
 
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;wget -r &quot;$NUM&quot; &quot;$PAGE&quot;&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ wget -r &quot;$NUM&quot; &quot;$PAGE&quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
-&lt;p&gt;e.g. &lt;code class=&quot;highlighter-rouge&quot;&gt;wget -r 1 https://courses.cs.washington.edu/courses/cse455/14au/notes/&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;e.g.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ wget -r 1 \
+    https://courses.cs.washington.edu/courses/cse455/14au/notes/
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;If you only want PDF files (e.g. if you're downloading course notes), then you
+can add the flag &lt;code class=&quot;highlighter-rouge&quot;&gt;---accept &quot;*.pdf&quot;&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;Taken from &lt;a href=&quot;http://superuser.com/questions/274414/how-to-save-all-the-webpages-linked-from-one&quot;&gt;Stack Overflow&lt;/a&gt;.&lt;/p&gt;
 
@@ -346,17 +676,29 @@ I found most of them elsewhere online; I wrote very few of these.&lt;/p&gt;
 
 &lt;p&gt;You can replace &lt;code class=&quot;highlighter-rouge&quot;&gt;unrar e&lt;/code&gt; with any other command as well (e.g. &lt;code class=&quot;highlighter-rouge&quot;&gt;unzip&lt;/code&gt;).&lt;/p&gt;
 
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;find ./ -name '*.rar' -execdir unrar e {} \;&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ find ./ -name '*.rar' -execdir unrar e {} \;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;As a data scientist, I often get a dump of data from a client. This command lets
+me process them all at once.&lt;/p&gt;
 
 &lt;h2 id=&quot;turn-white-backgrounds-transparent&quot;&gt;Turn white backgrounds transparent&lt;/h2&gt;
 
-&lt;p&gt;I use this all the time. I found it on the &lt;a href=&quot;http://www.imagemagick.org/discourse-server/viewtopic.php?t=12619&quot;&gt;Imagemagick&lt;/a&gt; forums.&lt;/p&gt;
+&lt;p&gt;I use this ALL THE TIME when I'm giving talks (particularly when I'm teaching). I
+found it on the
+&lt;a href=&quot;http://www.imagemagick.org/discourse-server/viewtopic.php?t=12619&quot;&gt;Imagemagick&lt;/a&gt;
+forums.&lt;/p&gt;
 
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;convert image.gif -transparent white result.gif (or use result.png)&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ convert image.gif -transparent white result.gif (or use result.png)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
 &lt;p&gt;Alternately, if the image has an off-white background:&lt;/p&gt;
 
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;convert image.gif -fuzz XX% -transparent white result.gif&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ convert image.gif -fuzz XX% -transparent white result.gif
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
 &lt;p&gt;where the smaller the %, the closer to true white or conversely, the larger the
 %, the more variation from white is allowed to become transparent.&lt;/p&gt;
@@ -364,9 +706,20 @@ I found most of them elsewhere online; I wrote very few of these.&lt;/p&gt;
 &lt;h2 id=&quot;diff-contents-of-two-folders&quot;&gt;Diff contents of two folders&lt;/h2&gt;
 
 &lt;p&gt;Checks which files are different between the folders &lt;code class=&quot;highlighter-rouge&quot;&gt;dir1&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;dir2&lt;/code&gt;. I've
-used this more times than I'd care to admit.&lt;/p&gt;
+used this to track down bugs when I'm installing our software on client sites
+to make sure that their data is exactly the same as my copy of it.&lt;/p&gt;
 
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&lt;span class=&quot;gh&quot;&gt;diff -qr dir1 dir2&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ diff -qr dir1 dir2
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;You can also use some sort of checksum by zipping up both folders and comparing
+the results, e.g. with&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ md5 dir1.zip
+$ md5 dir2.zip
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 </description>
 				<pubDate>Fri, 20 Jan 2017 00:00:00 -0700</pubDate>
 				<link>http://localhost:4000/Useful-oneliners/</link>
@@ -461,197 +814,11 @@ a book about Oracle's rise. The book is brilliant, and it descibes at length
 Larry Ellison's sales process. There was a passage describing a meeting that
 Larry had that explains far more about enterprise sales than it should:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;larry-ellison-softwar-academic.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/larry-ellison-softwar-academic.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 </description>
 				<pubDate>Tue, 06 Dec 2016 00:00:00 -0700</pubDate>
 				<link>http://localhost:4000/softwar-academic/</link>
 				<guid isPermaLink="true">http://localhost:4000/softwar-academic/</guid>
-			</item>
-		
-			<item>
-				<title>Minimal example of how to do model selection in Python</title>
-				<description>&lt;p&gt;I've had a few people ask me how to do model selection correctly. Here's a
-minimal example with &lt;code class=&quot;highlighter-rouge&quot;&gt;sklearn&lt;/code&gt; in Python.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-{python}&quot;&gt;from sklearn.metrics import mean_squared_error
-from sklearn.model_selection import cross_val_score
-from sklearn.linear_model import Ridge
-
-import numpy as np
-import pandas as pd
-
-# Load and process the data. In production, I'd split this into a function.
-df = pd.read_csv('data.csv')
-X = df[['import_val', 'origin_export_rca', 'origin_import_rca',
-        'origin_eci', 'dest_export_rca', 'dest_import_rca', 'dest_eci']]
-y = df['export_val']
-X = X.as_matrix()
-y = y.as_matrix()
-
-# Train the model. Again, in production, I'd make this a function.
-model = Ridge()
-scores = cross_val_score(model, X, y, cv=5, scoring='mean_squared_error')
-mean_mse, std_mse = np.mean(scores), np.std(scores)
-print(&quot;mean MSE: %.2E, std MSE: %.2E&quot; %(K, mean_mse, std_mse))
-model.fit(X, y)
-print(&quot;Writing predictions to file...&quot;)
-df['Predicted'] = pd.Series(model.predict(X), index=df.index)
-df.to_csv('pred_file.csv')
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&quot;extensions&quot;&gt;Extensions&lt;/h2&gt;
-
-&lt;p&gt;There are a number of ways you can modify this to make it ready for production.
-I'll talk about a few of the most obvious ones:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Running the cross validation in parallel.&lt;/li&gt;
-  &lt;li&gt;Using a grid search to find the optimal parameters to use in the model.&lt;/li&gt;
-  &lt;li&gt;Pass the types of the columns to Pandas to load the data quicker and with
-less memory. If you pass the types, you also have the added benefit of checking
-that the data is the right type, and that there aren't any sneaky &lt;code class=&quot;highlighter-rouge&quot;&gt;None&lt;/code&gt; in
-your dataframe.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Pass &lt;code class=&quot;highlighter-rouge&quot;&gt;n_jobs=-1&lt;/code&gt; to &lt;code class=&quot;highlighter-rouge&quot;&gt;cross_val_score&lt;/code&gt; to run the cross validation in parallel:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-{python}&quot;&gt;scores = cross_val_score(model, X, y, cv=5, scoring='mean_squared_error',
-                         n_jobs=-1)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Use `grid search CV to determine the optimal parameters to use:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-{python}&quot;&gt;from sklearn.model_selection import GridSearchCV
-
-parameters = {'normalize': [True, False],
-              'fit_intercept': [True, False],
-              'alpha': [0, 0.2, 0.4, 0.6, 0.8, 1.0]}
-model = GridSearchCV(Ridge(), parameters, cv=5,
-                     scoring='mean_squared_error')
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Tell Pandas what the types of the columns are to &lt;em&gt;massively&lt;/em&gt; speed up loading
-the data and to use significantly less memory:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-{python}&quot;&gt;df = pd.read_csv('data.csv', dtype={var: float for var in ['import_val',
-                                                           'origin_export_rca',
-                                                           'origin_import_rca',
-                                                           'origin_eci',
-                                                           'dest_export_rca',
-                                                           'dest_import_rca',
-                                                           'dest_eci',
-                                                           'export_val']})
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-				<pubDate>Wed, 26 Oct 2016 00:00:00 -0600</pubDate>
-				<link>http://localhost:4000/ridge-regression-with-cross-validation/</link>
-				<guid isPermaLink="true">http://localhost:4000/ridge-regression-with-cross-validation/</guid>
-			</item>
-		
-			<item>
-				<title>Full Resolution Image Compression with Recurrent Neural Networks</title>
-				<description>&lt;h3 id=&quot;abstract&quot;&gt;&lt;a href=&quot;https://arxiv.org/abs/1608.05148&quot;&gt;Abstract&lt;/a&gt;&lt;/h3&gt;
-
-&lt;p&gt;This paper presents a set of full-resolution lossy image compression methods
-based on neural networks. Each of the architectures we describe can provide
-variable compression rates during deployment without requiring retraining of the
-network: each network need only be trained once. All of our architectures
-consist of a recurrent neural network (RNN)-based encoder and decoder, a
-binarizer, and a neural network for entropy coding. We compare RNN types (LSTM,
-associative LSTM) and introduce a new hybrid of GRU and ResNet. We also study
-&quot;one-shot&quot; versus additive reconstruction architectures and introduce a new
-scaled-additive framework. We compare to previous work, showing improvements of
-4.3%-8.8% AUC (area under the rate-distortion curve), depending on the
-perceptual metric used. As far as we know, this is the first neural network
-architecture that is able to outperform JPEG at image compression across most
-bitrates on the rate-distortion curve on the Kodak dataset images, with and
-without the aid of entropy coding.&lt;/p&gt;
-
-&lt;h3 id=&quot;notes&quot;&gt;Notes&lt;/h3&gt;
-
-&lt;p&gt;It's been thought that neural nets should be good at image compression, but
-there haven't been any results to indciate that this is true across a variety
-of scenarios (i.e. with the exception of dedicated, one-off image compression
-nets). A previous paper by one of the authors was able to do this, but only for
-32 x 32 images. This paper tries to generalize that.&lt;/p&gt;
-
-&lt;p&gt;The authors use a three component architecture comprised of an encoding network
-&lt;script type=&quot;math/tex&quot;&gt;E&lt;/script&gt;, a binarizer &lt;script type=&quot;math/tex&quot;&gt;B&lt;/script&gt;, and a decoding network &lt;script type=&quot;math/tex&quot;&gt;D&lt;/script&gt;. The input images are
-encoded, turned into binary, transmitted through the network, and then decoded.
-The authors represent a single iteration of their network as:&lt;/p&gt;
-
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;b_t = B(E_t(r_{t-1})), \hat{x}_t = D_t(b_t) + \gamma \hat{x}_{t-1}, r_t = x - \hat{x_t}, r_0 = x, \hat{x}_0 = 0,&lt;/script&gt;
-
-&lt;p&gt;where &lt;script type=&quot;math/tex&quot;&gt;D_t&lt;/script&gt; and &lt;script type=&quot;math/tex&quot;&gt;E_t&lt;/script&gt; represent the decoder/encoder at iteration &lt;script type=&quot;math/tex&quot;&gt;t&lt;/script&gt;. The model
-thus becomes better and better with each iteration, and after &lt;script type=&quot;math/tex&quot;&gt;k&lt;/script&gt; iterations,
-the model has produced &lt;script type=&quot;math/tex&quot;&gt;m \times k&lt;/script&gt; bits in total, where &lt;script type=&quot;math/tex&quot;&gt;m&lt;/script&gt; is a value
-determined by &lt;script type=&quot;math/tex&quot;&gt;B&lt;/script&gt;. Thus, by reducing the number of iterations needed, the
-model can achieve smaller image sizes..&lt;/p&gt;
-
-&lt;p&gt;The encoder and decoder are RNNs, with two convolutional kernels. The authors
-explored a number of different types of RNNs,
-and a number of different reconstruction frameworks&lt;/p&gt;
-
-&lt;p&gt;The authors used two sets of training data:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;The data from the previous paper that contained 32x32 images, and&lt;/li&gt;
-  &lt;li&gt;A random sample of 6 million 1280x720 images on the web, decomposed into
-non-overlapping 32x32 tiles, and samples the 100 tiles with the worst
-compression ratio under PNG, with the goal of finding the &quot;hard-to-compress&quot;
-data, theoretically yielding a better compression model.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;They ran the model for 1 million epochs, and picked the models with the largest
-area under the curve when both of their metrics are plotted against each other.
-The best model was able to slightly beat JPEG. However, this doesn't do the
-results justice, as the results are remarkably good, and look much better
-than JPEG.&lt;/p&gt;
-
-&lt;h3 id=&quot;rnns&quot;&gt;RNNs&lt;/h3&gt;
-
-&lt;p&gt;Three types explored here:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;em&gt;LSTMs&lt;/em&gt;: A RNN structure that contains LSTM blocks, which are network units
-that can remember a value for an arbitrary length of time. A LSTM block contains
-gates that determine when the input is significant enough to remember, when it
-should continue to remember or forget the value, and when it should output the
-value.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;em&gt;Associative LSTMs&lt;/em&gt;: Not clear. Need to read more.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;em&gt;GRUs&lt;/em&gt;: A LSTM that merges the forget and input gates into a single &quot;update&quot;
-gate, making it simpler than LSTM models.&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&quot;reconstruction-frameworks&quot;&gt;Reconstruction frameworks&lt;/h3&gt;
-
-&lt;p&gt;Three types explored here:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;em&gt;One-shot Reconstruction&lt;/em&gt;: a process in which the full image is predicted
-after each iteration of the decoder. Each iteration has access to more bits,
-which should allow for a better reconstruction.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;em&gt;Additive Reconstruction&lt;/em&gt;: each iteration tries to reconstruct the residual
-from the previous iterations, making the final image the sum of all iterations.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;em&gt;Residual Scaling&lt;/em&gt;: the residual is scaled up over iterations to compensate
-for the fact that the residual is supposed to decrease with each iteration.&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-</description>
-				<pubDate>Wed, 19 Oct 2016 00:00:00 -0600</pubDate>
-				<link>http://localhost:4000/image-compression-rnn/</link>
-				<guid isPermaLink="true">http://localhost:4000/image-compression-rnn/</guid>
 			</item>
 		
 	</channel>
