@@ -8,6 +8,45 @@
 		<atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
+				<title>Do deep networks generalise or just memorise?</title>
+				<description>&lt;p&gt;There's a brilliant paper out of Google Brain &lt;a href=&quot;https://arxiv.org/abs/1611.03530&quot;&gt;1&lt;/a&gt; which claimed that DNNs just
+memorise the training data, and a response &lt;a href=&quot;https://openreview.net/pdf?id=rJv6ZgHYg&quot;&gt;2&lt;/a&gt;, which claims that they don't.&lt;/p&gt;
+
+&lt;p&gt;In the paper, the authors randomly assigned labels to MNIST and were able to
+train a few deep nets to convergence (specifically, Inception, AlexNet, and a
+MLP). However, performance was statistically null on the test set, as one would
+expect (they correctly predicted 10% of images, which is the same as if you
+randomly picked a label). The conclusion was that deep nets do do some
+memorisation.&lt;/p&gt;
+
+&lt;p&gt;However, in the same paper, the authors trained a linear model to predict MNIST
+(with the true labels). The linear model had a 1.2% error, but took up 30GB of
+memory. In comparison, AlexNet is roughly 250 MB in size. The linear model is
+explicitly memorising the dataset, and it takes 30GB to do so, while AlexNet can
+learn a similarly accurate model in &amp;lt;1% of the space (and something like
+SqueezeNet &lt;a href=&quot;https://arxiv.org/abs/1602.07360&quot;&gt;3&lt;/a&gt; can do so in &amp;lt;0.5MB). As such, it seems pretty clear that there's
+some true generalisation happening, as we're able to have a low error on 10 MB
+of data (the size of MNIST) using 0.5MB of weights.&lt;/p&gt;
+
+&lt;p&gt;In the response paper &lt;a href=&quot;https://openreview.net/pdf?id=rJv6ZgHYg&quot;&gt;2&lt;/a&gt;, the authors showed that &quot;DNNs trained on real data
+learn simpler functions than when trained with noise data, as measured by the
+sharpness of the loss function at convergence.&quot; They also showed that by using
+better regularization, you can radically diminish performance on noise datasets
+while maintaining performance on real datasets.&lt;/p&gt;
+
+&lt;p&gt;I'm persuaded that generalisation is happening, with the caveat that there's
+some memorisation happening. The main test of the memorisation claim is that the
+models are able to perform well on test sets, which goes against my prior; if
+the models weren't learning &lt;em&gt;some&lt;/em&gt; generalisation, I would expect that they
+wouldn't be able to perform well when it came to testing.&lt;/p&gt;
+
+</description>
+				<pubDate>Tue, 04 Jul 2017 00:00:00 -0600</pubDate>
+				<link>http://localhost:4000/do-dnns-generalise-or-memorize/</link>
+				<guid isPermaLink="true">http://localhost:4000/do-dnns-generalise-or-memorize/</guid>
+			</item>
+		
+			<item>
 				<title>Outrageously Large Neural Networks: The sparsely-gated Mixture-of-Experts layer</title>
 				<description>&lt;h2 id=&quot;abstract&quot;&gt;&lt;a href=&quot;https://openreview.net/pdf?id=B1ckMDqlg&quot;&gt;Abstract&lt;/a&gt;&lt;/h2&gt;
 
@@ -805,20 +844,6 @@ scenarios.&lt;/p&gt;
 				<pubDate>Tue, 03 Jan 2017 00:00:00 -0700</pubDate>
 				<link>http://localhost:4000/minecraft/</link>
 				<guid isPermaLink="true">http://localhost:4000/minecraft/</guid>
-			</item>
-		
-			<item>
-				<title>Larry Ellison on consulting costs</title>
-				<description>&lt;p&gt;I'm currently reading &lt;a href=&quot;https://www.amazon.ca/Softwar-Intimate-Portrait-Ellison-Oracle/dp/0743225058&quot;&gt;Softwar&lt;/a&gt;,
-a book about Oracle's rise. The book is brilliant, and it descibes at length
-Larry Ellison's sales process. There was a passage describing a meeting that
-Larry had that explains far more about enterprise sales than it should:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/larry-ellison-softwar-academic.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-</description>
-				<pubDate>Tue, 06 Dec 2016 00:00:00 -0700</pubDate>
-				<link>http://localhost:4000/softwar-academic/</link>
-				<guid isPermaLink="true">http://localhost:4000/softwar-academic/</guid>
 			</item>
 		
 	</channel>

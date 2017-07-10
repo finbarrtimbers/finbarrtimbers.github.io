@@ -1,12 +1,24 @@
 name: Finbarr Timbers
 description: Personal website for Finbarr Timbers
-url: "http://finbarr.ca"
+url: "https://finbarr.ca"
+
 
 # Author info
 author_name: Finbarr Timbers
 author_image_path: /images/finbarr-and-candace.jpg
-author_bio: |
-  ML Engineer/Data Scientist at [Darkhorse Analytics](http://www.dha.io)
+bio: |
+    Hi, I'm Finbarr Timbers (it's Irish). I live in Canada and work as a Data
+    Scientist at Darkhorse Analytics, a boutique consulting firm.
+
+    I'm the technical lead for all predictive modelling projects. Most of my
+    work involves machine learning. Lately I've been focusing more on image
+    recognition & NLP using deep neural networks.
+
+    I do work as a machine learning consultant outside of Darkhorse, and I'm
+    always looking for new projects. More information [here](/hireme).
+
+    I read a lot, and list the books I like [here](/reading).
+
 
 # Projects
 projects:
