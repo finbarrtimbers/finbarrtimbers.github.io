@@ -142,4 +142,11 @@ CPU to the motherboard. I would recommend that.
 
 Everything else was easy. I followed this document and these youtube videos.
 
+I had the DRAM LED of death. It was yellow and coudln't figure what was going on. Every
+tutorial said to make sure that the RAM was pushed in, which i did, of course.
+
+3 hours later, turns out the RAM wasn't pushed in.
+
+The moment when the LEDs lit up green was the happiest day of my life.
+
 [1]: https://blog.slavv.com/the-1700-great-deep-learning-box-assembly-setup-and-benchmarks-148c5ebe6415
