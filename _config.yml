@@ -7,15 +7,15 @@ url: "https://finbarr.ca"
 author_name: Finbarr Timbers
 author_image_path: /images/finbarr-and-candace.jpg
 bio: |
-    Hi, I'm Finbarr Timbers (it's Irish). I live in Canada and work as a Data
-    Scientist at Darkhorse Analytics, a boutique consulting firm.
+    Hi, I'm Finbarr Timbers (it's Irish). I live in Edmonton, Canada and work for a 
+    consulting firm, where I focus on using machine learning to solve real world
+    problems.
 
-    I'm the technical lead for all predictive modelling projects. Most of my
-    work involves machine learning. Lately I've been focusing more on image
-    recognition & NLP using deep neural networks.
+    At work, I'm the technical lead for all predictive modelling projects. 
+    Lately I've been focusing more on deep learning problems.
 
-    I do work as a machine learning consultant outside of Darkhorse, and I'm
-    always looking for new projects. More information [here](/hireme).
+    I'm always looking for new projects. If you're looking for someone to help you
+    with your ML problems, please send me an email- more information [here](/hireme).
 
     I read a lot, and list the books I like [here](/reading).
 
@@ -50,7 +50,7 @@ talks:
 jobs:
   - employer: Darkhorse Analytics
     url: http://dha.io
-    title: "ML Engineer/Data Scientist"
+    title: "Data Scientist/ML Engineer"
     description: |
       Used my background in academic research to come up with highly
       scalable algorithms based on machine learning to solve our clients
