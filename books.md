@@ -1,17 +1,12 @@
 ---
 layout: page
-title: Programming books you might want to consider reading
+title: Books I like
 permalink: /reading/
 ---
 
 Book lists I like:
 
 - [Patrick Collison](http://www.patrickcollison.com/bookshelf)
-
-# Articles
-## Hiring
-- http://www.asktheheadhunter.com/halethalrep.htm
-
 
 
 # Fiction
@@ -46,16 +41,16 @@ Currently reading. Well written so far. Tells one version of the Arthurian legen
 ## Atul Gawande
 Dr. Gawande is an excellent writer, and I've read every one of his books multiple times,
 in addition to all of his [articles](http://atulgawande.com/articles/).
+
 - [The Checklist Manifesto](http://atulgawande.com/book/the-checklist-manifesto/):
 talks about how useful checklists are. Way more interesting than that implies.
-
 - [Being Mortal](http://atulgawande.com/book/being-mortal/): Talks about the implications
 of how (poorly) North American manages end of life care. Still reading. Palliative
 care is a particular interest of mine as my grandfather was in care for the last
 decade of his life.
-
-- [Better](http://atulgawande.com/book/better/)
-
+- [Better](http://atulgawande.com/book/better/). Talks about performance, and
+how to get better at what you do. Coming from the perspective of Dr. Gawande,
+a highly regarded surgeon, the book is fascinating.
 - [Complications](http://atulgawande.com/book/complications/): Misc. stories
 about life as a surgeon. Focuses on the inherent unpredictability of medicine,
 which appealed to my inner statistician.
