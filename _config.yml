@@ -7,14 +7,18 @@ url: "https://finbarr.ca"
 author_name: Finbarr Timbers
 author_image_path: /images/finbarr-and-candace.jpg
 bio: |
-    Hi, I'm Finbarr Timbers (it's Irish). I live in Edmonton, Canada and work for a
-    consulting firm, where I focus on using machine learning to solve real world
-    problems.
+    Hi, I'm Finbarr Timbers. I'm a machine learning researcher currently working
+    to solve intelligence. This is my personal site and has no relationship to
+    any organization I may be professionally affiliated with
+    ([disclaimer](http://finbarr.ca/disclaimer)).
 
-    At work, I'm the technical lead for all predictive modelling projects.
-    Lately I've been focusing more on deep learning problems.
+    I am currently working mostly on reinforcement learning problems, although I
+    have a wide variety of research interests, including adversarial examples,
+    optimization in the context of machine learning, and representation
+    learning.
 
-    I read a lot, and list the books I like [here](/reading).
+    Occasionally, I read things that aren't just machine learning papers, and
+    list the books I particularly like [here](/reading).
 
 
 # Projects
@@ -45,9 +49,18 @@ talks:
 
 # work experience
 jobs:
+  - employer: DeepMind
+    url: https://deepmind.com
+    title: "Research Engineer"
+    description: |
+    My role is to provide engineering support and contribute ideas to research
+    projects. Heavy experience with Tensorflow and distributed computing, done
+    mostly in Python. I was the first engineer hired to the Edmonton office.
+
+
   - employer: Darkhorse Analytics
     url: http://dha.io
-    title: "Data Scientist/ML Engineer"
+    title: "Data Scientist"
     description: |
       Used my background in academic research to come up with highly
       scalable algorithms based on machine learning to solve our clients
