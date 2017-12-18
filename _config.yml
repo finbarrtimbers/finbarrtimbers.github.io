@@ -53,9 +53,9 @@ jobs:
     url: https://deepmind.com
     title: "Research Engineer"
     description: |
-    My role is to provide engineering support and contribute ideas to research
-    projects. Heavy experience with Tensorflow and distributed computing, done
-    mostly in Python. I was the first engineer hired to the Edmonton office.
+      My role is to provide engineering support and contribute ideas to research
+      projects. Heavy experience with Tensorflow and distributed computing, done
+      mostly in Python. I was the first engineer hired to the Edmonton office.
 
 
   - employer: Darkhorse Analytics
