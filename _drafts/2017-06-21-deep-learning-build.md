@@ -17,7 +17,7 @@ Writeups:
 
 Partlist:
 
-- https://ca.pcpartpicker.com/user/finbarr/saved/#view=QChbvK
+- https://ca.pcpartpicker.com/user/finbarr/saved/xjWFTW
 
 
 ## Economics
@@ -68,6 +68,40 @@ but I want to make sure that I won't have to upgrade the motherboard, power
 supply, and other non-essential parts. As such, my part list includes two 1080
 Tis, and 64 GB of memory, even though I bought one and 32 GB, respectively.
 
+## Cooler
+
+Cooler Master Hyper 212 EVO. Seems to be the standard.
+
+## RAM
+
+I went with DDR4 2400 as it seemed to be a good middle ground.
+Debated between 16-64GB and decided to go with 32GB. I could probably get away
+with 16GB for most of my work, but given that I'm able to bill hourly, I thought
+it was worth paying an extra $150 to not have to fiddle with RAM.
+
+## Storage
+
+Debated extensively between 250 & 500 GB SSDs, and between the Samsung 850 &
+960 EVO. Went with the 850 because I don't think it's worth the additional $100.
+
+Chose 2TB hard drive. Might add another one later. ImageNet alone is 1.2TB.
+
+## Case
+
+Chose the Fractal Design Define S. Looks good, reviewed well. I wanted something
+that I could use for a long time going forward and that would upgrade well. The
+Define S is basically a cheaper, stripped down version of the R5, so I went for
+it. It's supposed to be easy to work with.
+
+## Concerns
+
+1. Ability to run multiple GPUs. x16 support seems to be a huge black box... I
+   really struggled to find good information about what I needed to run multiple
+   GPUs in x16. The cheapest way to do so seems to be with a
+   [i7 5820K](https://pcpartpicker.com/product/6tXfrH/intel-cpu-bx80648i75820k),
+   but at the time of writing, that costs $220 more than the i5-7600K that I
+   went with, which didn't seem worth it. I would have also had to upgrade the
+   motherboard, which would have cost at least $100.
 
 ## GPU
 
@@ -82,6 +116,37 @@ performance for each scaled roughly linearly with the price; i.e. the 1080 Ti is
 about 30% faster than the 1080, and has 40% more memory (11 GB vs 8 GB), while
 costing 40% more ($900 vs $650). As such, I decided to go with the 1080 Ti.
 
+I went back and forth between the founder's edition and AORUS Xtreme editions of
+the 1080 Ti. I almost was able to buy the FE for $898 due to a promotion, but
+narrowly missed the boat. I would have. However, the AORUS Xtreme seems good. I
+didn't find much information about blower vs fan GPUs for machine learning. I
+know that the fans typically cool better, and hence allow for a higher clock
+rate, which doesn't really matter for machine learning. However, a
+[benchmark](http://techreport.com/review/31763/aorus-geforce-gtx-1080-ti-xtreme-edition-11g-graphics-card-reviewed/4)
+claimed that the Aorus Xtreme could run 12 degrees cooler, which is in line
+with other articles that I've read. That seems worth it given that much of my
+work will require running the card for weeks at a time.
+
 ## CPU
+
+Decision was between i5-7600K and i5-6400. Chose i5-7600K as it was 40% faster
+for 30% more. Given that most of the work done with the CPU will be single
+threaded, that seemed worth it. If I had more money I would have gone for the
+i7-5820K, and I still might when it's time to upgrade. I was concerned about the
+i5's 16 PCIe lanes.
+
+## Assembly
+
+I bought everything from memory express, which was great as they attached the
+CPU to the motherboard. I would recommend that.
+
+Everything else was easy. I followed this document and these youtube videos.
+
+I had the DRAM LED of death. It was yellow and coudln't figure what was going on. Every
+tutorial said to make sure that the RAM was pushed in, which i did, of course.
+
+3 hours later, turns out the RAM wasn't pushed in.
+
+The moment when the LEDs lit up green was the happiest day of my life.
 
 [1]: https://blog.slavv.com/the-1700-great-deep-learning-box-assembly-setup-and-benchmarks-148c5ebe6415

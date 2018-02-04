@@ -81,3 +81,13 @@ at most 1.
 
 Higher-level capsules have bigger domains so low-level place-coded equivariance gets converted into high-level rate-coded equivariance.
 A much better routing principle is to send the information to the capsule in the layer above that is best at dealing with it.
+
+
+# Segmentation
+http://blog.qure.ai/notes/semantic-segmentation-deep-learning-review
+
+A classic problem in image recognition/computer vision is segmentation, which
+tries to classify individual pixels using an area around them. This is difficult
+to do when using pooling layers, as they introduce translation invariance into
+the model, which makes it hard to link specific pixels to classes. Most models
+use ???
