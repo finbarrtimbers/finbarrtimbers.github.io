@@ -51,7 +51,7 @@ talks:
 jobs:
   - employer: DeepMind
     url: https://deepmind.com
-    title: "Research Engineer"
+    title: "Research Developer"
     description: |
       My role is to provide engineering support and contribute ideas to research
       projects. Heavy experience with Tensorflow and distributed computing, done
