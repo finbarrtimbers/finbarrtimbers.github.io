@@ -12,10 +12,9 @@ bio: |
     any organization I may be professionally affiliated with
     ([disclaimer](http://finbarr.ca/disclaimer)).
 
-    I am currently working mostly on reinforcement learning problems, although I
-    have a wide variety of research interests, including adversarial examples,
-    optimization in the context of machine learning, and representation
-    learning.
+    I am currently working on reinforcement learning research, mostly in the 
+    context of game theory. Lately, I've been focusing on fundamental RL 
+    research in options with planning.
 
     Occasionally, I read things that aren't just machine learning papers, and
     list the books I particularly like [here](/reading).
@@ -73,9 +72,8 @@ jobs:
 
 # External services
 about_url: "http://finbarr.ca/about/"
-github_url: "https://github.com/finblarr"
-twitter_url: "https://twitter.com/finblarr"
-linkedin_url: "http://www.linkedin.com/profile/view?id=129265392"
+github_url: "https://github.com/finbarrtimbers"
+twitter_url: "https://twitter.com/finbarrtimbers"
 email: "finbarrtimbers@gmail.com"
 
 # Markdown rendering
