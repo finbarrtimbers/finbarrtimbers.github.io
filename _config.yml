@@ -7,20 +7,17 @@ url: "https://finbarr.ca"
 author_name: Finbarr Timbers
 author_image_path: /images/finbarr-and-candace.jpg
 bio: |
-    Hi, I'm Finbarr Timbers. I'm a machine learning researcher currently working
-    to solve intelligence. This is my personal site and has no relationship to
-    any organization I may be professionally affiliated with
-    ([disclaimer](http://finbarr.ca/disclaimer)).
+    I'm Finbarr. I'm working to solve intelligence
+    ([disclaimer](http://finbarr.ca/disclaimer)). I believe that learning systems will
+    transform society in the next decade, and I work to make that happen (safely).
 
-    I am currently working mostly on reinforcement learning problems, although I
-    have a wide variety of research interests, including adversarial examples,
-    optimization in the context of machine learning, and representation
-    learning.
+
+    What does that mean? I believe that learning systems, such as [MuZero](https://paperswithcode.com/method/muzero), will replace manually designed systems in many places, such as [coding](https://www.deepmind.com/blog/article/Competitive-programming-with-AlphaCode), [industrial controls](https://deepmind.com/blog/article/deepmind-ai-reduces-google-data-centre-cooling-bill-40), and [video game AI](https://www.sciencedirect.com/science/article/pii/S1877050918300553). If you agree, let's chat. I am actively looking for startups to advise. See my [requests for startups](/rfs) for more detail.
 
     Occasionally, I read things that aren't just machine learning papers, and
     list the books I particularly like [here](/reading).
     
-    You can contact me by email at finbarrtimbers [at] Google's email service.
+    You can contact me by email at finbarr [no space] timbers [at] Google's email service.
 
 
 # Projects
@@ -53,12 +50,10 @@ talks:
 jobs:
   - employer: DeepMind
     url: https://deepmind.com
-    title: "Research Developer"
+    title: "Senior Research Developer"
     description: |
-      My role is to provide engineering support and contribute ideas to research
-      projects. Heavy experience with Tensorflow and distributed computing, done
-      mostly in Python. I was the first engineer hired in the Edmonton office.
-
+      My job is to solve intelligence. I'm responsible for interpreting that into actionable
+      research projects and setting the technical/process direction for my team (and convincing other engineers that they _should_ join my team).
 
   - employer: Darkhorse Analytics
     url: http://dha.io
@@ -73,9 +68,9 @@ jobs:
 
 # External services
 about_url: "http://finbarr.ca/about/"
-github_url: "https://github.com/finblarr"
-twitter_url: "https://twitter.com/finblarr"
-linkedin_url: "http://www.linkedin.com/profile/view?id=129265392"
+github_url: "https://github.com/finbarrtimbers"
+twitter_url: "https://twitter.com/finbarrtimbers"
+linkedin_url: 
 email: "finbarrtimbers@gmail.com"
 
 # Markdown rendering
