@@ -11,7 +11,6 @@ bio: |
     ([disclaimer](http://finbarr.ca/disclaimer)). I believe that learning systems will
     transform society in the next decade, and I work to make that happen (safely).
 
-
     What does that mean? I believe that learning systems, such as [MuZero](https://paperswithcode.com/method/muzero), will replace manually designed systems in many places, such as [coding](https://www.deepmind.com/blog/article/Competitive-programming-with-AlphaCode), [industrial controls](https://deepmind.com/blog/article/deepmind-ai-reduces-google-data-centre-cooling-bill-40), and [video game AI](https://www.sciencedirect.com/science/article/pii/S1877050918300553). If you agree, let's chat. I am actively looking for startups to advise. See my [requests for startups](/rfs) for more detail.
 
     Occasionally, I read things that aren't just machine learning papers, and
@@ -70,7 +69,6 @@ jobs:
 about_url: "http://finbarr.ca/about/"
 github_url: "https://github.com/finbarrtimbers"
 twitter_url: "https://twitter.com/finbarrtimbers"
-linkedin_url: 
 email: "finbarrtimbers@gmail.com"
 
 # Markdown rendering
