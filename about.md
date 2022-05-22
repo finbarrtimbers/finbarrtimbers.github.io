@@ -1,0 +1,16 @@
+layout: page
+title: ""
+permalink: /about
+
+I currently live in Alberta and work at [DeepMind](www.deepmind.com). I grew up in Alberta and previously studied at LSE.
+
+Email: finbarr@finbarr.ca.
+
+Things I'm involved with and areas of interest:
+
+- **Reinforcement learning**. DeepMind's core mission.
+- **Investing**. I wrote [more about my general investing philosophy](/investing).
+
+### Elsewhere
+[finbarrtimbers](https://github.com/finbarrtimbers) on GitHub; [finbarrtimbers](https://twitter.com/finbarrtimbers) on Twitter.
+
