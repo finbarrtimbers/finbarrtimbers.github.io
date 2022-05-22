@@ -1,0 +1,44 @@
+<html>
+<head>
+  <link rel="stylesheet" href="/static/style.css">
+  <meta charset="utf-8">
+  <title>Home | Finbarr Timbers</title>
+</head>
+<body>
+<div id="menu">
+<span class="title">Finbarr Timbers</span>
+<ul>
+  <li><a href="/about">About</a></li>
+  <li><a href="/advice">Advice</a></li>
+  <li><a href="/blog">Blog</a></li>
+  <li><a href="/bookshelf">Bookshelf</a></li>
+  <li><a href="/culture">Culture</a></li>
+  <li><a href="/fast">Fast</a></li>
+  <li><a href="/growth">Growth</a></li>
+  <li><a href="/labs">Labs</a></li>
+  <li><a href="/links">Links</a></li>
+  <li><a href="/people">People</a></li>
+  <li><a href="/pollution">Pollution</a></li>
+  <li><a href="/progress">Progress</a></li>
+  <li><a href="/questions">Questions</a></li>
+  <li><a href="/svhistory">SV history</a></li>
+<li><a href="/travel">Travel</a></li>
+<li><a href="/work">Work</a></li>
+</ul>
+</div>
+<div id="left">&nbsp;</div>
+<div id="content">
+
+</div>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZBM24T0LEX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-ZBM24T0LEX');
+</script>
+</body>
+</html>
