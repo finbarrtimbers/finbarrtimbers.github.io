@@ -7,16 +7,6 @@ url: "https://finbarr.ca"
 author_name: Finbarr Timbers
 author_image_path: /images/finbarr-and-candace.jpg
 bio: |
-    I'm Finbarr. I'm solving intelligence
-    ([disclaimer](http://finbarr.ca/disclaimer)). Learning systems will
-    transform society in the next decade, and I'm making that happen.
-
-    What does that mean? Learning systems, such as [MuZero](https://paperswithcode.com/method/muzero), will replace manually designed systems, such as [coding](https://www.deepmind.com/blog/article/Competitive-programming-with-AlphaCode), [industrial controls](https://deepmind.com/blog/article/deepmind-ai-reduces-google-data-centre-cooling-bill-40), and [video game AI](https://www.sciencedirect.com/science/article/pii/S1877050918300553).
-
-    If that interests you, let's talk. I'm a senior AI/ML engineer at a large tech company. I will happily talk to you about your startup pitch, your fundraising deck, or how to get a job in tech. You cannot possibly waste my time.
-
-    I am actively looking for startups to invest in ($25-50k checks). See my [requests for startups](/rfs) for more detail, but I'm open to pitches if they don't fit that mold.
-
     I read a lot, and discuss the books I've [read](/reading).
     
     You can contact me by email at finbarr [no space] timbers [at] Google's email service.
@@ -24,49 +14,7 @@ bio: |
 
 # Projects
 projects:
- - name: www.BugDedupe.com
-   url: http://www.bugdedupe.com
-   description: |
-     I turned my academic research into a SaaS app that automatically analysed &
-     deduplicate bug reports. Unfortunately, it was too expensive for me to
-     keep running, but I have the code & can deploy it with a few hours work.
-
-     If anyone's interested in using this at their company, I'd love to talk to
-     you.
-
- - name: Automated textual analysis for bug report deduplication
-   url: /dedup/
-   description: "A system that automatically detects duplicate bug reports."
-
-# Talks
-talks:
- - name: "A talker on Docker: How containers can make your work more reproducible, accessible, and ready for production"
-   conference: "[Edmonton Data Science Meetup](http://www.meetup.com/startupedmonton/events/231589029/). Edmonton, AB, October 5th, 2016."
-   slides: "Slides: [PDF](http://finbarr.ca/slides/docker-demo.pdf)."
-
- - name: "Automating your work away: One consulting firm's experience using KnitR"
-   conference: "[UseR! 2016](http://www.user2016.org), [Stanford University](http://www.Stanford.edu), Stanford, CA, Tuesday, June 28th, 2016."
-   slides: "Slides: [HTML](http://finbarr.ca/slides/useR-2016.html#1), [PDF](http://finbarr.ca/slides/useR-2016.pdf), [Video](https://channel9.msdn.com/Events/useR-international-R-User-conference/useR2016/Automating-our-work-away-One-consulting-firms-experience-with-KnitR)."
-
-# work experience
-jobs:
-  - employer: DeepMind
-    url: https://deepmind.com
-    title: "Senior Research Developer"
-    description: |
-      My job is to solve intelligence. I'm responsible for interpreting that into actionable
-      research projects and setting the technical/process direction for my team (and convincing other engineers that they _should_ join my team).
-
-  - employer: Darkhorse Analytics
-    url: http://dha.io
-    title: "Data Scientist"
-    description: |
-      Used my background in academic research to come up with highly
-      scalable algorithms based on machine learning to solve our clients
-      needs. Solutions were typically based on the state of the art academic
-      literature.
-
-
+ - 
 
 # External services
 about_url: "http://finbarr.ca/about/"
