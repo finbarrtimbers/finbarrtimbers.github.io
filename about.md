@@ -11,5 +11,4 @@ Email: [finbarr@finbarr.ca](mailto:finbarr+site@finbarr.ca).
 Things I'm involved with and areas of interest:
 
 - **Reinforcement learning**. Computers that can engage autonomously with the world. What's not to love? 
-- **Investing**. I wrote [more about my general investing philosophy](/investing).
-
+- **Investing**. I'm looking to do more angel investing. If you're starting an interesting company, particularly in the RL space, please reach out.
