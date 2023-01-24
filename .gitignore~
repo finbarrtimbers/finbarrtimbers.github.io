@@ -1,0 +1,12 @@
+<<<<<<< HEAD
+_site/
+.jekyll-metadata
+.DS_Store
+*/.DS_STore
+=======
+_site
+.sass-cache
+.jekyll-cache
+.jekyll-metadata
+vendor
+>>>>>>> 76c4c64f3cc55d58f1c565c5bd4eb87977610798
