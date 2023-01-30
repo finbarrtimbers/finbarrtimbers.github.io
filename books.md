@@ -10,7 +10,8 @@ I'm always looking for book recommendations. Please reach out with suggestions o
 
 - Pre-colonial histories of North America. I'm utterly fascinated by the idea of what North America was like before Columbus, particularly Canada. 
 - Stories of people/companies that have transferred cutting edge research into actual companies. 
-- 
+- Stories of investors who've made contrarian bets and done (very) well.
+
 
 ## Non-fiction
 
