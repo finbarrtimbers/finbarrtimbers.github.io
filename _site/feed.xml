@@ -8,9 +8,444 @@
 		<atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
+				<title></title>
+				<description>&lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/1709.01507&quot;&gt;Paper&lt;/a&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;overview&quot;&gt;Overview&lt;/h1&gt;
+
+&lt;p&gt;The paper got a lot of attention as it won ILSVRC 2017. I was surprised to see
+no Google employees as coauthors- they&apos;ve been dominant historically in the
+ILSVRC competitions.&lt;/p&gt;
+
+&lt;p&gt;The paper presents a new way to modify convolutional networks by focusing on
+channels and their dependencies. The work on based on recent results, such
+as the Inception architectures, that have demonstrated that including multiple
+learning mechanisms (i.e. layers) that work on different spatial scales improves
+performance.&lt;/p&gt;
+
+&lt;p&gt;The Squeeze-and-Excitation Networks (SEN networks) work by implementing a seires
+of blocks composed of a Squeeze operation, which learns a description of the
+channel, influence an Excitation operation, where each channel gets a different
+output depending on the description. This is then composed with more layers
+similar to the traditional deep network.&lt;/p&gt;
+
+&lt;h2 id=&quot;details&quot;&gt;Details&lt;/h2&gt;
+
+&lt;p&gt;Effectively, they create a squeeze block as a means of attempting to embed
+global spatial information into a channel. They do this by calculating the
+global average of the entire channel for each channel, to create a C dimensional
+vector of real numbers, $z_c$. This vector is then used in a layer that is the
+composition of a ReLU layer with a sigmoid layer:&lt;/p&gt;
+
+\[s = \sigma(W_2 \delta(W_1 z)),\]
+
+&lt;p&gt;where $\sigma$ is a sigmoid activation, $\delta$ is a ReLU layer, and $W_i$ is
+a standard weight matrix. The weight matrices are reduced dimensionality, and
+the reduction ratio $r$ is a hyper-parameter which needs to be chosen
+carefully. The output of the Excitation layer, $s$, is then used to scale the
+preceding convolutional layer by channel-wise multiplication:&lt;/p&gt;
+
+\[\tilde{x} = s \cdot u,\]
+
+&lt;p&gt;where is equal to $v * X$, X being the input, and v being the learned set of
+convolutional filter kernels.&lt;/p&gt;
+
+&lt;p&gt;As a result, the SE layer is scaling the output of the convolutional layers to
+incorporate global spatial information, choosing what to emphasize and
+de-emphasize.&lt;/p&gt;
+
+&lt;h1 id=&quot;results&quot;&gt;Results&lt;/h1&gt;
+
+&lt;p&gt;The authors achieve a (relatively) dramatic increase in SOTA for ILSVRC, going from a
+previous best of 5.12%, to 4.47%.&lt;/p&gt;
+
+&lt;h1 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h1&gt;
+
+&lt;p&gt;The results of the work make it interesting. My prior would have been that such
+a mechanism wouldn&apos;t have worked— it seems too simple. This makes me wonder if
+there&apos;s some way that this can be used to product networks that are more robust
+to adversarial perturbation.&lt;/p&gt;
+
+&lt;p&gt;The root cause of adversarial perturbations is that minor changes in the input
+can lead to dramatic changes in the output. If this work can scale the outputs
+of convolutional networks, it might be able to remove that propensity by noting
+that the global state hasn&apos;t changed much.&lt;/p&gt;
+</description>
+				<pubDate>Mon, 30 Jan 2023 12:05:30 -0700</pubDate>
+				<link>http://localhost:4000/2017-09-07-squeeze-and-excitation-networks/</link>
+				<guid isPermaLink="true">http://localhost:4000/2017-09-07-squeeze-and-excitation-networks/</guid>
+			</item>
+		
+			<item>
+				<title>A pure Python (well, Numpy) implementation of back-propagation</title>
+				<description>&lt;p&gt;I realized over the weekend that, unfortunately, I didn&apos;t know how back-propagation &lt;em&gt;actually&lt;/em&gt; works (I just relied on JAX to do it for me).&lt;/p&gt;
+
+&lt;p&gt;So I wrote a pure Numpy neural network- with back-prop. Take a &lt;a href=&quot;https://colab.research.google.com/drive/1KDSJKhZDd5fdbnLTalPKcjS_IDu0Q968#scrollTo=XmS23jQ5U7Nw&quot;&gt;look&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;If you have any thoughts or feedback, please shoot me an email (or reach out on Twitter).&lt;/p&gt;
+</description>
+				<pubDate>Sun, 29 Jan 2023 00:00:00 -0700</pubDate>
+				<link>http://localhost:4000/backprop/</link>
+				<guid isPermaLink="true">http://localhost:4000/backprop/</guid>
+			</item>
+		
+			<item>
+				<title>Welcome to Jekyll!</title>
+				<description>&lt;p&gt;You’ll find this post in your &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
+
+&lt;p&gt;Jekyll requires blog post files to be named according to the following format:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;YEAR-MONTH-DAY-title.MARKUP&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Where &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;YEAR&lt;/code&gt; is a four-digit number, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MONTH&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DAY&lt;/code&gt; are both two-digit numbers, and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MARKUP&lt;/code&gt; is the file extension representing the format used in the file. After that, include the necessary front matter. Take a look at the source for this post to get an idea about how it works.&lt;/p&gt;
+
+&lt;p&gt;Jekyll also offers powerful support for code snippets:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;
+  &lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Hi, &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&apos;Tom&apos;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;#=&amp;gt; prints &apos;Hi, Tom&apos; to STDOUT.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/figure&gt;
+
+&lt;p&gt;Check out the &lt;a href=&quot;https://jekyllrb.com/docs/home&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;. If you have questions, you can ask them on &lt;a href=&quot;https://talk.jekyllrb.com/&quot;&gt;Jekyll Talk&lt;/a&gt;.&lt;/p&gt;
+
+</description>
+				<pubDate>Sun, 22 May 2022 12:08:35 -0600</pubDate>
+				<link>http://localhost:4000/welcome-to-jekyll/</link>
+				<guid isPermaLink="true">http://localhost:4000/welcome-to-jekyll/</guid>
+			</item>
+		
+			<item>
+				<title>Setting prices for your business</title>
+				<description>&lt;p&gt;Setting prices is hard. Really, really hard. If you’re like most people, you just sit down, think really hard, and guess, using all the knowledge you’ve acquired over time. Maybe you use a margin calculation- you take the amount it cost you, and add, say, 20% to cover your costs and add some profit.&lt;/p&gt;
+
+&lt;p&gt;If you’re a larger company, you might have someone whose job it is to analyse data. How do they use data to figure out prices? (Or how should they be using data?)&lt;/p&gt;
+
+&lt;p&gt;The core problem is that, if you increase prices, you decrease the amount of goods you sell, and, after all, what you care about is profit, not individual prices. So if you raise prices, you need to make sure that you don’t just lose sales to compensate for it.&lt;/p&gt;
+
+&lt;p&gt;When calculating profits, the basic equation is:&lt;/p&gt;
+
+\[\text{Profit} = \text{Price} \cdot \text{Number of goods sold} - \text{Cost per good} \cdot \text{number of goods purchased} - \text{fixed costs}.\]
+
+&lt;p&gt;Fixed costs are those costs that don’t change with the number of goods sold.&lt;/p&gt;
+
+&lt;p&gt;The key thing to realize is that none of the costs matter once you have the goods (the exception is marginal costs- the cost to fulfill the order, e.g. shipping- and we’re going to assume you can’t really change those costs). So all we need to do is look at the price you’re charging per good, and the number of goods you sell.&lt;/p&gt;
+
+&lt;p&gt;Let’s look at this again:&lt;/p&gt;
+
+\[\text{Profit} = \text{Revenue} - \text{Costs}\]
+
+&lt;p&gt;Let’s dive into the Revenue side of things:&lt;/p&gt;
+
+\[\text{Revenue} = \text{Price per good} \cdot \text{Number of goods sold.}\]
+
+&lt;p&gt;So if you increase your price by 1%, as long as your volume goes down by less than 1%, you make more revenue! Vice versa, if you decrease your price by 1%, as long as your volume goes up by more than 1%, you make more money!&lt;/p&gt;
+
+&lt;p&gt;In economics, we call this &lt;a href=&quot;https://www.investopedia.com/terms/e/elasticity.asp#:~:text=In%20business%20and%20economics%2C%20elasticity,a%20good%20or%20service&apos;s%20price.&quot;&gt;elasticity&lt;/a&gt;:&lt;/p&gt;
+
+\[\text{Elasticity} = \text{Change in price (%)} / \text{change in volume (%)}\]
+
+&lt;p&gt;Elasticity is the key indicator to figure out how to change your prices. If you have an elasticity that’s greater than 1, then a change in price of 1% will lead to a less than 1% change in volume.&lt;/p&gt;
+
+&lt;p&gt;Conversely, if you have an elasticity that’s less than 1%, you should lower prices, as a decrease in price will lead to an increase in volume.&lt;/p&gt;
+
+&lt;h2 id=&quot;estimating-elasticity&quot;&gt;Estimating elasticity&lt;/h2&gt;
+
+&lt;p&gt;How can we estimate this number?&lt;/p&gt;
+
+&lt;p&gt;Running online sales with coupons can let you estimate this pretty easily. You can do the following:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Randomly show some % of your users (say, 10%) a coupon, say for 10% off. Then, see how this affects sales.&lt;/li&gt;
+  &lt;li&gt;Track the price each buyer pays.&lt;/li&gt;
+  &lt;li&gt;Compare how many sales you got from the users with the coupon vs the users that didn’t get a coupon. The change in volume is (number of sales with coupon) / (number of sales without coupon / 9).&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;You end up with this equation:&lt;/p&gt;
+
+\[\text{Elasticity} = 10\% / \text{Change in volume (%)}.\]
+
+&lt;p&gt;Then, you can figure out if you should bump up your prices!&lt;/p&gt;
+
+&lt;p&gt;You can also do this geographically- show everyone in BC a higher price, and show everyone in Alberta a lower price. That way, you have consistency, and people won’t be shown random prices.&lt;/p&gt;
+
+&lt;p&gt;You can also use data to estimate this for various goods- e.g. if you sell coffee machines, you can probably run this experiment on only one coffee machine, and estimate the elasticity for other coffee machines using statistics. I’ll have a future blog post about this.&lt;/p&gt;
+
+&lt;p&gt;If you want to chat more about this, give me an email at finbarrtimbers@gmail.com. I love chatting to people about their businesses, as I’m a huge geek. And if you’re a business that wants to try this, please let me know how it goes- I’d love to know what sort of impact this can have.&lt;/p&gt;
+</description>
+				<pubDate>Sun, 21 Mar 2021 00:00:00 -0600</pubDate>
+				<link>http://localhost:4000/setting-prices/</link>
+				<guid isPermaLink="true">http://localhost:4000/setting-prices/</guid>
+			</item>
+		
+			<item>
+				<title>The junior tech landscape</title>
+				<description>&lt;p&gt;I recently finished a job hunt. I ended up with a job at DeepMind as a Research
+Engineer, which so far has been an absolutely amazing experience. THis article
+describes my personal thoughts on the job hunt, and has no relation to what
+people at DeepMind think about the job market.&lt;/p&gt;
+
+&lt;p&gt;I think working at one of the big tech companies is the best way to start your
+career as you can a) get a great name on your CV which will make it easier to
+get subsequent jobs and b) make really good money, which if you save it, will
+allow you to do riskier things later in your career. If you own a house/condo
+it&apos;s a lot easier to take a low salary as you don&apos;t need to pay rent.&lt;/p&gt;
+
+&lt;p&gt;This isn&apos;t the case for everyone. If you love risk, working at a startup can be
+a great experience, and if you choose the right one, it can give you an amazing
+start to your career. However, this is extremely difficult, and you can often
+fail. I&apos;ll expand on this more in a future post.&lt;/p&gt;
+
+&lt;h2 id=&quot;choosing-a-role&quot;&gt;Choosing a role&lt;/h2&gt;
+
+&lt;p&gt;When it comes to finding a job, the first thing to do is to select the type of
+role you want. Then, focus on applying for those roles. That&apos;ll let you practice
+for the same type of questions and get good over time. Many companies use the
+same questions, so interviewing for the same type of position at different
+companies is excellent practice. For instance, most of my interviews involved me
+writing a
+&lt;a href=&quot;https://en.wikipedia.org/wiki/Breadth-first_search&quot;&gt;breadth first search&lt;/a&gt;. BY
+the end of the process, I was able to converge on what I think is a relatively
+efficient
+&lt;a href=&quot;https://gist.github.com/finbarrtimbers/afcbd0900a13a3af5e3ac0eabbe48511&quot;&gt;implementation&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The various roles, as I think of them:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Frontend Engineer&lt;/li&gt;
+  &lt;li&gt;Backend Engineer&lt;/li&gt;
+  &lt;li&gt;ML Engineer&lt;/li&gt;
+  &lt;li&gt;Full Stack Engineer&lt;/li&gt;
+  &lt;li&gt;Data Engineer&lt;/li&gt;
+  &lt;li&gt;Data Scientist&lt;/li&gt;
+  &lt;li&gt;Data Analyst&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I focused on ML Engineer and Backend Engineer roles. The specific names will
+vary significantly by company. I was mostly interested in roles that were
+engineering focused (so not data scientist/analyst roles), let me work on
+consumer facing products, and let me do machine learning.&lt;/p&gt;
+
+&lt;h2 id=&quot;applying-to-companies&quot;&gt;Applying to companies&lt;/h2&gt;
+
+&lt;p&gt;One thing to note: As a Canadian, if you have a technical degree (e.g. CS,
+Math, Physics, etc.), you can get a TN-1 visa very easily and work in the US.
+So I focused largely on applying to American companies, as they tend to have a
+lot more financing, which makes the jobs more lucrative, and more interesting,
+as they have more resources. This is an unfortunate reality. If you have an
+advanced degree, you should also easily be able to get a green card through the
+EB-2 process, although I am not a lawyer and didn&apos;t actually go through that
+process.&lt;/p&gt;
+
+&lt;p&gt;I had three main sources of jobs:&lt;/p&gt;
+
+&lt;p&gt;1) &lt;a href=&quot;http://www.ycombinator.com/&quot;&gt;Y Combinator&lt;/a&gt; companies,
+2) &lt;a href=&quot;http://www.angel.co&quot;&gt;Angel List&lt;/a&gt; companies,
+3) An excellent &lt;a href=&quot;https://info.wealthfront.com/rs/781-RJU-318/images/Wealthfront_2016_Career_Launching_Companies_List.pdf&quot;&gt;list&lt;/a&gt; published by Wealthfront, although it&apos;s slightly out of date.&lt;/p&gt;
+
+&lt;p&gt;Y Combinator (YC) is an American incubator, and arguably the best early stage
+investment firm in the world. They take people with an idea and give them ~$120k
+in exchange for 7% of the company. It&apos;s a great source of jobs at super early
+stage startups (typically you&apos;d be one of the first 5 employees), but is high
+risk. YC is super dominant in Bay Area hiring. The people there can be more
+willing to hire a junior person than bigger companies.&lt;/p&gt;
+
+&lt;p&gt;Angel List is a site that many early stage companies use to post jobs on.&lt;/p&gt;
+
+&lt;p&gt;This was my list of companies, in no specific order:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Misc. YC companies&lt;/li&gt;
+  &lt;li&gt;PayPal&lt;/li&gt;
+  &lt;li&gt;eBay&lt;/li&gt;
+  &lt;li&gt;LinkedIn&lt;/li&gt;
+  &lt;li&gt;Modsy&lt;/li&gt;
+  &lt;li&gt;Curbsy&lt;/li&gt;
+  &lt;li&gt;Affirm, Inc&lt;/li&gt;
+  &lt;li&gt;Sift science&lt;/li&gt;
+  &lt;li&gt;Safegraph&lt;/li&gt;
+  &lt;li&gt;Foursquare&lt;/li&gt;
+  &lt;li&gt;Adyen (Adzen?)&lt;/li&gt;
+  &lt;li&gt;Flexport&lt;/li&gt;
+  &lt;li&gt;Pinterest&lt;/li&gt;
+  &lt;li&gt;PayPal&lt;/li&gt;
+  &lt;li&gt;Etsy&lt;/li&gt;
+  &lt;li&gt;Scale&lt;/li&gt;
+  &lt;li&gt;Cognii&lt;/li&gt;
+  &lt;li&gt;Gladly&lt;/li&gt;
+  &lt;li&gt;Squarespace&lt;/li&gt;
+  &lt;li&gt;Moderna&lt;/li&gt;
+  &lt;li&gt;Writelabs&lt;/li&gt;
+  &lt;li&gt;Mozilla&lt;/li&gt;
+  &lt;li&gt;Box&lt;/li&gt;
+  &lt;li&gt;Baidu&lt;/li&gt;
+  &lt;li&gt;AirBnB&lt;/li&gt;
+  &lt;li&gt;Niantic&lt;/li&gt;
+  &lt;li&gt;Twitter&lt;/li&gt;
+  &lt;li&gt;Optimizely&lt;/li&gt;
+  &lt;li&gt;SigOpt&lt;/li&gt;
+  &lt;li&gt;A9&lt;/li&gt;
+  &lt;li&gt;Dropbox&lt;/li&gt;
+  &lt;li&gt;VMWare&lt;/li&gt;
+  &lt;li&gt;Amazon&lt;/li&gt;
+  &lt;li&gt;Maluuba&lt;/li&gt;
+  &lt;li&gt;Element AI&lt;/li&gt;
+  &lt;li&gt;Snapchat&lt;/li&gt;
+  &lt;li&gt;Stripe&lt;/li&gt;
+  &lt;li&gt;Squarespace&lt;/li&gt;
+  &lt;li&gt;Slack&lt;/li&gt;
+  &lt;li&gt;Google&lt;/li&gt;
+  &lt;li&gt;DeepMind&lt;/li&gt;
+  &lt;li&gt;Apple&lt;/li&gt;
+  &lt;li&gt;Facebook&lt;/li&gt;
+  &lt;li&gt;Microsoft&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Some of the companies will hire people remotely, although that can be tough to
+do as a junior employee, and I wouldn&apos;t recommend it.&lt;/p&gt;
+
+&lt;p&gt;If you&apos;re focusing on Vancouver, Microsoft and Amazon are the only big tech
+companies there hiring engineers (as far as I&apos;m aware). Facebook is supposed
+have an engineering office there, but I haven&apos;t seen any postings for it.
+There&apos;s a bunch of smaller companies there too, such as Hootsuite.&lt;/p&gt;
+
+&lt;h2 id=&quot;getting-the-jobs&quot;&gt;Getting the jobs&lt;/h2&gt;
+
+&lt;p&gt;I&apos;ll post more on this subject in the future. TL;DR: study &lt;a href=&quot;http://www.crackingthecodinginterview.com/&quot;&gt;Cracking the Coding Interview&lt;/a&gt;.&lt;/p&gt;
+</description>
+				<pubDate>Sat, 07 Apr 2018 00:00:00 -0600</pubDate>
+				<link>http://localhost:4000/the-junior-tech-landscape/</link>
+				<guid isPermaLink="true">http://localhost:4000/the-junior-tech-landscape/</guid>
+			</item>
+		
+			<item>
+				<title>Pointer Networks</title>
+				<description>&lt;p&gt;Link to paper &lt;a href=&quot;https://arxiv.org/abs/1506.03134&quot;&gt;[arXiv]&lt;/a&gt;, &lt;a href=&quot;https://github.com/devsisters/pointer-network-tensorflow&quot;&gt;[code]&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h1 id=&quot;overview&quot;&gt;Overview&lt;/h1&gt;
+
+&lt;p&gt;Pointer networks are a new neural architecture that learns pointers to positions
+in an input sequence. This is new because existing techniques need to have a
+fixed number of target classes, which isn&apos;t generally applicable— consider the
+Travelling Salesman Problem, in which the number of classes is equal to the
+number of inputs. An additional example would be sorting a variably sized
+sequence.&lt;/p&gt;
+
+&lt;p&gt;Pointer networks uses &quot;attention as a pointer to select a member of the input.&quot;
+What&apos;s remarkable is that the learnt models generalize beyond the maximum
+lengths that they were trained on, with (IMO) decent results. This is really
+useful because there has been a lot of work done on making it easy &amp;amp; fast to
+serve deep neural network predictions, using e.g.
+&lt;a href=&quot;https://www.tensorflow.org/serving/&quot;&gt;Tensorflow Serving&lt;/a&gt;. Existing solutions to
+the combinatorial optimization problems discussed here are slow and expensive,
+and as a result, to produce results that are anything close to real time, you
+need to use heuristic models, which are inaccurate as well. The heuristics are
+typically hand-tuned, just like computer vision features were 5 years ago— it&apos;s
+reasonable to assume that a deep net can learn better heuristics, which will open
+up combinatorial optimization and make it practical for a much wider array of
+applications.&lt;/p&gt;
+
+&lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
+
+&lt;p&gt;RNNs are the most common way of approximating functions operating on sequences,
+and have had a lot of success doing so. Historically, these have operated on
+fixed input/output sizes, but there has been recent work (such as &lt;a href=&quot;https://www.tensorflow.org/tutorials/seq2seq&quot;&gt;seq2seq&lt;/a&gt;)
+that have extended RNNs to operate on arbitrarily sized inputs and outputs.
+However, these seq2seq models have still required the output to be of a fixed
+size— consider a neural translation model, where the input and output are a
+series of sentences. It is impossible for the model to output predictions that
+involve words that the model is not aware of, which is a problem that arises
+quite often (consider names, for instance).&lt;/p&gt;
+
+&lt;p&gt;The authors introduce a new architecture, which they call Pointer Networks, that
+represents variable length dictionaries using a softmax probability distribution
+as a &quot;pointer&quot;. They then use the architecture in a supervised learning setting
+to learn the solutions to a series of geometric algorithmic problems; they then
+test the model on versions of the problems that the model hasn&apos;t seen.&lt;/p&gt;
+
+&lt;h2 id=&quot;models&quot;&gt;Models&lt;/h2&gt;
+
+&lt;p&gt;The model is similar to a sequence-to-sequence model in that it models the
+conditional probability of an output sequence given the input sequence. Once
+conditional probabilities have been learned, the model uses the trained
+parameters to select the output sequence with the highest probability.Note
+that this is non-trivial (to put it lightly). Given $N$ possible inputs, there
+are $N!$ different output sequences. As such, the model uses a beam search
+procedure to find the best possible sequence given a beam size. See below for a
+discussion of beam search.&lt;/p&gt;
+
+&lt;p&gt;As such, the model has a linear computational complexity. This is much better
+than the exact algorithms for the problems solved here, which typically have
+much higher complexity (e.g. the TSP has an exact algorithm that runs in
+O($N^2 2^n$)).&lt;/p&gt;
+
+&lt;p&gt;A vanilla seq-to-seq models makes predictions based on the fixed state of the
+network after receiving all of the input, which restricts the amount of
+information passing through the model. This has been extended by attention;
+effectively, we represent the state of the encoder &amp;amp; decoder layers by
+$(e_i)&lt;em&gt;{i \in {1, \ldots, n}}$ and $(d_i)&lt;/em&gt;{i \in 1, \ldots, m(\mathcal{P})}$.
+Attention adds an &quot;attention&quot; vector that is calculated as&lt;/p&gt;
+
+&lt;p&gt;\begin{align&lt;em&gt;}
+u_j^i &amp;amp;= v^T \tanh(W_1 e_j + W_2 d_i), &amp;amp;j \in (1, \ldots, n)&lt;br /&gt;
+a_j^i &amp;amp;= \text{softmax}(u_j^i), &amp;amp;j \in (1, \ldots, n)&lt;br /&gt;
+d_i&apos; = \sum \limits_{j = 1}^n a_j^i e_j
+\end{align&lt;/em&gt;}&lt;/p&gt;
+
+&lt;p&gt;this can be thought of as a version of $d_i$ that has been scaled to draw
+attention to the most relevant parts, according to the attention layer. $d_i$
+and $d_i&apos;$ are concatenated and used as the hidden states from which predictions
+are made. Adding attention increases the complexity of the model during inference
+to $O(n^2)$. Note that in attention, there is a softmax distribution over a
+fixed size output; to remove this constraint, the authors remove the last step
+that creates the attention vector, and instead define $p(C_i | C_1, \ldots,
+C_{i-1}, \mathcal{P})$ as being equal to $\text{softmax}(u^i)$.&lt;/p&gt;
+
+&lt;h3 id=&quot;beam-search&quot;&gt;Beam search&lt;/h3&gt;
+
+&lt;p&gt;Beam search is a heuristic search algorithm that operates on a graph. It is a
+variant of breadth-first search that builds a tree of all possible sequences
+based on the current tree using breadth-first search. However, instead of
+storing all states, as in a traditional breadth-first search, it only stores a
+predetermined number, $\beta$, of best states at each level (we call $\beta$ the
+beam width). With infinite beam width, beam search is identical to breadth-first
+search. Beam search is thus not guaranteed to be optimal (and one can easily
+find any number of examples where beam search finds a sub-optimal output).&lt;/p&gt;
+
+&lt;h1 id=&quot;results&quot;&gt;Results&lt;/h1&gt;
+
+&lt;p&gt;The authors use the same hyperparameters for every model, which indicates that
+there&apos;s a lot of potential to improve performance for specific tasks. They
+trained the model on 1M training examples. The authors find that they can get
+close to optimal results on data that the model&apos;s been trained on (e.g. when the
+model has been trained on TSP with 5-20 cities, they get results that have
+accuracies &amp;gt;98%— more than enough for most applications.&lt;/p&gt;
+
+&lt;p&gt;When they extend this to a cycle of length 50, the accuracy decreases, being
+30% less accurate than the heuristic models. What&apos;s interesting is that the
+computational complexity for the Pointer Network is at least as good as the
+heuristic algorithms, and given all of the tooling surrounding deep networks,
+the model should be extremely easy to put into production.&lt;/p&gt;
+
+&lt;h1 id=&quot;conclusions&quot;&gt;Conclusions&lt;/h1&gt;
+
+&lt;p&gt;The results are good enough to put into production, as it shoul dbe possible to
+use this for real-time predictions. However, I would be interested to see how a
+reinforcement learning approach can improve the accuracy of the model (which
+we&apos;ll look at in the next paper I read: &lt;a href=&quot;https://arxiv.org/abs/1611.09940&quot;&gt;Neural combinatorial optimization with
+reinforcement learning&lt;/a&gt;).&lt;/p&gt;
+</description>
+				<pubDate>Wed, 20 Sep 2017 00:00:00 -0600</pubDate>
+				<link>http://localhost:4000/pointer-networks/</link>
+				<guid isPermaLink="true">http://localhost:4000/pointer-networks/</guid>
+			</item>
+		
+			<item>
 				<title>Do deep networks generalise or just memorise?</title>
-				<description>&lt;p&gt;There's a brilliant paper out of Google Brain &lt;a href=&quot;https://arxiv.org/abs/1611.03530&quot;&gt;1&lt;/a&gt; which claimed that DNNs just
-memorise the training data, and a response &lt;a href=&quot;https://openreview.net/pdf?id=rJv6ZgHYg&quot;&gt;2&lt;/a&gt;, which claims that they don't.&lt;/p&gt;
+				<description>&lt;p&gt;There&apos;s a brilliant paper out of Google Brain &lt;a href=&quot;https://arxiv.org/abs/1611.03530&quot;&gt;1&lt;/a&gt; which claimed that DNNs just
+memorise the training data, and a response &lt;a href=&quot;https://openreview.net/pdf?id=rJv6ZgHYg&quot;&gt;2&lt;/a&gt;, which claims that they don&apos;t.&lt;/p&gt;
 
 &lt;p&gt;In the paper, the authors randomly assigned labels to MNIST and were able to
 train a few deep nets to convergence (specifically, Inception, AlexNet, and a
@@ -24,8 +459,8 @@ memorisation.&lt;/p&gt;
 memory. In comparison, AlexNet is roughly 250 MB in size. The linear model is
 explicitly memorising the dataset, and it takes 30GB to do so, while AlexNet can
 learn a similarly accurate model in &amp;lt;1% of the space (and something like
-SqueezeNet &lt;a href=&quot;https://arxiv.org/abs/1602.07360&quot;&gt;3&lt;/a&gt; can do so in &amp;lt;0.5MB). As such, it seems pretty clear that there's
-some true generalisation happening, as we're able to have a low error on 10 MB
+SqueezeNet &lt;a href=&quot;https://arxiv.org/abs/1602.07360&quot;&gt;3&lt;/a&gt; can do so in &amp;lt;0.5MB). As such, it seems pretty clear that there&apos;s
+some true generalisation happening, as we&apos;re able to have a low error on 10 MB
 of data (the size of MNIST) using 0.5MB of weights.&lt;/p&gt;
 
 &lt;p&gt;In the response paper &lt;a href=&quot;https://openreview.net/pdf?id=rJv6ZgHYg&quot;&gt;2&lt;/a&gt;, the authors showed that &quot;DNNs trained on real data
@@ -34,11 +469,11 @@ sharpness of the loss function at convergence.&quot; They also showed that by us
 better regularization, you can radically diminish performance on noise datasets
 while maintaining performance on real datasets.&lt;/p&gt;
 
-&lt;p&gt;I'm persuaded that generalisation is happening, with the caveat that there's
+&lt;p&gt;I&apos;m persuaded that generalisation is happening, with the caveat that there&apos;s
 some memorisation happening. The main test of the memorisation claim is that the
 models are able to perform well on test sets, which goes against my prior; if
-the models weren't learning &lt;em&gt;some&lt;/em&gt; generalisation, I would expect that they
-wouldn't be able to perform well when it came to testing.&lt;/p&gt;
+the models weren&apos;t learning &lt;em&gt;some&lt;/em&gt; generalisation, I would expect that they
+wouldn&apos;t be able to perform well when it came to testing.&lt;/p&gt;
 
 </description>
 				<pubDate>Tue, 04 Jul 2017 00:00:00 -0600</pubDate>
@@ -124,7 +559,7 @@ speedups moving from 8 to 256 GPUs (0.9x), which is quite good. Using 256 GPUs,
 the authors are able to train the ResNet-50 model in 1 hour (to give you an
 idea of how impressive this is, the ImageNet dataset consists of 750 GB of
 data). AlexNet, which was the breakthrough paper that was a large
-contributor to Deep Learning's current popularity, took 5-6 days to train for 90
+contributor to Deep Learning&apos;s current popularity, took 5-6 days to train for 90
 epochs on two NVIDIA GTX 580s, which is equivalent to 288 GPU hours &lt;a href=&quot;https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks&quot;&gt;1&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;The trick that they use to do this is to use a large minibatch size consisting
@@ -138,57 +573,54 @@ minibatches causes the required communication overhead to drastically increase.&
 
 &lt;p&gt;To compensate for the noise introduced by the large minibatch size used here,
 the authors used a &quot;Linear Scaling Rule&quot;, where they multiplied the learning
-rate by &lt;script type=&quot;math/tex&quot;&gt;k&lt;/script&gt; when they used a minibatch size of &lt;script type=&quot;math/tex&quot;&gt;k&lt;/script&gt;. This allowed the authors
+rate by \(k\) when they used a minibatch size of \(k\). This allowed the authors
 to match the accuracy between small and large minibatches.&lt;/p&gt;
 
 &lt;p&gt;The authors note that the linear scaling rule is nice theoretically as, after
-&lt;script type=&quot;math/tex&quot;&gt;k&lt;/script&gt; iterations of SGD with a learning rate of &lt;script type=&quot;math/tex&quot;&gt;\eta&lt;/script&gt; and a minibatch of
-&lt;script type=&quot;math/tex&quot;&gt;n&lt;/script&gt;, the weight vector is&lt;/p&gt;
+\(k\) iterations of SGD with a learning rate of \(\eta\) and a minibatch of
+\(n\), the weight vector is&lt;/p&gt;
 
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
-w_{t+k} = w_t - \eta \frac{1}{n} \sum \limits_{j &lt; k} \sum
-\limits_{x \in \mathcal{B}_j} \nabla l(x, w_{t + j}) %]]&gt;&lt;/script&gt;
+\[w_{t+k} = w_t - \eta \frac{1}{n} \sum \limits_{j &amp;lt; k} \sum
+\limits_{x \in \mathcal{B}_j} \nabla l(x, w_{t + j})\]
 
-&lt;p&gt;When, instead, we take asingle step with a minibatch &lt;script type=&quot;math/tex&quot;&gt;\cup_j \mathcal{B}_j&lt;/script&gt; of size
-&lt;script type=&quot;math/tex&quot;&gt;kn&lt;/script&gt; and learning rate &lt;script type=&quot;math/tex&quot;&gt;\eta'&lt;/script&gt;, the updated weight vector is instead&lt;/p&gt;
+&lt;p&gt;When, instead, we take asingle step with a minibatch \(\cup_j \mathcal{B}_j\) of size
+\(kn\) and learning rate \(\eta&apos;\), the updated weight vector is instead&lt;/p&gt;
 
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
-w_{t+1}' = w_t - \eta' \frac{1}{n} \sum \limits_{j &lt; k} \sum
-\limits_{x \in \mathcal{B}_j} \nabla l(x, w_t), %]]&gt;&lt;/script&gt;
+\[w_{t+1}&apos; = w_t - \eta&apos; \frac{1}{n} \sum \limits_{j &amp;lt; k} \sum
+\limits_{x \in \mathcal{B}_j} \nabla l(x, w_t),\]
 
-&lt;p&gt;which is different. However, if &lt;script type=&quot;math/tex&quot;&gt;\Delta l(x, w_t)&lt;/script&gt; is close in value to
-&lt;script type=&quot;math/tex&quot;&gt;\Delta l(x, w_{t+j})&lt;/script&gt; for &lt;script type=&quot;math/tex&quot;&gt;% &lt;![CDATA[
-j &lt; k %]]&gt;&lt;/script&gt;, then setting &lt;script type=&quot;math/tex&quot;&gt;\eta' = kn&lt;/script&gt; makes it so
-that &lt;script type=&quot;math/tex&quot;&gt;w_{t+1} \approx w_{t+k}&lt;/script&gt; (I would imagine that you could formalize this
+&lt;p&gt;which is different. However, if \(\Delta l(x, w_t)\) is close in value to
+\(\Delta l(x, w_{t+j})\) for \(j &amp;lt; k\), then setting \(\eta&apos; = kn\) makes it so
+that \(w_{t+1} \approx w_{t+k}\) (I would imagine that you could formalize this
 with an epsilon-delta proof fairly easily). The paper notes that the two updates
 can only be similar when the linear scaling rule is used; in other words, the
 linear scaling rule is necessary, but not sufficient.&lt;/p&gt;
 
-&lt;p&gt;The authors note that the assumption that the two gradients are similar doesn't
+&lt;p&gt;The authors note that the assumption that the two gradients are similar doesn&apos;t
 hold during the initial training, when the weights are rapidly changing, and
 that the results hold only for a large, but finite, range of minibatch sizes
 (which for ImageNet is as large as 8192). The authors use a &quot;warmup&quot; phase to
 mitigate the problems with divergence during initial training, where the model
 uses less aggressive learning rates, and then switches to the linear scaling
-rule after 5 epochs. That didn't work, and instead, they used a gradual warmup
+rule after 5 epochs. That didn&apos;t work, and instead, they used a gradual warmup
 that brought the learning rate to increase at a constant rate per iteration
-so that it reached &lt;script type=&quot;math/tex&quot;&gt;\eta' = k \eta&lt;/script&gt; after 5 epochs, which worked better.&lt;/p&gt;
+so that it reached \(\eta&apos; = k \eta\) after 5 epochs, which worked better.&lt;/p&gt;
 
 &lt;p&gt;The authors then go on to discuss results, namely that they were able to train
 ResNet-50 in one hour while still getting state of the art results.&lt;/p&gt;
 
-&lt;p&gt;What's novel about this is the size of the parallelization; presumably there's
+&lt;p&gt;What&apos;s novel about this is the size of the parallelization; presumably there&apos;s
 nothing special about using 256 GPUs, and if someone had the resources available
 (&lt;em&gt;cough&lt;/em&gt; Google &lt;em&gt;cough&lt;/em&gt;), one could scale this further. Given that GPUs seem to
-be following Moore's law and doubling in performance every 18 months, this paper
+be following Moore&apos;s law and doubling in performance every 18 months, this paper
 seems to be important; if we can train a state of the art model in one hour
 using 256 GPUs today, then within 3 years, we could train one in 15 minutes. If
 someone wanted to scale the number of GPUs higher, they could train the model in
 under 10 minutes.&lt;/p&gt;
 
 &lt;p&gt;Conversely, researchers currently tolerate several weeks of
-training time (Mozilla's implementation of
-&lt;a href=&quot;https://github.com/mozilla/DeepSpeech&quot;&gt;Baidu's DeepSpeech&lt;/a&gt; model takes
+training time (Mozilla&apos;s implementation of
+&lt;a href=&quot;https://github.com/mozilla/DeepSpeech&quot;&gt;Baidu&apos;s DeepSpeech&lt;/a&gt; model takes
 Mozilla roughly 10 days to train on 4 high end GPUs &lt;a href=&quot;https://github.com/mozilla/DeepSpeech/issues/630&quot;&gt;2&lt;/a&gt;); if the amount of model
 that can be trained in that time drastically increases, all of a sudden
 researchers are able to consider datasets that are radically larger, and can
@@ -197,14 +629,14 @@ start approaching even higher performance levels.&lt;/p&gt;
 &lt;h2 id=&quot;conclusions&quot;&gt;Conclusions&lt;/h2&gt;
 
 &lt;p&gt;Strong paper, effectively lays out how training deep networks can be scaled
-effectively. This sort of yeoman's work is needed in the field.&lt;/p&gt;
+effectively. This sort of yeoman&apos;s work is needed in the field.&lt;/p&gt;
 
 &lt;p&gt;Concerns:&lt;/p&gt;
 
 &lt;ol&gt;
   &lt;li&gt;
     &lt;p&gt;Continues the trend of papers that rely on resources only available at a
-handful of industrial labs. No academic researcher that's not affiliated with
+handful of industrial labs. No academic researcher that&apos;s not affiliated with
 a large tech company would be able to muster the 256 GPUs required to reproduce
 this work.&lt;/p&gt;
   &lt;/li&gt;
@@ -223,627 +655,54 @@ here. Similar to my first point. Reproducibility suffers.&lt;/p&gt;
 		
 			<item>
 				<title>Tests make you write down your assumptions</title>
-				<description>&lt;p&gt;I've been fighting with recurring errors the whole time I've been working on
+				<description>&lt;p&gt;I&apos;ve been fighting with recurring errors the whole time I&apos;ve been working on
 &lt;a href=&quot;http://www.bugdedupe.com&quot;&gt;BugDedupe&lt;/a&gt;. I keep changing some aspect of the
 frontend, and inadvertently break the site. The way to prevent this, of course,
 is by having a comprehensive test suite. I know that I should have tests, and I do, but not
-at anywhere near the coverage that I need (I'm currently at 29% code
+at anywhere near the coverage that I need (I&apos;m currently at 29% code
 coverage).&lt;/p&gt;
 
-&lt;p&gt;The reason for the abysmal amount of code coverage is that I don't know how to
+&lt;p&gt;The reason for the abysmal amount of code coverage is that I don&apos;t know how to
 write the tests that I need. For instance, to test that BugDedupe is merging
 rows correctly, I need to:&lt;/p&gt;
 
 &lt;ol&gt;
   &lt;li&gt;Set up a test database.&lt;/li&gt;
   &lt;li&gt;Set up a test Github account.&lt;/li&gt;
-  &lt;li&gt;Mock the &lt;code class=&quot;highlighter-rouge&quot;&gt;POST&lt;/code&gt; request for Flask.&lt;/li&gt;
-  &lt;li&gt;Figure out how Flask's app environments work so that I can get the correct
-context for &lt;code class=&quot;highlighter-rouge&quot;&gt;flask.g&lt;/code&gt; and the &lt;code class=&quot;highlighter-rouge&quot;&gt;user&lt;/code&gt; objects that are used throughout the routes.
-&lt;code class=&quot;highlighter-rouge&quot;&gt;flask.g&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;user&lt;/code&gt; are objects that can be called at any point in the application
-context for Flask without you having to explicitly set &lt;code class=&quot;highlighter-rouge&quot;&gt;user = ...&lt;/code&gt;. This is
-good- it makes it really easy to use them- but it's bad as I don't &lt;em&gt;really&lt;/em&gt;
+  &lt;li&gt;Mock the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;POST&lt;/code&gt; request for Flask.&lt;/li&gt;
+  &lt;li&gt;Figure out how Flask&apos;s app environments work so that I can get the correct
+context for &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;flask.g&lt;/code&gt; and the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;user&lt;/code&gt; objects that are used throughout the routes.
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;flask.g&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;user&lt;/code&gt; are objects that can be called at any point in the application
+context for Flask without you having to explicitly set &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;user = ...&lt;/code&gt;. This is
+good- it makes it really easy to use them- but it&apos;s bad as I don&apos;t &lt;em&gt;really&lt;/em&gt;
 know how they work.&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;The reason I've been avoiding writing the tests is that it's really difficult
-to write tests when you don't know &lt;em&gt;exactly&lt;/em&gt; what your code is doing, and you
-don't have a clear understanding of how the framework you're using works.
-However, it turns out that it's really difficult to write code that works
-correctly when you don't have a clear understanding of how your framework works.
-So I'm taking the time to figure out exactly what's going on, and so far, it's
+&lt;p&gt;The reason I&apos;ve been avoiding writing the tests is that it&apos;s really difficult
+to write tests when you don&apos;t know &lt;em&gt;exactly&lt;/em&gt; what your code is doing, and you
+don&apos;t have a clear understanding of how the framework you&apos;re using works.
+However, it turns out that it&apos;s really difficult to write code that works
+correctly when you don&apos;t have a clear understanding of how your framework works.
+So I&apos;m taking the time to figure out exactly what&apos;s going on, and so far, it&apos;s
 definitely been worth it.&lt;/p&gt;
 
-&lt;p&gt;For instance, I found out how &lt;code class=&quot;highlighter-rouge&quot;&gt;flask.g&lt;/code&gt; works- it turns out that Flask creates
+&lt;p&gt;For instance, I found out how &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;flask.g&lt;/code&gt; works- it turns out that Flask creates
 multiple &lt;a href=&quot;http://flask.pocoo.org/docs/0.12/appcontext/&quot;&gt;contexts&lt;/a&gt; that store
-data that are needed on a per-request basis. &lt;code class=&quot;highlighter-rouge&quot;&gt;flask.g&lt;/code&gt; stores data on the
+data that are needed on a per-request basis. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;flask.g&lt;/code&gt; stores data on the
 application context, so it makes data available to different functions
-during one request. It's effectively a super-global variable. You can't just use
-a global variable to replace &lt;code class=&quot;highlighter-rouge&quot;&gt;flask.g&lt;/code&gt; as then it would break in threaded
-environments, which are necessary when you're trying to serve many users. That's
-cool. I wouldn't have learned that today if I hadn't been writing tests
-that needed to call &lt;code class=&quot;highlighter-rouge&quot;&gt;flask.g&lt;/code&gt; and store data there. I would only have learned it
+during one request. It&apos;s effectively a super-global variable. You can&apos;t just use
+a global variable to replace &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;flask.g&lt;/code&gt; as then it would break in threaded
+environments, which are necessary when you&apos;re trying to serve many users. That&apos;s
+cool. I wouldn&apos;t have learned that today if I hadn&apos;t been writing tests
+that needed to call &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;flask.g&lt;/code&gt; and store data there. I would only have learned it
 when I introduced some nasty bug.&lt;/p&gt;
 
-&lt;p&gt;In short, if you don't know exactly what's going on in your code, then you
+&lt;p&gt;In short, if you don&apos;t know exactly what&apos;s going on in your code, then you
 should write tests and formalize your knowledge.&lt;/p&gt;
 </description>
 				<pubDate>Sun, 05 Mar 2017 00:00:00 -0700</pubDate>
 				<link>http://localhost:4000/testing/</link>
 				<guid isPermaLink="true">http://localhost:4000/testing/</guid>
-			</item>
-		
-			<item>
-				<title>Random Search for Hyper-Parameter Optimization</title>
-				<description>&lt;h1 id=&quot;abstract&quot;&gt;&lt;a href=&quot;http://www.jmlr.org/papers/volume13/bergstra12a/bergstra12a.pdf&quot;&gt;Abstract&lt;/a&gt;&lt;/h1&gt;
-
-&lt;p&gt;Grid search and manual search are the most widely used strategies for hyper-parameter optimization.
-This paper shows empirically and theoretically that randomly chosen trials are more efficient
-for hyper-parameter optimization than trials on a grid. Empirical evidence comes from a comparison
-with a large previous study that used grid search and manual search to configure neural networks
-and deep belief networks. Compared with neural networks configured by a pure grid search,
-we find that random search over the same domain is able to find models that are as good or better
-within a small fraction of the computation time. Granting random search the same computational
-budget, random search finds better models by effectively searching a larger, less promising con-
-figuration space. Compared with deep belief networks configured by a thoughtful combination of
-manual search and grid search, purely random search over the same 32-dimensional configuration
-space found statistically equal performance on four of seven data sets, and superior performance
-on one of seven. A Gaussian process analysis of the function from hyper-parameters to validation
-set performance reveals that for most data sets only a few of the hyper-parameters really matter,
-but that different hyper-parameters are important on different data sets. This phenomenon makes
-grid search a poor choice for configuring algorithms for new data sets. Our analysis casts some
-light on why recent “High Throughput” methods achieve surprising success—they appear to search
-through a large number of hyper-parameters because most hyper-parameters do not matter much.
-We anticipate that growing interest in large hierarchical models will place an increasing burden on
-techniques for hyper-parameter optimization; this work shows that random search is a natural baseline
-against which to judge progress in the development of adaptive (sequential) hyper-parameter
-optimization algorithms.&lt;/p&gt;
-
-&lt;h2 id=&quot;notes&quot;&gt;Notes&lt;/h2&gt;
-
-&lt;p&gt;This paper is focused on hyperparameter optimization. Hyperparameter
-optimization (HPO) is the process by which the optimal hyperparameters for a
-machine learning model are picked (shocking, I know). Hyperparameters are the
-parameters of the model that are set outside of the training process; in a
-neural network, for example, the size and shape of the network is a
-hyperparameter, as is the learning rate. The hyperparameters massively affect
-the performance of the model, and HPO can dramatically improve the performance
-of a model.&lt;/p&gt;
-
-&lt;p&gt;As an anecdote of why HPO is important, I was training a model that used a RNN
-to predict values in a time series. By changing the weight initializations of
-our network, we were able to dramatically improve performance. We found the
-right value for the initialization through HPO.&lt;/p&gt;
-
-&lt;p&gt;HPO is a problem as the previous best practice on how to find the optimal
-hyperparameter was to perform a grid search, which is extraordinarily
-expensive. This is because the number of steps required in the search grows
-exponentially; with 5 hyperparameters, each with 5 possible values, you have
-&lt;script type=&quot;math/tex&quot;&gt;5^5 = 3125&lt;/script&gt; possible configurations. If you have 10 hyperparameters, you have
-&lt;script type=&quot;math/tex&quot;&gt;10^5 = 100000&lt;/script&gt; different configurations– 32 times as many configurations to
-search. Moreover, the process isn't perfectly parallelizable as you have to
-assign the configurations consistently. This paper, when it came out, was highly
-influential as it presented a better way to search for the best hyperparameters.&lt;/p&gt;
-
-&lt;h2 id=&quot;theoretical-background&quot;&gt;Theoretical background&lt;/h2&gt;
-
-&lt;p&gt;A learning algorithm &lt;script type=&quot;math/tex&quot;&gt;\mathcal{A}&lt;/script&gt; can be thought of as a functional (a function
-that operates on functions) that maps a data set &lt;script type=&quot;math/tex&quot;&gt;\mathcal{X}^{\text{train}}&lt;/script&gt; to
-a function &lt;script type=&quot;math/tex&quot;&gt;f&lt;/script&gt;. We can think of &lt;script type=&quot;math/tex&quot;&gt;\mathcal{A}&lt;/script&gt; as a function itself, and write
-it as &lt;script type=&quot;math/tex&quot;&gt;\mathcal{A}(\mathcal{X}^{\text{train}}, \lambda)&lt;/script&gt;, where &lt;script type=&quot;math/tex&quot;&gt;\lambda&lt;/script&gt; is a
-vector of so-called &quot;hyper-parameters&quot;, which change how the algorithm operates.
-An example is &lt;script type=&quot;math/tex&quot;&gt;\alpha&lt;/script&gt;, the &lt;script type=&quot;math/tex&quot;&gt;L_1&lt;/script&gt; penalty in
-&lt;a href=&quot;http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Lasso.html&quot;&gt;Lasso&lt;/a&gt;.
-Finding &lt;script type=&quot;math/tex&quot;&gt;\lambda&lt;/script&gt; is called the &quot;hyper-parameter optimization problem&quot;, which
-consists of finding &lt;script type=&quot;math/tex&quot;&gt;\lambda^\star&lt;/script&gt; that minimizes the expected error of the
-algorithm over the set of all possible training sets. Since it is impossible to
-actually calculate the expected error, solutions to the hyper-parameter
-optimization problem take two forms:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;The manual approach, where a researcher tries a number of different
-parameters and uses the best one.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Grid search, where all of the different combinations of parameters are tried.&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Approach 2 is guaranteed to find the optimal combination, but it is extremely
-computationally expensive, growing at a rate of O(&lt;script type=&quot;math/tex&quot;&gt;p^n&lt;/script&gt;), where &lt;script type=&quot;math/tex&quot;&gt;p&lt;/script&gt; is the
-number of different values each parameter can take, and &lt;script type=&quot;math/tex&quot;&gt;n&lt;/script&gt; is the number of
-different parameters. Typically, manual search is used to minimize the number
-of possible values that each parameter can take, and then a grid search is
-performed over the remaining values.&lt;/p&gt;
-
-&lt;p&gt;Manual search has advantages and disadvantages; on the one hand, it can work
-well, and it can give researchers insight into how the algorithm works. On the
-flip side, it's not reproducible, and has no guarantee of success, particularly
-in higher dimension spaces.&lt;/p&gt;
-
-&lt;p&gt;Consequently, the authors present a randomized variant of grid search that
-randomly searches the space of all possible hyper-parameters. Random search
-ends up being more practical than grid search as it can be applied using a
-cluster of unreliable computers, and new trials can easily be added to the
-search as all trials are i.i.d.&lt;/p&gt;
-
-&lt;h2 id=&quot;random-vs-grid-for-neural-networks&quot;&gt;Random vs. Grid for neural networks&lt;/h2&gt;
-
-&lt;p&gt;This part of the paper is heavily inspired by Larochelle (2007) &lt;a href=&quot;https://dl.acm.org/citation.cfm?id=1273556&quot;&gt;1&lt;/a&gt;.
-The authors use a variety of classification datasets, including a number of
-variants of MNIST, to perform hyper-parameter optimization on a series of
-neural networks.The authors note that the variation of the hyper-parameter
-optimization varies significantly with the datasets; for MNIST basic,
-experiments with 4 or 8 trials often had the same performance as much bigger
-trials, while even with 16 or 32 trials, MNIST rotated background images were
-still exhibiting significant variation.&lt;/p&gt;
-
-&lt;p&gt;The authors use these results to note that in many cases, the effective
-dimensionality of &lt;script type=&quot;math/tex&quot;&gt;\psi&lt;/script&gt; ,the hyper-parameter space, is much lower than the
-possible dimensionality of &lt;script type=&quot;math/tex&quot;&gt;\psi&lt;/script&gt;. In other words, many of the parameters only
-have a small number of possible values that are useful.&lt;/p&gt;
-
-&lt;h2 id=&quot;random-vs-sequential-manual-optimization&quot;&gt;Random vs. sequential manual optimization&lt;/h2&gt;
-
-&lt;p&gt;The authors discuss an experiment by &lt;a href=&quot;https://dl.acm.org/citation.cfm?id=1273556&quot;&gt;1&lt;/a&gt; comparing randomized grid search with having a
-researcher conduct a sequential manual search. The authors quote &lt;a href=&quot;https://dl.acm.org/citation.cfm?id=1273556&quot;&gt;1&lt;/a&gt; on how to
-effectively conduct sequential manual optimization, which is quite insightful.
-The setting used in the experiment is one with 32 different hyper parameters,
-which, if each parameter had two possible values, would create a parameter space
-with &lt;script type=&quot;math/tex&quot;&gt;2^{32}&lt;/script&gt; members- far too large to evaluate with a grid search. In the
-experiment, random search performed well, but not as well as with the neural
-networks, finding a better model than manual search in 1 data set, an equally
-good model in 4 data sets, and an inferior model in 3 data sets.&lt;/p&gt;
-
-&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
-
-&lt;p&gt;The authors suggest using randomized search instead of grid search in almost
-every scenario, noting that although more complicated approaches are better
-(e.g. adaptive search algorithms), they're more complicated, while a randomized
-grid search is a much cheaper way of evaluating more of the search space. The
-randomized search, similar to the grid search, is trivially parallelizable, and
-can be scaled much more rapidly than an adaptive search, and can stopped,
-started, and scaled without difficulty.&lt;/p&gt;
-
-&lt;h1 id=&quot;comments&quot;&gt;Comments&lt;/h1&gt;
-
-&lt;p&gt;The paper makes a lot of sense, and it's been pretty effective at convincing
-researchers to switch away from using grid searches. I use randomized search
-myself. Some more detailed notes:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;I'd like to see some sort of sequential randomized grid search that works
-iteratively, alternating between performing a randomized grid search over a
-subset of the parameter space, and then selecting a new, smaller subset to
-search over (in effect, performing gradient descent over the parameter
-space). Perhaps that exists and I need to find a paper discussing that. That is
-what happens practically.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;I was talking to a startup founder working on a deep learning product about
-HPO a few weeks ago and he mentioned that he considers HPO to be CapEx, in
-the sense that it's an investment in the model, just like code. I agree, and
-that changed how I think about HPO.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Intuitively, it makes sense that there would be some smarter way to explore
-the hyperparameter space than to use a random search. There's been a lot of
-interesting work that uses Bayesian Optimization to find the optimal
-hyperparameters, and some interesting work by Google that uses RNNs to
-perform their HPO [2, 3]. I'll be interested to see where that leads. Google
-has been developing a system called &quot;AutoML&quot; that does this automatically,
-which will be useful when it's released.&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-</description>
-				<pubDate>Wed, 01 Mar 2017 00:00:00 -0700</pubDate>
-				<link>http://localhost:4000/random-search-hyper-parameter-optimization/</link>
-				<guid isPermaLink="true">http://localhost:4000/random-search-hyper-parameter-optimization/</guid>
-			</item>
-		
-			<item>
-				<title>How I designed my machine learning app</title>
-				<description>&lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
-
-&lt;p&gt;Approximately ten thousand years ago, during undergrad, I made what was probably
-the best decision of my academic career and took
-&lt;a href=&quot;https://webdocs.cs.ualberta.ca/~greiner/&quot;&gt;Russ Greiner's&lt;/a&gt; CMPUT 466 class at
-the University of Alberta. As a math major, it took some convincing to let the
-CS department allow me into the course, as I was missing approximately every
-prerequisite for the class, but convince them I did, and I was introduced to the
-body of techniques known as machine learning. The course required me to complete
-a group project, and my group worked on the problem of bug report deduplication.&lt;/p&gt;
-
-&lt;h2 id=&quot;inspiration&quot;&gt;Inspiration&lt;/h2&gt;
-
-&lt;p&gt;Managing the flood of bug reports that pour in is a problem for any sizable
-software project. Android has some
-&lt;a href=&quot;https://code.google.com/p/android/issues/list?num=100&amp;amp;start=0&quot;&gt;53 636&lt;/a&gt;  bug
-reports as of the time of writing, and if you search &quot;bug report triage&quot; in
-&lt;a href=&quot;https://scholar.google.ca/scholar?q=bug+report+triage&amp;amp;btnG=&amp;amp;hl=en&amp;amp;as_sdt=0%2C5&quot;&gt;Google Scholar&lt;/a&gt;,
-you get almost 4000 results for academic work. The cost of managing bug reports
-is huge, too— if each bug report takes a quarter of an hour to administer (read,
-compare to previous bug reports, link them, and assign to a developer), then the
-Android community has spent 13 409 hours, or 32 work years managing bug reports.
-That ignores the number of internal bug reports that Google's QA staff would
-have found and reported. If we assume a typical Software Engineer costs
-$100 000 annually, that's $3.2 million that the Android community has dedicated
-to bug triage.&lt;/p&gt;
-
-&lt;p&gt;The &lt;a href=&quot;http://finbarr.ca/dedup/&quot;&gt;project&lt;/a&gt; that my team worked on focused on
-analysing the text of the bug reports and using features generated from those to
-classify the bug reports. We developed a series of features that used reference
-material (textbooks, manuals, documentation) to create subject specific word
-lists, from which we generated numerical comparison scores. From this, we were
-able to get a series of subject scores (e.g. Android security: 0.2). The work
-proved remarkably successful, almost matching the performance of word lists that
-were manually extracted. With very little tuning, we were able to correctly
-classify 97% of bug reports, and I suspect that with some modelling effort
-(hyperparameter optimization, investigating some more complicated models) that
-could be improved on.&lt;/p&gt;
-
-&lt;p&gt;That was several years ago. The code that performed the bug report deduplication has
-been sitting around on Github for a few years, untouched. It seemed to me that
-bug report deduplication was a problem with a clear solution that hadn't been
-implemented by anyone. I've been looking for a side project to do that will let
-me learn more about product development and deploying machine learning in
-production environments, instead of just academic experimental settings, so I
-took it upon myself to turn the academic code into a web app. I was able to
-recruit a few of my friends to help, and we built
-&lt;a href=&quot;http://www.bugdedupe.com&quot;&gt;BugDedupe&lt;/a&gt;. It's still in a very early stage, so I'm
-looking for feedback and feature requests. The goal is to have the site be free
-for open source repositories and small (private) side projects, charging larger
-repositories to recoup my costs. If you have feedback or feature requests, or
-just want to chat, shoot me an email at finbarrtimbers@gmail.com.&lt;/p&gt;
-
-&lt;p&gt;When I started building BugDedupe, I hadn't seen many posts about how teams
-designed their machine learning web apps, so I wanted to write about how we
-approached ours, to get feedback and to help others doing the same.&lt;/p&gt;
-
-&lt;h2 id=&quot;myself&quot;&gt;Myself&lt;/h2&gt;
-
-&lt;p&gt;I'm a stats/ML guy who does a lot of number crunching in Python at my day job
-(Numpy/sklearn/SciPy). I've been wanting to learn more about the whole Python
-stack, and particularly web dev, so that I can learn how to make products from
-end-to-end. As a consultant, I get all of my projects to the MVP stage and then
-have to start again on the next one for a new client. I wanted to work on
-something that I could polish and grow, and given my stats background,
-BugDedupe seemed like a great opportunity.&lt;/p&gt;
-
-&lt;h2 id=&quot;background&quot;&gt;Background:&lt;/h2&gt;
-
-&lt;p&gt;We developed an automated &lt;a href=&quot;http://finbarr.ca/dedup&quot;&gt;method&lt;/a&gt; of predicting
-whether or not two bug reports are duplicates of each other. We did this by
-analysing the text of the bug report and comparing it to each other, and to
-reference texts (e.g. we had bug reports for a Java project, and we compared
-them to different chapters of a Java textbook to get subject scores— allowing
-us to say that a given report is 30\% cryptography and 45\% networking). This
-gave us a number of features that we could run through a machine learning
-classifier. We used a number of different ones and got really high results—
-97\%. The method worked, and we tested it on real world data— the bug reports
-from Android, and Eclipse, among others. The only remaining problem was figuring
-out how to make the service available online.&lt;/p&gt;
-
-&lt;h2 id=&quot;layout&quot;&gt;Layout&lt;/h2&gt;
-
-&lt;p&gt;At the start of the project, I was pretty confused about how to develop the
-site. I've been a fan of functional programming for a long time, and try to
-develop all of my projects in a functional manner.In that light, I decided to
-use a stateless architecture for the app. All of the state of the app (users,
-data, etc.) would be stored in the MySQL database, and the server would exist
-only to render it onto the web; similarly, the machine learning processes would
-interact uniquely with the database. As a result, we can have anything except
-the database crash at any time, and we won't lose any data. The database is
-regularly backed up, and as we're using Google Cloud SQL, it's in good hands.
-If, god willing, we run into scaling problems, we feel that our architecture will
-also allow us to focus only on optimizing the specific parts that are
-bottlenecking our performance, as everything is logically separated.&lt;/p&gt;
-
-&lt;h2 id=&quot;hosting&quot;&gt;Hosting&lt;/h2&gt;
-
-&lt;p&gt;I've been using Docker at work and like it a lot. I decided to encapsulate each
-separate component in a container, and run them on Google Cloud Platform, as
-I like what Google's doing with &lt;a href=&quot;https://kubernetes.io/&quot;&gt;Kubernetes&lt;/a&gt;. Once I
-had the components in Docker, it was straightforwardt to launch them on Google
-Container Engine.&lt;/p&gt;
-
-&lt;p&gt;I found it surprisingly easy. It sucked getting started, but now that
-everything's set up, it's super easy to work with, and kubernetes makes a lot of
-the administrative tasks go away (e.g. managing secrets/environment variables,
-restarting Python, scaling).&lt;/p&gt;
-
-&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
-
-&lt;p&gt;While some things surprised me (particularly the latency of APIs- I was using
-Stormpath for authentication, and it started adding up to 6 seconds per
-request), overall, I'm extremely happy with how the program turned out. I think
-that having everything interact only with the database and itself managed to
-reduce complexity significantly, so that I only had to think about how the
-current component interacted with the database, instead of having to worry about
-how it fit in with all of the other components of the stack. The test now is to
-get more users, and see how we perform at scale. The more users we get, the
-more accurate our classifier will be, and the more useful our service will be,
-so we need to get that flywheel rolling as fast as we can.&lt;/p&gt;
-
-&lt;p&gt;If you found this useful, or if you have any feedback, please send me an email
-at finbarrtimbers@gmail.com. I'd love to hear what you think of our
-architecture.&lt;/p&gt;
-</description>
-				<pubDate>Tue, 21 Feb 2017 00:00:00 -0700</pubDate>
-				<link>http://localhost:4000/Bugdedupe/</link>
-				<guid isPermaLink="true">http://localhost:4000/Bugdedupe/</guid>
-			</item>
-		
-			<item>
-				<title>Securing yourself against online tracking</title>
-				<description>&lt;p&gt;I've had a few people email me asking how they can protect themselves online,
-and what combination of tools they should use. I thought I'd write up my advice
-here so that others can beenfit.&lt;/p&gt;
-
-&lt;h1 id=&quot;overview&quot;&gt;Overview&lt;/h1&gt;
-
-&lt;p&gt;Online security is weird. You start taking reasonable
-measures, and all of a sudden, you're wearing a tinfoil hat and air-gapping
-all of your computers. You can go crazy with security, so it's important to
-be realistic about the types of threats that you face, and choose security
-options based on the threats you're worried about.&lt;/p&gt;
-
-&lt;p&gt;There's some stuff that you definitely &lt;em&gt;should&lt;/em&gt; do, and then after that, you
-start getting deeper and deeper into paranoia territory. How deep you want to
-go depends on how worried you are (and remember— you're not paranoid if they
-really &lt;em&gt;are&lt;/em&gt; out to get you).&lt;/p&gt;
-
-&lt;p&gt;You should definitely do three things:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Install uBlock Origin &amp;amp; Privacy Badger.&lt;/li&gt;
-  &lt;li&gt;Use a password manager like LastPass to generate secure passwords.&lt;/li&gt;
-  &lt;li&gt;Encrypt all of your hard drives.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;After that, it depends on how worried you are. If you're concerned that people
-might be trying to log into your accounts, or access your computers illicitly,
-you should look at installing two-factor authentication on your email accounts,
-password manager, and computers.&lt;/p&gt;
-
-&lt;h2 id=&quot;ublock-origin&quot;&gt;uBlock Origin&lt;/h2&gt;
-
-&lt;p&gt;uBlock Origin is an ad blocker that's super lightweight, and just works (there's
-been some weird controversies about ad blockers… Google 'Adblock Plus' if
-you're interested). It blocks requests by default, so that, e.g., Google
-Analytics can't track your visits to sites. This might break some sites, but you
-can disable it for those sites.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://chrome.google.com/webstore/detail/ublock-origin/cjpalhdlnbpafiamejdnhcphjbkeiagm?hl=en&quot;&gt;Link&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;privacy-badger&quot;&gt;Privacy Badger&lt;/h2&gt;
-
-&lt;p&gt;Privacy Badger is a tool made by the EFF (a non-profit that focuses on digital
-rights) that blocks spying ads and invisible trackers. This would, for instance,
-block the images that BananaTags uses to track forwards from loading.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://chrome.google.com/webstore/detail/privacy-badger/pkehgijcmpdhfbdbbnkijodmdjhbjlgp&quot;&gt;Link&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;password-managers&quot;&gt;Password managers&lt;/h2&gt;
-
-&lt;p&gt;Password Managers are tools that manage your passwords for you. This allows you
-to come up much more complex passwords that are randomly generated, and to share
-them securely (no more emailing passwords, or sharing a Google Sheet).&lt;/p&gt;
-
-&lt;p&gt;LastPass is the one that I'm most familiar with, and it has a free tier that
-satisfies most of your needs.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://www.lastpass.com/&quot;&gt;Link&lt;/a&gt;&lt;/p&gt;
-
-&lt;h1 id=&quot;less-crucial-security-options&quot;&gt;Less crucial security options&lt;/h1&gt;
-
-&lt;h2 id=&quot;two-factor-authentication-2fa&quot;&gt;Two Factor Authentication (2FA):&lt;/h2&gt;
-
-&lt;p&gt;2FA is a system where you are required to prove your identity in a second,
-independent way. As a result, having 2FA enabled guarantees that merely having
-your password isn't enough to access your account. If John Podesta had 2FA
-enabled, Russia wouldn't have been able to hack his emails.&lt;/p&gt;
-
-&lt;p&gt;You can enable 2FA on Gmail, Lastpass, and to login to Windows. There are
-multiple ways of using 2FA:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Have a code sent by SMS to your phone&lt;/li&gt;
-  &lt;li&gt;Use an app on your phone that generates codes&lt;/li&gt;
-  &lt;li&gt;Use a physical stick that generates a code (so you don't have to type
-anything- just push a button).&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;I'm currently demoing a Yubikey (one of the physical 2FA keys) for work; I'll
-update this with a review afterwards.&lt;/p&gt;
-
-&lt;h2 id=&quot;iba-opt-out&quot;&gt;IBA Opt-out&lt;/h2&gt;
-
-&lt;p&gt;IBA Opt-out opts you out of Google's interest-based ads, which makes it so that
-other sites can't track you through the ads. This is Google only, so it's less
-useful than the other tools.&lt;/p&gt;
-
-&lt;p&gt;https://chrome.google.com/webstore/detail/iba-opt-out-by-google/gbiekjoijknlhijdjbaadobpkdhmoebb?hl=en&lt;/p&gt;
-
-&lt;h2 id=&quot;https-everywhere&quot;&gt;HTTPS Everywhere&lt;/h2&gt;
-
-&lt;p&gt;Also by the EFF, HTTPS Everywhere makes it so that all of your pages use HTTPS
-if supported. It's useful to defend against sites that try to inject ads or
-unwanted material (e.g. on Greyhound, the bus wifi automatically takes over the
-ads). Unsecured connections can be used for man-in-the-middle (MITM) attacks,
-where a page steals your data by snooping on your traffic. That shouldn't be a
-problem as every site you use should use HTTPS, but there's no harm in using
-HTTPS.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://www.eff.org/https-everywhere%20&quot;&gt;Link&lt;/a&gt;&lt;/p&gt;
-</description>
-				<pubDate>Sat, 04 Feb 2017 00:00:00 -0700</pubDate>
-				<link>http://localhost:4000/defense/</link>
-				<guid isPermaLink="true">http://localhost:4000/defense/</guid>
-			</item>
-		
-			<item>
-				<title>Useful Bash One-liners</title>
-				<description>&lt;p&gt;I have a file in my home folder that contains Bash oneliners that I use
-regularly (I'm a huge nerd, naturally).  I found most of them elsewhere online;
-I wrote very few of these from scratch.&lt;/p&gt;
-
-&lt;h2 id=&quot;download-a-page-and-all-linked-pagesdocuments&quot;&gt;Download a page and all linked pages/documents:&lt;/h2&gt;
-
-&lt;p&gt;Download &lt;code class=&quot;highlighter-rouge&quot;&gt;$PAGE&lt;/code&gt; and all linked pages/documents, to a depth of &lt;code class=&quot;highlighter-rouge&quot;&gt;$NUM&lt;/code&gt;:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ wget -r &quot;$NUM&quot; &quot;$PAGE&quot;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;e.g.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ wget -r 1 \
-    https://courses.cs.washington.edu/courses/cse455/14au/notes/
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;If you only want PDF files (e.g. if you're downloading course notes), then you
-can add the flag &lt;code class=&quot;highlighter-rouge&quot;&gt;---accept &quot;*.pdf&quot;&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;Taken from &lt;a href=&quot;http://superuser.com/questions/274414/how-to-save-all-the-webpages-linked-from-one&quot;&gt;Stack Overflow&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;recursively-unrar-files&quot;&gt;Recursively unrar files&lt;/h2&gt;
-
-&lt;p&gt;You can replace &lt;code class=&quot;highlighter-rouge&quot;&gt;unrar e&lt;/code&gt; with any other command as well (e.g. &lt;code class=&quot;highlighter-rouge&quot;&gt;unzip&lt;/code&gt;).&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ find ./ -name '*.rar' -execdir unrar e {} \;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;As a data scientist, I often get a dump of data from a client. This command lets
-me process them all at once.&lt;/p&gt;
-
-&lt;h2 id=&quot;turn-white-backgrounds-transparent&quot;&gt;Turn white backgrounds transparent&lt;/h2&gt;
-
-&lt;p&gt;I use this ALL THE TIME when I'm giving talks (particularly when I'm teaching). I
-found it on the
-&lt;a href=&quot;http://www.imagemagick.org/discourse-server/viewtopic.php?t=12619&quot;&gt;Imagemagick&lt;/a&gt;
-forums.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ convert image.gif -transparent white result.gif (or use result.png)
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Alternately, if the image has an off-white background:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ convert image.gif -fuzz XX% -transparent white result.gif
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;where the smaller the %, the closer to true white or conversely, the larger the
-%, the more variation from white is allowed to become transparent.&lt;/p&gt;
-
-&lt;h2 id=&quot;diff-contents-of-two-folders&quot;&gt;Diff contents of two folders&lt;/h2&gt;
-
-&lt;p&gt;Checks which files are different between the folders &lt;code class=&quot;highlighter-rouge&quot;&gt;dir1&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;dir2&lt;/code&gt;. I've
-used this to track down bugs when I'm installing our software on client sites
-to make sure that their data is exactly the same as my copy of it.&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ diff -qr dir1 dir2
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;You can also use some sort of checksum by zipping up both folders and comparing
-the results, e.g. with&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ md5 dir1.zip
-$ md5 dir2.zip
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-</description>
-				<pubDate>Fri, 20 Jan 2017 00:00:00 -0700</pubDate>
-				<link>http://localhost:4000/Useful-oneliners/</link>
-				<guid isPermaLink="true">http://localhost:4000/Useful-oneliners/</guid>
-			</item>
-		
-			<item>
-				<title>Including web fonts in RMarkdown</title>
-				<description>&lt;p&gt;I didn't see this anywhere online, so I thought I'd quickly write up how to add
-web fonts to a RMarkdown presentation.&lt;/p&gt;
-
-&lt;p&gt;You have a RMarkdown presentation using ioslides:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;---
-title: &quot;Best Presentation Ever&quot;
-author: &quot;Finbarr Timbers&quot;
-date: &quot;January 19, 2017&quot;
-output: ioslides_presentation
-css: assets/styles.css
-logo: assets/logo.png
-incremental: true
-widescreen: true
----
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Create a file &lt;code class=&quot;highlighter-rouge&quot;&gt;header.html&lt;/code&gt; including a link to the fonts you want to use in the
-same folder as your RMarkdown document&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;link href=&quot;https://fonts.googleapis.com/css?family=Open+Sans&quot; rel=&quot;stylesheet&quot;&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Then, add an &lt;code class=&quot;highlighter-rouge&quot;&gt;includes&lt;/code&gt; section to the header of your RMarkdown document:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;---
-title: &quot;Best Presentation Ever&quot;
-author: &quot;Finbarr Timbers&quot;
-date: &quot;January 19, 2017&quot;
-output:
-    ioslides_presentation:
-        includes: header.html
-css: assets/styles.css
-logo: assets/logo.png
-incremental: true
-widescreen: true
----
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;You're done! Should work properly.&lt;/p&gt;
-</description>
-				<pubDate>Thu, 19 Jan 2017 00:00:00 -0700</pubDate>
-				<link>http://localhost:4000/web-fonts-rmd/</link>
-				<guid isPermaLink="true">http://localhost:4000/web-fonts-rmd/</guid>
-			</item>
-		
-			<item>
-				<title>A Deep Hierarchical Approach to Lifelong Learning in Minecraft</title>
-				<description>&lt;h2 id=&quot;abstract&quot;&gt;&lt;a href=&quot;https://arxiv.org/abs/1604.07255&quot;&gt;Abstract&lt;/a&gt;&lt;/h2&gt;
-
-&lt;p&gt;We propose a lifelong learning system that has the ability to reuse and transfer
-knowledge from one task to another while efficiently retaining the previously
-learned knowledge-base. Knowledge is transferred by learning reusable skills to
-solve tasks in Minecraft, a popular video game which is an unsolved and
-high-dimensional lifelong learning problem. These reusable skills, which we
-refer to as Deep Skill Networks, are then incorporated into our novel
-Hierarchical Deep Reinforcement Learning Network (H-DRLN) architecture using two
-techniques: (1) a deep skill array and (2) skill distillation, our novel
-variation of policy distillation (Rusu et. al. 2015) for learning skills. Skill
-distillation enables the HDRLN to efficiently retain knowledge and therefore
-scale in lifelong learning, by accumulating knowledge and encapsulating multiple
-reusable skills into a single distilled network. The H-DRLN exhibits superior
-performance and lower learning sample complexity compared to the regular Deep Q
-Network (Mnih et. al. 2015) in sub-domains of Minecraft.&lt;/p&gt;
-
-&lt;h2 id=&quot;notes&quot;&gt;Notes&lt;/h2&gt;
-
-&lt;p&gt;Paper discusses how previously trained neural networks (called skills) can be
-used to create an adaptable, more general AI that can respond to varied
-scenarios.&lt;/p&gt;
-</description>
-				<pubDate>Tue, 03 Jan 2017 00:00:00 -0700</pubDate>
-				<link>http://localhost:4000/minecraft/</link>
-				<guid isPermaLink="true">http://localhost:4000/minecraft/</guid>
 			</item>
 		
 	</channel>

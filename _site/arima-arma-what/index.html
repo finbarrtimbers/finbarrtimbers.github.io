@@ -7,7 +7,8 @@
 
     <title>ARIMA, ARMA, what's the difference? | Finbarr Timbers</title>
 
-    <script src=https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js type=text/javascript></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>
       MathJax.Hub.Config({
       "HTML-CSS": {
@@ -63,8 +64,8 @@
       <div class=right-column>
           <h1 class=author-name>
             <a href=/ class="title">Finbarr Timbers</a>
-              <a href="https://twitter.com/finblarr"> <i class="fa fa-twitter"></i></a>
-              <a href="https://github.com/finblarr"> <i class="fa fa-github"></i></a>
+              <a href="https://twitter.com/finbarrtimbers"> <i class="fa fa-twitter"></i></a>
+              <a href="https://github.com/finbarrtimbers"> <i class="fa fa-github"></i></a>
           </h1>
           <div class=nav>
           </div>
@@ -83,37 +84,37 @@
     <div class=content>
         <p>I'm working through <a href="[1]">TSA</a>, and I noticed that some of my classmates are struggling to understand the difference between an ARIMA process, an AR process, and a MA process, not to mention seasonal version of the above.</p>
 
-<p>Using <script type="math/tex">B</script> as the lag operator, i.e. <script type="math/tex">BX_t = X_{t-1}</script>, an <em>ARIMA(p, d, q) process</em> is a discrete time stochastic process of the form</p>
+<p>Using \(B\) as the lag operator, i.e. \(BX_t = X_{t-1}\), an <em>ARIMA(p, d, q) process</em> is a discrete time stochastic process of the form</p>
 
-<script type="math/tex; mode=display">\phi(B) (1 - B)^d X_t = \theta(B)w_t,</script>
+\[\phi(B) (1 - B)^d X_t = \theta(B)w_t,\]
 
-<p>where <script type="math/tex">\phi</script> is a polynomial of degree <em>p</em>, and <script type="math/tex">\theta</script> is a polynomial of degree <em>q</em>. An <em>AR(p)</em> process is an ARIMA(<em>p, 0, 0</em>) process, and a MA(<em>q</em>) process is an ARIMA(<em>0, 0, q</em>) process. To make life even more complicated, we introduce the notion of seasonality:</p>
+<p>where \(\phi\) is a polynomial of degree <em>p</em>, and \(\theta\) is a polynomial of degree <em>q</em>. An <em>AR(p)</em> process is an ARIMA(<em>p, 0, 0</em>) process, and a MA(<em>q</em>) process is an ARIMA(<em>0, 0, q</em>) process. To make life even more complicated, we introduce the notion of seasonality:</p>
 
-<p>An ARIMA<script type="math/tex">(p, d, q) \times (P, D, Q)_s</script> model is a s.p. of the form</p>
+<p>An ARIMA\((p, d, q) \times (P, D, Q)_s\) model is a s.p. of the form</p>
 
-<script type="math/tex; mode=display">\Phi(B^s) \phi(B) (1 - B^s)^D (1 - B)^d X_t = \Theta(B^s)\theta(B)w_t,</script>
+\[\Phi(B^s) \phi(B) (1 - B^s)^D (1 - B)^d X_t = \Theta(B^s)\theta(B)w_t,\]
 
-<p>where <script type="math/tex">\Phi(B)</script> is a polynomial of degree <script type="math/tex">P</script>, and <script type="math/tex">\Theta(B)</script> is a polynomial of degree <script type="math/tex">Q</script>.</p>
+<p>where \(\Phi(B)\) is a polynomial of degree \(P\), and \(\Theta(B)\) is a polynomial of degree \(Q\).</p>
 
 <h4 id="example">Example</h4>
 
 <p>Suppose we have the stochastic process</p>
 
-<script type="math/tex; mode=display">X_t = \frac 1 2 X_{t-1} + X_{t-4} - \frac 1 2 X_{t-5} + w_t - \frac 1 4 w_{t-4}.</script>
+\[X_t = \frac 1 2 X_{t-1} + X_{t-4} - \frac 1 2 X_{t-5} + w_t - \frac 1 4 w_{t-4}.\]
 
-<p>How can we write this as an ARIMA<script type="math/tex">(p, d, q) \times (P, D, Q)_s</script> model? Note that</p>
+<p>How can we write this as an ARIMA\((p, d, q) \times (P, D, Q)_s\) model? Note that</p>
 
-<script type="math/tex; mode=display">(1 - B^4) X_t = \frac 1 2 X_{t-1} - \frac 1 2 X_{t-5} + w_t - \frac 1 4 w_{t-4}.</script>
+\[(1 - B^4) X_t = \frac 1 2 X_{t-1} - \frac 1 2 X_{t-5} + w_t - \frac 1 4 w_{t-4}.\]
 
 <p>We can rewrite this as</p>
 
-<script type="math/tex; mode=display">(1 - B^4) X_t - \frac{1}{2} B (1 - B^4)X_t = (1 - \frac 1 4 B^4) w_t,</script>
+\[(1 - B^4) X_t - \frac{1}{2} B (1 - B^4)X_t = (1 - \frac 1 4 B^4) w_t,\]
 
 <p>or, more concisely,</p>
 
-<script type="math/tex; mode=display">(1 - B^4) (1 - \frac 1 2 B) X_t = (1 - \frac 1 4 B^4) w_t.</script>
+\[(1 - B^4) (1 - \frac 1 2 B) X_t = (1 - \frac 1 4 B^4) w_t.\]
 
-<p>Consequently, we can see that <script type="math/tex">X_t</script> is an ARIMA<script type="math/tex">(1, 0, 0) \times (0, 1, 1)_4</script> process.</p>
+<p>Consequently, we can see that \(X_t\) is an ARIMA\((1, 0, 0) \times (0, 1, 1)_4\) process.</p>
 
 
     </div>
