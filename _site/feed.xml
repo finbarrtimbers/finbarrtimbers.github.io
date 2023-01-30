@@ -71,7 +71,7 @@ can lead to dramatic changes in the output. If this work can scale the outputs
 of convolutional networks, it might be able to remove that propensity by noting
 that the global state hasn&apos;t changed much.&lt;/p&gt;
 </description>
-				<pubDate>Mon, 30 Jan 2023 12:06:12 -0700</pubDate>
+				<pubDate>Mon, 30 Jan 2023 12:06:38 -0700</pubDate>
 				<link>http://localhost:4000/2017-09-07-squeeze-and-excitation-networks/</link>
 				<guid isPermaLink="true">http://localhost:4000/2017-09-07-squeeze-and-excitation-networks/</guid>
 			</item>
