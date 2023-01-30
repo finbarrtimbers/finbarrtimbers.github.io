@@ -11,13 +11,6 @@
 
   
   <url>
-    <loc>http://localhost:4000/2017-09-07-squeeze-and-excitation-networks/</loc>
-    <lastmod>2023-01-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>http://localhost:4000/backprop/</loc>
     <lastmod>2023-01-29</lastmod>
     <changefreq>weekly</changefreq>

@@ -8,75 +8,6 @@
 		<atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
-				<title></title>
-				<description>&lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/1709.01507&quot;&gt;Paper&lt;/a&gt;&lt;/p&gt;
-
-&lt;h1 id=&quot;overview&quot;&gt;Overview&lt;/h1&gt;
-
-&lt;p&gt;The paper got a lot of attention as it won ILSVRC 2017. I was surprised to see
-no Google employees as coauthors- they&apos;ve been dominant historically in the
-ILSVRC competitions.&lt;/p&gt;
-
-&lt;p&gt;The paper presents a new way to modify convolutional networks by focusing on
-channels and their dependencies. The work on based on recent results, such
-as the Inception architectures, that have demonstrated that including multiple
-learning mechanisms (i.e. layers) that work on different spatial scales improves
-performance.&lt;/p&gt;
-
-&lt;p&gt;The Squeeze-and-Excitation Networks (SEN networks) work by implementing a seires
-of blocks composed of a Squeeze operation, which learns a description of the
-channel, influence an Excitation operation, where each channel gets a different
-output depending on the description. This is then composed with more layers
-similar to the traditional deep network.&lt;/p&gt;
-
-&lt;h2 id=&quot;details&quot;&gt;Details&lt;/h2&gt;
-
-&lt;p&gt;Effectively, they create a squeeze block as a means of attempting to embed
-global spatial information into a channel. They do this by calculating the
-global average of the entire channel for each channel, to create a C dimensional
-vector of real numbers, $z_c$. This vector is then used in a layer that is the
-composition of a ReLU layer with a sigmoid layer:&lt;/p&gt;
-
-\[s = \sigma(W_2 \delta(W_1 z)),\]
-
-&lt;p&gt;where $\sigma$ is a sigmoid activation, $\delta$ is a ReLU layer, and $W_i$ is
-a standard weight matrix. The weight matrices are reduced dimensionality, and
-the reduction ratio $r$ is a hyper-parameter which needs to be chosen
-carefully. The output of the Excitation layer, $s$, is then used to scale the
-preceding convolutional layer by channel-wise multiplication:&lt;/p&gt;
-
-\[\tilde{x} = s \cdot u,\]
-
-&lt;p&gt;where is equal to $v * X$, X being the input, and v being the learned set of
-convolutional filter kernels.&lt;/p&gt;
-
-&lt;p&gt;As a result, the SE layer is scaling the output of the convolutional layers to
-incorporate global spatial information, choosing what to emphasize and
-de-emphasize.&lt;/p&gt;
-
-&lt;h1 id=&quot;results&quot;&gt;Results&lt;/h1&gt;
-
-&lt;p&gt;The authors achieve a (relatively) dramatic increase in SOTA for ILSVRC, going from a
-previous best of 5.12%, to 4.47%.&lt;/p&gt;
-
-&lt;h1 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h1&gt;
-
-&lt;p&gt;The results of the work make it interesting. My prior would have been that such
-a mechanism wouldn&apos;t have worked— it seems too simple. This makes me wonder if
-there&apos;s some way that this can be used to product networks that are more robust
-to adversarial perturbation.&lt;/p&gt;
-
-&lt;p&gt;The root cause of adversarial perturbations is that minor changes in the input
-can lead to dramatic changes in the output. If this work can scale the outputs
-of convolutional networks, it might be able to remove that propensity by noting
-that the global state hasn&apos;t changed much.&lt;/p&gt;
-</description>
-				<pubDate>Mon, 30 Jan 2023 12:07:03 -0700</pubDate>
-				<link>http://localhost:4000/2017-09-07-squeeze-and-excitation-networks/</link>
-				<guid isPermaLink="true">http://localhost:4000/2017-09-07-squeeze-and-excitation-networks/</guid>
-			</item>
-		
-			<item>
 				<title>A pure Python (well, Numpy) implementation of back-propagation</title>
 				<description>&lt;p&gt;I realized over the weekend that, unfortunately, I didn&apos;t know how back-propagation &lt;em&gt;actually&lt;/em&gt; works (I just relied on JAX to do it for me).&lt;/p&gt;
 
@@ -846,6 +777,139 @@ which will be useful when it&apos;s released.&lt;/p&gt;
 				<pubDate>Wed, 01 Mar 2017 00:00:00 -0700</pubDate>
 				<link>http://localhost:4000/random-search-hyper-parameter-optimization/</link>
 				<guid isPermaLink="true">http://localhost:4000/random-search-hyper-parameter-optimization/</guid>
+			</item>
+		
+			<item>
+				<title>How I designed my machine learning app</title>
+				<description>&lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
+
+&lt;p&gt;Approximately ten thousand years ago, during undergrad, I made what was probably
+the best decision of my academic career and took
+&lt;a href=&quot;https://webdocs.cs.ualberta.ca/~greiner/&quot;&gt;Russ Greiner&apos;s&lt;/a&gt; CMPUT 466 class at
+the University of Alberta. As a math major, it took some convincing to let the
+CS department allow me into the course, as I was missing approximately every
+prerequisite for the class, but convince them I did, and I was introduced to the
+body of techniques known as machine learning. The course required me to complete
+a group project, and my group worked on the problem of bug report deduplication.&lt;/p&gt;
+
+&lt;h2 id=&quot;inspiration&quot;&gt;Inspiration&lt;/h2&gt;
+
+&lt;p&gt;Managing the flood of bug reports that pour in is a problem for any sizable
+software project. Android has some
+&lt;a href=&quot;https://code.google.com/p/android/issues/list?num=100&amp;amp;start=0&quot;&gt;53 636&lt;/a&gt;  bug
+reports as of the time of writing, and if you search &quot;bug report triage&quot; in
+&lt;a href=&quot;https://scholar.google.ca/scholar?q=bug+report+triage&amp;amp;btnG=&amp;amp;hl=en&amp;amp;as_sdt=0%2C5&quot;&gt;Google Scholar&lt;/a&gt;,
+you get almost 4000 results for academic work. The cost of managing bug reports
+is huge, too— if each bug report takes a quarter of an hour to administer (read,
+compare to previous bug reports, link them, and assign to a developer), then the
+Android community has spent 13 409 hours, or 32 work years managing bug reports.
+That ignores the number of internal bug reports that Google&apos;s QA staff would
+have found and reported. If we assume a typical Software Engineer costs
+$100 000 annually, that&apos;s $3.2 million that the Android community has dedicated
+to bug triage.&lt;/p&gt;
+
+&lt;p&gt;The &lt;a href=&quot;http://finbarr.ca/dedup/&quot;&gt;project&lt;/a&gt; that my team worked on focused on
+analysing the text of the bug reports and using features generated from those to
+classify the bug reports. We developed a series of features that used reference
+material (textbooks, manuals, documentation) to create subject specific word
+lists, from which we generated numerical comparison scores. From this, we were
+able to get a series of subject scores (e.g. Android security: 0.2). The work
+proved remarkably successful, almost matching the performance of word lists that
+were manually extracted. With very little tuning, we were able to correctly
+classify 97% of bug reports, and I suspect that with some modelling effort
+(hyperparameter optimization, investigating some more complicated models) that
+could be improved on.&lt;/p&gt;
+
+&lt;p&gt;That was several years ago. The code that performed the bug report deduplication has
+been sitting around on Github for a few years, untouched. It seemed to me that
+bug report deduplication was a problem with a clear solution that hadn&apos;t been
+implemented by anyone. I&apos;ve been looking for a side project to do that will let
+me learn more about product development and deploying machine learning in
+production environments, instead of just academic experimental settings, so I
+took it upon myself to turn the academic code into a web app. I was able to
+recruit a few of my friends to help, and we built
+&lt;a href=&quot;http://www.bugdedupe.com&quot;&gt;BugDedupe&lt;/a&gt;. It&apos;s still in a very early stage, so I&apos;m
+looking for feedback and feature requests. The goal is to have the site be free
+for open source repositories and small (private) side projects, charging larger
+repositories to recoup my costs. If you have feedback or feature requests, or
+just want to chat, shoot me an email at finbarrtimbers@gmail.com.&lt;/p&gt;
+
+&lt;p&gt;When I started building BugDedupe, I hadn&apos;t seen many posts about how teams
+designed their machine learning web apps, so I wanted to write about how we
+approached ours, to get feedback and to help others doing the same.&lt;/p&gt;
+
+&lt;h2 id=&quot;myself&quot;&gt;Myself&lt;/h2&gt;
+
+&lt;p&gt;I&apos;m a stats/ML guy who does a lot of number crunching in Python at my day job
+(Numpy/sklearn/SciPy). I&apos;ve been wanting to learn more about the whole Python
+stack, and particularly web dev, so that I can learn how to make products from
+end-to-end. As a consultant, I get all of my projects to the MVP stage and then
+have to start again on the next one for a new client. I wanted to work on
+something that I could polish and grow, and given my stats background,
+BugDedupe seemed like a great opportunity.&lt;/p&gt;
+
+&lt;h2 id=&quot;background&quot;&gt;Background:&lt;/h2&gt;
+
+&lt;p&gt;We developed an automated &lt;a href=&quot;http://finbarr.ca/dedup&quot;&gt;method&lt;/a&gt; of predicting
+whether or not two bug reports are duplicates of each other. We did this by
+analysing the text of the bug report and comparing it to each other, and to
+reference texts (e.g. we had bug reports for a Java project, and we compared
+them to different chapters of a Java textbook to get subject scores— allowing
+us to say that a given report is 30\% cryptography and 45\% networking). This
+gave us a number of features that we could run through a machine learning
+classifier. We used a number of different ones and got really high results—
+97\%. The method worked, and we tested it on real world data— the bug reports
+from Android, and Eclipse, among others. The only remaining problem was figuring
+out how to make the service available online.&lt;/p&gt;
+
+&lt;h2 id=&quot;layout&quot;&gt;Layout&lt;/h2&gt;
+
+&lt;p&gt;At the start of the project, I was pretty confused about how to develop the
+site. I&apos;ve been a fan of functional programming for a long time, and try to
+develop all of my projects in a functional manner.In that light, I decided to
+use a stateless architecture for the app. All of the state of the app (users,
+data, etc.) would be stored in the MySQL database, and the server would exist
+only to render it onto the web; similarly, the machine learning processes would
+interact uniquely with the database. As a result, we can have anything except
+the database crash at any time, and we won&apos;t lose any data. The database is
+regularly backed up, and as we&apos;re using Google Cloud SQL, it&apos;s in good hands.
+If, god willing, we run into scaling problems, we feel that our architecture will
+also allow us to focus only on optimizing the specific parts that are
+bottlenecking our performance, as everything is logically separated.&lt;/p&gt;
+
+&lt;h2 id=&quot;hosting&quot;&gt;Hosting&lt;/h2&gt;
+
+&lt;p&gt;I&apos;ve been using Docker at work and like it a lot. I decided to encapsulate each
+separate component in a container, and run them on Google Cloud Platform, as
+I like what Google&apos;s doing with &lt;a href=&quot;https://kubernetes.io/&quot;&gt;Kubernetes&lt;/a&gt;. Once I
+had the components in Docker, it was straightforwardt to launch them on Google
+Container Engine.&lt;/p&gt;
+
+&lt;p&gt;I found it surprisingly easy. It sucked getting started, but now that
+everything&apos;s set up, it&apos;s super easy to work with, and kubernetes makes a lot of
+the administrative tasks go away (e.g. managing secrets/environment variables,
+restarting Python, scaling).&lt;/p&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;While some things surprised me (particularly the latency of APIs- I was using
+Stormpath for authentication, and it started adding up to 6 seconds per
+request), overall, I&apos;m extremely happy with how the program turned out. I think
+that having everything interact only with the database and itself managed to
+reduce complexity significantly, so that I only had to think about how the
+current component interacted with the database, instead of having to worry about
+how it fit in with all of the other components of the stack. The test now is to
+get more users, and see how we perform at scale. The more users we get, the
+more accurate our classifier will be, and the more useful our service will be,
+so we need to get that flywheel rolling as fast as we can.&lt;/p&gt;
+
+&lt;p&gt;If you found this useful, or if you have any feedback, please send me an email
+at finbarrtimbers@gmail.com. I&apos;d love to hear what you think of our
+architecture.&lt;/p&gt;
+</description>
+				<pubDate>Tue, 21 Feb 2017 00:00:00 -0700</pubDate>
+				<link>http://localhost:4000/Bugdedupe/</link>
+				<guid isPermaLink="true">http://localhost:4000/Bugdedupe/</guid>
 			</item>
 		
 	</channel>
