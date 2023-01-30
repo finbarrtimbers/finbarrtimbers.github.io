@@ -2,3 +2,5 @@ _site/
 .jekyll-metadata
 .DS_Store
 */.DS_STore
+*~
+*#
