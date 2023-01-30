@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: page
 title: Using simulated data to train robots
 tags: papers machine-learning
 ---

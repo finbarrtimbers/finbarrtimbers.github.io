@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: page
 title: Solving Partial Autocorrelation Functions
 tags: time-series statistics ARMA
 ---

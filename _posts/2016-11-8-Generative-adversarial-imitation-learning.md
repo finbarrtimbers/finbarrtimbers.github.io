@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: page
 title: Generative Adversarial Imitation Learning
 tags: papers machine-learning
 ---

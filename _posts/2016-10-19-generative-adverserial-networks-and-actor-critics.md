@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: page
 title: Generative Adversarial Networks and Actor-Critic methods
 tags: papers machine-learning
 ---

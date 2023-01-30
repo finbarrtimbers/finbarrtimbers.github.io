@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: page
 title: Useful Bash One-liners
 tags: bash
 ---

@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: page
 title: Full example for using JSONcpp on Unix
 tags: c++ json example
 ---

@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: page
 title: Excellent description of how hashtables work
 tags: algorithms
 ---

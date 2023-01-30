@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: page
 title: Full Resolution Image Compression with Recurrent Neural Networks
 tags: papers machine-learning
 ---

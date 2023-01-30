@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: page
 title: Larry Ellison on consulting costs
 tags: consulting oracle softwar
 ---

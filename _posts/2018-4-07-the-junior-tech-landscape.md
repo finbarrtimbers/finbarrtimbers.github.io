@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: page
 title: The junior tech landscape
 tags: tech jobs
 ---

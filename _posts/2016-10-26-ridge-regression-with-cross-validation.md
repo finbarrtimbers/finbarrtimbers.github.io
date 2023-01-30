@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: page
 title: Minimal example of how to do model selection in Python
 tags: python machine learning
 ---

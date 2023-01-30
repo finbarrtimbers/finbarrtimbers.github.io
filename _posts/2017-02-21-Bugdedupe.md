@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: page
 title: How I designed my machine learning app
 tags: machine learning
 ---

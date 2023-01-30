@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: page
 title: ARIMA, ARMA, what's the difference? 
 tags: time-series ARMA
 ---

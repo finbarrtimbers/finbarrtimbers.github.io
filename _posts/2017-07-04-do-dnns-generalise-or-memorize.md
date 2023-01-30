@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: page
 title: Do deep networks generalise or just memorise?
 tags: algorithms
 ---

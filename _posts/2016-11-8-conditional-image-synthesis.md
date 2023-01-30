@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: page
 title: Conditional image synthesis with auxiliary classifier GANs
 tags: papers machine-learning
 ---

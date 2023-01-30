@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: page
 title: Setting prices for your business
 tags: startups prices business
 ---

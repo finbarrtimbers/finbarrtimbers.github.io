@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: page
 title: Including web fonts in RMarkdown
 tags: web html rmd rmarkdown R html markdown
 ---

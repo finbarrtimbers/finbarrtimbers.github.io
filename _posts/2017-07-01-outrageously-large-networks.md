@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: page
 title: "Outrageously Large Neural Networks: The sparsely-gated Mixture-of-Experts layer"
 tags: papers machine-learning
 ---

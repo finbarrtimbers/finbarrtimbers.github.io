@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: page
 title: Safe and Efficient Off-Policy Reinforcement Learning
 tags: papers machine-learning
 ---

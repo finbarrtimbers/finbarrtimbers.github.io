@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: page
 title: A Deep Hierarchical Approach to Lifelong Learning in Minecraft
 tags: machine learning statistics papers
 ---

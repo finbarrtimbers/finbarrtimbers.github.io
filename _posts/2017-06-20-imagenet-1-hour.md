@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: page
 title: "Accurate, Large Minibatch SGD: Training ImageNet in 1 Hour"
 tags: papers machine-learning
 ---
