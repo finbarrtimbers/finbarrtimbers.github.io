@@ -12,5 +12,6 @@ Email: finbarrtimbers (at) gmail.
 
 Things I'm involved with and areas of interest:
 
+- **Generative modelling**. Computers are making it easier than ever before to make art (or write code, or write text, or...). I want to see how far this rabbit hole goes. 
 - **Reinforcement learning**. Computers that can engage autonomously with the world. What's not to love? 
 - **Investing**. I'm looking to do more angel investing. If you're starting an interesting company, particularly in the RL space, please reach out.

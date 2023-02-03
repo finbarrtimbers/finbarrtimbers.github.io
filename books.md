@@ -23,3 +23,9 @@ I'm always looking for book recommendations. Please reach out with suggestions o
 ## Fiction
 
 - [Seveneves](https://en.wikipedia.org/wiki/Seveneves). Hard sci-fi detailing how humanity comes together after an apocalyptic event.
+- [Discworld](https://en.wikipedia.org/wiki/Discworld), just a delightful series to read. A nice starting point is [Guards! Guards!](https://en.wikipedia.org/wiki/Guards!_Guards!).
+- [Spinning Silver](https://en.wikipedia.org/wiki/Spinning_Silver) is an incredibly well written take on Rumpelstiltskin that explores Eastern European mythology. By Naomi Novik, who I enjoy.
+
+## Reading list
+
+- [Becoming Trader Joe](https://www.amazon.ca/Becoming-Trader-Joe-Business-Still/dp/1400225434), autobiography of the eponymous Joe
