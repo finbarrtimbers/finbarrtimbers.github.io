@@ -7,7 +7,7 @@ permalink: /rfs/
 
 # Introduction
 
-I don't know what I'm wrong about. If I did, I'd [change my mind](/mistakes). So none of these should be considered definitive. If you have an idea that you think I could help, please reach out.
+These are ideas that I think should be startups. If you're interested in starting these companies, please do so; if you're looking for an advisor/investor, reach out.
 
 ## Continual learning systems
 
@@ -16,7 +16,7 @@ Reinforcement learning has become ridiculously better in the last 5 years. What 
 - Existing solutions aren't enough; you must explore the space to become good.
 - Humans can do it, but barely.
 
-Any system that meets these properties is ripe for disruption, and I'd like to invest.
+Any system that meets these properties is ripe for disruption.
 
 ## Laboratory science productivity
 
@@ -24,5 +24,6 @@ An investment thesis in tech posits that the number of developers is small, and 
 of skilled developers is even smaller, so any technology that can make existing
 developers more productive is ridiculously valuable. This is true for many other
 professions. The laboratory sciences, in particular, are hard to recruit for,
-requiring many years of advanced education to do. If you're making tools that make it
-easier to run a medical lab, let me know. 
+requiring many years of advanced education to do. 
+
+What's more- the amount of testing we do is severely limited by cost. If we could make it 100x cheaper to run lab tests, we'd probably run 100x more (maybe 1000x more). That would be transformative for our health!
