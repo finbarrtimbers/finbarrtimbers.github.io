@@ -1,0 +1,4 @@
+- Implement side note capability in markdown (possible?)
+    -> change references?
+    -> automatically turn `->` character into unicode arrow
+- Insert photos in .md 

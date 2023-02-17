@@ -1,0 +1,24 @@
+---
+layout: page
+title: Finbarr Timbers
+permalink: /blog/
+---
+
+{% for post in site.posts %}
+<div class=post>
+    {% if post.feature %}
+    <p class=feature-image>
+        <img src="{{ post.feature }}"/>
+    </p>
+    {% endif %}
+    <h2 class=title>{{ post.title }}</h1>
+    <div>
+	{{ post.date | date: '%B %d, %Y' }}
+        <a href="{{ post.url }}">read post</a>
+    </div>
+    <div class=content>
+        {{ post.excerpt | markdownify }}
+    </div>
+    <!--{% include post-meta.html %}-->
+</div>
+{% endfor %}

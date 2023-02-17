@@ -1,44 +1,69 @@
-<html>
-<head>
-  <link rel="stylesheet" href="/static/style.css">
-  <meta charset="utf-8">
-  <title>Home | Finbarr Timbers</title>
-</head>
-<body>
-<div id="menu">
-<span class="title">Finbarr Timbers</span>
-<ul>
-  <li><a href="/about">About</a></li>
-  <li><a href="/advice">Advice</a></li>
-  <li><a href="/blog">Blog</a></li>
-  <li><a href="/bookshelf">Bookshelf</a></li>
-  <li><a href="/culture">Culture</a></li>
-  <li><a href="/fast">Fast</a></li>
-  <li><a href="/growth">Growth</a></li>
-  <li><a href="/labs">Labs</a></li>
-  <li><a href="/links">Links</a></li>
-  <li><a href="/people">People</a></li>
-  <li><a href="/pollution">Pollution</a></li>
-  <li><a href="/progress">Progress</a></li>
-  <li><a href="/questions">Questions</a></li>
-  <li><a href="/svhistory">SV history</a></li>
-<li><a href="/travel">Travel</a></li>
-<li><a href="/work">Work</a></li>
-</ul>
-</div>
-<div id="left">&nbsp;</div>
-<div id="content">
-
+---
+<<<<<<< HEAD
+layout: default
+title: Finbarr Timbers
+permalink: /
+---
+<div class="post">
+  <div>
+    {{ site.bio | markdownify }}
+  </div>
 </div>
 
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZBM24T0LEX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'G-ZBM24T0LEX');
-</script>
-</body>
-</html>
+<h1 class="section"> Posts </h1>
+
+{% for post in site.posts %}
+<div class=post>
+  <a class="link-title" href="{{ post.url }}">{{ post.title }}</a>
+   {{ post.date | date: "%-d %B %Y" }}
+</div>
+{% endfor %}
+
+<h1 class="section"> Projects </h1>
+{% for project in site.projects %}
+<div class="post">
+  <h3>
+    <a class="link-title" href="{{ project.url }}">{{ project.name }}</a>
+  </h3>
+  <div>
+    {{ project.description | markdownify }}
+  </div>
+</div>
+{% endfor %}
+
+<h1 class="section"> Talks </h1>
+{% for talk in site.talks %}
+<div class=post>
+  <div class="talk-title">
+    <h3> {{ talk.name }} </h3>
+    <div>
+      {{ talk.conference | markdownify}}
+    </div>
+    <div>
+      {{ talk.slides | markdownify}}
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+
+<h1 class="section"> Work Experience </h1>
+{% for job in site.jobs %}
+<div class=post>
+  <div class="job-title">
+    <h3>
+      {{job.title }}, {{ job.employer}}
+    </h3>
+  </div>
+  <div>
+    {{ job.description | markdownify }}
+  </div>
+</div>
+{% endfor %}
+=======
+layout: page
+title: ""
+permalink: /
+---
+>>>>>>> 76c4c64f3cc55d58f1c565c5bd4eb87977610798

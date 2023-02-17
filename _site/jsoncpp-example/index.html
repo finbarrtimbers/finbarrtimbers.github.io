@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset=utf-8>
+    <meta name=viewport content="width=device-width, initial-scale=1.0">
+    <meta name=description content="Personal website for Finbarr Timbers">
+
+    <title>Full example for using JSONcpp on Unix | Finbarr Timbers</title>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+      MathJax.Hub.Config({
+      "HTML-CSS": {
+      linebreaks: {
+      automatic: true,
+      width: "70% container"
+      },
+      styles: {
+      ".MathJax .math": {
+      "border": "1px solid #ccc",
+      "margin": "0.1em 0",
+      "padding": "0.3em",
+      "vertical-align": "middle"
+      },
+      ".MathJax_Display .math": {
+      "border": "none",
+      "padding": "0",
+      }
+      },
+      scale: 90
+      }
+      });
+    </script>
+    <link href='http://fonts.googleapis.com/css?family=Lato:300|Yanone+Kaffeesatz:300' rel='stylesheet' type='text/css'>
+    <link rel=stylesheet type=text/css href=/css/pure-min.css>
+  <!--  <link rel=stylesheet type=text/css href=/css/github.css> -->
+  <!--  <link rel=stylesheet type=text/css href=/css/styles.css> -->
+    <link rel=stylesheet type=text/css href=/css/tufte.css>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  </head>
+  <body>
+    <!-- Google Tag Manager -->
+    <noscript>
+      <iframe src="//www.googletagmanager.com/ns.html?id=GTM-5ZDGMP" height="0"
+              width="0" style="display:none;visibility:hidden">
+      </iframe>
+    </noscript>
+    <script>
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-5ZDGMP');
+    </script>
+    <!-- End Google Tag Manager -->
+    <div class="container pure-g-r">
+      <div class=pure-u-1-5>
+      </div>
+      <div class=pure-u-2-3>
+        <div class=author-info>
+        </div>
+      <div class=right-column>
+          <h1 class=author-name>
+            <a href=/ class="title">Finbarr Timbers</a>
+              <a href="https://twitter.com/finbarrtimbers"> <i class="fa fa-twitter"></i></a>
+              <a href="https://github.com/finbarrtimbers"> <i class="fa fa-github"></i></a>
+          </h1>
+          <div class=nav>
+          </div>
+          <div class=post>
+    
+    <div class=post-meta>
+    
+    
+        <a href="/tags/#c++-ref">#c++</a>
+    
+        <a href="/tags/#json-ref">#json</a>
+    
+        <a href="/tags/#example-ref">#example</a>
+    
+</div>
+
+    <h1 class=title-large>Full example for using JSONcpp on Unix</h1>
+    <div class=content>
+        <p>I've been trying to parse JSON files with C++, and I've found a distinct lack of
+full examples on how to do so. Specifically, I've struggled to find the proper
+commands to actually compile the code. For future reference (and to help any
+beginners out), here's a full example of how to use <a href="https://github.com/open-source-parsers/jsoncpp" title="JSONcpp on github">JSONcpp</a> in your code (N.B. You're supposed to enter all of the following code in your terminal).</p>
+
+<ol>
+  <li>
+    <p>Download the source from github. In the directory that you want to install the source code into, enter</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> git clone https://github.com/open-source-parsers/jsoncpp
+ cd jsoncpp
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Create the makefiles. For this step, you must have cmake installed; if it is not installed, you can install it with your system package manager. <a href="On OS X, I use Homebrew, and on (e.g.) Ubuntu, the package manager is apt-get. On OS X, you would enter `brew install cmake` to install cmake, while on Ubuntu, you would run `apt-get install cmake`.">1</a> From jsoncpp/, run</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> mkdir -p build/debug
+ cd build/debug
+ cmake -DCMAKE_BUILD_TYPE=debug -DJSONCPP_LIB_BUILD_SHARED=OFF -G "Unix Makefiles" ../../../jsoncpp
+ make
+ cd ../..
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Enter <code class="language-plaintext highlighter-rouge">pwd</code> and make a note of the output. Now, go to the folder containing the code in which you want to use JSONcpp in. Create a new file called "main.cpp" and enter the following code (taken from Stack Overflow):</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> #include &lt;fstream&gt;
+ #include &lt;iostream&gt;
+
+ #include "json/json.h"
+
+ int main() {
+     Json::Value root;
+     std::ifstream file("test.json");
+     file &gt;&gt; root;
+     std::cout &lt;&lt; root;
+ }
+</code></pre></div>    </div>
+
+    <p>Create another file called "test.json" with the json content you want to read; I used</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> {
+     "stocks": [
+         {"symbol": "AAPL",
+          "amount": 1.03213,
+          "last_price": 1.20},
+         {"symbol": "MSFT",
+          "amount": 2.31039},
+         {"symbol": "F",
+          "amount": 0.543589}
+          ]
+  }
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Compile the code using a "Makefile." Using your favourite text editor, create a file called "Makefile" and enter the following code (replacing <code class="language-plaintext highlighter-rouge">JSONCPPPATH</code> with the results from running <code class="language-plaintext highlighter-rouge">pwd</code> earlier; mine looks like <code class="language-plaintext highlighter-rouge">/Users/ft/Source/jsoncpp/</code>):</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> CXX = g++
+ LDFLAGS = -LJSONCPPPATH/build/depug/src/lib_json -ljsoncpp
+ INC = -IJSONCPPPATH/include
+
+ main: main.cpp
+     $(CXX) -o main $(LDFLAGS) $(INC) main.cpp
+</code></pre></div>    </div>
+
+    <p>IMPORTANT: you have to indent the <code class="language-plaintext highlighter-rouge">$(CXX) -o main...</code> line with 1 TAB and not 4 SPACES or it won't work. GNU Make requires a tab for indentation.</p>
+  </li>
+  <li>
+    <p>Now, compile the code by running <code class="language-plaintext highlighter-rouge">make main</code>. You should now be able to run the code by entering <code class="language-plaintext highlighter-rouge">./main</code>. It will print the contents of your <code class="language-plaintext highlighter-rouge">test.json</code> file to your terminal.</p>
+  </li>
+</ol>
+
+
+    </div>
+</div>
+
+      </div>
+    </div>
+    </div>
+</body>
+</html>
