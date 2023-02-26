@@ -1,90 +1,32 @@
-<!DOCTYPE html>
 <html>
-  <head>
-    <meta charset=utf-8>
-    <meta name=viewport content="width=device-width, initial-scale=1.0">
-    <meta name=description content="Personal website for Finbarr Timbers">
+<head>
+  <link rel="stylesheet" href="/static/style.css">
+  <meta charset="utf-8">
+  <title>Finbarr Timbers</title>
+</head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZBM24T0LEX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-    <title>Solving Partial Autocorrelation Functions | Finbarr Timbers</title>
-
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>
-      MathJax.Hub.Config({
-      "HTML-CSS": {
-      linebreaks: {
-      automatic: true,
-      width: "70% container"
-      },
-      styles: {
-      ".MathJax .math": {
-      "border": "1px solid #ccc",
-      "margin": "0.1em 0",
-      "padding": "0.3em",
-      "vertical-align": "middle"
-      },
-      ".MathJax_Display .math": {
-      "border": "none",
-      "padding": "0",
-      }
-      },
-      scale: 90
-      }
-      });
-    </script>
-    <link href='http://fonts.googleapis.com/css?family=Lato:300|Yanone+Kaffeesatz:300' rel='stylesheet' type='text/css'>
-    <link rel=stylesheet type=text/css href=/css/pure-min.css>
-  <!--  <link rel=stylesheet type=text/css href=/css/github.css> -->
-  <!--  <link rel=stylesheet type=text/css href=/css/styles.css> -->
-    <link rel=stylesheet type=text/css href=/css/tufte.css>
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-
-  </head>
-  <body>
-    <!-- Google Tag Manager -->
-    <noscript>
-      <iframe src="//www.googletagmanager.com/ns.html?id=GTM-5ZDGMP" height="0"
-              width="0" style="display:none;visibility:hidden">
-      </iframe>
-    </noscript>
-    <script>
-      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-      '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-      })(window,document,'script','dataLayer','GTM-5ZDGMP');
-    </script>
-    <!-- End Google Tag Manager -->
-    <div class="container pure-g-r">
-      <div class=pure-u-1-5>
-      </div>
-      <div class=pure-u-2-3>
-        <div class=author-info>
-        </div>
-      <div class=right-column>
-          <h1 class=author-name>
-            <a href=/ class="title">Finbarr Timbers</a>
-              <a href="https://twitter.com/finbarrtimbers"> <i class="fa fa-twitter"></i></a>
-              <a href="https://github.com/finbarrtimbers"> <i class="fa fa-github"></i></a>
-          </h1>
-          <div class=nav>
-          </div>
-          <div class=post>
-    
-    <div class=post-meta>
-    
-    
-        <a href="/tags/#time-series-ref">#time-series</a>
-    
-        <a href="/tags/#statistics-ref">#statistics</a>
-    
-        <a href="/tags/#ARMA-ref">#ARMA</a>
-    
-</div>
-
-    <h1 class=title-large>Solving Partial Autocorrelation Functions</h1>
-    <div class=content>
-        <p>I've been studying time series through <a href="http://www.stat.pitt.edu/stoffer/tsa3/">TSA</a>. The book presents a structured
+  gtag('config', 'G-ZBM24T0LEX');
+</script>
+<body>
+  <div id="menu">
+    <span class="title">Finbarr Timbers</span>
+    <ul>
+      <li><a href="/blog">Blog</a></li>
+      <li><a href="/books">Books</a></li>
+      <li><a href="/advice">Advice</a></li>
+      <li><a href="/rfs">RFS</a></li>
+      <li><a href="/development">Economic development</a></li>
+      <li><a href="/prompt-engineering">Prompt engineering</a></li>
+    </ul>
+  </div>
+  <div id="left">&nbsp;</div>
+  <div id="content"><p>I've been studying time series through <a href="http://www.stat.pitt.edu/stoffer/tsa3/">TSA</a>. The book presents a structured
 approach to time series analysis, and covers the material fairly well; I was
 impressed with the description of what a partial autocorrelation function (PACF)
 is, as the book explained it more intuitively than the lecture notes did. I did
@@ -144,12 +86,6 @@ this, we exploit the Yule-Walker equations:</p>
 \rho(1) &amp;= \phi_{1} + \phi_{2} \rho(1) \\ \longrightarrow \phi_{11} = \rho(1) &amp;=
 \frac{ \phi_{1} }{ 1 - \phi_{2} } \end{align*}\]
 
-
-    </div>
 </div>
-
-      </div>
-    </div>
-    </div>
 </body>
 </html>

@@ -2,23 +2,31 @@
 <head>
   <link rel="stylesheet" href="/static/style.css">
   <meta charset="utf-8">
-  <title>About | Finbarr Timbers</title>
+  <title>Finbarr Timbers</title>
 </head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZBM24T0LEX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-ZBM24T0LEX');
+</script>
 <body>
-<div id="menu">
-<span class="title">Finbarr Timbers</span>
-<ul>
-  <li><a href="/about">About</a></li>
-  <li><a href="/blog">Blog</a></li>
-  <li><a href="/books">Books</a></li>
-  <li><a href="/advice">Advice</a></li>
-  <li><a href="/development">Economic development</a></li>
-  <li><a href="/hire-us">Looking to hire a team of experienced ML researchers?</a></li>
-</ul>
-</div>
-<div id="left">&nbsp;</div>
-<div id="content">
-  
+  <div id="menu">
+    <span class="title">Finbarr Timbers</span>
+    <ul>
+      <li><a href="/blog">Blog</a></li>
+      <li><a href="/books">Books</a></li>
+      <li><a href="/advice">Advice</a></li>
+      <li><a href="/rfs">RFS</a></li>
+      <li><a href="/development">Economic development</a></li>
+      <li><a href="/prompt-engineering">Prompt engineering</a></li>
+    </ul>
+  </div>
+  <div id="left">&nbsp;</div>
+  <div id="content">
 <div class=post>
     
     <h2 class=title>A pure Python (well, Numpy) implementation of back-propagation</h1>
@@ -30,13 +38,6 @@
         <p>I realized over the weekend that, unfortunately, I didn't know how back-propagation <em>actually</em> works (I just relied on JAX to do it for me).</p>
 
     </div>
-    <!--<div class=post-meta>
-    
-    
-        <a href="/tags/#machine-learning-ref">#machine-learning</a>
-    
-</div>
--->
 </div>
 
 <div class=post>
@@ -50,17 +51,6 @@
         <p>Setting prices is hard. Really, really hard. If you’re like most people, you just sit down, think really hard, and guess, using all the knowledge you’ve acquired over time. Maybe you use a margin calculation- you take the amount it cost you, and add, say, 20% to cover your costs and add some profit.</p>
 
     </div>
-    <!--<div class=post-meta>
-    
-    
-        <a href="/tags/#startups-ref">#startups</a>
-    
-        <a href="/tags/#prices-ref">#prices</a>
-    
-        <a href="/tags/#business-ref">#business</a>
-    
-</div>
--->
 </div>
 
 <div class=post>
@@ -77,15 +67,6 @@ describes my personal thoughts on the job hunt, and has no relation to what
 people at DeepMind think about the job market.</p>
 
     </div>
-    <!--<div class=post-meta>
-    
-    
-        <a href="/tags/#tech-ref">#tech</a>
-    
-        <a href="/tags/#jobs-ref">#jobs</a>
-    
-</div>
--->
 </div>
 
 <div class=post>
@@ -99,15 +80,6 @@ people at DeepMind think about the job market.</p>
         <p>Link to paper <a href="https://arxiv.org/abs/1506.03134">[arXiv]</a>, <a href="https://github.com/devsisters/pointer-network-tensorflow">[code]</a>.</p>
 
     </div>
-    <!--<div class=post-meta>
-    
-    
-        <a href="/tags/#papers-ref">#papers</a>
-    
-        <a href="/tags/#machine-learning-ref">#machine-learning</a>
-    
-</div>
--->
 </div>
 
 <div class=post>
@@ -123,13 +95,6 @@ memorise the training data, and a response <a href="https://openreview.net/pdf?i
 
 
     </div>
-    <!--<div class=post-meta>
-    
-    
-        <a href="/tags/#algorithms-ref">#algorithms</a>
-    
-</div>
--->
 </div>
 
 <div class=post>
@@ -143,15 +108,6 @@ memorise the training data, and a response <a href="https://openreview.net/pdf?i
         <h2 id="abstract"><a href="https://openreview.net/pdf?id=B1ckMDqlg">Abstract</a></h2>
 
     </div>
-    <!--<div class=post-meta>
-    
-    
-        <a href="/tags/#papers-ref">#papers</a>
-    
-        <a href="/tags/#machine-learning-ref">#machine-learning</a>
-    
-</div>
--->
 </div>
 
 <div class=post>
@@ -165,15 +121,6 @@ memorise the training data, and a response <a href="https://openreview.net/pdf?i
         <h2 id="abstract"><a href="https://research.fb.com/wp-content/uploads/2017/06/imagenet1kin1h5.pdf?">Abstract</a></h2>
 
     </div>
-    <!--<div class=post-meta>
-    
-    
-        <a href="/tags/#papers-ref">#papers</a>
-    
-        <a href="/tags/#machine-learning-ref">#machine-learning</a>
-    
-</div>
--->
 </div>
 
 <div class=post>
@@ -192,11 +139,6 @@ at anywhere near the coverage that I need (I'm currently at 29% code
 coverage).</p>
 
     </div>
-    <!--<div class=post-meta>
-    
-    
-</div>
--->
 </div>
 
 <div class=post>
@@ -210,19 +152,6 @@ coverage).</p>
         <h1 id="abstract"><a href="http://www.jmlr.org/papers/volume13/bergstra12a/bergstra12a.pdf">Abstract</a></h1>
 
     </div>
-    <!--<div class=post-meta>
-    
-    
-        <a href="/tags/#machine-ref">#machine</a>
-    
-        <a href="/tags/#learning-ref">#learning</a>
-    
-        <a href="/tags/#statistics-ref">#statistics</a>
-    
-        <a href="/tags/#papers-ref">#papers</a>
-    
-</div>
--->
 </div>
 
 <div class=post>
@@ -236,15 +165,6 @@ coverage).</p>
         <h2 id="introduction">Introduction</h2>
 
     </div>
-    <!--<div class=post-meta>
-    
-    
-        <a href="/tags/#machine-ref">#machine</a>
-    
-        <a href="/tags/#learning-ref">#learning</a>
-    
-</div>
--->
 </div>
 
 <div class=post>
@@ -260,13 +180,6 @@ and what combination of tools they should use. I thought I'd write up my advice
 here so that others can beenfit.</p>
 
     </div>
-    <!--<div class=post-meta>
-    
-    
-        <a href="/tags/#security-ref">#security</a>
-    
-</div>
--->
 </div>
 
 <div class=post>
@@ -282,13 +195,6 @@ regularly (I'm a huge nerd, naturally).  I found most of them elsewhere online;
 I wrote very few of these from scratch.</p>
 
     </div>
-    <!--<div class=post-meta>
-    
-    
-        <a href="/tags/#bash-ref">#bash</a>
-    
-</div>
--->
 </div>
 
 <div class=post>
@@ -303,25 +209,6 @@ I wrote very few of these from scratch.</p>
 web fonts to a RMarkdown presentation.</p>
 
     </div>
-    <!--<div class=post-meta>
-    
-    
-        <a href="/tags/#web-ref">#web</a>
-    
-        <a href="/tags/#html-ref">#html</a>
-    
-        <a href="/tags/#rmd-ref">#rmd</a>
-    
-        <a href="/tags/#rmarkdown-ref">#rmarkdown</a>
-    
-        <a href="/tags/#R-ref">#R</a>
-    
-        <a href="/tags/#html-ref">#html</a>
-    
-        <a href="/tags/#markdown-ref">#markdown</a>
-    
-</div>
--->
 </div>
 
 <div class=post>
@@ -335,19 +222,6 @@ web fonts to a RMarkdown presentation.</p>
         <h2 id="abstract"><a href="https://arxiv.org/abs/1604.07255">Abstract</a></h2>
 
     </div>
-    <!--<div class=post-meta>
-    
-    
-        <a href="/tags/#machine-ref">#machine</a>
-    
-        <a href="/tags/#learning-ref">#learning</a>
-    
-        <a href="/tags/#statistics-ref">#statistics</a>
-    
-        <a href="/tags/#papers-ref">#papers</a>
-    
-</div>
--->
 </div>
 
 <div class=post>
@@ -364,17 +238,6 @@ Larry Ellison's sales process. There was a passage describing a meeting that
 Larry had that explains far more about enterprise sales than it should:</p>
 
     </div>
-    <!--<div class=post-meta>
-    
-    
-        <a href="/tags/#consulting-ref">#consulting</a>
-    
-        <a href="/tags/#oracle-ref">#oracle</a>
-    
-        <a href="/tags/#softwar-ref">#softwar</a>
-    
-</div>
--->
 </div>
 
 <div class=post>
@@ -388,15 +251,6 @@ Larry had that explains far more about enterprise sales than it should:</p>
         <h3 id="abstract"><a href="https://arxiv.org/abs/1602.07360">Abstract</a></h3>
 
     </div>
-    <!--<div class=post-meta>
-    
-    
-        <a href="/tags/#papers-ref">#papers</a>
-    
-        <a href="/tags/#machine-learning-ref">#machine-learning</a>
-    
-</div>
--->
 </div>
 
 <div class=post>
@@ -410,15 +264,6 @@ Larry had that explains far more about enterprise sales than it should:</p>
         <h3 id="abstract"><a href="https://arxiv.org/abs/1610.09585">Abstract</a></h3>
 
     </div>
-    <!--<div class=post-meta>
-    
-    
-        <a href="/tags/#papers-ref">#papers</a>
-    
-        <a href="/tags/#machine-learning-ref">#machine-learning</a>
-    
-</div>
--->
 </div>
 
 <div class=post>
@@ -432,15 +277,6 @@ Larry had that explains far more about enterprise sales than it should:</p>
         <h2 id="abstract"><a href="https://arxiv.org/abs/1606.03476">Abstract</a></h2>
 
     </div>
-    <!--<div class=post-meta>
-    
-    
-        <a href="/tags/#papers-ref">#papers</a>
-    
-        <a href="/tags/#machine-learning-ref">#machine-learning</a>
-    
-</div>
--->
 </div>
 
 <div class=post>
@@ -455,17 +291,6 @@ Larry had that explains far more about enterprise sales than it should:</p>
 minimal example with <code class="language-plaintext highlighter-rouge">sklearn</code> in Python.</p>
 
     </div>
-    <!--<div class=post-meta>
-    
-    
-        <a href="/tags/#python-ref">#python</a>
-    
-        <a href="/tags/#machine-ref">#machine</a>
-    
-        <a href="/tags/#learning-ref">#learning</a>
-    
-</div>
--->
 </div>
 
 <div class=post>
@@ -479,15 +304,6 @@ minimal example with <code class="language-plaintext highlighter-rouge">sklearn<
         <h3 id="abstract"><a href="https://arxiv.org/abs/1206.5538">Abstract</a></h3>
 
     </div>
-    <!--<div class=post-meta>
-    
-    
-        <a href="/tags/#papers-ref">#papers</a>
-    
-        <a href="/tags/#machine-learning-ref">#machine-learning</a>
-    
-</div>
--->
 </div>
 
 <div class=post>
@@ -501,15 +317,6 @@ minimal example with <code class="language-plaintext highlighter-rouge">sklearn<
         <h3 id="abstract"><a href="https://arxiv.org/abs/1608.05148">Abstract</a></h3>
 
     </div>
-    <!--<div class=post-meta>
-    
-    
-        <a href="/tags/#papers-ref">#papers</a>
-    
-        <a href="/tags/#machine-learning-ref">#machine-learning</a>
-    
-</div>
--->
 </div>
 
 <div class=post>
@@ -523,15 +330,6 @@ minimal example with <code class="language-plaintext highlighter-rouge">sklearn<
         <h3 id="abstract"><a href="https://arxiv.org/abs/1610.01945">Abstract</a></h3>
 
     </div>
-    <!--<div class=post-meta>
-    
-    
-        <a href="/tags/#papers-ref">#papers</a>
-    
-        <a href="/tags/#machine-learning-ref">#machine-learning</a>
-    
-</div>
--->
 </div>
 
 <div class=post>
@@ -545,15 +343,6 @@ minimal example with <code class="language-plaintext highlighter-rouge">sklearn<
         <h3 id="abstract"><a href="https://arxiv.org/abs/1610.04286">Abstract</a></h3>
 
     </div>
-    <!--<div class=post-meta>
-    
-    
-        <a href="/tags/#papers-ref">#papers</a>
-    
-        <a href="/tags/#machine-learning-ref">#machine-learning</a>
-    
-</div>
--->
 </div>
 
 <div class=post>
@@ -567,15 +356,6 @@ minimal example with <code class="language-plaintext highlighter-rouge">sklearn<
         <h2 id="abstract"><a href="https://arxiv.org/abs/1606.02647">Abstract</a></h2>
 
     </div>
-    <!--<div class=post-meta>
-    
-    
-        <a href="/tags/#papers-ref">#papers</a>
-    
-        <a href="/tags/#machine-learning-ref">#machine-learning</a>
-    
-</div>
--->
 </div>
 
 <div class=post>
@@ -589,15 +369,6 @@ minimal example with <code class="language-plaintext highlighter-rouge">sklearn<
         <h3 id="abstract"><a href="http://arxiv.org/abs/1603.02754">Abstract</a></h3>
 
     </div>
-    <!--<div class=post-meta>
-    
-    
-        <a href="/tags/#papers-ref">#papers</a>
-    
-        <a href="/tags/#machine-learning-ref">#machine-learning</a>
-    
-</div>
--->
 </div>
 
 <div class=post>
@@ -612,13 +383,6 @@ minimal example with <code class="language-plaintext highlighter-rouge">sklearn<
 improve the efficiency of my coding.</p>
 
     </div>
-    <!--<div class=post-meta>
-    
-    
-        <a href="/tags/#algorithms-ref">#algorithms</a>
-    
-</div>
--->
 </div>
 
 <div class=post>
@@ -636,17 +400,6 @@ beginners out), here's a full example of how to use <a href="https://github.com/
 
 
     </div>
-    <!--<div class=post-meta>
-    
-    
-        <a href="/tags/#c++-ref">#c++</a>
-    
-        <a href="/tags/#json-ref">#json</a>
-    
-        <a href="/tags/#example-ref">#example</a>
-    
-</div>
--->
 </div>
 
 <div class=post>
@@ -661,15 +414,6 @@ beginners out), here's a full example of how to use <a href="https://github.com/
 
 
     </div>
-    <!--<div class=post-meta>
-    
-    
-        <a href="/tags/#time-series-ref">#time-series</a>
-    
-        <a href="/tags/#ARMA-ref">#ARMA</a>
-    
-</div>
--->
 </div>
 
 <div class=post>
@@ -689,19 +433,8 @@ wrote my own explanation.</p>
 
 
     </div>
-    <!--<div class=post-meta>
-    
-    
-        <a href="/tags/#time-series-ref">#time-series</a>
-    
-        <a href="/tags/#statistics-ref">#statistics</a>
-    
-        <a href="/tags/#ARMA-ref">#ARMA</a>
-    
-</div>
--->
 </div>
 
-
+</div>
 </body>
 </html>
