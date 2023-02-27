@@ -1,6 +1,6 @@
 ---
 layout: page
-title: ""
+title: "Prompt engineering examples"
 permalink: /prompt-engineering
 ---
 

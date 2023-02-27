@@ -1,6 +1,6 @@
 ---
 layout: page
-title: ""
+title: Books
 permalink: /books
 ---
 
@@ -12,6 +12,11 @@ I'm always looking for book recommendations. Please reach out with suggestions o
 - Stories of people/companies that have transferred cutting edge research into actual companies. 
 - Stories of investors who've made contrarian bets and done (very) well.
 
+## Reading list
+
+I'm currently reading:
+
+- David Deutsch's _The Beginning of Infinity_.
 
 ## Non-fiction
 
