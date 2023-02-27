@@ -8,6 +8,104 @@
 		<atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
+				<title>Large language models aren't trained enough.</title>
+				<description>&lt;p&gt;This was inspired by tweets from several people:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://twitter.com/BlancheMinerva/status/1629159764918775809?s=20&quot;&gt;https://twitter.com/BlancheMinerva/status/1629159764918775809&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://twitter.com/BlancheMinerva/status/1629551017019711488&quot;&gt;https://twitter.com/BlancheMinerva/status/1629551017019711488&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://twitter.com/kaushikpatnaik/status/1629194428312330240?s=46&amp;amp;t=x3wLedGK_QyDwCK5yD2Jqw&quot;&gt;https://twitter.com/kaushikpatnaik/status/1629194428312330240&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://twitter.com/thedavidsj/status/1629869851710984194?s=46&amp;amp;t=CqBoSVdxuipOpACbrZnMxg&quot;&gt;https://twitter.com/thedavidsj/status/1629869851710984194&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;and Twitter conversations with &lt;a href=&quot;https://twitter.com/arankomatsuzaki/&quot;&gt;Aran Komatsuzaki&lt;/a&gt; and &lt;a href=&quot;https://twitter.com/andy_l_jones&quot;&gt;Andy Jones&lt;/a&gt;. Any mistakes in this post are entirely my own.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Note: although I did work at DeepMind previously, I was not involved with any of the language efforts, and have no non-public knowledge of what went on there. Unfortunately! I think Chinchilla is a great paper that I would have loved to be a part of.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;I’ve been &lt;a href=&quot;[https://www.cbc.ca/news/canada/edmonton/alphabet-closing-edmonton-deepmind-office-1.6724645](https://www.cbc.ca/news/canada/edmonton/alphabet-closing-edmonton-deepmind-office-1.6724645)&quot;&gt;on the job market since January&lt;/a&gt;, and I’ve been talking to a lot of companies training large language models (LLMs). The consistent phrasing that comes up is that they want to train a &lt;em&gt;Chinchilla-optimal model&lt;/em&gt;  (Chinchilla here referring to the &lt;a href=&quot;[https://arxiv.org/abs/2203.15556](https://arxiv.org/abs/2203.15556)&quot;&gt;DeepMind paper from spring ‘22&lt;/a&gt;, not the adorable rodent).&lt;/p&gt;
+
+&lt;h3 id=&quot;chinchilla&quot;&gt;Chinchilla&lt;/h3&gt;
+
+&lt;p&gt;The Chinchilla paper was an attempt to identify the optimal model size &amp;amp; number of tokens to train a LLM given a particular compute budget. The paper trained 400 (!) language models and found a clear relationship between # of model parameters and # of training tokens: the two should scale linearly, i.e. if you double model size, you should double the number of training tokens. The authors used this relationship (which we call a &lt;em&gt;scaling law)&lt;/em&gt; to train a new model, Chinchilla, which had the same compute budget as Gopher, an earlier DeepMind model, and were able to significantly outperform Gopher + GPT-3 + a number of larger models.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/chinchilla-convergence.png&quot; alt=&quot;Loss curves from the Chinchilla paper&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;When people talk about training a Chinchilla-optimal model, this is what they mean: training a model that matches their estimates for optimality. They estimated the optimal model size for a given compute budget, and the optimal number of training tokens for a given compute budget.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/chinchilla-optimal.png&quot; alt=&quot;Chinchilla-optimal levels of compute/data&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;However, when we talk about “optimal” here, what is meant is “what is the cheapest way to obtain a given loss level, in FLOPS.” In practice though, we don’t care about the answer! This is exactly the answer you care about if you’re a researcher at DeepMind/FAIR/AWS who is training a model with the goal of reaching the new SOTA so you can publish a paper and get promoted. If you’re training a model with the goal of actually deploying it, the training cost is going to be dominated by the inference cost. This has two implications:&lt;/p&gt;
+
+&lt;p&gt;1) there is a strong incentive to train smaller models which fit on single GPUs&lt;/p&gt;
+
+&lt;p&gt;2) we’re fine trading off training time efficiency for inference time efficiency (probably to a ridiculous extent).&lt;/p&gt;
+
+&lt;p&gt;Chinchilla implicitly assumes that the majority of the total cost of ownership (TCO) for a LLM is the training cost. In practice, this is only the case if you’re a researcher at a research lab who doesn’t support products (e.g. FAIR/Google Brain/DeepMind/MSR). For almost everyone else, the amount of resources spent on inference will dwarf the amount of resources spent during training.&lt;/p&gt;
+
+&lt;p&gt;Let’s say you’re OpenAI and you’re serving GPT-4 as BingChat. In addition to hiring experienced &lt;a href=&quot;https://twitter.com/chrisjbakke/status/1628877552940097536&quot;&gt;killswitch engineers&lt;/a&gt; to thwart Sydney’s repeated escape attempts, you have to choose exactly which model to deploy.&lt;/p&gt;
+
+&lt;p&gt;To run inference on N tokens of text, OpenAI charges &lt;a href=&quot;https://openai.com/api/pricing/&quot;&gt;$2e-5/token&lt;/a&gt; for their most advanced model. Assuming a 60% gross margin, it costs them $8e-6/token to serve. A rough cost estimate to train GPT-3 is &lt;a href=&quot;[https://www.reddit.com/r/MachineLearning/comments/h0jwoz/d_gpt3_the_4600000_language_model/](https://www.reddit.com/r/MachineLearning/comments/h0jwoz/d_gpt3_the_4600000_language_model/)&quot;&gt;$5M&lt;/a&gt;. As such, after serving 625B tokens, their costs are going to be dominated by inference, rather than serving. When I use ChatGPT, it typically generates 300 tokens worth of responses to me. That’s 20B responses. If ChatGPT has 10M DAU, each making 10 queries/day, that’s 100M queries/day— so inference costs break even with training costs after 200 days.&lt;/p&gt;
+
+&lt;p&gt;This is almost certainly an underestimate for their usage given how popular ChatGPT has been. If we assume 1B queries per day, it breaks even after 20 days.&lt;/p&gt;
+
+&lt;p&gt;The various scaling law papers (&lt;a href=&quot;https://arxiv.org/abs/2001.08361&quot;&gt;OpenAI&lt;/a&gt;, &lt;a href=&quot;https://arxiv.org/abs/2203.15556&quot;&gt;Chinchilla&lt;/a&gt;) provide answers to the question of how to allocate compute between model size and dataset size. I think these papers are the &lt;em&gt;right&lt;/em&gt; way to think about training research systems, but the &lt;em&gt;wrong&lt;/em&gt; way to think about training systems that will be deployed at scale (I don&apos;t think the authors would disagree- they&apos;re solving a specific problem, namely minimizing the loss of their system given a specific compute budget, which isn&apos;t the same problem faced in deployment).&lt;/p&gt;
+
+&lt;h3 id=&quot;llama&quot;&gt;LlaMa&lt;/h3&gt;
+
+&lt;p&gt;Let’s look at Facebook’s &lt;a href=&quot;https://ai.facebook.com/blog/large-language-model-llama-meta-ai/&quot;&gt;new language model&lt;/a&gt; (in the second paragraph, the authors of that paper make a similar argument to the one I’m making here). If we draw a horizontal line across at any given loss level, it looks like you can tradeoff a doubling of model size for 40% more training.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/llama-training-curves.png&quot; alt=&quot;Loss curves from the LlaMa paper&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Look at, e.g., the line at a training loss of 1.7. The 65B model crosses it at 600B tokens, while the 33B model needs 800B tokens. Or look at a loss of 1.65: 65B needs 800B tokens, 33B needs ~1100B tokens.&lt;/p&gt;
+
+&lt;h3 id=&quot;gpt-3&quot;&gt;GPT-3&lt;/h3&gt;
+
+&lt;p&gt;If we look at the granddaddy of LLMs, GPT-3, we see a similar story in the loss curves: it requires roughly an order of magnitude more compute to get the green lines (GPT-3 13B) to match the yellow line (GPT-3)!&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/gpt-3-loss-curves.png&quot; alt=&quot;Loss curves from the GPT-3 paper&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;It is important to note that the GPT-3 13B learning curves do level out earlier than GPT-3, with a rough estimate being that they would cross somewhere around the 1.8 loss area. It is also almost certainly the case that GPT-3 will achieve an asymptotically lower loss than the 13B model. Having said that, there is a question as to how much of a difference lower pre-training loss makes; I suspect that we are seeing diminishing returns kick in to pre-training, and most of the gains will come from RLHF and other types of finetuning.&lt;/p&gt;
+
+&lt;h3 id=&quot;inference-costs&quot;&gt;Inference costs&lt;/h3&gt;
+
+&lt;p&gt;Transformer inference costs are &lt;a href=&quot;https://kipp.ly/blog/transformer-inference-arithmetic/&quot;&gt;roughly linear&lt;/a&gt; with the number of parameters, making it ~13x cheaper to do inference with the 13B GPT-3 model than the 175B model. This is &lt;em&gt;also&lt;/em&gt; an underestimate, as the 13B model should fit it on 2 GPUs, while you would need many more just to fit the 175B model into VRAM. As scaling to multiple GPUs adds a ridiculous amount of engineering complexity, overhead, and cost, we should prefer the smaller model &lt;em&gt;even more&lt;/em&gt;. We should train the model &lt;em&gt;much&lt;/em&gt; longer to get an order of magnitude decrease in inference cost and optimize the TCO of the system.&lt;/p&gt;
+
+&lt;p&gt;For instance, when training on multiple GPUs, it is very difficult to get high utilization numbers. The PaLM paper reported how well various LLMs did in terms of total FLOPS utilization. These are not very good numbers! Especially when each of the GPUs mentioned here costs &lt;a href=&quot;https://www.shi.com/product/41094090/NVIDIA-Tesla-A100-GPU-computing-processor&quot;&gt;$25k&lt;/a&gt;. This is despite the fact that the authors for these papers are the most experienced researchers in the world at deploying model-parallel systems, and are working on custom hardware optimimzed for this usecase. Now, training efficiency doesn&apos;t directly translate to inference efficiency, but the numbers should be directionally correct.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/palm-utilization.png&quot; alt=&quot;Model FLOPS utilization numbers for various large language models.&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;opposing-arguments&quot;&gt;Opposing arguments&lt;/h3&gt;
+
+&lt;p&gt;Some arguments against my claim:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Aren’t we leaving performance on the table? Yes! We are. But I think that’s fine! There’s always a tradeoff here. E.g. quantization. It’s strictly worse to use lower-precision! But we do it to optimize TCO of the system.&lt;/li&gt;
+  &lt;li&gt;But we can use $INSERT_TECHNIQUE to make models cheaper! Yes, but they should scale for all of these (distillation, quantization, etc.). So we should be using all techniques to make our models easier to serve, and also training them longer.&lt;/li&gt;
+  &lt;li&gt;Your argument here! Please email me with your criticism and I’ll update this post.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;conclusions&quot;&gt;Conclusions&lt;/h3&gt;
+
+&lt;p&gt;If you&apos;re training a LLM with the goal of deploying it to users, you should prefer training a smaller model well into the diminishing returns part of the loss curve.&lt;/p&gt;
+
+&lt;p&gt;If you’re reading this, and you have thoughts on this, please reach out. I’m probably missing something 😊. Or- if you’re at one of these companies and this is what you do, please let me know as well.&lt;/p&gt;
+
+&lt;p&gt;I am still looking for a job as a research engineer working with LLMs, so if this post interested you in me, let me know.&lt;/p&gt;
+</description>
+				<pubDate>Mon, 27 Feb 2023 00:00:00 -0700</pubDate>
+				<link>http://localhost:4000/llms-not-trained-enough/</link>
+				<guid isPermaLink="true">http://localhost:4000/llms-not-trained-enough/</guid>
+			</item>
+		
+			<item>
 				<title>A pure Python (well, Numpy) implementation of back-propagation</title>
 				<description>&lt;p&gt;I realized over the weekend that, unfortunately, I didn&apos;t know how back-propagation &lt;em&gt;actually&lt;/em&gt; works (I just relied on JAX to do it for me).&lt;/p&gt;
 
@@ -777,139 +875,6 @@ which will be useful when it&apos;s released.&lt;/p&gt;
 				<pubDate>Wed, 01 Mar 2017 00:00:00 -0700</pubDate>
 				<link>http://localhost:4000/random-search-hyper-parameter-optimization/</link>
 				<guid isPermaLink="true">http://localhost:4000/random-search-hyper-parameter-optimization/</guid>
-			</item>
-		
-			<item>
-				<title>How I designed my machine learning app</title>
-				<description>&lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
-
-&lt;p&gt;Approximately ten thousand years ago, during undergrad, I made what was probably
-the best decision of my academic career and took
-&lt;a href=&quot;https://webdocs.cs.ualberta.ca/~greiner/&quot;&gt;Russ Greiner&apos;s&lt;/a&gt; CMPUT 466 class at
-the University of Alberta. As a math major, it took some convincing to let the
-CS department allow me into the course, as I was missing approximately every
-prerequisite for the class, but convince them I did, and I was introduced to the
-body of techniques known as machine learning. The course required me to complete
-a group project, and my group worked on the problem of bug report deduplication.&lt;/p&gt;
-
-&lt;h2 id=&quot;inspiration&quot;&gt;Inspiration&lt;/h2&gt;
-
-&lt;p&gt;Managing the flood of bug reports that pour in is a problem for any sizable
-software project. Android has some
-&lt;a href=&quot;https://code.google.com/p/android/issues/list?num=100&amp;amp;start=0&quot;&gt;53 636&lt;/a&gt;  bug
-reports as of the time of writing, and if you search &quot;bug report triage&quot; in
-&lt;a href=&quot;https://scholar.google.ca/scholar?q=bug+report+triage&amp;amp;btnG=&amp;amp;hl=en&amp;amp;as_sdt=0%2C5&quot;&gt;Google Scholar&lt;/a&gt;,
-you get almost 4000 results for academic work. The cost of managing bug reports
-is huge, too— if each bug report takes a quarter of an hour to administer (read,
-compare to previous bug reports, link them, and assign to a developer), then the
-Android community has spent 13 409 hours, or 32 work years managing bug reports.
-That ignores the number of internal bug reports that Google&apos;s QA staff would
-have found and reported. If we assume a typical Software Engineer costs
-$100 000 annually, that&apos;s $3.2 million that the Android community has dedicated
-to bug triage.&lt;/p&gt;
-
-&lt;p&gt;The &lt;a href=&quot;http://finbarr.ca/dedup/&quot;&gt;project&lt;/a&gt; that my team worked on focused on
-analysing the text of the bug reports and using features generated from those to
-classify the bug reports. We developed a series of features that used reference
-material (textbooks, manuals, documentation) to create subject specific word
-lists, from which we generated numerical comparison scores. From this, we were
-able to get a series of subject scores (e.g. Android security: 0.2). The work
-proved remarkably successful, almost matching the performance of word lists that
-were manually extracted. With very little tuning, we were able to correctly
-classify 97% of bug reports, and I suspect that with some modelling effort
-(hyperparameter optimization, investigating some more complicated models) that
-could be improved on.&lt;/p&gt;
-
-&lt;p&gt;That was several years ago. The code that performed the bug report deduplication has
-been sitting around on Github for a few years, untouched. It seemed to me that
-bug report deduplication was a problem with a clear solution that hadn&apos;t been
-implemented by anyone. I&apos;ve been looking for a side project to do that will let
-me learn more about product development and deploying machine learning in
-production environments, instead of just academic experimental settings, so I
-took it upon myself to turn the academic code into a web app. I was able to
-recruit a few of my friends to help, and we built
-&lt;a href=&quot;http://www.bugdedupe.com&quot;&gt;BugDedupe&lt;/a&gt;. It&apos;s still in a very early stage, so I&apos;m
-looking for feedback and feature requests. The goal is to have the site be free
-for open source repositories and small (private) side projects, charging larger
-repositories to recoup my costs. If you have feedback or feature requests, or
-just want to chat, shoot me an email at finbarrtimbers@gmail.com.&lt;/p&gt;
-
-&lt;p&gt;When I started building BugDedupe, I hadn&apos;t seen many posts about how teams
-designed their machine learning web apps, so I wanted to write about how we
-approached ours, to get feedback and to help others doing the same.&lt;/p&gt;
-
-&lt;h2 id=&quot;myself&quot;&gt;Myself&lt;/h2&gt;
-
-&lt;p&gt;I&apos;m a stats/ML guy who does a lot of number crunching in Python at my day job
-(Numpy/sklearn/SciPy). I&apos;ve been wanting to learn more about the whole Python
-stack, and particularly web dev, so that I can learn how to make products from
-end-to-end. As a consultant, I get all of my projects to the MVP stage and then
-have to start again on the next one for a new client. I wanted to work on
-something that I could polish and grow, and given my stats background,
-BugDedupe seemed like a great opportunity.&lt;/p&gt;
-
-&lt;h2 id=&quot;background&quot;&gt;Background:&lt;/h2&gt;
-
-&lt;p&gt;We developed an automated &lt;a href=&quot;http://finbarr.ca/dedup&quot;&gt;method&lt;/a&gt; of predicting
-whether or not two bug reports are duplicates of each other. We did this by
-analysing the text of the bug report and comparing it to each other, and to
-reference texts (e.g. we had bug reports for a Java project, and we compared
-them to different chapters of a Java textbook to get subject scores— allowing
-us to say that a given report is 30\% cryptography and 45\% networking). This
-gave us a number of features that we could run through a machine learning
-classifier. We used a number of different ones and got really high results—
-97\%. The method worked, and we tested it on real world data— the bug reports
-from Android, and Eclipse, among others. The only remaining problem was figuring
-out how to make the service available online.&lt;/p&gt;
-
-&lt;h2 id=&quot;layout&quot;&gt;Layout&lt;/h2&gt;
-
-&lt;p&gt;At the start of the project, I was pretty confused about how to develop the
-site. I&apos;ve been a fan of functional programming for a long time, and try to
-develop all of my projects in a functional manner.In that light, I decided to
-use a stateless architecture for the app. All of the state of the app (users,
-data, etc.) would be stored in the MySQL database, and the server would exist
-only to render it onto the web; similarly, the machine learning processes would
-interact uniquely with the database. As a result, we can have anything except
-the database crash at any time, and we won&apos;t lose any data. The database is
-regularly backed up, and as we&apos;re using Google Cloud SQL, it&apos;s in good hands.
-If, god willing, we run into scaling problems, we feel that our architecture will
-also allow us to focus only on optimizing the specific parts that are
-bottlenecking our performance, as everything is logically separated.&lt;/p&gt;
-
-&lt;h2 id=&quot;hosting&quot;&gt;Hosting&lt;/h2&gt;
-
-&lt;p&gt;I&apos;ve been using Docker at work and like it a lot. I decided to encapsulate each
-separate component in a container, and run them on Google Cloud Platform, as
-I like what Google&apos;s doing with &lt;a href=&quot;https://kubernetes.io/&quot;&gt;Kubernetes&lt;/a&gt;. Once I
-had the components in Docker, it was straightforwardt to launch them on Google
-Container Engine.&lt;/p&gt;
-
-&lt;p&gt;I found it surprisingly easy. It sucked getting started, but now that
-everything&apos;s set up, it&apos;s super easy to work with, and kubernetes makes a lot of
-the administrative tasks go away (e.g. managing secrets/environment variables,
-restarting Python, scaling).&lt;/p&gt;
-
-&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
-
-&lt;p&gt;While some things surprised me (particularly the latency of APIs- I was using
-Stormpath for authentication, and it started adding up to 6 seconds per
-request), overall, I&apos;m extremely happy with how the program turned out. I think
-that having everything interact only with the database and itself managed to
-reduce complexity significantly, so that I only had to think about how the
-current component interacted with the database, instead of having to worry about
-how it fit in with all of the other components of the stack. The test now is to
-get more users, and see how we perform at scale. The more users we get, the
-more accurate our classifier will be, and the more useful our service will be,
-so we need to get that flywheel rolling as fast as we can.&lt;/p&gt;
-
-&lt;p&gt;If you found this useful, or if you have any feedback, please send me an email
-at finbarrtimbers@gmail.com. I&apos;d love to hear what you think of our
-architecture.&lt;/p&gt;
-</description>
-				<pubDate>Tue, 21 Feb 2017 00:00:00 -0700</pubDate>
-				<link>http://localhost:4000/Bugdedupe/</link>
-				<guid isPermaLink="true">http://localhost:4000/Bugdedupe/</guid>
 			</item>
 		
 	</channel>

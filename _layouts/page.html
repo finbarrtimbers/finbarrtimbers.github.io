@@ -1,4 +1,5 @@
 <html>
+
 <head>
   <link rel="stylesheet" href="/static/style.css">
   <meta charset="utf-8">
@@ -8,11 +9,12 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZBM24T0LEX"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
+  function gtag() { dataLayer.push(arguments); }
   gtag('js', new Date());
 
   gtag('config', 'G-ZBM24T0LEX');
 </script>
+
 <body>
   <div id="menu">
     <span class="title">Finbarr Timbers</span>
@@ -26,6 +28,12 @@
     </ul>
   </div>
   <div id="left">&nbsp;</div>
-  <div id="content">{{ content }}</div>
+  <div id="content">
+    {% if page.title %}
+    <h1> {{ page.title }}</h1>
+    {% endif %}
+    {{ content }}
+  </div>
 </body>
+
 </html>

@@ -1,4 +1,5 @@
 <html>
+
 <head>
   <link rel="stylesheet" href="/static/style.css">
   <meta charset="utf-8">
@@ -8,11 +9,12 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZBM24T0LEX"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
+  function gtag() { dataLayer.push(arguments); }
   gtag('js', new Date());
 
   gtag('config', 'G-ZBM24T0LEX');
 </script>
+
 <body>
   <div id="menu">
     <span class="title">Finbarr Timbers</span>
@@ -26,7 +28,11 @@
     </ul>
   </div>
   <div id="left">&nbsp;</div>
-  <div id="content"><p>I'm working through <a href="[1]">TSA</a>, and I noticed that some of my classmates are struggling to understand the difference between an ARIMA process, an AR process, and a MA process, not to mention seasonal version of the above.</p>
+  <div id="content">
+    
+    <h1> ARIMA, ARMA, what's the difference?</h1>
+    
+    <p>I'm working through <a href="[1]">TSA</a>, and I noticed that some of my classmates are struggling to understand the difference between an ARIMA process, an AR process, and a MA process, not to mention seasonal version of the above.</p>
 
 <p>Using \(B\) as the lag operator, i.e. \(BX_t = X_{t-1}\), an <em>ARIMA(p, d, q) process</em> is a discrete time stochastic process of the form</p>
 
@@ -60,6 +66,8 @@
 
 <p>Consequently, we can see that \(X_t\) is an ARIMA\((1, 0, 0) \times (0, 1, 1)_4\) process.</p>
 
-</div>
+
+  </div>
 </body>
+
 </html>

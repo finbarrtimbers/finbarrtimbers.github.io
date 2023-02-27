@@ -4,11 +4,18 @@
 
   <url>
     <loc>http://localhost:4000</loc>
-    <lastmod>2023-02-26</lastmod>
+    <lastmod>2023-02-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
+  
+  <url>
+    <loc>http://localhost:4000/llms-not-trained-enough/</loc>
+    <lastmod>2023-02-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
   
   <url>
     <loc>http://localhost:4000/backprop/</loc>
@@ -218,7 +225,7 @@
     
       <url>
         <loc>http://localhost:4000/advice</loc>
-        <lastmod>2023-02-26</lastmod>
+        <lastmod>2023-02-27</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
       </url>
@@ -227,7 +234,7 @@
     
       <url>
         <loc>http://localhost:4000/blog/</loc>
-        <lastmod>2023-02-26</lastmod>
+        <lastmod>2023-02-27</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
       </url>
@@ -236,7 +243,7 @@
     
       <url>
         <loc>http://localhost:4000/books</loc>
-        <lastmod>2023-02-26</lastmod>
+        <lastmod>2023-02-27</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
       </url>
@@ -245,7 +252,7 @@
     
       <url>
         <loc>http://localhost:4000/development</loc>
-        <lastmod>2023-02-26</lastmod>
+        <lastmod>2023-02-27</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
       </url>
@@ -256,7 +263,7 @@
     
       <url>
         <loc>http://localhost:4000/</loc>
-        <lastmod>2023-02-26</lastmod>
+        <lastmod>2023-02-27</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
       </url>
@@ -265,7 +272,7 @@
     
       <url>
         <loc>http://localhost:4000/mistakes/</loc>
-        <lastmod>2023-02-26</lastmod>
+        <lastmod>2023-02-27</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
       </url>
@@ -274,7 +281,7 @@
     
       <url>
         <loc>http://localhost:4000/notes/</loc>
-        <lastmod>2023-02-26</lastmod>
+        <lastmod>2023-02-27</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
       </url>
@@ -283,7 +290,7 @@
     
       <url>
         <loc>http://localhost:4000/prompt-engineering</loc>
-        <lastmod>2023-02-26</lastmod>
+        <lastmod>2023-02-27</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
       </url>
@@ -292,7 +299,7 @@
     
       <url>
         <loc>http://localhost:4000/rfs/</loc>
-        <lastmod>2023-02-26</lastmod>
+        <lastmod>2023-02-27</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
       </url>
@@ -303,7 +310,7 @@
     
       <url>
         <loc>http://localhost:4000/work</loc>
-        <lastmod>2023-02-26</lastmod>
+        <lastmod>2023-02-27</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
       </url>

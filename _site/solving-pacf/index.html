@@ -1,4 +1,5 @@
 <html>
+
 <head>
   <link rel="stylesheet" href="/static/style.css">
   <meta charset="utf-8">
@@ -8,11 +9,12 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZBM24T0LEX"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
+  function gtag() { dataLayer.push(arguments); }
   gtag('js', new Date());
 
   gtag('config', 'G-ZBM24T0LEX');
 </script>
+
 <body>
   <div id="menu">
     <span class="title">Finbarr Timbers</span>
@@ -26,7 +28,11 @@
     </ul>
   </div>
   <div id="left">&nbsp;</div>
-  <div id="content"><p>I've been studying time series through <a href="http://www.stat.pitt.edu/stoffer/tsa3/">TSA</a>. The book presents a structured
+  <div id="content">
+    
+    <h1> Solving Partial Autocorrelation Functions</h1>
+    
+    <p>I've been studying time series through <a href="http://www.stat.pitt.edu/stoffer/tsa3/">TSA</a>. The book presents a structured
 approach to time series analysis, and covers the material fairly well; I was
 impressed with the description of what a partial autocorrelation function (PACF)
 is, as the book explained it more intuitively than the lecture notes did. I did
@@ -86,6 +92,8 @@ this, we exploit the Yule-Walker equations:</p>
 \rho(1) &amp;= \phi_{1} + \phi_{2} \rho(1) \\ \longrightarrow \phi_{11} = \rho(1) &amp;=
 \frac{ \phi_{1} }{ 1 - \phi_{2} } \end{align*}\]
 
-</div>
+
+  </div>
 </body>
+
 </html>
