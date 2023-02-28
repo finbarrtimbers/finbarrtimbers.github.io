@@ -112,6 +112,15 @@
 &lt;p&gt;So I wrote a pure Numpy neural network- with back-prop. Take a &lt;a href=&quot;https://colab.research.google.com/drive/1KDSJKhZDd5fdbnLTalPKcjS_IDu0Q968#scrollTo=XmS23jQ5U7Nw&quot;&gt;look&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;If you have any thoughts or feedback, please shoot me an email (or reach out on Twitter).&lt;/p&gt;
+
+&lt;p&gt;Some useful resources if you want to undersatnd how backprop works:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;https://marcospereira.me/2022/08/18/backpropagation-from-scratch/&lt;/li&gt;
+  &lt;li&gt;http://neuralnetworksanddeeplearning.com/&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/karpathy/micrograd&quot;&gt;Micrograd&lt;/a&gt;, &lt;a href=&quot;https://twitter.com/karpathy&quot;&gt;Karpathy&lt;/a&gt;&apos;s tiny ML framework.&lt;/li&gt;
+  &lt;li&gt;The &lt;a href=&quot;https://www.deeplearningbook.org/&quot;&gt;Deep Learning Book&lt;/a&gt; was an excellent reference for the math behind backprop.&lt;/li&gt;
+&lt;/ul&gt;
 </description>
 				<pubDate>Sun, 29 Jan 2023 00:00:00 -0700</pubDate>
 				<link>http://localhost:4000/backprop/</link>
