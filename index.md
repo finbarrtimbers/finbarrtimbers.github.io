@@ -6,7 +6,7 @@ permalink: /
 
 I currently live in Alberta. I used to work at [DeepMind](www.deepmind.com). I studied at the LSE and the University of Alberta.
 
-I'm currently looking for a job, so please reach out if you are looking to hire a senior research engineer, preferably working on generative AI (of any kind: images, language, whatever). Preference for remote, but open to relocation. I am a Canadian/Irish citizen, so can work anywhere in North America or Europe.
+I'm currently looking for a job, so please reach out if you are looking to hire a senior research engineer, preferably working on generative AI (of any kind: images, language, whatever). I'm currently only looking at remote opportunities, unfortunately.
 
 Email: finbarrtimbers (at) gmail.
 
