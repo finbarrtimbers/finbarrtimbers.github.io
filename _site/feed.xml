@@ -8,6 +8,29 @@
 		<atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
+				<title>The Sigmoid: a metaphor for technological progress</title>
+				<description>&lt;p&gt;I regularly reference the “s-curve”, or sigmoid, as a metaphor for progress. Here, I explain what I mean, so that I can just link to this post.&lt;/p&gt;
+
+&lt;p&gt;A common mathematical relationship in technology is the s-curve (or sigmoid curve). Mathematically:&lt;/p&gt;
+
+\[\text{sigmoid}(x) := \dfrac{1}{1 + e^{-x}} \equiv \dfrac{e^x}{e^x + 1}\]
+
+&lt;p&gt;This is notable because it produces a curve that &lt;em&gt;*looks like an s&lt;/em&gt; (&lt;a href=&quot;https://en.wikipedia.org/wiki/Sigmoid_function&quot;&gt;source&lt;/a&gt;):&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/sigmoid.png&quot; alt=&quot;The sigmoid curve&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;In particular, when x is small, this grows slowly, when x is not too big or not too small, it grows exponentially, and when x is large, it grows slowly. This is a common pattern with many technologies! We see slow progress at first, then it accelerates rapidly, and finally, as we begin to hit the limits of the technology, progress slows. Consider single-thread CPU performance. Initially, progress was slow as people figured out how to make them. Then, it grew exponentially for years, following Moore’s Law (&lt;a href=&quot;https://preshing.com/20120208/a-look-back-at-single-threaded-cpu-performance/&quot;&gt;picture source&lt;/a&gt;).&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/single-threaded-cpu-performance.png&quot; alt=&quot;Single-threaded CPU performance&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;However, since around 2010, we haven’t seen a lot of improvements in single-thread CPU performance. That pattern- slow, fast, then slow- is what I mean when I talk about the s-curve in technology. And when I talk about entering the &lt;em&gt;saturating part of the s-curve&lt;/em&gt;, I mean that we’re entering the region where progress is slowing down again.&lt;/p&gt;
+</description>
+				<pubDate>Thu, 02 Mar 2023 00:00:00 -0700</pubDate>
+				<link>http://localhost:4000/the-sigmoid/</link>
+				<guid isPermaLink="true">http://localhost:4000/the-sigmoid/</guid>
+			</item>
+		
+			<item>
 				<title>Large language models aren't trained enough.</title>
 				<description>&lt;p&gt;This was inspired by tweets from several people:&lt;/p&gt;
 
@@ -713,177 +736,6 @@ should write tests and formalize your knowledge.&lt;/p&gt;
 				<pubDate>Sun, 05 Mar 2017 00:00:00 -0700</pubDate>
 				<link>http://localhost:4000/testing/</link>
 				<guid isPermaLink="true">http://localhost:4000/testing/</guid>
-			</item>
-		
-			<item>
-				<title>Random Search for Hyper-Parameter Optimization</title>
-				<description>&lt;h1 id=&quot;abstract&quot;&gt;&lt;a href=&quot;http://www.jmlr.org/papers/volume13/bergstra12a/bergstra12a.pdf&quot;&gt;Abstract&lt;/a&gt;&lt;/h1&gt;
-
-&lt;p&gt;Grid search and manual search are the most widely used strategies for hyper-parameter optimization.
-This paper shows empirically and theoretically that randomly chosen trials are more efficient
-for hyper-parameter optimization than trials on a grid. Empirical evidence comes from a comparison
-with a large previous study that used grid search and manual search to configure neural networks
-and deep belief networks. Compared with neural networks configured by a pure grid search,
-we find that random search over the same domain is able to find models that are as good or better
-within a small fraction of the computation time. Granting random search the same computational
-budget, random search finds better models by effectively searching a larger, less promising con-
-figuration space. Compared with deep belief networks configured by a thoughtful combination of
-manual search and grid search, purely random search over the same 32-dimensional configuration
-space found statistically equal performance on four of seven data sets, and superior performance
-on one of seven. A Gaussian process analysis of the function from hyper-parameters to validation
-set performance reveals that for most data sets only a few of the hyper-parameters really matter,
-but that different hyper-parameters are important on different data sets. This phenomenon makes
-grid search a poor choice for configuring algorithms for new data sets. Our analysis casts some
-light on why recent “High Throughput” methods achieve surprising success—they appear to search
-through a large number of hyper-parameters because most hyper-parameters do not matter much.
-We anticipate that growing interest in large hierarchical models will place an increasing burden on
-techniques for hyper-parameter optimization; this work shows that random search is a natural baseline
-against which to judge progress in the development of adaptive (sequential) hyper-parameter
-optimization algorithms.&lt;/p&gt;
-
-&lt;h2 id=&quot;notes&quot;&gt;Notes&lt;/h2&gt;
-
-&lt;p&gt;This paper is focused on hyperparameter optimization. Hyperparameter
-optimization (HPO) is the process by which the optimal hyperparameters for a
-machine learning model are picked (shocking, I know). Hyperparameters are the
-parameters of the model that are set outside of the training process; in a
-neural network, for example, the size and shape of the network is a
-hyperparameter, as is the learning rate. The hyperparameters massively affect
-the performance of the model, and HPO can dramatically improve the performance
-of a model.&lt;/p&gt;
-
-&lt;p&gt;As an anecdote of why HPO is important, I was training a model that used a RNN
-to predict values in a time series. By changing the weight initializations of
-our network, we were able to dramatically improve performance. We found the
-right value for the initialization through HPO.&lt;/p&gt;
-
-&lt;p&gt;HPO is a problem as the previous best practice on how to find the optimal
-hyperparameter was to perform a grid search, which is extraordinarily
-expensive. This is because the number of steps required in the search grows
-exponentially; with 5 hyperparameters, each with 5 possible values, you have
-\(5^5 = 3125\) possible configurations. If you have 10 hyperparameters, you have
-\(10^5 = 100000\) different configurations– 32 times as many configurations to
-search. Moreover, the process isn&apos;t perfectly parallelizable as you have to
-assign the configurations consistently. This paper, when it came out, was highly
-influential as it presented a better way to search for the best hyperparameters.&lt;/p&gt;
-
-&lt;h2 id=&quot;theoretical-background&quot;&gt;Theoretical background&lt;/h2&gt;
-
-&lt;p&gt;A learning algorithm \(\mathcal{A}\) can be thought of as a functional (a function
-that operates on functions) that maps a data set \(\mathcal{X}^{\text{train}}\) to
-a function \(f\). We can think of \(\mathcal{A}\) as a function itself, and write
-it as \(\mathcal{A}(\mathcal{X}^{\text{train}}, \lambda)\), where \(\lambda\) is a
-vector of so-called &quot;hyper-parameters&quot;, which change how the algorithm operates.
-An example is \(\alpha\), the \(L_1\) penalty in
-&lt;a href=&quot;http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Lasso.html&quot;&gt;Lasso&lt;/a&gt;.
-Finding \(\lambda\) is called the &quot;hyper-parameter optimization problem&quot;, which
-consists of finding \(\lambda^\star\) that minimizes the expected error of the
-algorithm over the set of all possible training sets. Since it is impossible to
-actually calculate the expected error, solutions to the hyper-parameter
-optimization problem take two forms:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;The manual approach, where a researcher tries a number of different
-parameters and uses the best one.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Grid search, where all of the different combinations of parameters are tried.&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Approach 2 is guaranteed to find the optimal combination, but it is extremely
-computationally expensive, growing at a rate of O(\(p^n\)), where \(p\) is the
-number of different values each parameter can take, and \(n\) is the number of
-different parameters. Typically, manual search is used to minimize the number
-of possible values that each parameter can take, and then a grid search is
-performed over the remaining values.&lt;/p&gt;
-
-&lt;p&gt;Manual search has advantages and disadvantages; on the one hand, it can work
-well, and it can give researchers insight into how the algorithm works. On the
-flip side, it&apos;s not reproducible, and has no guarantee of success, particularly
-in higher dimension spaces.&lt;/p&gt;
-
-&lt;p&gt;Consequently, the authors present a randomized variant of grid search that
-randomly searches the space of all possible hyper-parameters. Random search
-ends up being more practical than grid search as it can be applied using a
-cluster of unreliable computers, and new trials can easily be added to the
-search as all trials are i.i.d.&lt;/p&gt;
-
-&lt;h2 id=&quot;random-vs-grid-for-neural-networks&quot;&gt;Random vs. Grid for neural networks&lt;/h2&gt;
-
-&lt;p&gt;This part of the paper is heavily inspired by Larochelle (2007) &lt;a href=&quot;https://dl.acm.org/citation.cfm?id=1273556&quot;&gt;1&lt;/a&gt;.
-The authors use a variety of classification datasets, including a number of
-variants of MNIST, to perform hyper-parameter optimization on a series of
-neural networks.The authors note that the variation of the hyper-parameter
-optimization varies significantly with the datasets; for MNIST basic,
-experiments with 4 or 8 trials often had the same performance as much bigger
-trials, while even with 16 or 32 trials, MNIST rotated background images were
-still exhibiting significant variation.&lt;/p&gt;
-
-&lt;p&gt;The authors use these results to note that in many cases, the effective
-dimensionality of \(\psi\) ,the hyper-parameter space, is much lower than the
-possible dimensionality of \(\psi\). In other words, many of the parameters only
-have a small number of possible values that are useful.&lt;/p&gt;
-
-&lt;h2 id=&quot;random-vs-sequential-manual-optimization&quot;&gt;Random vs. sequential manual optimization&lt;/h2&gt;
-
-&lt;p&gt;The authors discuss an experiment by &lt;a href=&quot;https://dl.acm.org/citation.cfm?id=1273556&quot;&gt;1&lt;/a&gt; comparing randomized grid search with having a
-researcher conduct a sequential manual search. The authors quote &lt;a href=&quot;https://dl.acm.org/citation.cfm?id=1273556&quot;&gt;1&lt;/a&gt; on how to
-effectively conduct sequential manual optimization, which is quite insightful.
-The setting used in the experiment is one with 32 different hyper parameters,
-which, if each parameter had two possible values, would create a parameter space
-with \(2^{32}\) members- far too large to evaluate with a grid search. In the
-experiment, random search performed well, but not as well as with the neural
-networks, finding a better model than manual search in 1 data set, an equally
-good model in 4 data sets, and an inferior model in 3 data sets.&lt;/p&gt;
-
-&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
-
-&lt;p&gt;The authors suggest using randomized search instead of grid search in almost
-every scenario, noting that although more complicated approaches are better
-(e.g. adaptive search algorithms), they&apos;re more complicated, while a randomized
-grid search is a much cheaper way of evaluating more of the search space. The
-randomized search, similar to the grid search, is trivially parallelizable, and
-can be scaled much more rapidly than an adaptive search, and can stopped,
-started, and scaled without difficulty.&lt;/p&gt;
-
-&lt;h1 id=&quot;comments&quot;&gt;Comments&lt;/h1&gt;
-
-&lt;p&gt;The paper makes a lot of sense, and it&apos;s been pretty effective at convincing
-researchers to switch away from using grid searches. I use randomized search
-myself. Some more detailed notes:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;I&apos;d like to see some sort of sequential randomized grid search that works
-iteratively, alternating between performing a randomized grid search over a
-subset of the parameter space, and then selecting a new, smaller subset to
-search over (in effect, performing gradient descent over the parameter
-space). Perhaps that exists and I need to find a paper discussing that. That is
-what happens practically.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;I was talking to a startup founder working on a deep learning product about
-HPO a few weeks ago and he mentioned that he considers HPO to be CapEx, in
-the sense that it&apos;s an investment in the model, just like code. I agree, and
-that changed how I think about HPO.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Intuitively, it makes sense that there would be some smarter way to explore
-the hyperparameter space than to use a random search. There&apos;s been a lot of
-interesting work that uses Bayesian Optimization to find the optimal
-hyperparameters, and some interesting work by Google that uses RNNs to
-perform their HPO [2, 3]. I&apos;ll be interested to see where that leads. Google
-has been developing a system called &quot;AutoML&quot; that does this automatically,
-which will be useful when it&apos;s released.&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-</description>
-				<pubDate>Wed, 01 Mar 2017 00:00:00 -0700</pubDate>
-				<link>http://localhost:4000/random-search-hyper-parameter-optimization/</link>
-				<guid isPermaLink="true">http://localhost:4000/random-search-hyper-parameter-optimization/</guid>
 			</item>
 		
 	</channel>
