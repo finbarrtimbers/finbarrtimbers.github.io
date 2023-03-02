@@ -4,7 +4,7 @@ title: ""
 permalink: /
 ---
 
-I currently live in Alberta. I used to work at [DeepMind](www.deepmind.com). I studied at the LSE and the University of Alberta.
+I currently live in Alberta. I will be working at [Midjourney](https://midjourney.com/) come April. I used to work at [DeepMind](www.deepmind.com). I studied at the LSE and the University of Alberta.
 
 <!--I'm currently looking for a job, so please reach out if you are looking to hire a senior research engineer, preferably working on generative AI (of any kind: images, language, whatever). I'm currently only looking at remote opportunities, unfortunately.-->
 
