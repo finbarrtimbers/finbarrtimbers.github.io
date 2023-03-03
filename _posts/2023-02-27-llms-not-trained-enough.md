@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Large language models aren't trained enough.
+articles: True
 ---
 
 This was inspired by tweets from several people:

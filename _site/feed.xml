@@ -15,7 +15,7 @@
 
 \[\text{sigmoid}(x) := \dfrac{1}{1 + e^{-x}} \equiv \dfrac{e^x}{e^x + 1}\]
 
-&lt;p&gt;This is notable because it produces a curve that &lt;em&gt;*looks like an s&lt;/em&gt; (&lt;a href=&quot;https://en.wikipedia.org/wiki/Sigmoid_function&quot;&gt;source&lt;/a&gt;):&lt;/p&gt;
+&lt;p&gt;This is notable because it produces a curve that &lt;em&gt;looks like an s&lt;/em&gt; (&lt;a href=&quot;https://en.wikipedia.org/wiki/Sigmoid_function&quot;&gt;source&lt;/a&gt;):&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/static/images/sigmoid.png&quot; alt=&quot;The sigmoid curve&quot; /&gt;&lt;/p&gt;
 

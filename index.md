@@ -15,4 +15,4 @@ Areas of interest:
 - **Generative AI**. Computers are making it easier than ever before to make art (or write code, or write text, or...). I want to see how far this rabbit hole goes. I'm particularly excited by language models.
 - **Large models**. I'm _really_ excited by the scaling results we've seen with Chinchilla and the GPT line of work. This is a priority for me and an area that I want to focus my professional work on.
 - **Reinforcement learning**. Computers that can engage autonomously with the world. What's not to love? 
-- **Investing**. I'm looking to do some angel investing. If you're starting an interesting company, particularly in the RL space, please reach out.
+- **Startups**. I do a small amount of angel investing and advising of AI startups. If you're starting an interesting company, please reach out.

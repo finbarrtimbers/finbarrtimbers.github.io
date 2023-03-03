@@ -1,6 +1,7 @@
 ---
 layout: page
 title: "The Sigmoid: a metaphor for technological progress"
+articles: True
 ---
 
 I regularly reference the “s-curve”, or sigmoid, as a metaphor for progress. Here, I explain what I mean, so that I can just link to this post.

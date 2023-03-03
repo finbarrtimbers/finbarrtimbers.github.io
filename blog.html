@@ -3,7 +3,13 @@ layout: page
 title: Blog
 permalink: /blog/
 ---
+<!-- Short CTA asking people to subscribe to my Substack.-->
+<div id="cta">
+  {% capture cta %}{% include cta.md %}{% endcapture %}
+  {{ cta | markdownify }}
+</div>
 
+<!-- Actual for loop generating the list. -->
 {% for post in site.posts %}
 <div class=post>
     {% if post.feature %}
