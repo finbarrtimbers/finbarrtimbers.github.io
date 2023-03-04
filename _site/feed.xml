@@ -151,209 +151,6 @@
 			</item>
 		
 			<item>
-				<title>Setting prices for your business</title>
-				<description>&lt;p&gt;Setting prices is hard. Really, really hard. If you’re like most people, you just sit down, think really hard, and guess, using all the knowledge you’ve acquired over time. Maybe you use a margin calculation- you take the amount it cost you, and add, say, 20% to cover your costs and add some profit.&lt;/p&gt;
-
-&lt;p&gt;If you’re a larger company, you might have someone whose job it is to analyse data. How do they use data to figure out prices? (Or how should they be using data?)&lt;/p&gt;
-
-&lt;p&gt;The core problem is that, if you increase prices, you decrease the amount of goods you sell, and, after all, what you care about is profit, not individual prices. So if you raise prices, you need to make sure that you don’t just lose sales to compensate for it.&lt;/p&gt;
-
-&lt;p&gt;When calculating profits, the basic equation is:&lt;/p&gt;
-
-\[\text{Profit} = \text{Price} \cdot \text{Number of goods sold} - \text{Cost per good} \cdot \text{number of goods purchased} - \text{fixed costs}.\]
-
-&lt;p&gt;Fixed costs are those costs that don’t change with the number of goods sold.&lt;/p&gt;
-
-&lt;p&gt;The key thing to realize is that none of the costs matter once you have the goods (the exception is marginal costs- the cost to fulfill the order, e.g. shipping- and we’re going to assume you can’t really change those costs). So all we need to do is look at the price you’re charging per good, and the number of goods you sell.&lt;/p&gt;
-
-&lt;p&gt;Let’s look at this again:&lt;/p&gt;
-
-\[\text{Profit} = \text{Revenue} - \text{Costs}\]
-
-&lt;p&gt;Let’s dive into the Revenue side of things:&lt;/p&gt;
-
-\[\text{Revenue} = \text{Price per good} \cdot \text{Number of goods sold.}\]
-
-&lt;p&gt;So if you increase your price by 1%, as long as your volume goes down by less than 1%, you make more revenue! Vice versa, if you decrease your price by 1%, as long as your volume goes up by more than 1%, you make more money!&lt;/p&gt;
-
-&lt;p&gt;In economics, we call this &lt;a href=&quot;https://www.investopedia.com/terms/e/elasticity.asp#:~:text=In%20business%20and%20economics%2C%20elasticity,a%20good%20or%20service&apos;s%20price.&quot;&gt;elasticity&lt;/a&gt;:&lt;/p&gt;
-
-\[\text{Elasticity} = \text{Change in price (%)} / \text{change in volume (%)}\]
-
-&lt;p&gt;Elasticity is the key indicator to figure out how to change your prices. If you have an elasticity that’s greater than 1, then a change in price of 1% will lead to a less than 1% change in volume.&lt;/p&gt;
-
-&lt;p&gt;Conversely, if you have an elasticity that’s less than 1%, you should lower prices, as a decrease in price will lead to an increase in volume.&lt;/p&gt;
-
-&lt;h2 id=&quot;estimating-elasticity&quot;&gt;Estimating elasticity&lt;/h2&gt;
-
-&lt;p&gt;How can we estimate this number?&lt;/p&gt;
-
-&lt;p&gt;Running online sales with coupons can let you estimate this pretty easily. You can do the following:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Randomly show some % of your users (say, 10%) a coupon, say for 10% off. Then, see how this affects sales.&lt;/li&gt;
-  &lt;li&gt;Track the price each buyer pays.&lt;/li&gt;
-  &lt;li&gt;Compare how many sales you got from the users with the coupon vs the users that didn’t get a coupon. The change in volume is (number of sales with coupon) / (number of sales without coupon / 9).&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;You end up with this equation:&lt;/p&gt;
-
-\[\text{Elasticity} = 10\% / \text{Change in volume (%)}.\]
-
-&lt;p&gt;Then, you can figure out if you should bump up your prices!&lt;/p&gt;
-
-&lt;p&gt;You can also do this geographically- show everyone in BC a higher price, and show everyone in Alberta a lower price. That way, you have consistency, and people won’t be shown random prices.&lt;/p&gt;
-
-&lt;p&gt;You can also use data to estimate this for various goods- e.g. if you sell coffee machines, you can probably run this experiment on only one coffee machine, and estimate the elasticity for other coffee machines using statistics. I’ll have a future blog post about this.&lt;/p&gt;
-
-&lt;p&gt;If you want to chat more about this, give me an email at finbarrtimbers@gmail.com. I love chatting to people about their businesses, as I’m a huge geek. And if you’re a business that wants to try this, please let me know how it goes- I’d love to know what sort of impact this can have.&lt;/p&gt;
-</description>
-				<pubDate>Sun, 21 Mar 2021 00:00:00 -0600</pubDate>
-				<link>http://localhost:4000/setting-prices/</link>
-				<guid isPermaLink="true">http://localhost:4000/setting-prices/</guid>
-			</item>
-		
-			<item>
-				<title>The junior tech landscape</title>
-				<description>&lt;p&gt;I recently finished a job hunt. I ended up with a job at DeepMind as a Research
-Engineer, which so far has been an absolutely amazing experience. THis article
-describes my personal thoughts on the job hunt, and has no relation to what
-people at DeepMind think about the job market.&lt;/p&gt;
-
-&lt;p&gt;I think working at one of the big tech companies is the best way to start your
-career as you can a) get a great name on your CV which will make it easier to
-get subsequent jobs and b) make really good money, which if you save it, will
-allow you to do riskier things later in your career. If you own a house/condo
-it&apos;s a lot easier to take a low salary as you don&apos;t need to pay rent.&lt;/p&gt;
-
-&lt;p&gt;This isn&apos;t the case for everyone. If you love risk, working at a startup can be
-a great experience, and if you choose the right one, it can give you an amazing
-start to your career. However, this is extremely difficult, and you can often
-fail. I&apos;ll expand on this more in a future post.&lt;/p&gt;
-
-&lt;h2 id=&quot;choosing-a-role&quot;&gt;Choosing a role&lt;/h2&gt;
-
-&lt;p&gt;When it comes to finding a job, the first thing to do is to select the type of
-role you want. Then, focus on applying for those roles. That&apos;ll let you practice
-for the same type of questions and get good over time. Many companies use the
-same questions, so interviewing for the same type of position at different
-companies is excellent practice. For instance, most of my interviews involved me
-writing a
-&lt;a href=&quot;https://en.wikipedia.org/wiki/Breadth-first_search&quot;&gt;breadth first search&lt;/a&gt;. BY
-the end of the process, I was able to converge on what I think is a relatively
-efficient
-&lt;a href=&quot;https://gist.github.com/finbarrtimbers/afcbd0900a13a3af5e3ac0eabbe48511&quot;&gt;implementation&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;The various roles, as I think of them:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Frontend Engineer&lt;/li&gt;
-  &lt;li&gt;Backend Engineer&lt;/li&gt;
-  &lt;li&gt;ML Engineer&lt;/li&gt;
-  &lt;li&gt;Full Stack Engineer&lt;/li&gt;
-  &lt;li&gt;Data Engineer&lt;/li&gt;
-  &lt;li&gt;Data Scientist&lt;/li&gt;
-  &lt;li&gt;Data Analyst&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;I focused on ML Engineer and Backend Engineer roles. The specific names will
-vary significantly by company. I was mostly interested in roles that were
-engineering focused (so not data scientist/analyst roles), let me work on
-consumer facing products, and let me do machine learning.&lt;/p&gt;
-
-&lt;h2 id=&quot;applying-to-companies&quot;&gt;Applying to companies&lt;/h2&gt;
-
-&lt;p&gt;One thing to note: As a Canadian, if you have a technical degree (e.g. CS,
-Math, Physics, etc.), you can get a TN-1 visa very easily and work in the US.
-So I focused largely on applying to American companies, as they tend to have a
-lot more financing, which makes the jobs more lucrative, and more interesting,
-as they have more resources. This is an unfortunate reality. If you have an
-advanced degree, you should also easily be able to get a green card through the
-EB-2 process, although I am not a lawyer and didn&apos;t actually go through that
-process.&lt;/p&gt;
-
-&lt;p&gt;I had three main sources of jobs:&lt;/p&gt;
-
-&lt;p&gt;1) &lt;a href=&quot;http://www.ycombinator.com/&quot;&gt;Y Combinator&lt;/a&gt; companies,
-2) &lt;a href=&quot;http://www.angel.co&quot;&gt;Angel List&lt;/a&gt; companies,
-3) An excellent &lt;a href=&quot;https://info.wealthfront.com/rs/781-RJU-318/images/Wealthfront_2016_Career_Launching_Companies_List.pdf&quot;&gt;list&lt;/a&gt; published by Wealthfront, although it&apos;s slightly out of date.&lt;/p&gt;
-
-&lt;p&gt;Y Combinator (YC) is an American incubator, and arguably the best early stage
-investment firm in the world. They take people with an idea and give them ~$120k
-in exchange for 7% of the company. It&apos;s a great source of jobs at super early
-stage startups (typically you&apos;d be one of the first 5 employees), but is high
-risk. YC is super dominant in Bay Area hiring. The people there can be more
-willing to hire a junior person than bigger companies.&lt;/p&gt;
-
-&lt;p&gt;Angel List is a site that many early stage companies use to post jobs on.&lt;/p&gt;
-
-&lt;p&gt;This was my list of companies, in no specific order:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Misc. YC companies&lt;/li&gt;
-  &lt;li&gt;PayPal&lt;/li&gt;
-  &lt;li&gt;eBay&lt;/li&gt;
-  &lt;li&gt;LinkedIn&lt;/li&gt;
-  &lt;li&gt;Modsy&lt;/li&gt;
-  &lt;li&gt;Curbsy&lt;/li&gt;
-  &lt;li&gt;Affirm, Inc&lt;/li&gt;
-  &lt;li&gt;Sift science&lt;/li&gt;
-  &lt;li&gt;Safegraph&lt;/li&gt;
-  &lt;li&gt;Foursquare&lt;/li&gt;
-  &lt;li&gt;Adyen (Adzen?)&lt;/li&gt;
-  &lt;li&gt;Flexport&lt;/li&gt;
-  &lt;li&gt;Pinterest&lt;/li&gt;
-  &lt;li&gt;PayPal&lt;/li&gt;
-  &lt;li&gt;Etsy&lt;/li&gt;
-  &lt;li&gt;Scale&lt;/li&gt;
-  &lt;li&gt;Cognii&lt;/li&gt;
-  &lt;li&gt;Gladly&lt;/li&gt;
-  &lt;li&gt;Squarespace&lt;/li&gt;
-  &lt;li&gt;Moderna&lt;/li&gt;
-  &lt;li&gt;Writelabs&lt;/li&gt;
-  &lt;li&gt;Mozilla&lt;/li&gt;
-  &lt;li&gt;Box&lt;/li&gt;
-  &lt;li&gt;Baidu&lt;/li&gt;
-  &lt;li&gt;AirBnB&lt;/li&gt;
-  &lt;li&gt;Niantic&lt;/li&gt;
-  &lt;li&gt;Twitter&lt;/li&gt;
-  &lt;li&gt;Optimizely&lt;/li&gt;
-  &lt;li&gt;SigOpt&lt;/li&gt;
-  &lt;li&gt;A9&lt;/li&gt;
-  &lt;li&gt;Dropbox&lt;/li&gt;
-  &lt;li&gt;VMWare&lt;/li&gt;
-  &lt;li&gt;Amazon&lt;/li&gt;
-  &lt;li&gt;Maluuba&lt;/li&gt;
-  &lt;li&gt;Element AI&lt;/li&gt;
-  &lt;li&gt;Snapchat&lt;/li&gt;
-  &lt;li&gt;Stripe&lt;/li&gt;
-  &lt;li&gt;Squarespace&lt;/li&gt;
-  &lt;li&gt;Slack&lt;/li&gt;
-  &lt;li&gt;Google&lt;/li&gt;
-  &lt;li&gt;DeepMind&lt;/li&gt;
-  &lt;li&gt;Apple&lt;/li&gt;
-  &lt;li&gt;Facebook&lt;/li&gt;
-  &lt;li&gt;Microsoft&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Some of the companies will hire people remotely, although that can be tough to
-do as a junior employee, and I wouldn&apos;t recommend it.&lt;/p&gt;
-
-&lt;p&gt;If you&apos;re focusing on Vancouver, Microsoft and Amazon are the only big tech
-companies there hiring engineers (as far as I&apos;m aware). Facebook is supposed
-have an engineering office there, but I haven&apos;t seen any postings for it.
-There&apos;s a bunch of smaller companies there too, such as Hootsuite.&lt;/p&gt;
-
-&lt;h2 id=&quot;getting-the-jobs&quot;&gt;Getting the jobs&lt;/h2&gt;
-
-&lt;p&gt;I&apos;ll post more on this subject in the future. TL;DR: study &lt;a href=&quot;http://www.crackingthecodinginterview.com/&quot;&gt;Cracking the Coding Interview&lt;/a&gt;.&lt;/p&gt;
-</description>
-				<pubDate>Sat, 07 Apr 2018 00:00:00 -0600</pubDate>
-				<link>http://localhost:4000/the-junior-tech-landscape/</link>
-				<guid isPermaLink="true">http://localhost:4000/the-junior-tech-landscape/</guid>
-			</item>
-		
-			<item>
 				<title>Pointer Networks</title>
 				<description>&lt;p&gt;Link to paper &lt;a href=&quot;https://arxiv.org/abs/1506.03134&quot;&gt;[arXiv]&lt;/a&gt;, &lt;a href=&quot;https://github.com/devsisters/pointer-network-tensorflow&quot;&gt;[code]&lt;/a&gt;.&lt;/p&gt;
 
@@ -687,55 +484,277 @@ here. Similar to my first point. Reproducibility suffers.&lt;/p&gt;
 			</item>
 		
 			<item>
-				<title>Tests make you write down your assumptions</title>
-				<description>&lt;p&gt;I&apos;ve been fighting with recurring errors the whole time I&apos;ve been working on
-&lt;a href=&quot;http://www.bugdedupe.com&quot;&gt;BugDedupe&lt;/a&gt;. I keep changing some aspect of the
-frontend, and inadvertently break the site. The way to prevent this, of course,
-is by having a comprehensive test suite. I know that I should have tests, and I do, but not
-at anywhere near the coverage that I need (I&apos;m currently at 29% code
-coverage).&lt;/p&gt;
+				<title>Random Search for Hyper-Parameter Optimization</title>
+				<description>&lt;h1 id=&quot;abstract&quot;&gt;&lt;a href=&quot;http://www.jmlr.org/papers/volume13/bergstra12a/bergstra12a.pdf&quot;&gt;Abstract&lt;/a&gt;&lt;/h1&gt;
 
-&lt;p&gt;The reason for the abysmal amount of code coverage is that I don&apos;t know how to
-write the tests that I need. For instance, to test that BugDedupe is merging
-rows correctly, I need to:&lt;/p&gt;
+&lt;p&gt;Grid search and manual search are the most widely used strategies for hyper-parameter optimization.
+This paper shows empirically and theoretically that randomly chosen trials are more efficient
+for hyper-parameter optimization than trials on a grid. Empirical evidence comes from a comparison
+with a large previous study that used grid search and manual search to configure neural networks
+and deep belief networks. Compared with neural networks configured by a pure grid search,
+we find that random search over the same domain is able to find models that are as good or better
+within a small fraction of the computation time. Granting random search the same computational
+budget, random search finds better models by effectively searching a larger, less promising con-
+figuration space. Compared with deep belief networks configured by a thoughtful combination of
+manual search and grid search, purely random search over the same 32-dimensional configuration
+space found statistically equal performance on four of seven data sets, and superior performance
+on one of seven. A Gaussian process analysis of the function from hyper-parameters to validation
+set performance reveals that for most data sets only a few of the hyper-parameters really matter,
+but that different hyper-parameters are important on different data sets. This phenomenon makes
+grid search a poor choice for configuring algorithms for new data sets. Our analysis casts some
+light on why recent “High Throughput” methods achieve surprising success—they appear to search
+through a large number of hyper-parameters because most hyper-parameters do not matter much.
+We anticipate that growing interest in large hierarchical models will place an increasing burden on
+techniques for hyper-parameter optimization; this work shows that random search is a natural baseline
+against which to judge progress in the development of adaptive (sequential) hyper-parameter
+optimization algorithms.&lt;/p&gt;
+
+&lt;h2 id=&quot;notes&quot;&gt;Notes&lt;/h2&gt;
+
+&lt;p&gt;This paper is focused on hyperparameter optimization. Hyperparameter
+optimization (HPO) is the process by which the optimal hyperparameters for a
+machine learning model are picked (shocking, I know). Hyperparameters are the
+parameters of the model that are set outside of the training process; in a
+neural network, for example, the size and shape of the network is a
+hyperparameter, as is the learning rate. The hyperparameters massively affect
+the performance of the model, and HPO can dramatically improve the performance
+of a model.&lt;/p&gt;
+
+&lt;p&gt;As an anecdote of why HPO is important, I was training a model that used a RNN
+to predict values in a time series. By changing the weight initializations of
+our network, we were able to dramatically improve performance. We found the
+right value for the initialization through HPO.&lt;/p&gt;
+
+&lt;p&gt;HPO is a problem as the previous best practice on how to find the optimal
+hyperparameter was to perform a grid search, which is extraordinarily
+expensive. This is because the number of steps required in the search grows
+exponentially; with 5 hyperparameters, each with 5 possible values, you have
+\(5^5 = 3125\) possible configurations. If you have 10 hyperparameters, you have
+\(10^5 = 100000\) different configurations– 32 times as many configurations to
+search. Moreover, the process isn&apos;t perfectly parallelizable as you have to
+assign the configurations consistently. This paper, when it came out, was highly
+influential as it presented a better way to search for the best hyperparameters.&lt;/p&gt;
+
+&lt;h2 id=&quot;theoretical-background&quot;&gt;Theoretical background&lt;/h2&gt;
+
+&lt;p&gt;A learning algorithm \(\mathcal{A}\) can be thought of as a functional (a function
+that operates on functions) that maps a data set \(\mathcal{X}^{\text{train}}\) to
+a function \(f\). We can think of \(\mathcal{A}\) as a function itself, and write
+it as \(\mathcal{A}(\mathcal{X}^{\text{train}}, \lambda)\), where \(\lambda\) is a
+vector of so-called &quot;hyper-parameters&quot;, which change how the algorithm operates.
+An example is \(\alpha\), the \(L_1\) penalty in
+&lt;a href=&quot;http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Lasso.html&quot;&gt;Lasso&lt;/a&gt;.
+Finding \(\lambda\) is called the &quot;hyper-parameter optimization problem&quot;, which
+consists of finding \(\lambda^\star\) that minimizes the expected error of the
+algorithm over the set of all possible training sets. Since it is impossible to
+actually calculate the expected error, solutions to the hyper-parameter
+optimization problem take two forms:&lt;/p&gt;
 
 &lt;ol&gt;
-  &lt;li&gt;Set up a test database.&lt;/li&gt;
-  &lt;li&gt;Set up a test Github account.&lt;/li&gt;
-  &lt;li&gt;Mock the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;POST&lt;/code&gt; request for Flask.&lt;/li&gt;
-  &lt;li&gt;Figure out how Flask&apos;s app environments work so that I can get the correct
-context for &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;flask.g&lt;/code&gt; and the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;user&lt;/code&gt; objects that are used throughout the routes.
-&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;flask.g&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;user&lt;/code&gt; are objects that can be called at any point in the application
-context for Flask without you having to explicitly set &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;user = ...&lt;/code&gt;. This is
-good- it makes it really easy to use them- but it&apos;s bad as I don&apos;t &lt;em&gt;really&lt;/em&gt;
-know how they work.&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;The manual approach, where a researcher tries a number of different
+parameters and uses the best one.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Grid search, where all of the different combinations of parameters are tried.&lt;/p&gt;
+  &lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;The reason I&apos;ve been avoiding writing the tests is that it&apos;s really difficult
-to write tests when you don&apos;t know &lt;em&gt;exactly&lt;/em&gt; what your code is doing, and you
-don&apos;t have a clear understanding of how the framework you&apos;re using works.
-However, it turns out that it&apos;s really difficult to write code that works
-correctly when you don&apos;t have a clear understanding of how your framework works.
-So I&apos;m taking the time to figure out exactly what&apos;s going on, and so far, it&apos;s
-definitely been worth it.&lt;/p&gt;
+&lt;p&gt;Approach 2 is guaranteed to find the optimal combination, but it is extremely
+computationally expensive, growing at a rate of O(\(p^n\)), where \(p\) is the
+number of different values each parameter can take, and \(n\) is the number of
+different parameters. Typically, manual search is used to minimize the number
+of possible values that each parameter can take, and then a grid search is
+performed over the remaining values.&lt;/p&gt;
 
-&lt;p&gt;For instance, I found out how &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;flask.g&lt;/code&gt; works- it turns out that Flask creates
-multiple &lt;a href=&quot;http://flask.pocoo.org/docs/0.12/appcontext/&quot;&gt;contexts&lt;/a&gt; that store
-data that are needed on a per-request basis. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;flask.g&lt;/code&gt; stores data on the
-application context, so it makes data available to different functions
-during one request. It&apos;s effectively a super-global variable. You can&apos;t just use
-a global variable to replace &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;flask.g&lt;/code&gt; as then it would break in threaded
-environments, which are necessary when you&apos;re trying to serve many users. That&apos;s
-cool. I wouldn&apos;t have learned that today if I hadn&apos;t been writing tests
-that needed to call &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;flask.g&lt;/code&gt; and store data there. I would only have learned it
-when I introduced some nasty bug.&lt;/p&gt;
+&lt;p&gt;Manual search has advantages and disadvantages; on the one hand, it can work
+well, and it can give researchers insight into how the algorithm works. On the
+flip side, it&apos;s not reproducible, and has no guarantee of success, particularly
+in higher dimension spaces.&lt;/p&gt;
 
-&lt;p&gt;In short, if you don&apos;t know exactly what&apos;s going on in your code, then you
-should write tests and formalize your knowledge.&lt;/p&gt;
+&lt;p&gt;Consequently, the authors present a randomized variant of grid search that
+randomly searches the space of all possible hyper-parameters. Random search
+ends up being more practical than grid search as it can be applied using a
+cluster of unreliable computers, and new trials can easily be added to the
+search as all trials are i.i.d.&lt;/p&gt;
+
+&lt;h2 id=&quot;random-vs-grid-for-neural-networks&quot;&gt;Random vs. Grid for neural networks&lt;/h2&gt;
+
+&lt;p&gt;This part of the paper is heavily inspired by Larochelle (2007) &lt;a href=&quot;https://dl.acm.org/citation.cfm?id=1273556&quot;&gt;1&lt;/a&gt;.
+The authors use a variety of classification datasets, including a number of
+variants of MNIST, to perform hyper-parameter optimization on a series of
+neural networks.The authors note that the variation of the hyper-parameter
+optimization varies significantly with the datasets; for MNIST basic,
+experiments with 4 or 8 trials often had the same performance as much bigger
+trials, while even with 16 or 32 trials, MNIST rotated background images were
+still exhibiting significant variation.&lt;/p&gt;
+
+&lt;p&gt;The authors use these results to note that in many cases, the effective
+dimensionality of \(\psi\) ,the hyper-parameter space, is much lower than the
+possible dimensionality of \(\psi\). In other words, many of the parameters only
+have a small number of possible values that are useful.&lt;/p&gt;
+
+&lt;h2 id=&quot;random-vs-sequential-manual-optimization&quot;&gt;Random vs. sequential manual optimization&lt;/h2&gt;
+
+&lt;p&gt;The authors discuss an experiment by &lt;a href=&quot;https://dl.acm.org/citation.cfm?id=1273556&quot;&gt;1&lt;/a&gt; comparing randomized grid search with having a
+researcher conduct a sequential manual search. The authors quote &lt;a href=&quot;https://dl.acm.org/citation.cfm?id=1273556&quot;&gt;1&lt;/a&gt; on how to
+effectively conduct sequential manual optimization, which is quite insightful.
+The setting used in the experiment is one with 32 different hyper parameters,
+which, if each parameter had two possible values, would create a parameter space
+with \(2^{32}\) members- far too large to evaluate with a grid search. In the
+experiment, random search performed well, but not as well as with the neural
+networks, finding a better model than manual search in 1 data set, an equally
+good model in 4 data sets, and an inferior model in 3 data sets.&lt;/p&gt;
+
+&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;The authors suggest using randomized search instead of grid search in almost
+every scenario, noting that although more complicated approaches are better
+(e.g. adaptive search algorithms), they&apos;re more complicated, while a randomized
+grid search is a much cheaper way of evaluating more of the search space. The
+randomized search, similar to the grid search, is trivially parallelizable, and
+can be scaled much more rapidly than an adaptive search, and can stopped,
+started, and scaled without difficulty.&lt;/p&gt;
+
+&lt;h1 id=&quot;comments&quot;&gt;Comments&lt;/h1&gt;
+
+&lt;p&gt;The paper makes a lot of sense, and it&apos;s been pretty effective at convincing
+researchers to switch away from using grid searches. I use randomized search
+myself. Some more detailed notes:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;I&apos;d like to see some sort of sequential randomized grid search that works
+iteratively, alternating between performing a randomized grid search over a
+subset of the parameter space, and then selecting a new, smaller subset to
+search over (in effect, performing gradient descent over the parameter
+space). Perhaps that exists and I need to find a paper discussing that. That is
+what happens practically.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;I was talking to a startup founder working on a deep learning product about
+HPO a few weeks ago and he mentioned that he considers HPO to be CapEx, in
+the sense that it&apos;s an investment in the model, just like code. I agree, and
+that changed how I think about HPO.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Intuitively, it makes sense that there would be some smarter way to explore
+the hyperparameter space than to use a random search. There&apos;s been a lot of
+interesting work that uses Bayesian Optimization to find the optimal
+hyperparameters, and some interesting work by Google that uses RNNs to
+perform their HPO [2, 3]. I&apos;ll be interested to see where that leads. Google
+has been developing a system called &quot;AutoML&quot; that does this automatically,
+which will be useful when it&apos;s released.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
 </description>
-				<pubDate>Sun, 05 Mar 2017 00:00:00 -0700</pubDate>
-				<link>http://localhost:4000/testing/</link>
-				<guid isPermaLink="true">http://localhost:4000/testing/</guid>
+				<pubDate>Wed, 01 Mar 2017 00:00:00 -0700</pubDate>
+				<link>http://localhost:4000/random-search-hyper-parameter-optimization/</link>
+				<guid isPermaLink="true">http://localhost:4000/random-search-hyper-parameter-optimization/</guid>
+			</item>
+		
+			<item>
+				<title>Useful Bash One-liners</title>
+				<description>&lt;p&gt;I have a file in my home folder that contains Bash oneliners that I use
+regularly (I&apos;m a huge nerd, naturally).  I found most of them elsewhere online;
+I wrote very few of these from scratch.&lt;/p&gt;
+
+&lt;h2 id=&quot;download-a-page-and-all-linked-pagesdocuments&quot;&gt;Download a page and all linked pages/documents:&lt;/h2&gt;
+
+&lt;p&gt;Download &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$PAGE&lt;/code&gt; and all linked pages/documents, to a depth of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$NUM&lt;/code&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ wget -r &quot;$NUM&quot; &quot;$PAGE&quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;e.g.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ wget -r 1 \
+    https://courses.cs.washington.edu/courses/cse455/14au/notes/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;If you only want PDF files (e.g. if you&apos;re downloading course notes), then you
+can add the flag &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;---accept &quot;*.pdf&quot;&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Taken from &lt;a href=&quot;http://superuser.com/questions/274414/how-to-save-all-the-webpages-linked-from-one&quot;&gt;Stack Overflow&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;recursively-unrar-files&quot;&gt;Recursively unrar files&lt;/h2&gt;
+
+&lt;p&gt;You can replace &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;unrar e&lt;/code&gt; with any other command as well (e.g. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;unzip&lt;/code&gt;).&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ find ./ -name &apos;*.rar&apos; -execdir unrar e {} \;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;As a data scientist, I often get a dump of data from a client. This command lets
+me process them all at once.&lt;/p&gt;
+
+&lt;h2 id=&quot;turn-white-backgrounds-transparent&quot;&gt;Turn white backgrounds transparent&lt;/h2&gt;
+
+&lt;p&gt;I use this ALL THE TIME when I&apos;m giving talks (particularly when I&apos;m teaching). I
+found it on the
+&lt;a href=&quot;http://www.imagemagick.org/discourse-server/viewtopic.php?t=12619&quot;&gt;Imagemagick&lt;/a&gt;
+forums.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ convert image.gif -transparent white result.gif (or use result.png)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Alternately, if the image has an off-white background:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ convert image.gif -fuzz XX% -transparent white result.gif
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;where the smaller the %, the closer to true white or conversely, the larger the
+%, the more variation from white is allowed to become transparent.&lt;/p&gt;
+
+&lt;h2 id=&quot;diff-contents-of-two-folders&quot;&gt;Diff contents of two folders&lt;/h2&gt;
+
+&lt;p&gt;Checks which files are different between the folders &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dir1&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dir2&lt;/code&gt;. I&apos;ve
+used this to track down bugs when I&apos;m installing our software on client sites
+to make sure that their data is exactly the same as my copy of it.&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ diff -qr dir1 dir2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;You can also use some sort of checksum by zipping up both folders and comparing
+the results, e.g. with&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ md5 dir1.zip
+$ md5 dir2.zip
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+				<pubDate>Fri, 20 Jan 2017 00:00:00 -0700</pubDate>
+				<link>http://localhost:4000/Useful-oneliners/</link>
+				<guid isPermaLink="true">http://localhost:4000/Useful-oneliners/</guid>
+			</item>
+		
+			<item>
+				<title>A Deep Hierarchical Approach to Lifelong Learning in Minecraft</title>
+				<description>&lt;h2 id=&quot;abstract&quot;&gt;&lt;a href=&quot;https://arxiv.org/abs/1604.07255&quot;&gt;Abstract&lt;/a&gt;&lt;/h2&gt;
+
+&lt;p&gt;We propose a lifelong learning system that has the ability to reuse and transfer
+knowledge from one task to another while efficiently retaining the previously
+learned knowledge-base. Knowledge is transferred by learning reusable skills to
+solve tasks in Minecraft, a popular video game which is an unsolved and
+high-dimensional lifelong learning problem. These reusable skills, which we
+refer to as Deep Skill Networks, are then incorporated into our novel
+Hierarchical Deep Reinforcement Learning Network (H-DRLN) architecture using two
+techniques: (1) a deep skill array and (2) skill distillation, our novel
+variation of policy distillation (Rusu et. al. 2015) for learning skills. Skill
+distillation enables the HDRLN to efficiently retain knowledge and therefore
+scale in lifelong learning, by accumulating knowledge and encapsulating multiple
+reusable skills into a single distilled network. The H-DRLN exhibits superior
+performance and lower learning sample complexity compared to the regular Deep Q
+Network (Mnih et. al. 2015) in sub-domains of Minecraft.&lt;/p&gt;
+
+&lt;h2 id=&quot;notes&quot;&gt;Notes&lt;/h2&gt;
+
+&lt;p&gt;Paper discusses how previously trained neural networks (called skills) can be
+used to create an adaptable, more general AI that can respond to varied
+scenarios.&lt;/p&gt;
+</description>
+				<pubDate>Tue, 03 Jan 2017 00:00:00 -0700</pubDate>
+				<link>http://localhost:4000/minecraft/</link>
+				<guid isPermaLink="true">http://localhost:4000/minecraft/</guid>
 			</item>
 		
 	</channel>
