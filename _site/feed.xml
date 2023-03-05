@@ -8,6 +8,91 @@
 		<atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
+				<title>Papers I've read this week (March 4th, 2023)</title>
+				<description>&lt;p&gt;I’m going to try to write a weekly summary of the most interesting papers I’ve read that week. I’d love to hear what papers you’ve been reading, if you agree/disagree about my conclusions for each paper, and/or suggestions for what papers I should read next!&lt;/p&gt;
+
+&lt;h2 id=&quot;scaling-laws-for-routed-language-models&quot;&gt;Scaling laws for routed language models&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2202.01169&quot;&gt;Abstract&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;I &lt;a href=&quot;https://www.deepmind.com/&quot;&gt;used to work&lt;/a&gt; with Aidan, and way back in 2021, he was insistent that LLMs were the future of AI. I thought he was crazy. In ‘22, he also insisted that conditional routing models were the future. Given how right he was about LLMs, it’s probably worth paying attention to conditional routing models.&lt;/p&gt;
+
+&lt;p&gt;The paper provides a great general overview of how routing networks work and performance comparisons (in terms of negative log likelihood over a validation dataset) for the 3 most common routing techniques (&lt;a href=&quot;https://arxiv.org/abs/1701.06538&quot;&gt;sparse MoE&lt;/a&gt;, &lt;a href=&quot;https://arxiv.org/abs/2106.04426&quot;&gt;non-parametric HASH&lt;/a&gt;, &lt;a href=&quot;https://arxiv.org/abs/1308.3432&quot;&gt;RL routing&lt;/a&gt;).&lt;/p&gt;
+
+&lt;p&gt;The authors trained a large number of conditional routing networks, and fit scaling laws to the results; they find that all 3 techniques follow the same scaling laws, with RL routing doing quite well. I’d be curious to see how much effort has been put into improving RL routing; I suspect that it could be improved significantly.&lt;/p&gt;
+
+&lt;p&gt;The authors observed the following results:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Routing improves the performance of language models across all sizes and variants attempted&lt;/li&gt;
+  &lt;li&gt;Training a Routing Network with RL is of comparable effectiveness to state-of-the-art techniques.&lt;/li&gt;
+  &lt;li&gt;The performance of all Routing Networks is accurately described by scaling laws in the number of experts and in
+the underlying dense model size.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;I was surprised at how similar the performance of the various techniques was. The data was quite nice, with little variation. The scaling laws seem to fit the data quite nicely.&lt;/p&gt;
+
+&lt;p&gt;One interesting result was that routing helps significantly more when the model is smaller. I found this surprising; my intuition is that routing should always help. They found that this was the case across all models, and that routing helped less as the models grew.&lt;/p&gt;
+
+&lt;p&gt;The paper ends with recommendations, which I found really useful:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Use routing for models with less than 1.3B parameters&lt;/li&gt;
+  &lt;li&gt;S-Base is a good, default routing algorithm (defined in the appendix of their paper).&lt;/li&gt;
+  &lt;li&gt;Target using E in {64, 128} experts.&lt;/li&gt;
+  &lt;li&gt;Use K = 1 experts; route layers with a frequency between 0.5 &amp;amp; 1; lower frequency reduces performance.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;internet-explorer&quot;&gt;Internet explorer&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2302.14051&quot;&gt;Abstract&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;In this paper, the authors create an agent which dynamically explores the internet, running text queries to find images to use for self-supervised training. While seemingly designed to &lt;a href=&quot;https://rationalwiki.org/wiki/AI-box_experiment&quot;&gt;directly antagonize Yudkowsky&lt;/a&gt;, the paper is extremely interesting, and presents, to me, a potential future direction for AGI research. As &lt;a href=&quot;https://arxiv.org/abs/2203.15556&quot;&gt;Chinchilla&lt;/a&gt; showed us, LLMs could &lt;a href=&quot;https://www.lesswrong.com/posts/6Fpvch8RR29qLEWNH/chinchilla-s-wild-implications#fnjefvfidovdb&quot;&gt;massively improve&lt;/a&gt; with more data. Having agents dynamically exploring the internet is one excellent way to get more data- especially if they’re able to adaptively learn over time and prioritize images accordingly.&lt;/p&gt;
+
+&lt;p&gt;In the paper, they train a model to learn representations of images based on &lt;a href=&quot;https://paperswithcode.com/method/moco-v3&quot;&gt;MoCo-v3&lt;/a&gt;. They query Google Images for new images, ranking the query results by similarity to the target dataset, assigning a reward to the new images:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/internet-explorer-reward.png&quot; alt=&quot;reward equation for internet explorer paper&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Here, S_cos is the cosine similarity, f_k is the image encoder, D := {x_i} is the target dataset, and y is the new image to evaluate, and they evaluate over the k closest neighbours in the target dataset (where “closest” is determined by the encoded representation).&lt;/p&gt;
+
+&lt;p&gt;They create the queries for Google Images by sampling them a static vocabulary dataset. They estimate the reward associated with the query using a Gaussian process regression. I’d be really interested to see a fancier query generation process. One idea that comes to my mind would be using RL to train a LLM to generate queries in a manner similar to what’s done in &lt;a href=&quot;https://openai.com/research/learning-from-human-preferences&quot;&gt;RLHF&lt;/a&gt;/&lt;a href=&quot;https://arxiv.org/abs/2204.05862&quot;&gt;RLAIF&lt;/a&gt;, i.e. use an RL algorithm like PPO to finetune a pretrained LLM to maximize reward. This would require much more compute, however.&lt;/p&gt;
+
+&lt;h2 id=&quot;llama&quot;&gt;LLaMa&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2302.13971&quot;&gt;Abstract&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;I’ve been digesting the LLaMa paper that Facebook released this week. It was very interesting to see the performance increases they got despite the size decreases. Their 13B model outperformed GPT-3 on a number of benchmarks, and their 65B model was competitive with Chinchilla-70B and PaLM-540B (!).&lt;/p&gt;
+
+&lt;p&gt;I did find it incredibly frustrating that they stopped training when they did; their loss curves are all looking pretty far from convergence, and I’m curious to see how much the models will continue to improve:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/llama-training-curves.png&quot; alt=&quot;loss curves for LLaMa paper&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;I wish that they had just &lt;a href=&quot;https://karpathy.github.io/2019/04/25/recipe/#6-squeeze-out-the-juice&quot;&gt;left it training&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;My biggest question about the paper is that it’s not clear what caused the improvements. They discuss a few major changes compared to GPT-3, which their model is based on:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;They only use publicly available data, but it’s unclear what exactly the filtering steps are. I wish they’d open source their dataset (or at least, the code to clean it).&lt;/li&gt;
+  &lt;li&gt;They normalize the input of each transformer sub-layer, rather than the output.&lt;/li&gt;
+  &lt;li&gt;They use the SwiGLU activation function, as PaLM did, with a slight dimensional difference compared to PaLM.&lt;/li&gt;
+  &lt;li&gt;They use Rotary Embeddings.&lt;sup id=&quot;fnref:1&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;There was no ablation study, unfortunately. If I can scrounge up the GPUs, I’m tempted to do my own ablation based on &lt;a href=&quot;https://github.com/karpathy/nanoGPT&quot;&gt;nanoGPT&lt;/a&gt;. LLaMa also uses &lt;a href=&quot;https://arxiv.org/abs/22015.14135&quot;&gt;FlashAttention&lt;/a&gt;, which I suspect will become the default attention implementation used in LLMs going forward.&lt;/p&gt;
+&lt;div class=&quot;footnotes&quot; role=&quot;doc-endnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;I haven’t seen a great ablation study comparing various embedding schemes. This is on my list of experiments to do once I can scrounge up GPUs. &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+				<pubDate>Sat, 04 Mar 2023 00:00:00 -0700</pubDate>
+				<link>http://localhost:4000/papers-ive-read/</link>
+				<guid isPermaLink="true">http://localhost:4000/papers-ive-read/</guid>
+			</item>
+		
+			<item>
 				<title>The Sigmoid: a metaphor for technological progress</title>
 				<description>&lt;p&gt;I regularly reference the “s-curve”, or sigmoid, as a metaphor for progress. Here, I explain what I mean, so that I can just link to this post.&lt;/p&gt;
 
@@ -725,36 +810,6 @@ $ md5 dir2.zip
 				<pubDate>Fri, 20 Jan 2017 00:00:00 -0700</pubDate>
 				<link>http://localhost:4000/Useful-oneliners/</link>
 				<guid isPermaLink="true">http://localhost:4000/Useful-oneliners/</guid>
-			</item>
-		
-			<item>
-				<title>A Deep Hierarchical Approach to Lifelong Learning in Minecraft</title>
-				<description>&lt;h2 id=&quot;abstract&quot;&gt;&lt;a href=&quot;https://arxiv.org/abs/1604.07255&quot;&gt;Abstract&lt;/a&gt;&lt;/h2&gt;
-
-&lt;p&gt;We propose a lifelong learning system that has the ability to reuse and transfer
-knowledge from one task to another while efficiently retaining the previously
-learned knowledge-base. Knowledge is transferred by learning reusable skills to
-solve tasks in Minecraft, a popular video game which is an unsolved and
-high-dimensional lifelong learning problem. These reusable skills, which we
-refer to as Deep Skill Networks, are then incorporated into our novel
-Hierarchical Deep Reinforcement Learning Network (H-DRLN) architecture using two
-techniques: (1) a deep skill array and (2) skill distillation, our novel
-variation of policy distillation (Rusu et. al. 2015) for learning skills. Skill
-distillation enables the HDRLN to efficiently retain knowledge and therefore
-scale in lifelong learning, by accumulating knowledge and encapsulating multiple
-reusable skills into a single distilled network. The H-DRLN exhibits superior
-performance and lower learning sample complexity compared to the regular Deep Q
-Network (Mnih et. al. 2015) in sub-domains of Minecraft.&lt;/p&gt;
-
-&lt;h2 id=&quot;notes&quot;&gt;Notes&lt;/h2&gt;
-
-&lt;p&gt;Paper discusses how previously trained neural networks (called skills) can be
-used to create an adaptable, more general AI that can respond to varied
-scenarios.&lt;/p&gt;
-</description>
-				<pubDate>Tue, 03 Jan 2017 00:00:00 -0700</pubDate>
-				<link>http://localhost:4000/minecraft/</link>
-				<guid isPermaLink="true">http://localhost:4000/minecraft/</guid>
 			</item>
 		
 	</channel>
