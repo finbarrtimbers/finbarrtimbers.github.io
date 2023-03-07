@@ -8,6 +8,124 @@
 		<atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
+				<title>A step towards self-improving LLMs</title>
+				<description>&lt;p&gt;If I look at GPTs/LLMs, two of the biggest problems I see with existing techniques are:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;We need our models to be able to generate data by themselves, i.e. we need a &lt;a href=&quot;https://www.lesswrong.com/tag/recursive-self-improvement&quot;&gt;recursive self-improvement loop&lt;/a&gt;. AlphaZero is the shining example of what’s possible here.&lt;/li&gt;
+  &lt;li&gt;We need our models to be able to operate in new domains without requiring massive amounts of existing data. CLIP provides an option here, as does Internet Explorer (the paper, not the browser).&lt;/li&gt;
+  &lt;li&gt;Auto regressive sampling. It’s slow, suboptimal.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;I have ideas for how to tackle #1, so I’ll focus on that here.&lt;/p&gt;
+
+&lt;p&gt;There are other issues facing LLMs, such as:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Increasing the length of the context window&lt;/li&gt;
+  &lt;li&gt;Figuring out how to train larger models&lt;/li&gt;
+  &lt;li&gt;Figuring out how to train more efficient models (less parameters, less data, less energy)&lt;/li&gt;
+  &lt;li&gt;Factual accuracy&lt;/li&gt;
+  &lt;li&gt;Mitigating attacks that convince LLMs to exhibit harmful behaviour (”red-teaming”), e.g. prompt injection&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;I think these are fundamentally engineering problems that we’ll be able to figure out iteratively. For instance, context length has seen a lot of progress with &lt;a href=&quot;https://openreview.net/forum?id=H4DqfPSibmx&quot;&gt;subtle algorithmic&lt;/a&gt; &lt;a href=&quot;https://arxiv.org/abs/2112.05682&quot;&gt;improvements&lt;/a&gt;; if we combine those changes with the many &lt;a href=&quot;https://twitter.com/karpathy/status/1621578354024677377&quot;&gt;arcane engineering optimizations&lt;/a&gt; that are out there, I think we’ll get to a point where context goes to 64k tokens or more, at which point we’ll be deep in the &lt;a href=&quot;http://finbarr.ca/the-sigmoid/&quot;&gt;saturating point of the sigmoid&lt;/a&gt;. Or for factual accuracy- I think that retrieval will largely solve that once it’s incorporated into most models.&lt;/p&gt;
+
+&lt;p&gt;However, I’m probably wrong, and could very well end up writing a version of this post in 2034 talking about how the biggest problem facing AGI is prompt injections.&lt;/p&gt;
+
+&lt;h2 id=&quot;a-path-towards-recursive-self-improvement&quot;&gt;A path towards recursive self-improvement&lt;/h2&gt;
+
+&lt;p&gt;GPTs work very well in one specific context: they are very, very good at finding text that is likely to follow other text in a way that appears natural to humans.&lt;/p&gt;
+
+&lt;p&gt;What they don’t do is come up with text that they haven’t seen before. Kinda. What they’re doing when we sample from them now is predict what they’ve seen during training. Sometimes these predictions produce text that hasn’t been written before (this can occur often, due to the combinatorial nature of token sampling). When this happens, it’s a happy accident. The model isn’t trying to select text that is novel or that accomplishes any goal other than &lt;em&gt;following the preceding 2048 tokens&lt;/em&gt; (or whatever the context length is).&lt;/p&gt;
+
+&lt;p&gt;The obvious exception is when models are finetuned using &lt;a href=&quot;https://arxiv.org/abs/1706.03741&quot;&gt;RLHF&lt;/a&gt;. In RLHF, the models are explicitly trained to optimize a reward signal. In RLHF, the reward signal comes from a model trained to predict human feedback. Basically, humans are asked to choose between two samples of text, and then a model learns to predict which one is preferred.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/rlhf-reward-loop.png&quot; alt=&quot;RLHF training loop&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Why does this matter? Predicting the next token works pretty well! And &lt;a href=&quot;https://twitter.com/sama/status/1599471830255177728?s=20&quot;&gt;maybe we’re all&lt;/a&gt; just &lt;a href=&quot;https://dl.acm.org/doi/10.1145/3442188.3445922&quot;&gt;stochastic parrots&lt;/a&gt;? It matters because the biggest impediment to improving our models right now is the &lt;em&gt;lack of data&lt;/em&gt;. The scaling law papers (&lt;a href=&quot;https://arxiv.org/abs/2203.15556&quot;&gt;Chinchilla&lt;/a&gt;, &lt;a href=&quot;https://arxiv.org/abs/2001.08361&quot;&gt;OpenAI&lt;/a&gt;) consistently point to the fact that we need to scale up the datasets we train LLMs on.&lt;/p&gt;
+
+&lt;p&gt;For instance, Chinchilla predicts that we’ll need 11 &lt;em&gt;trillion&lt;/em&gt; tokens to optimally train a model the size of PaLM (i.e. 540B parameters). If we want to push past PaLM to a model with 1 trillion parameters, we’ll need 20T tokens.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/chinchilla-optimal-data-requirements.png&quot; alt=&quot;chinchilla-optimal-data-requirements.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;That’s a lot of data. That’s so much data that it’s not clear that we can get that from existing sources. &lt;a href=&quot;https://twitter.com/nostalgebraist?lang=en&quot;&gt;nostalgebraist&lt;/a&gt; &lt;a href=&quot;https://www.lesswrong.com/posts/6Fpvch8RR29qLEWNH/chinchilla-s-wild-implications#fnjefvfidovdb&quot;&gt;argues&lt;/a&gt; that 1) we’ve basically exhausted the available data in structured domains like coding and 2) it’s starting to look like we’re running out of general-domain data. I find nostalgebraist compelling; the only counterargument I could see is that private data sources might be a rich vein of tokens, but I don’t see a clear path to getting access to them.&lt;/p&gt;
+
+&lt;p&gt;This lack of data is unfortunate because, according to &lt;a href=&quot;https://www.lesswrong.com/posts/6Fpvch8RR29qLEWNH/chinchilla-s-wild-implications#fnjefvfidovdb&quot;&gt;Chinchilla’s scaling laws&lt;/a&gt;, we could see another ~8% reduction in training loss (1.93 → 1.77, delta of 0.16 in loss) for if we had infinite data &lt;em&gt;while changing nothing else about Chinchilla&lt;/em&gt;. That’s a pretty substantial improvement when you consider that the improvement from Gopher to Chinchilla was only 2.9% (1.99 → 1.93, delta of 0.06 in loss), not to mention the fact that our models are already quite good— able to &lt;a href=&quot;https://www.bbc.com/news/technology-62275326&quot;&gt;trick Google SWEs into believing they’re sentient&lt;/a&gt;, and &lt;a href=&quot;https://www.lesswrong.com/posts/FKNtgZrGYwgsz3nHT/bankless-podcast-159-we-re-all-gonna-die-with-eliezer&quot;&gt;scaring the Yud&lt;/a&gt;. Additionally, the same scaling laws claim that&lt;/p&gt;
+
+&lt;h3 id=&quot;more-data&quot;&gt;More data&lt;/h3&gt;
+
+&lt;p&gt;The clear implication is that we need way more data! Our models are desperate for data. They’re lying on the beach &lt;em&gt;gasping for more data&lt;/em&gt; to quench their ever-growing thirst.&lt;/p&gt;
+
+&lt;p&gt;But where will the data come from?&lt;/p&gt;
+
+&lt;p&gt;If we can scrape it we should. It’s not clear how much there is left to scrape. Especially at the largest research institutions like OpenAI, Google Brain, and DeepMind, I’m certain that they have teams of engineers working on scraping all possible data. There is some possibility to automate this process; the excellently named &lt;a href=&quot;https://arxiv.org/abs/2302.14051&quot;&gt;Internet explorer paper&lt;/a&gt; presented a model which crawls the web to get additional data to augment it’s dataset. Although letting a nascent AI loose on the internet would make Eliezer cry, it could be an excellent source of data, especially if one incorporates some sort of reinforcement learning style feedback loop to continually improve the manner in which the model searches the web.&lt;/p&gt;
+
+&lt;p&gt;The data problem is compounded by the fact that high quality data &lt;em&gt;really matters&lt;/em&gt;. Experiments consistently show that deduplicating data increases performance substantially (&lt;a href=&quot;https://arxiv.org/abs/2205.10487&quot;&gt;https://arxiv.org/abs/2205.10487&lt;/a&gt;, &lt;a href=&quot;https://arxiv.org/abs/2107.06499&quot;&gt;https://arxiv.org/abs/2107.06499&lt;/a&gt;). Basically, I’m not convinced there is a lot more high quality data. Two exceptions might be commercial data (e.g. internal corporate documents), and all copyrighted text. But it would be extremely difficult to get access to either of these corpora.&lt;/p&gt;
+
+&lt;h3 id=&quot;generate-data&quot;&gt;Generate data&lt;/h3&gt;
+
+&lt;p&gt;The solution to me seems to be self-evident: we should generate our own data.
+There has been some work about training LLMs on data they have generated (&lt;a href=&quot;https://arxiv.org/abs/2210.11610&quot;&gt;https://arxiv.org/abs/2210.11610&lt;/a&gt;, &lt;a href=&quot;https://arxiv.org/abs/2212.08073&quot;&gt;https://arxiv.org/abs/2212.08073&lt;/a&gt;). There are a few different techniques that seem promising here.&lt;/p&gt;
+
+&lt;p&gt;In &lt;a href=&quot;https://arxiv.org/abs/2210.11610&quot;&gt;Huang et. al&lt;/a&gt;, they use Chain of Thought (CoT) reasoning to generate additional data. Given a dataset of questions, they sample N answers that use CoT to generate an answer. At the end, they ask “The answer is “ and get an answer; they then find the majority answer and choose all texts that return the same answer as the most common answer, using this to generate additional data. In practice, there’s no reason to questions, although that is a particularly straight forward problem to apply this to; one could imagine, say, embedding all of the generated answers, clustering them, and keeping the answers in the biggest cluster, or employing RLAIF like Anthropic did in the &lt;a href=&quot;https://arxiv.org/abs/2212.08073&quot;&gt;Constitutional AI&lt;/a&gt; paper to select the answers to keep.&lt;/p&gt;
+
+&lt;p&gt;Anthropic employed a similar approach as the CoT reasoning in the &lt;a href=&quot;https://arxiv.org/abs/2212.08073&quot;&gt;Constitutional AI paper&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Another option is to use RLAIF (from Constitutional AI) to generate data. In this,&lt;/p&gt;
+
+&lt;h2 id=&quot;throw-compute-at-the-problem&quot;&gt;Throw compute at the problem&lt;/h2&gt;
+
+&lt;p&gt;Yet another line of research involves throwing compute at the problem. We know that we can use a variety of techniques to soak up compute and improve outcomes. For instance, &lt;a href=&quot;https://en.wikipedia.org/wiki/Ensemble_learning&quot;&gt;ensembling&lt;/a&gt; is a classic ML technique that strictly improves model performance. Given that we are already at the extreme limit of what’s possible to compute with transformers, it is almost certainly not possible to naively ensemble LLMs.&lt;/p&gt;
+
+&lt;p&gt;However, what we can do is use compute to apply search on top of our existing model outputs. If we can find a &lt;a href=&quot;https://proceedings.neurips.cc//paper/2020/file/22eda830d1051274a2581d6466c06e6c-Paper.pdf&quot;&gt;policy improvement operator&lt;/a&gt;, i.e. a function T that takes an existing distribution over tokens, π, and returns a new distribution, T(π), which improves our loss, then we can use T to improve our model. Some candidates:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Best-of-n&lt;/li&gt;
+  &lt;li&gt;Beam search&lt;/li&gt;
+  &lt;li&gt;Policy-driven search&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;“Best-of-n” (&lt;a href=&quot;https://openai.com/research/measuring-goodharts-law&quot;&gt;https://openai.com/research/measuring-goodharts-law&lt;/a&gt;) is a technique similar to ensembling in which we sample from our model N times, and use the sample with the highest score according to our objective function. This performs remarkably well (outperforming the RLHF model in the WebGPT paper(&lt;a href=&quot;https://openai.com/research/webgpt&quot;&gt;https://openai.com/research/webgpt&lt;/a&gt;)), is simple to implement, trivial to analyze mathematically, and trivially parallelizable, but makes inference N times more expensive. If I were OpenAI, I’d be caching the results of queries to their models and doing this for repeated queries.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/webgpt-best-of-n-performance.png&quot; alt=&quot;best-of-n performance curves from the WebGPT paper&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;In the WebGPT paper, the authors found that best-of-16 resulted in an improvement in human preferences of 5% (60% → 65%), while going from 13B parameters to 175B parameters resulted in an improvement of 10% (~47% → 57%) (results from eyeballing graph, not precise).&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/webgpt-scaling-performance.png&quot; alt=&quot;scaling performance graph from WebGPT paper&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Given that both charts appear to be seeing roughly linear improvements, and both models increase in cost roughly linearly, it seems to imply that a best-of-64 13B model would be better than a best-of-4 175B model, while having roughly the same cost in terms of compute. Given that the 13B model should fits on a single GPU (maybe 2 GPUs?), this would substantially lower the overall compute of the system.&lt;/p&gt;
+
+&lt;p&gt;Another improvement operator is a NLP classic: &lt;a href=&quot;https://en.wikipedia.org/wiki/Beam_search&quot;&gt;beam search!&lt;/a&gt; In beam search, one performs a breadth-first search over the model outputs, with finite depth and width of the tree (e.g. it only keeps N successors at each level of the tree, and searches to a depth of M levels), with the final result being the sequence with the maximum objective score (typically log-likelihood).&lt;/p&gt;
+
+&lt;p&gt;While a number of the LLMs do use beam search&lt;sup id=&quot;fnref:1&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;, they don’t appear to report performance numbers, so I’m unable to include a comparison of how much it matters.&lt;/p&gt;
+
+&lt;p&gt;A concern is that beam search still lowers diversity, as it constricts the difference in tokens; this is especially problematic for byte-level tokenizers, like BPE, as the individual tokens might vary significantly. &lt;a href=&quot;https://twitter.com/sedielem&quot;&gt;Sander Dieleman&lt;/a&gt; &lt;a href=&quot;https://sander.ai/2020/09/01/typicality.html&quot;&gt;wrote about how&lt;/a&gt; strategies like beam search are &quot;the culprit behind many of the pathologies that neural machine translation systems exhibit”.&lt;sup id=&quot;fnref:2&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;p&gt;The final candidate (or family of candidates) for the improvement operator is an option that I find very exciting: learning an algorithm to search the token tree. The idea is that we could do something like AlphaZero which would learn a policy + value function.&lt;sup id=&quot;fnref:3&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:3&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt; This would also allow us to change the reward function if we wanted to, rather than just using the standard log-likelihood. We could, for instance, directly train the reward function on human data. If you’re serving data to millions of users per day, you could just directly run RL on that, which is the case for the myriad of chat bots on the market today (Bing, ChatGPT, Claude, etc.).&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.notion.so/Discussion-of-beam-search-diversity-f7b65583098f4f219e0e9fd59d5ab80d&quot;&gt;Discussion of beam search diversity&lt;/a&gt;&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot; role=&quot;doc-endnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;Examples include: GPT-{2,3}, which uses it during decoding for text generation, BERT, for language understanding tasks, T5, and XLNet. &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:2&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;Sander’s post is great. I was struggling to understand why beam search isn’t used more in practice, and his post did a great job helping me understand why. &lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:3&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;Perhaps using MuZero with a smaller model as the recurrent function to save on compute. &lt;a href=&quot;#fnref:3&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+				<pubDate>Tue, 07 Mar 2023 00:00:00 -0700</pubDate>
+				<link>http://localhost:4000/self-improving-LLMs/</link>
+				<guid isPermaLink="true">http://localhost:4000/self-improving-LLMs/</guid>
+			</item>
+		
+			<item>
 				<title>Papers I've read this week (March 4th, 2023)</title>
 				<description>&lt;p&gt;I’m going to try to write a weekly summary of the most interesting papers I’ve read that week. I’d love to hear what papers you’ve been reading, if you agree/disagree about my conclusions for each paper, and/or suggestions for what papers I should read next!&lt;/p&gt;
 
@@ -80,7 +198,9 @@ the underlying dense model size.&lt;/li&gt;
 
 &lt;p&gt;There was no ablation study, unfortunately. If I can scrounge up the GPUs, I’m tempted to do my own ablation based on &lt;a href=&quot;https://github.com/karpathy/nanoGPT&quot;&gt;nanoGPT&lt;/a&gt;. LLaMa also uses &lt;a href=&quot;https://arxiv.org/abs/22015.14135&quot;&gt;FlashAttention&lt;/a&gt;, which I suspect will become the default attention implementation used in LLMs going forward.&lt;/p&gt;
 
-&lt;p&gt;Anecdotally, it seems like performance with the default parameters &lt;a href=&quot;https://twitter.com/browserdotsys/status/1632145830277795840&quot;&gt;isn&apos;t great&lt;/a&gt; (unless you&apos;re writing &lt;a href=&quot;https://twitter.com/browserdotsys/status/1632512136906719232&quot;&gt;erotic stories&lt;/a&gt;). However, it hasn&apos;t been tuned (RLHF/SFT), so maybe &lt;a href=&quot;https://twitter.com/yacineMTB/status/1632392979833921539&quot;&gt;that would make a difference&lt;/a&gt;? With some &lt;a href=&quot;https://twitter.com/theshawwn/status/1632569215348531201&quot;&gt;modifications&lt;/a&gt;, performance is apparently pretty good. This lends strength to my hypothesis that the paper was rushed out in response to the LLM gold rush we&apos;ve seen since ChatGPT was released. The paper, while strong, would be much stronger with a few more changes (ablation, more details, slightly more polished code), in a way that doesn&apos;t make sense for the omissions to be strategic. Facebook benefits when open source LLMs get better in a way that OpenAI/Anthropic/Cohere/etc. doesn&apos;t, so they should want to do ablations and other scientific work to advance the field. The fact that they didn&apos;t include this makes&lt;/p&gt;
+&lt;p&gt;Anecdotally, it seems like performance with the default parameters &lt;a href=&quot;https://twitter.com/browserdotsys/status/1632145830277795840&quot;&gt;isn&apos;t great&lt;/a&gt; (unless you&apos;re writing &lt;a href=&quot;https://twitter.com/browserdotsys/status/1632512136906719232&quot;&gt;erotic stories&lt;/a&gt;). However, it hasn&apos;t been tuned (RLHF/SFT), so maybe &lt;a href=&quot;https://twitter.com/yacineMTB/status/1632392979833921539&quot;&gt;that would make a difference&lt;/a&gt;? With some &lt;a href=&quot;https://twitter.com/theshawwn/status/1632569215348531201&quot;&gt;modifications&lt;/a&gt;, performance is apparently pretty good. This lends strength to my hypothesis that the paper was rushed out in response to the LLM gold rush we&apos;ve seen since ChatGPT was released. The paper, while strong, would be much stronger with a few more changes (ablation, more details, slightly more polished code), in a way that doesn&apos;t make sense for the omissions to be strategic.&lt;/p&gt;
+
+&lt;p&gt;Facebook benefits when open source LLMs get better in a way that OpenAI/Anthropic/Cohere/etc. doesn&apos;t, so they should want to do ablations and other scientific work to advance the field. The fact that they didn&apos;t include this makes me think that they wanted to get the paper out the door as soon as possible- probably to avoid the chance of being scooped with an even larger, better, model.&lt;/p&gt;
 &lt;div class=&quot;footnotes&quot; role=&quot;doc-endnotes&quot;&gt;
   &lt;ol&gt;
     &lt;li id=&quot;fn:1&quot; role=&quot;doc-endnote&quot;&gt;
@@ -739,79 +859,6 @@ which will be useful when it&apos;s released.&lt;/p&gt;
 				<pubDate>Wed, 01 Mar 2017 00:00:00 -0700</pubDate>
 				<link>http://localhost:4000/random-search-hyper-parameter-optimization/</link>
 				<guid isPermaLink="true">http://localhost:4000/random-search-hyper-parameter-optimization/</guid>
-			</item>
-		
-			<item>
-				<title>Useful Bash One-liners</title>
-				<description>&lt;p&gt;I have a file in my home folder that contains Bash oneliners that I use
-regularly (I&apos;m a huge nerd, naturally).  I found most of them elsewhere online;
-I wrote very few of these from scratch.&lt;/p&gt;
-
-&lt;h2 id=&quot;download-a-page-and-all-linked-pagesdocuments&quot;&gt;Download a page and all linked pages/documents:&lt;/h2&gt;
-
-&lt;p&gt;Download &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$PAGE&lt;/code&gt; and all linked pages/documents, to a depth of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$NUM&lt;/code&gt;:&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ wget -r &quot;$NUM&quot; &quot;$PAGE&quot;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;e.g.&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ wget -r 1 \
-    https://courses.cs.washington.edu/courses/cse455/14au/notes/
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;If you only want PDF files (e.g. if you&apos;re downloading course notes), then you
-can add the flag &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;---accept &quot;*.pdf&quot;&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;Taken from &lt;a href=&quot;http://superuser.com/questions/274414/how-to-save-all-the-webpages-linked-from-one&quot;&gt;Stack Overflow&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;recursively-unrar-files&quot;&gt;Recursively unrar files&lt;/h2&gt;
-
-&lt;p&gt;You can replace &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;unrar e&lt;/code&gt; with any other command as well (e.g. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;unzip&lt;/code&gt;).&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ find ./ -name &apos;*.rar&apos; -execdir unrar e {} \;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;As a data scientist, I often get a dump of data from a client. This command lets
-me process them all at once.&lt;/p&gt;
-
-&lt;h2 id=&quot;turn-white-backgrounds-transparent&quot;&gt;Turn white backgrounds transparent&lt;/h2&gt;
-
-&lt;p&gt;I use this ALL THE TIME when I&apos;m giving talks (particularly when I&apos;m teaching). I
-found it on the
-&lt;a href=&quot;http://www.imagemagick.org/discourse-server/viewtopic.php?t=12619&quot;&gt;Imagemagick&lt;/a&gt;
-forums.&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ convert image.gif -transparent white result.gif (or use result.png)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Alternately, if the image has an off-white background:&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ convert image.gif -fuzz XX% -transparent white result.gif
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;where the smaller the %, the closer to true white or conversely, the larger the
-%, the more variation from white is allowed to become transparent.&lt;/p&gt;
-
-&lt;h2 id=&quot;diff-contents-of-two-folders&quot;&gt;Diff contents of two folders&lt;/h2&gt;
-
-&lt;p&gt;Checks which files are different between the folders &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dir1&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dir2&lt;/code&gt;. I&apos;ve
-used this to track down bugs when I&apos;m installing our software on client sites
-to make sure that their data is exactly the same as my copy of it.&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ diff -qr dir1 dir2
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;You can also use some sort of checksum by zipping up both folders and comparing
-the results, e.g. with&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ md5 dir1.zip
-$ md5 dir2.zip
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-</description>
-				<pubDate>Fri, 20 Jan 2017 00:00:00 -0700</pubDate>
-				<link>http://localhost:4000/Useful-oneliners/</link>
-				<guid isPermaLink="true">http://localhost:4000/Useful-oneliners/</guid>
 			</item>
 		
 	</channel>
