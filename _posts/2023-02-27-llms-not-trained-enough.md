@@ -3,6 +3,7 @@ layout: page
 title: Large language models aren't trained enough.
 articles: True
 ---
+_I have a [Substack](https://finbarrtimbers.substack.com/) if you want to be notified when I write._
 
 This was inspired by tweets from several people:
 
@@ -14,7 +15,7 @@ This was inspired by tweets from several people:
 
 - [https://twitter.com/thedavidsj/status/1629869851710984194](https://twitter.com/thedavidsj/status/1629869851710984194?s=46&t=CqBoSVdxuipOpACbrZnMxg)
 
-and Twitter conversations with [Aran Komatsuzaki](https://twitter.com/arankomatsuzaki/) and [Andy Jones](https://twitter.com/andy_l_jones). Any mistakes in this post are entirely my own.
+and Twitter conversations with [Aran Komatsuzaki](https://twitter.com/arankomatsuzaki/) and [Andy Jones](https://twitter.com/andy_l_jones). Any mistakes are entirely my own.
 
 _Note: although I did work at DeepMind previously, I was not involved with any of the language efforts, and have no non-public knowledge of what went on there. Unfortunately! I think Chinchilla is a great paper that I would have loved to be a part of._
 

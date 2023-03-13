@@ -4,6 +4,8 @@ title: "A step towards self-improving LLMs"
 articles: True
 ---
 
+_There's a [Substack](https://finbarrtimbers.substack.com/p/a-step-towards-self-improving-llms) version of this post, if you prefer that over my ~~amateurish~~ artisan HTML._
+
 If I look at GPTs/LLMs, two of the biggest problems I see with existing techniques are:
 
 1. We need our models to be able to generate data by themselves, i.e. we need a [recursive self-improvement loop](https://www.lesswrong.com/tag/recursive-self-improvement). AlphaZero is the shining example of what’s possible here.
