@@ -8,6 +8,205 @@
 		<atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
+				<title>How is LLaMa.cpp possible?</title>
+				<description>&lt;p&gt;&lt;em&gt;If you want to read more of my writing, I have a &lt;a href=&quot;https://finbarrtimbers.substack.com/&quot;&gt;Substack&lt;/a&gt;. Articles will be posted simultaneously to both places.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Recently, a &lt;a href=&quot;https://github.com/ggerganov/llama.cpp&quot;&gt;project&lt;/a&gt; rewrote the &lt;a href=&quot;https://github.com/facebookresearch/llama&quot;&gt;LLaMa inference code&lt;/a&gt; in raw C++. With some optimizations and quantizing the weights, this allows running a LLM locally on a wild variety of hardware:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;On a &lt;a href=&quot;https://twitter.com/rgerganov/status/1635604465603473408&quot;&gt;Pixel5&lt;/a&gt;, you can run the 7B parameter model at 1 tokens/s.&lt;/li&gt;
+  &lt;li&gt;On a &lt;a href=&quot;https://simonwillison.net/2023/Mar/11/llama/&quot;&gt;M2 Macbook Pro&lt;/a&gt;, you can get ~16 tokens/s with the 7B parameter model&lt;/li&gt;
+  &lt;li&gt;You can &lt;a href=&quot;https://twitter.com/miolini/status/1634982361757790209&quot;&gt;even run the 7B model on a 4GB RAM Raspberry Pi&lt;/a&gt;, albeit at 0.1 tokens/s.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;If you are like me, you saw this and thought: What? How is this possible? Don’t large models require expensive GPUs? I took my confusion and dove into the math surrounding inference requirements to understand the constraints we’re dealing with.&lt;/p&gt;
+
+&lt;p&gt;Let’s start with GPUs. GPUs have two main benefits for deep learning:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;They have a large amount of memory bandwidth (&lt;a href=&quot;https://www.nvidia.com/content/dam/en-zz/Solutions/Data-Center/a100/pdf/nvidia-a100-datasheet-us-nvidia-1758950-r4-web.pdf&quot;&gt;A100&lt;/a&gt;: 1935 GB/s, &lt;a href=&quot;https://images.nvidia.com/aem-dam/Solutions/geforce/ada/ada-lovelace-architecture/nvidia-ada-gpu-architecture-whitepaper-1.03.pdf&quot;&gt;4090&lt;/a&gt;: 1008 GB/s)&lt;/li&gt;
+  &lt;li&gt;They have a large amount of compute (&lt;a href=&quot;https://www.nvidia.com/content/dam/en-zz/Solutions/Data-Center/a100/pdf/nvidia-a100-datasheet-us-nvidia-1758950-r4-web.pdf&quot;&gt;A100&lt;/a&gt;: 312 TFLOPS of FP16, &lt;a href=&quot;https://images.nvidia.com/aem-dam/Solutions/geforce/ada/ada-lovelace-architecture/nvidia-ada-gpu-architecture-whitepaper-1.03.pdf&quot;&gt;4090&lt;/a&gt;: 82.6 TFLOPS of FP16)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;When we talk about memory bandwidth, we’re talking about how long it takes to move things from the HBM memory (i.e. the RAM) into the on-chip memory. To actually do math with the GPU, we need to move the matrices in question into the on-chip memory, which is quite small (40MB on an A100, compared to 40-80GB of RAM). Note that the memory bandwidth is ~2 orders of magnitude smaller than the compute performance— this will matter later, as the memory bandwidth tends to be the bottleneck for inference.&lt;/p&gt;
+
+&lt;p&gt;What does this mean in the context of serving LLaMa? Let’s start with some &lt;a href=&quot;https://kipp.ly/blog/transformer-inference-arithmetic/&quot;&gt;inference arithmetic&lt;/a&gt;. We can do some rough calculations on the inference performance of a LLM using &lt;a href=&quot;https://kipp.ly/blog/transformer-param-count/&quot;&gt;Kipply’s article&lt;/a&gt;&lt;sup id=&quot;fnref:1&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;. First, some notation on the dimensions of the model:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;The \(Q\), \(K\), and \(V\) weight matrices are all shape [ \(d_{\text{model}}\), \(d_{\text{head}}\)], and we have \(n_{\text{heads}}\) of them per layer; the attention output matrix has the same shape, for a total of  \(4 \times\) [ \(d_{\text{model}}\), \(n_{\text{heads}} \cdot d_{\text{head}}\)]. By convention, GPT-style networks have \(d_{\text{head}} \cdot n_{\text{heads}} = d_{\text{model}}\).&lt;/li&gt;
+  &lt;li&gt;The MLP has two weight matrices, of shape [ \(d_{\text{model}}\), \(4 \cdot d_{\text{model}}\)] and [ \(4\cdot d_{\text{model}}\), \(d_{\text{model}}\)]&lt;/li&gt;
+  &lt;li&gt;The embeddings matrix is of size [ \(d_{\text{vocab}}\), \(d_{\text{model}}\)].&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This gives us a handy equation for the number of parameters in a GPT-style model:&lt;sup id=&quot;fnref:2&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+\[P = n_{\text{blocks}} \left( 4 \cdot d_{\text{model}}^2 + 2 \cdot 4 \cdot d_{\text{model}}^2\right) + n_{\text{vocab}} \cdot d_{\text{model}}\]
+
+&lt;p&gt;For the duration of the post, I’m going to focus on the case where we’re running a ChatGPT style service locally, which is what LLaMa.cpp does, letting me assume a batch size of 1.&lt;/p&gt;
+
+&lt;p&gt;For efficient inference, the KV cache has to be stored in memory; the KV cache requires storing the KV values for every layer, which is equal to storing:&lt;/p&gt;
+
+\[n_{\text{bytes}} \cdot 2 \cdot d_{\text{model}}\]
+
+&lt;p&gt;I use \(n_{\text{bytes}}\) here to indicate the number of bytes per param; for float32s, this is 4, for float16s, this is 2, etc. The 2 in the middle is because we have to store one set of weights for the K values, and one for the Vs.&lt;/p&gt;
+
+&lt;p&gt;Given a model with n layers, the total memory for the KV cache is:&lt;/p&gt;
+
+\[n_{\text{blocks}} \cdot n_{\text{bytes}} \cdot 2 \cdot d_{\text{model}}\]
+
+&lt;p&gt;In addition to storing the KV cache in memory, we also need to store the weights themselves in memory; this requires \(n_{\text{bytes}} \cdot P\) bytes.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/llama-memory-weights.png&quot; alt=&quot;Screenshot of table showing the memory required for LLaMa weights&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This is the advantage of quantization. By using less precision, we can radically decrease the amount of memory needed to store our models in memory. Note that, with int4 precision, &lt;em&gt;all of these models fit into memory on an A100&lt;/em&gt; (which is the standard datacenter GPU right now), and all of them, except for the biggest model, fit into memory on high-end consumer GPUs (3090s/4090s, which have 24GB of RAM).&lt;/p&gt;
+
+&lt;p&gt;It takes approximately \(2P\) FLOPS to run inference on our model for a single token, because we are doing a bunch of matmuls with a total of \(P\) parameters, and multiplying a matrix of size \((m, n)\) with a vector of size \((n,)\) has a cost of \(2mn\).&lt;sup id=&quot;fnref:3&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:3&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;p&gt;With all that math out of the way, let’s calculate the requirements for running inference with LLaMa. The main requirements when it comes to sampling are:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Keep the KV cache in memory, in addition to all the parameters.&lt;/li&gt;
+  &lt;li&gt;Read all the weights from HBM into the on-chip memory. Because we sample auto-regressively, we have to repeat this for each token we sample.&lt;/li&gt;
+  &lt;li&gt;Do the actual matmuls to calculate the output of our network.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;The latency is the maximum of either the compute or the memory latency, as reading parameters into on-chip memory happens asynchronously in all modern tensor programming libraries. As a result, we write:&lt;/p&gt;
+
+\[\begin{align*}
+\text{latency}_\text{model} &amp;amp;= \text{max}(\text{latency}_\text{compute}, \text{latency}_\text{memory})\\
+\text{latency}_\text{compute} &amp;amp;= \dfrac{2 \cdot P \cdot n_{\text{bytes}}\cdot B}{n_{\text{memory bandwidth}}},\\
+\text{latency}_\text{memory} &amp;amp;= \dfrac{2 \cdot P}{n_{\text{flops}}},
+\end{align*}\]
+
+&lt;p&gt;where \(B\) is the batch size. As \(n_{\text{memory bandwidth}} = 1.935e12\), and  \(n_{\text{flops}} = 3.12e14,\) as long as the batch size is less than 161, the model is memory-bound.&lt;sup id=&quot;fnref:4&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:4&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;p&gt;With a batch size of 1, this is the same equation, as on most hardware (e.g. Nvidia GPUs), there is a linear speedup as you decrease the precision (you get twice the FLOPS when using fp16 vs fp32, which doubles again as you go to int8, and doubles once more as you go to int4s).&lt;/p&gt;
+
+&lt;p&gt;As LLaMa.cpp uses int4s, the RAM requirements are reduced to 1.33GB of memory for the KV cache, and 16.25GB of VRAM for the model parameters. That’s pretty good!&lt;/p&gt;
+
+&lt;p&gt;As the memory bandwidth is almost always&lt;sup id=&quot;fnref:5&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:5&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;5&lt;/a&gt;&lt;/sup&gt; much smaller than the number of FLOPS, memory bandwidth is the binding constraint.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/llama-inference-times.png&quot; alt=&quot;Screenshot fo table showing the inference times to run the varying LLaMa models with varying precision levels on an A100&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;running-llama-on-an-a100&quot;&gt;Running LLaMa on an A100&lt;/h2&gt;
+
+&lt;p&gt;On an A100 (80GB PCIe), the memory bandwidth is 1935GB/s. The int4 compute is 1248 TOPS. As such, the model is (heavily) memory-bound. We should expect to see inferences as given in the table; roughly 30 tokens/s with the 65B model, and 277 tokens/s with the 7B model.&lt;/p&gt;
+
+&lt;h2 id=&quot;running-llama-on-a-m1-macbook-air&quot;&gt;Running LLaMa on a M1 Macbook Air&lt;/h2&gt;
+
+&lt;p&gt;The M1 GPU has a bandwidth of &lt;a href=&quot;https://www.macworld.com/article/783678/m2-vs-m1-chip-performance-graphics-ram.html&quot;&gt;68.25 GB/s&lt;/a&gt;, while the M1 GPU can do up to &lt;a href=&quot;https://tlkh.dev/benchmarking-the-apple-m1-max#heading-gpu-matrix-multiplication-gemm-performance&quot;&gt;5.5 TFLOPS&lt;/a&gt; of fp16 compute. As such, we should expect a ceiling of ~1 tokens/s for sampling from the 65B model with int4s, and 10 tokens/s with the 7B model.&lt;/p&gt;
+
+&lt;p&gt;As the M2 Pro has 200 GB/s of bandwidth, and the M2 Max has 400 GB/s of bandwidth, we should expect massive improvements with them, going up to 6 tokens/s with the M2 Max with the 65B model. That’s pretty darn good for a laptop.&lt;/p&gt;
+
+&lt;h2 id=&quot;running-llama-on-a-raspberry-pi-4&quot;&gt;Running LLaMa on a Raspberry Pi 4&lt;/h2&gt;
+
+&lt;p&gt;A Raspberry Pi 4 has &lt;a href=&quot;https://web.eece.maine.edu/~vweaver/group/green_machines.html&quot;&gt;13.5 GFLOPS of compute&lt;/a&gt;, and &lt;a href=&quot;https://forums.raspberrypi.com/viewtopic.php?t=281183&quot;&gt;~4GB/s of memory bandwidth&lt;/a&gt;. Given this, we’d expect to see ~2 tokens/s with the 7B model if it was memory bound. Given that we’re currently seeing ~0.1 tokens/s, I suspect we’re actually compute-bound (although this is a stab in the dark— I can’t find enough information about the specs for a Raspberry Pi to determine this with any precision).&lt;/p&gt;
+
+&lt;h2 id=&quot;summary&quot;&gt;Summary&lt;/h2&gt;
+
+&lt;p&gt;Memory bandwidth is the limiting factor in almost everything to do with sampling from transformers. Anything that reduces the memory requirements for these models makes them &lt;em&gt;much&lt;/em&gt; easier to serve— like quantization! This is yet another reason why distillation, or just &lt;a href=&quot;https://finbarr.ca/llms-not-trained-enough/&quot;&gt;training smaller models for longer&lt;/a&gt;, is really important.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Note: I’m not an expert in CUDA, so I probably have errors in my math. If so, please shoot me an &lt;a href=&quot;mailto:finbarrtimbers@gmail.com&quot;&gt;email&lt;/a&gt; and let me know- I’d love to hear from you so I can learn more about how this works and update this post.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Resources on transformer inference performance:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://lilianweng.github.io/posts/2023-01-10-inference-optimization/&quot;&gt;Large Transformer Model Inference Optimization&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://kipp.ly/blog/transformer-inference-arithmetic/&quot;&gt;Transformer inference arithmetic&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://kipp.ly/blog/transformer-param-count/&quot;&gt;LLM parameter counting&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://arxiv.org/abs/2009.06732&quot;&gt;Efficient Transformers&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;em&gt;Thank you to &lt;a href=&quot;https://twitter.com/kaushikpatnaik?lang=en&quot;&gt;Kaushik Patnaik&lt;/a&gt;, &lt;a href=&quot;https://twitter.com/arthurallshire&quot;&gt;Arthur Allshire&lt;/a&gt;, &lt;a href=&quot;https://twitter.com/stanislavfort&quot;&gt;Stanislav Fort&lt;/a&gt;, and &lt;a href=&quot;https://twitter.com/banburismus_&quot;&gt;Tom McGrath&lt;/a&gt; for reading early drafts of this.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Recently, a &lt;a href=&quot;https://github.com/ggerganov/llama.cpp&quot;&gt;project&lt;/a&gt; rewrote the &lt;a href=&quot;https://github.com/facebookresearch/llama&quot;&gt;LLaMa inference code&lt;/a&gt; in raw C++. With some optimizations and quantizing the weights, this allows running a LLM locally on a wild variety of hardware:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;On a Pixel5, you can run the 7B parameter model at 1 tokens/s&lt;/li&gt;
+  &lt;li&gt;On a M1 mac, you can get ~0.333 tokens/s with the 65B parameter model&lt;/li&gt;
+  &lt;li&gt;You can &lt;a href=&quot;https://twitter.com/miolini/status/1634982361757790209&quot;&gt;even run it on a 4GB RAM Raspberry Pi&lt;/a&gt;, albeit at 0.1 tokens/s.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;How is this possible? Don’t these large models require expensive GPUs (either 4090s or {H,A}100s)?&lt;/p&gt;
+
+&lt;p&gt;GPUs have two main benefits for doing large matrix multiplies (which is what neural networks are, fundamentally):&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;They have a large amount of memory bandwidth (A100: 1935 GB/s, 4090: 1008 GB/s)&lt;/li&gt;
+  &lt;li&gt;They have a large amount of compute (A100: 312 TFLOPS of FP16, 4090: 82.6 TFLOPS of FP16)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;(Note that the memory bandwidth is ~100x smaller than the compute performance.)&lt;/p&gt;
+
+&lt;p&gt;How does this compare to the requirements for serving LLaMa? Let’s start with some &lt;a href=&quot;https://kipp.ly/blog/transformer-inference-arithmetic/&quot;&gt;inference arithmetic&lt;/a&gt;, assuming float16 parameters (i.e. 2 bytes per parameter):&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.notion.so/ccd076b20e4b43279c0de1118d031459&quot;&gt;LLaMa inference arithmetic&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;For the 65B model, we need 2.6MB of RAM per token. So for every GB of RAM, we can fit 384 tokens into our KV cache. As LLaMa supports a context length of 2048, this means we need 5.3GB of RAM to store the KV cache in memory, and we have to use a batch size of 1. 
+But wait! This is using 2 bytes per parameter. If we change to using int8s, we can get away with half this: 1.3MB of RAM per token, or 2.65GB of RAM to store the KV cache in memory. For a 65 &lt;em&gt;billion&lt;/em&gt; parameter model!&lt;/p&gt;
+
+&lt;p&gt;Now, LLaMa has gone even further, and uses 4bit quantization. This reduces the RAM requirements down 1.33GB of RAM for the KV cache. That’s pretty darn good!&lt;/p&gt;
+
+&lt;h2 id=&quot;running-llama-on-a-macbook-air&quot;&gt;Running LLaMa on a Macbook Air&lt;/h2&gt;
+
+&lt;p&gt;Note that, following the inference arithmetic article above, the number of FLOPS/token are identical to the memory bandwidth required. The M1 GPU has a max of &lt;a href=&quot;https://www.macworld.com/article/783678/m2-vs-m1-chip-performance-graphics-ram.html&quot;&gt;68.25 GB/s&lt;/a&gt;, while the M1 GPU can do up to &lt;a href=&quot;https://tlkh.dev/benchmarking-the-apple-m1-max#heading-gpu-matrix-multiplication-gemm-performance&quot;&gt;5.5 TFLOPS&lt;/a&gt; of fp16 compute. As such, we should expect a ceiling of ~3 tokens/s for sampling if using fp16, or 6 tokens/s using int8. Now, I’m not sure if the M1 GPU has support for int4s; I assume that it’d just pad them to int8s, as int4s aren’t commonly used for machine learning.&lt;/p&gt;
+
+&lt;p&gt;All this to say- the limiting factor is memory bandwidth. As the M1 Pro has 200 GB/s of bandwidth, and the M1 MAX has 400 GB/s of bandwidth, we should expect massive improvements with them, although it’s an open question of how much Mac specific optimization is being done.&lt;/p&gt;
+
+&lt;h2 id=&quot;running-llama-on-a-raspberry-pi-4-1&quot;&gt;Running LLaMa on a Raspberry Pi 4&lt;/h2&gt;
+
+&lt;p&gt;A Raspberry Pi 4 has &lt;a href=&quot;https://web.eece.maine.edu/~vweaver/group/green_machines.html&quot;&gt;13.5 GFLOPS of compute&lt;/a&gt;, and &lt;a href=&quot;https://forums.raspberrypi.com/viewtopic.php?t=281183&quot;&gt;~4GB/s of memory bandwidth&lt;/a&gt;. Given this, we’d expect to see ~0.4 tokens/s at max, if properly optimized, again limited by memory bandwidth. Given that we’re currently seeing ~0.1 tokens/s, this seems like there’s a bunch of headway for improvement here (although this is a gross simplification- I’m probably missing a crucial element in my math).&lt;/p&gt;
+
+&lt;h2 id=&quot;summary-1&quot;&gt;Summary&lt;/h2&gt;
+
+&lt;p&gt;Basically, memory bandwidth is the limiting factor in almost everything to do with transformers. So anything that reduces the memory requirements for these models makes them &lt;em&gt;much&lt;/em&gt; easier to serve- and quantization does that! If we start seeing native support for int4 kernels, we should expect another doubling in performance.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;I’m not an expert in CUDA, so I might have some errors in my math. If so, please shoot me an email and let me know- I’d love to hear from you so I can learn more about how this works.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Resources on transformer inference performance:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://lilianweng.github.io/posts/2023-01-10-inference-optimization/&quot;&gt;Large Transformer Model Inference Optimization&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://kipp.ly/blog/transformer-inference-arithmetic/&quot;&gt;Transformer inference arithmetic&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://kipp.ly/blog/transformer-param-count/&quot;&gt;LLM parameter counting&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2009.06732&quot;&gt;Efficient Transformers&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Footnotes:&lt;/p&gt;
+&lt;div class=&quot;footnotes&quot; role=&quot;doc-endnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;Almost all of this math is taken from their article; they deserve full credit. &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:2&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;Although it’s an open question of how much Mac specific optimization is being done with LLaMa, or indeed, any of the tensor programming frameworks. &lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:3&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;For a more detailed discussion showing that this is the case, check out &lt;a href=&quot;https://kipp.ly/blog/transformer-inference-arithmetic/#flops-counting&quot;&gt;kipply’s article&lt;/a&gt;. &lt;a href=&quot;#fnref:3&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:4&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;If you’re following along with &lt;a href=&quot;https://kipp.ly/blog/transformer-inference-arithmetic/#latency-calculations&quot;&gt;kipply’s post&lt;/a&gt;, there’s a slight discrepancy here, as I assume a 80GB A100 PCIe, which is what I see as the standard GPU. Their post assumes a 40GB A100 PCIe, which has slightly lower memory bandwidth. &lt;a href=&quot;#fnref:4&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:5&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;I hedge with “almost” here, but I’m not aware of any counterexamples. &lt;a href=&quot;#fnref:5&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+				<pubDate>Thu, 16 Mar 2023 00:00:00 -0600</pubDate>
+				<link>http://localhost:4000/how-is-llama-cpp-possible/</link>
+				<guid isPermaLink="true">http://localhost:4000/how-is-llama-cpp-possible/</guid>
+			</item>
+		
+			<item>
 				<title>A step towards self-improving LLMs</title>
 				<description>&lt;p&gt;&lt;em&gt;There&apos;s a &lt;a href=&quot;https://finbarrtimbers.substack.com/p/a-step-towards-self-improving-llms&quot;&gt;Substack&lt;/a&gt; version of this post, if you prefer that over my &lt;del&gt;amateurish&lt;/del&gt; artisan HTML.&lt;/em&gt;&lt;/p&gt;
 
@@ -692,177 +891,6 @@ here. Similar to my first point. Reproducibility suffers.&lt;/p&gt;
 				<pubDate>Tue, 20 Jun 2017 00:00:00 -0600</pubDate>
 				<link>http://localhost:4000/imagenet-1-hour/</link>
 				<guid isPermaLink="true">http://localhost:4000/imagenet-1-hour/</guid>
-			</item>
-		
-			<item>
-				<title>Random Search for Hyper-Parameter Optimization</title>
-				<description>&lt;h1 id=&quot;abstract&quot;&gt;&lt;a href=&quot;http://www.jmlr.org/papers/volume13/bergstra12a/bergstra12a.pdf&quot;&gt;Abstract&lt;/a&gt;&lt;/h1&gt;
-
-&lt;p&gt;Grid search and manual search are the most widely used strategies for hyper-parameter optimization.
-This paper shows empirically and theoretically that randomly chosen trials are more efficient
-for hyper-parameter optimization than trials on a grid. Empirical evidence comes from a comparison
-with a large previous study that used grid search and manual search to configure neural networks
-and deep belief networks. Compared with neural networks configured by a pure grid search,
-we find that random search over the same domain is able to find models that are as good or better
-within a small fraction of the computation time. Granting random search the same computational
-budget, random search finds better models by effectively searching a larger, less promising con-
-figuration space. Compared with deep belief networks configured by a thoughtful combination of
-manual search and grid search, purely random search over the same 32-dimensional configuration
-space found statistically equal performance on four of seven data sets, and superior performance
-on one of seven. A Gaussian process analysis of the function from hyper-parameters to validation
-set performance reveals that for most data sets only a few of the hyper-parameters really matter,
-but that different hyper-parameters are important on different data sets. This phenomenon makes
-grid search a poor choice for configuring algorithms for new data sets. Our analysis casts some
-light on why recent “High Throughput” methods achieve surprising success—they appear to search
-through a large number of hyper-parameters because most hyper-parameters do not matter much.
-We anticipate that growing interest in large hierarchical models will place an increasing burden on
-techniques for hyper-parameter optimization; this work shows that random search is a natural baseline
-against which to judge progress in the development of adaptive (sequential) hyper-parameter
-optimization algorithms.&lt;/p&gt;
-
-&lt;h2 id=&quot;notes&quot;&gt;Notes&lt;/h2&gt;
-
-&lt;p&gt;This paper is focused on hyperparameter optimization. Hyperparameter
-optimization (HPO) is the process by which the optimal hyperparameters for a
-machine learning model are picked (shocking, I know). Hyperparameters are the
-parameters of the model that are set outside of the training process; in a
-neural network, for example, the size and shape of the network is a
-hyperparameter, as is the learning rate. The hyperparameters massively affect
-the performance of the model, and HPO can dramatically improve the performance
-of a model.&lt;/p&gt;
-
-&lt;p&gt;As an anecdote of why HPO is important, I was training a model that used a RNN
-to predict values in a time series. By changing the weight initializations of
-our network, we were able to dramatically improve performance. We found the
-right value for the initialization through HPO.&lt;/p&gt;
-
-&lt;p&gt;HPO is a problem as the previous best practice on how to find the optimal
-hyperparameter was to perform a grid search, which is extraordinarily
-expensive. This is because the number of steps required in the search grows
-exponentially; with 5 hyperparameters, each with 5 possible values, you have
-\(5^5 = 3125\) possible configurations. If you have 10 hyperparameters, you have
-\(10^5 = 100000\) different configurations– 32 times as many configurations to
-search. Moreover, the process isn&apos;t perfectly parallelizable as you have to
-assign the configurations consistently. This paper, when it came out, was highly
-influential as it presented a better way to search for the best hyperparameters.&lt;/p&gt;
-
-&lt;h2 id=&quot;theoretical-background&quot;&gt;Theoretical background&lt;/h2&gt;
-
-&lt;p&gt;A learning algorithm \(\mathcal{A}\) can be thought of as a functional (a function
-that operates on functions) that maps a data set \(\mathcal{X}^{\text{train}}\) to
-a function \(f\). We can think of \(\mathcal{A}\) as a function itself, and write
-it as \(\mathcal{A}(\mathcal{X}^{\text{train}}, \lambda)\), where \(\lambda\) is a
-vector of so-called &quot;hyper-parameters&quot;, which change how the algorithm operates.
-An example is \(\alpha\), the \(L_1\) penalty in
-&lt;a href=&quot;http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Lasso.html&quot;&gt;Lasso&lt;/a&gt;.
-Finding \(\lambda\) is called the &quot;hyper-parameter optimization problem&quot;, which
-consists of finding \(\lambda^\star\) that minimizes the expected error of the
-algorithm over the set of all possible training sets. Since it is impossible to
-actually calculate the expected error, solutions to the hyper-parameter
-optimization problem take two forms:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;The manual approach, where a researcher tries a number of different
-parameters and uses the best one.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Grid search, where all of the different combinations of parameters are tried.&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Approach 2 is guaranteed to find the optimal combination, but it is extremely
-computationally expensive, growing at a rate of O(\(p^n\)), where \(p\) is the
-number of different values each parameter can take, and \(n\) is the number of
-different parameters. Typically, manual search is used to minimize the number
-of possible values that each parameter can take, and then a grid search is
-performed over the remaining values.&lt;/p&gt;
-
-&lt;p&gt;Manual search has advantages and disadvantages; on the one hand, it can work
-well, and it can give researchers insight into how the algorithm works. On the
-flip side, it&apos;s not reproducible, and has no guarantee of success, particularly
-in higher dimension spaces.&lt;/p&gt;
-
-&lt;p&gt;Consequently, the authors present a randomized variant of grid search that
-randomly searches the space of all possible hyper-parameters. Random search
-ends up being more practical than grid search as it can be applied using a
-cluster of unreliable computers, and new trials can easily be added to the
-search as all trials are i.i.d.&lt;/p&gt;
-
-&lt;h2 id=&quot;random-vs-grid-for-neural-networks&quot;&gt;Random vs. Grid for neural networks&lt;/h2&gt;
-
-&lt;p&gt;This part of the paper is heavily inspired by Larochelle (2007) &lt;a href=&quot;https://dl.acm.org/citation.cfm?id=1273556&quot;&gt;1&lt;/a&gt;.
-The authors use a variety of classification datasets, including a number of
-variants of MNIST, to perform hyper-parameter optimization on a series of
-neural networks.The authors note that the variation of the hyper-parameter
-optimization varies significantly with the datasets; for MNIST basic,
-experiments with 4 or 8 trials often had the same performance as much bigger
-trials, while even with 16 or 32 trials, MNIST rotated background images were
-still exhibiting significant variation.&lt;/p&gt;
-
-&lt;p&gt;The authors use these results to note that in many cases, the effective
-dimensionality of \(\psi\) ,the hyper-parameter space, is much lower than the
-possible dimensionality of \(\psi\). In other words, many of the parameters only
-have a small number of possible values that are useful.&lt;/p&gt;
-
-&lt;h2 id=&quot;random-vs-sequential-manual-optimization&quot;&gt;Random vs. sequential manual optimization&lt;/h2&gt;
-
-&lt;p&gt;The authors discuss an experiment by &lt;a href=&quot;https://dl.acm.org/citation.cfm?id=1273556&quot;&gt;1&lt;/a&gt; comparing randomized grid search with having a
-researcher conduct a sequential manual search. The authors quote &lt;a href=&quot;https://dl.acm.org/citation.cfm?id=1273556&quot;&gt;1&lt;/a&gt; on how to
-effectively conduct sequential manual optimization, which is quite insightful.
-The setting used in the experiment is one with 32 different hyper parameters,
-which, if each parameter had two possible values, would create a parameter space
-with \(2^{32}\) members- far too large to evaluate with a grid search. In the
-experiment, random search performed well, but not as well as with the neural
-networks, finding a better model than manual search in 1 data set, an equally
-good model in 4 data sets, and an inferior model in 3 data sets.&lt;/p&gt;
-
-&lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
-
-&lt;p&gt;The authors suggest using randomized search instead of grid search in almost
-every scenario, noting that although more complicated approaches are better
-(e.g. adaptive search algorithms), they&apos;re more complicated, while a randomized
-grid search is a much cheaper way of evaluating more of the search space. The
-randomized search, similar to the grid search, is trivially parallelizable, and
-can be scaled much more rapidly than an adaptive search, and can stopped,
-started, and scaled without difficulty.&lt;/p&gt;
-
-&lt;h1 id=&quot;comments&quot;&gt;Comments&lt;/h1&gt;
-
-&lt;p&gt;The paper makes a lot of sense, and it&apos;s been pretty effective at convincing
-researchers to switch away from using grid searches. I use randomized search
-myself. Some more detailed notes:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;I&apos;d like to see some sort of sequential randomized grid search that works
-iteratively, alternating between performing a randomized grid search over a
-subset of the parameter space, and then selecting a new, smaller subset to
-search over (in effect, performing gradient descent over the parameter
-space). Perhaps that exists and I need to find a paper discussing that. That is
-what happens practically.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;I was talking to a startup founder working on a deep learning product about
-HPO a few weeks ago and he mentioned that he considers HPO to be CapEx, in
-the sense that it&apos;s an investment in the model, just like code. I agree, and
-that changed how I think about HPO.&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Intuitively, it makes sense that there would be some smarter way to explore
-the hyperparameter space than to use a random search. There&apos;s been a lot of
-interesting work that uses Bayesian Optimization to find the optimal
-hyperparameters, and some interesting work by Google that uses RNNs to
-perform their HPO [2, 3]. I&apos;ll be interested to see where that leads. Google
-has been developing a system called &quot;AutoML&quot; that does this automatically,
-which will be useful when it&apos;s released.&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-</description>
-				<pubDate>Wed, 01 Mar 2017 00:00:00 -0700</pubDate>
-				<link>http://localhost:4000/random-search-hyper-parameter-optimization/</link>
-				<guid isPermaLink="true">http://localhost:4000/random-search-hyper-parameter-optimization/</guid>
 			</item>
 		
 	</channel>
