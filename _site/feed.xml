@@ -74,8 +74,8 @@
 
 \[\begin{align*}
 \text{latency}_\text{model} &amp;amp;= \text{max}(\text{latency}_\text{compute}, \text{latency}_\text{memory})\\
-\text{latency}_\text{compute} &amp;amp;= \dfrac{2 \cdot P \cdot n_{\text{bytes}}\cdot B}{n_{\text{memory bandwidth}}},\\
-\text{latency}_\text{memory} &amp;amp;= \dfrac{2 \cdot P}{n_{\text{flops}}},
+\text{latency}_\text{memory} &amp;amp;= \dfrac{2 \cdot P \cdot n_{\text{bytes}}\cdot B}{n_{\text{memory bandwidth}}},\\
+\text{latency}_\text{compute} &amp;amp;= \dfrac{2 \cdot P}{n_{\text{flops}}},
 \end{align*}\]
 
 &lt;p&gt;where \(B\) is the batch size. As \(n_{\text{memory bandwidth}} = 1.935e12\), and  \(n_{\text{flops}} = 3.12e14,\) as long as the batch size is less than 161, the model is memory-bound.&lt;sup id=&quot;fnref:4&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:4&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
