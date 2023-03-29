@@ -90,4 +90,5 @@ If you're training a LLM with the goal of deploying it to users, you should pref
 
 If you’re reading this, and you have thoughts on this, please reach out. I’m probably missing something 😊. Or- if you’re at one of these companies and this is what you do, please let me know as well. 
 
-I am still looking for a job as a research engineer working with LLMs, so if this post interested you in me, let me know.
+
+This was [discussed on HN](https://news.ycombinator.com/item?id=35344192), if you're interested in what they had to say.
