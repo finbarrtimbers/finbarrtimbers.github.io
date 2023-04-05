@@ -8,6 +8,72 @@
 		<atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
+				<title>Deriving the DALL-E lower bound</title>
+				<description>&lt;script type=&quot;text/x-mathjax-config&quot;&gt;
+MathJax.Hub.Config({
+  TeX: { equationNumbers: { autoNumber: &quot;AMS&quot; } }
+});
+&lt;/script&gt;
+
+&lt;p&gt;In the &lt;a href=&quot;https://arxiv.org/abs/2102.12092&quot;&gt;DALL-E paper&lt;/a&gt;, we want to model the joint likelihood of the model distribution over images \(x\), captions \(y\), and tokens \(z\) for an encoded RGB image&lt;sup id=&quot;fnref:1&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+
+&lt;p&gt;The joint likelihood is modelled using the factorization&lt;/p&gt;
+
+&lt;p&gt;\begin{equation}
+\label{eq:factorization}
+p_{\theta, \psi}(x, y, z) = p_\theta(x | y, z) p_\psi(y, z)
+\end{equation}&lt;/p&gt;
+
+&lt;p&gt;The paper presents this lower bound&lt;/p&gt;
+
+&lt;p&gt;\begin{equation}
+\label{eq:lower-bound}
+\ln p_{\theta, \psi}(x, y) \geq \mathbb{E}_{z \thicksim q_\phi(z |x)} \left( \ln p_\theta (x | y, z) - D_{KL}(q_\phi(y, z | x), p_\psi(y, z))\right)
+\end{equation}&lt;/p&gt;
+
+&lt;p&gt;It was unclear to me how this was derived (and apparently &lt;a href=&quot;https://github.com/openai/DALL-E/issues/20&quot;&gt;unclear to others&lt;/a&gt;), so I thought I’d try to derive it myself.&lt;/p&gt;
+
+&lt;p&gt;The &lt;a href=&quot;https://en.wikipedia.org/wiki/Evidence_lower_bound&quot;&gt;evidence lower bound&lt;/a&gt; lets us write&lt;/p&gt;
+
+\[\ln p_{\theta, \psi}(x, y) \geq \mathbb{E}_{z \thicksim q_\phi}\left[ \ln \dfrac{p_{\theta, \psi}(x, y, z)}{q_\phi(z)}\right]\]
+
+&lt;p&gt;From the factorization of the joint likelihood, we can rewrite this as&lt;/p&gt;
+
+\[\mathbb{E}_{z \thicksim q_\phi}\left[ \ln \dfrac{p_{\theta, \psi}(x, y, z)}{q_\phi(z)}\right] = \mathbb{E}_{z \thicksim q_\phi}\left[ \ln \dfrac{p_\theta(x | y, z) p_\psi(y, z)}{q_\phi(z)}\right]\]
+
+&lt;p&gt;Distributing the logarithms throughout gives us:&lt;/p&gt;
+
+\[= \mathbb{E}_{z \thicksim q_\phi}\left[ \ln p_\theta(x | y, z) + \ln p_\psi(y, z) - \ln q_\phi(z)\right]\]
+
+&lt;p&gt;Now, we can do some mechanical substitutions here:&lt;/p&gt;
+
+\[= \mathbb{E}_{z \thicksim q_\phi}\left[ \ln p_\theta(x | y, z)\right] + \mathbb{E}_{z \thicksim q_\phi}\left[\ln p_\psi(y, z) - \ln q_\phi(z)\right]\]
+
+\[= \mathbb{E}_{z \thicksim q_\phi}\left[ \ln p_\theta(x | y, z)\right] + \mathbb{E}_{z \thicksim q_\phi}\left[\ln \dfrac{p_\psi(y, z)}{ q_\phi(z)}\right]\]
+
+&lt;p&gt;Now, note that the term on the right is precisely the KL-divergence between \(q_\phi\) and \(p_\psi\):&lt;/p&gt;
+
+\[D_{KL}(q_\psi(y, z | x) || p_\psi(y, z)) = \mathbb{E}\left[\ln \dfrac{q_\psi(y, z | x)}{p_\psi(y, z)}\right] = -\mathbb{E}\left[\ln \dfrac{p_\psi(y, z)}{q_\psi(y, z | x)}\right]\]
+
+&lt;p&gt;So we can write:&lt;/p&gt;
+
+\[\mathbb{E}_{z \thicksim q_\phi}\left[ \ln \dfrac{p_{\theta, \psi}(x, y, z)}{q_\phi(z)}\right] = \mathbb{E}_{z \thicksim q_\phi}\left[ \ln p_\theta(x | y, z)\right] - D_{KL}\left(q_\psi(y, z | x) || p_\psi(y, z)\right)\]
+
+&lt;p&gt;Which, when combined with Equation \eqref{eq:lower-bound}, gives us our lower bound.&lt;/p&gt;
+&lt;div class=&quot;footnotes&quot; role=&quot;doc-endnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;Encoded using a dVAE— see the DALL-E paper for details. &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+</description>
+				<pubDate>Wed, 05 Apr 2023 00:00:00 -0600</pubDate>
+				<link>http://localhost:4000/deriving-the-dall-e-lower-bound/</link>
+				<guid isPermaLink="true">http://localhost:4000/deriving-the-dall-e-lower-bound/</guid>
+			</item>
+		
+			<item>
 				<title>Five years of GPT progress</title>
 				<description>&lt;p&gt;&lt;em&gt;If you want to read more of my writing, I have a &lt;a href=&quot;https://finbarrtimbers.substack.com/&quot;&gt;Substack&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
 
@@ -965,49 +1031,6 @@ wouldn&apos;t be able to perform well when it came to testing.&lt;/p&gt;
 				<pubDate>Tue, 04 Jul 2017 00:00:00 -0600</pubDate>
 				<link>http://localhost:4000/do-dnns-generalise-or-memorize/</link>
 				<guid isPermaLink="true">http://localhost:4000/do-dnns-generalise-or-memorize/</guid>
-			</item>
-		
-			<item>
-				<title>Outrageously Large Neural Networks: The sparsely-gated Mixture-of-Experts layer</title>
-				<description>&lt;h2 id=&quot;abstract&quot;&gt;&lt;a href=&quot;https://openreview.net/pdf?id=B1ckMDqlg&quot;&gt;Abstract&lt;/a&gt;&lt;/h2&gt;
-
-&lt;p&gt;The capacity of a neural network to absorb information is limited by its number of
-parameters. Conditional computation, where parts of the network are active on a
-per-example basis, has been proposed in theory as a way of dramatically increasing
-model capacity without a proportional increase in computation. In practice,
-however, there are significant algorithmic and performance challenges. In this
-work, we address these challenges and finally realize the promise of conditional
-computation, achieving greater than 1000x improvements in model capacity with
-only minor losses in computational efficiency on modern GPU clusters. We introduce
-a Sparsely-Gated Mixture-of-Experts layer (MoE), consisting of up to
-thousands of feed-forward sub-networks. A trainable gating network determines
-a sparse combination of these experts to use for each example. We apply the MoE
-to the tasks of language modeling and machine translation, where model capacity
-is critical for absorbing the vast quantities of knowledge available in the training
-corpora. We present model architectures in which a MoE with up to 137 billion
-parameters is applied convolutionally between stacked LSTM layers. On large
-language modeling and machine translation benchmarks, these models achieve
-significantly better results than state-of-the-art at lower computational cost.&lt;/p&gt;
-
-&lt;h2 id=&quot;notes&quot;&gt;Notes&lt;/h2&gt;
-
-&lt;p&gt;The paper centers around the fact that a neural net of size N requires O(N^2)
-computations to execute, which is problematic, as the ability of the network to
-learn data is roughly O(N). The authors propose a method to conduct conditional
-computation, which is a process in which different parts of the network are
-activated depending on the sample, thereby saving significant computational
-effort.&lt;/p&gt;
-
-&lt;p&gt;Their results indicate that they achieved this- they achieve SOTA results on NMT
-(WMT En -&amp;gt; Fr &amp;amp; En -&amp;gt; De, Wu et. al 2016) despite much less training (1/6th of
-the time).&lt;/p&gt;
-
-&lt;p&gt;Effectively, the paper presents a way to produce strong models while
-significantly reducing computational complexity.&lt;/p&gt;
-</description>
-				<pubDate>Sat, 01 Jul 2017 00:00:00 -0600</pubDate>
-				<link>http://localhost:4000/outrageously-large-networks/</link>
-				<guid isPermaLink="true">http://localhost:4000/outrageously-large-networks/</guid>
 			</item>
 		
 	</channel>
