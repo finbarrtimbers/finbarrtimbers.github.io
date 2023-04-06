@@ -4,7 +4,7 @@
 
   <url>
     <loc>http://localhost:4000</loc>
-    <lastmod>2023-04-05</lastmod>
+    <lastmod>2023-04-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -225,7 +225,7 @@
     
       <url>
         <loc>http://localhost:4000/advice</loc>
-        <lastmod>2023-04-05</lastmod>
+        <lastmod>2023-04-06</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
       </url>
@@ -234,7 +234,7 @@
     
       <url>
         <loc>http://localhost:4000/aijobs</loc>
-        <lastmod>2023-04-05</lastmod>
+        <lastmod>2023-04-06</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
       </url>
@@ -243,7 +243,7 @@
     
       <url>
         <loc>http://localhost:4000/blog/</loc>
-        <lastmod>2023-04-05</lastmod>
+        <lastmod>2023-04-06</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
       </url>
@@ -252,7 +252,7 @@
     
       <url>
         <loc>http://localhost:4000/books</loc>
-        <lastmod>2023-04-05</lastmod>
+        <lastmod>2023-04-06</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
       </url>
@@ -261,7 +261,7 @@
     
       <url>
         <loc>http://localhost:4000/development</loc>
-        <lastmod>2023-04-05</lastmod>
+        <lastmod>2023-04-06</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
       </url>
@@ -272,7 +272,7 @@
     
       <url>
         <loc>http://localhost:4000/</loc>
-        <lastmod>2023-04-05</lastmod>
+        <lastmod>2023-04-06</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
       </url>
@@ -281,7 +281,7 @@
     
       <url>
         <loc>http://localhost:4000/mistakes/</loc>
-        <lastmod>2023-04-05</lastmod>
+        <lastmod>2023-04-06</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
       </url>
@@ -290,7 +290,7 @@
     
       <url>
         <loc>http://localhost:4000/notes/</loc>
-        <lastmod>2023-04-05</lastmod>
+        <lastmod>2023-04-06</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
       </url>
@@ -299,7 +299,7 @@
     
       <url>
         <loc>http://localhost:4000/prompt-engineering</loc>
-        <lastmod>2023-04-05</lastmod>
+        <lastmod>2023-04-06</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
       </url>
@@ -308,7 +308,7 @@
     
       <url>
         <loc>http://localhost:4000/rfs/</loc>
-        <lastmod>2023-04-05</lastmod>
+        <lastmod>2023-04-06</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
       </url>
@@ -319,7 +319,7 @@
     
       <url>
         <loc>http://localhost:4000/work</loc>
-        <lastmod>2023-04-05</lastmod>
+        <lastmod>2023-04-06</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
       </url>

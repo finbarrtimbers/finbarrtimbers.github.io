@@ -38,19 +38,16 @@ $$\ln p_{\theta, \psi}(x, y) \geq \mathbb{E}_{z \thicksim q_\phi}\left[ \ln \dfr
 
 From the factorization of the joint likelihood, we can rewrite this as
 
-$$\mathbb{E}_{z \thicksim q_\phi}\left[ \ln \dfrac{p_{\theta, \psi}(x, y, z)}{q_\phi(z)}\right] = \mathbb{E}_{z \thicksim q_\phi}\left[ \ln \dfrac{p_\theta(x | y, z) p_\psi(y, z)}{q_\phi(z)}\right]$$
+$$
+\begin{align*}
+\mathbb{E}_{z \thicksim q_\phi}\left[ \ln \dfrac{p_{\theta, \psi}(x, y, z)}{q_\phi(z)}\right] &= \mathbb{E}_{z \thicksim q_\phi}\left[ \ln \dfrac{p_\theta(x | y, z) p_\psi(y, z)}{q_\phi(z)}\right]\\
+&= \mathbb{E}_{z \thicksim q_\phi}\left[ \ln p_\theta(x | y, z) + \ln p_\psi(y, z) - \ln q_\phi(z)\right]\\
+&= \mathbb{E}_{z \thicksim q_\phi}\left[ \ln p_\theta(x | y, z)\right] + \mathbb{E}_{z \thicksim q_\phi}\left[\ln p_\psi(y, z) - \ln q_\phi(z)\right]\\
+&= \mathbb{E}_{z \thicksim q_\phi}\left[ \ln p_\theta(x | y, z)\right] + \mathbb{E}_{z \thicksim q_\phi}\left[\ln \dfrac{p_\psi(y, z)}{ q_\phi(z)}\right]
+\end{align*}
+$$
 
-Distributing the logarithms throughout gives us:
-
-$$= \mathbb{E}_{z \thicksim q_\phi}\left[ \ln p_\theta(x | y, z) + \ln p_\psi(y, z) - \ln q_\phi(z)\right]$$
-
-Now, we can do some mechanical substitutions here:
-
-$$= \mathbb{E}_{z \thicksim q_\phi}\left[ \ln p_\theta(x | y, z)\right] + \mathbb{E}_{z \thicksim q_\phi}\left[\ln p_\psi(y, z) - \ln q_\phi(z)\right]$$
-
-$$= \mathbb{E}_{z \thicksim q_\phi}\left[ \ln p_\theta(x | y, z)\right] + \mathbb{E}_{z \thicksim q_\phi}\left[\ln \dfrac{p_\psi(y, z)}{ q_\phi(z)}\right]$$
-
-Now, note that the term on the right is precisely the KL-divergence between $$q_\phi$$ and $$p_\psi$$:
+Note that the term on the right is precisely the KL-divergence between $$q_\phi$$ and $$p_\psi$$:
 
 $$D_{KL}(q_\psi(y, z | x) || p_\psi(y, z)) = \mathbb{E}\left[\ln \dfrac{q_\psi(y, z | x)}{p_\psi(y, z)}\right] = -\mathbb{E}\left[\ln \dfrac{p_\psi(y, z)}{q_\psi(y, z | x)}\right]$$
 
@@ -58,4 +55,4 @@ So we can write:
 
 $$\mathbb{E}_{z \thicksim q_\phi}\left[ \ln \dfrac{p_{\theta, \psi}(x, y, z)}{q_\phi(z)}\right] = \mathbb{E}_{z \thicksim q_\phi}\left[ \ln p_\theta(x | y, z)\right] - D_{KL}\left(q_\psi(y, z | x) || p_\psi(y, z)\right)$$
 
-Which, when combined with Equation \eqref{eq:lower-bound}, gives us our lower bound.
+Which, combined with Equation \eqref{eq:lower-bound}, gives us our lower bound.
