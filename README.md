@@ -1,7 +1,5 @@
 # Blog
 
-This is the second iteration of my blog. It's a modified version of [Emaad Manzoor's](http://eyeshalfclosed.com/) blog. 
+This is the second iteration of my blog. 
 
-## Powered By
-
-Powered by Jekyll, and auto-built and hosted on Github pages. 
+It's inspired by the design brilliance of [Patrick Collison](https://patrickcollison.com/) and [Nat Friedman](https://nat.org/).
