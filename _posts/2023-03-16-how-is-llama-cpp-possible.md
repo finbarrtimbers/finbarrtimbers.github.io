@@ -7,6 +7,8 @@ math: True
 
 _If you want to read more of my writing, I have a [Substack](https://finbarrtimbers.substack.com/). Articles will be posted simultaneously to both places._
 
+_Note: This was written in March of '23, and is out of date (AI moves quickly!). This is an attempt at answering the question "How is it possible to run Llama on a single CPU?" and is not an attempt at documenting the current status of the Llama.cpp project. You should not rely on any of this post for specific details on how Llama.cpp functions._
+
 Recently, a [project](https://github.com/ggerganov/llama.cpp) rewrote the [LLaMa inference code](https://github.com/facebookresearch/llama) in raw C++. With some optimizations and quantizing the weights, this allows running a LLM locally on a wild variety of hardware:
 
 - On a [Pixel5](https://twitter.com/rgerganov/status/1635604465603473408), you can run the 7B parameter model at 1 tokens/s.
