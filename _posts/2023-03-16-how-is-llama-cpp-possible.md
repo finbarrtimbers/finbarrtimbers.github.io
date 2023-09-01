@@ -69,8 +69,8 @@ The latency is the maximum of either the compute or the memory latency, as readi
 $$
 \begin{align*}
 \text{latency}_\text{model} &= \text{max}(\text{latency}_\text{compute}, \text{latency}_\text{memory})\\
-\text{latency}_\text{memory} &= \dfrac{2 \cdot P \cdot n_{\text{bytes}}\cdot B}{n_{\text{memory bandwidth}}},\\
-\text{latency}_\text{compute} &= \dfrac{2 \cdot P}{n_{\text{flops}}},
+\text{latency}_\text{memory} &= \dfrac{2 \cdot P \cdot n_{\text{bytes}}}{n_{\text{memory bandwidth}}},\\
+\text{latency}_\text{compute} &= \dfrac{2 \cdot P \cdot B}{n_{\text{flops}}},
 \end{align*}
 $$
 
