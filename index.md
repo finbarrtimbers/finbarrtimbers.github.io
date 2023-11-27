@@ -6,7 +6,7 @@ permalink: /
 
 I'm an ai researcher and investor.
 
-I work at [Midjourney](https://midjourney.com/). I used to work at [DeepMind](www.deepmind.com). I [write about AI research](https://www.artfintel.com/).
+I work at [Midjourney](https://midjourney.com/). I used to work at [DeepMind](https://www.deepmind.com). I [write about AI research](https://www.artfintel.com/).
 
 Email: finbarrtimbers (at) gmail.
 
