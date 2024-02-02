@@ -18,6 +18,15 @@ N: See apt-secure(8) manpage for repository creation and user configuration deta
 
 There is a simple fix, but it is annoying to find it via Google, and it takes me ~20 minutes every time:
 
-https://forums.docker.com/t/solved-cannot-install-docker-ce-on-debian-stretch/50407/5
+[https://forums.docker.com/t/solved-cannot-install-docker-ce-on-debian-stretch/50407/5](https://forums.docker.com/t/solved-cannot-install-docker-ce-on-debian-stretch/50407/5).
 
 I have now created this page to write it down. Google, please index this.
+
+To install Docker with GPU support:
+
+1) [Install Docker](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository).
+2) Run the [Docker install fix](https://forums.docker.com/t/solved-cannot-install-docker-ce-on-debian-stretch/50407/5).
+3) Install the [Nvidia Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html).
+4) Install [GPU drivers](https://cloud.google.com/compute/docs/gpus/install-drivers-gpu).
+
+
