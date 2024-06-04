@@ -19,7 +19,6 @@ If you are interested in working at any of these please email me at finbarrtimbe
 
 | Company name | Stage invested | Lead Check | Current Status | Sourced? |
 |--------------|----------------|------------|----------------|----------|
-| RLCore       | Seed           | Yes        | Seed           | Yes      |
 |              |                |            |                |          |
 |              |                |            |                |          |
 
