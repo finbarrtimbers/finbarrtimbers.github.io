@@ -22,3 +22,7 @@ permalink: /advice
     > it's possible to get the upside of working at a startup by working at a big company and investing in startups... you actually only need to invest $25k/yr to get the equity benefit of being a very early employee. Not only can you get better risk adjusted returns (by diversifying), you'll also have much more income if you work at a big company and invest $25k/yr than if you work at a startup.
     
     I found this compelling so I started doing it. I didn't need anyone's permission. We'll see how it plays out.
+16. Custom orthotics/insoles are excellent, and should be prioritized (particularly in skiing). They make a remarkable difference. 
+17. You should be stretching every day. I have had a distinct improvement in the quality of my daily life through stretching daily (and lifting weights 1-3x per week).
+18. Non-alcoholic beer tastes remarkably good.
+19. If you live somewhere cold, [like I do](https://en.wikipedia.org/wiki/Climate_of_Edmonton), you have to embrace winter or it'll drive you crazy. I have made a conscious decision to get really into skiing (which I always enjoyed). It causes me to look forward to the cold & snowy weather, and not become horribly depressed once the days become shorter. Good gear helps. 
