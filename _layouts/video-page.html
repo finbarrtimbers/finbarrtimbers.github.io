@@ -1,3 +1,6 @@
+---
+layout: default
+---
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -50,7 +53,6 @@
             height: 0;
             overflow: hidden;
             background: #eee;
-            margin-bottom: 1rem;
         }
 
         .video-frame iframe {
@@ -73,18 +75,22 @@
         h2 {
             font-size: 1.2rem;
             font-weight: normal;
-            margin-bottom: 0.5rem;
+            margin-bottom: 1rem;
             color: #444;
         }
 
         p {
-            margin-bottom: 1rem;
             font-size: 1rem;
         }
 
         /* Description styles */
         .description {
             padding-top: 0;
+        }
+
+        /* Video column */
+        .video-column {
+            margin-bottom: 0;  /* Remove any bottom margin */
         }
 
         /* Responsive design */
@@ -96,6 +102,10 @@
 
             body {
                 padding: 1rem;
+            }
+
+            .description {
+                padding-top: 1rem;
             }
         }
     </style>
