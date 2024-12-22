@@ -1,6 +1,3 @@
----
-layout: default
----
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,12 +13,12 @@ layout: default
         }
 
         body {
-            font-family: "Equity Text A", "Times New Roman", serif;
-            line-height: 1.6;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.5;
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
-            background: #fafafa;
+            background: #fff;
             color: #333;
         }
 
@@ -29,17 +26,17 @@ layout: default
         .content {
             display: flex;
             flex-direction: column;
-            gap: 3rem;
-            margin-top: 2rem;
+            gap: 4rem;  /* Increased space between video entries */
+            margin-top: 3rem;
         }
 
         /* Individual video entry */
         .video-entry {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
             gap: 2rem;
-            padding-bottom: 3rem;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 4rem;  /* Space before the border */
         }
 
         .video-entry:last-child {
@@ -53,6 +50,7 @@ layout: default
             height: 0;
             overflow: hidden;
             background: #eee;
+            border-radius: 4px;  /* Slightly rounded corners */
         }
 
         .video-frame iframe {
@@ -66,21 +64,23 @@ layout: default
 
         /* Typography */
         h1 {
-            font-size: 2rem;
-            font-weight: normal;
-            margin-bottom: 2rem;
-            color: #222;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 1rem;
         }
 
         h2 {
-            font-size: 1.2rem;
-            font-weight: normal;
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: #333;
             margin-bottom: 1rem;
-            color: #444;
+            line-height: 1.2;
         }
 
         p {
-            font-size: 1rem;
+            font-size: 1.125rem;
+            color: #333;
         }
 
         /* Description styles */
@@ -88,24 +88,23 @@ layout: default
             padding-top: 0;
         }
 
-        /* Video column */
-        .video-column {
-            margin-bottom: 0;  /* Remove any bottom margin */
-        }
-
         /* Responsive design */
         @media (max-width: 768px) {
             .video-entry {
                 grid-template-columns: 1fr;
-                gap: 1rem;
+                gap: 1.5rem;
             }
 
             body {
                 padding: 1rem;
             }
 
-            .description {
-                padding-top: 1rem;
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
             }
         }
     </style>
