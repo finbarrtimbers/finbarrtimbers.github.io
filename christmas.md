@@ -1,4 +1,4 @@
 ---
 layout: video-page
-title: Video Collection
+title: Malcolm's favorite things about his mama
 ---

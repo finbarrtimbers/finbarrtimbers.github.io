@@ -36,9 +36,12 @@ relative_permalinks: false
 
 # _config.yml
 videos:
-  - title: "First Video Title"
-    youtube_id: "dQw4w9WgXcQ"  # This is the ID from the YouTube URL
-    description: "This is a detailed description of the first video. It explains the content and context of the video, providing viewers with necessary background information."
-  - title: "Second Video Title"
-    youtube_id: "dQw4w9WgXcQ"
-    description: "This is a description of the second video. It provides context and explanation for the content."
+  - title: "What do you like to do with mama?"
+    youtube_id: "6brL0x9h6kc"
+    description: "Read books. Skinnamarinky dinky dink."
+  - title: "What makes mama laugh?"
+    youtube_id: "wo3vX4zSiSM"
+    description: "Pancakes. I like to eat them.
+  - title: "What is your favourite recipe that mama cooks for you?"
+    youtube_id: "Y-hq7Xazy6I"
+    description: "Pancakes. I just want to eat them... and DROP THEM ON THE FLOOR.""
