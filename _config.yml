@@ -34,7 +34,6 @@ kramdown:
 permalink: /:title/
 relative_permalinks: false
 
-# _config.yml
 videos:
   - title: "What do you like to do with mama?"
     youtube_id: "6brL0x9h6kc"
@@ -44,4 +43,4 @@ videos:
     description: "Pancakes. I like to eat them.
   - title: "What is your favourite recipe that mama cooks for you?"
     youtube_id: "Y-hq7Xazy6I"
-    description: "Pancakes. I just want to eat them... and DROP THEM ON THE FLOOR.""
+    description: "Pancakes. I just want to eat them... and DROP THEM ON THE FLOOR."
