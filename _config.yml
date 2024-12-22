@@ -10,13 +10,13 @@ bio: |
     I live in Alberta and used to work at [DeepMind](https://www.deepmind.com/). I previously studied at the LSE and the University of Alberta.
 
     I read (a lot) and discuss the books I've [read](/reading).
-    
+
     You can contact me by email at finbarr [no space] timbers [at] Google's email service.
 
 
 # Projects
 projects:
- - 
+ -
 
 # External services
 about_url: "http://finbarr.ca/about/"
@@ -33,3 +33,12 @@ kramdown:
 # Site settings
 permalink: /:title/
 relative_permalinks: false
+
+# _config.yml
+videos:
+  - title: "First Video Title"
+    youtube_id: "dQw4w9WgXcQ"  # This is the ID from the YouTube URL
+    description: "This is a detailed description of the first video. It explains the content and context of the video, providing viewers with necessary background information."
+  - title: "Second Video Title"
+    youtube_id: "dQw4w9WgXcQ"
+    description: "This is a description of the second video. It provides context and explanation for the content."

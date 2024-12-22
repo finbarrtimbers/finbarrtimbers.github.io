@@ -1,0 +1,130 @@
+---
+layout: default
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page.title }}</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Equity Text A", "Times New Roman", serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: #fafafa;
+            color: #333;
+        }
+
+        /* Main content area */
+        .content {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        /* Individual video entry */
+        .video-entry {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .video-entry:last-child {
+            border-bottom: none;
+        }
+
+        /* Video embed container with 16:9 aspect ratio */
+        .video-frame {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            background: #eee;
+            margin-bottom: 1rem;
+        }
+
+        .video-frame iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 2rem;
+            font-weight: normal;
+            margin-bottom: 2rem;
+            color: #222;
+        }
+
+        h2 {
+            font-size: 1.2rem;
+            font-weight: normal;
+            margin-bottom: 0.5rem;
+            color: #444;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        /* Description styles */
+        .description {
+            padding-top: 0;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .video-entry {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            body {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ page.title }}</h1>
+
+    <div class="content">
+        {% for video in site.videos %}
+        <div class="video-entry">
+            <div class="video-column">
+                <div class="video-frame">
+                    <iframe
+                        src="https://www.youtube.com/embed/{{ video.youtube_id }}"
+                        title="{{ video.title }}"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                    </iframe>
+                </div>
+                <h2>{{ video.title }}</h2>
+            </div>
+            <div class="description">
+                <p>{{ video.description }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
