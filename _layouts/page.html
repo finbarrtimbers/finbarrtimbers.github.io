@@ -23,6 +23,7 @@
   <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
       tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
         inlineMath: [['$','$']],
         displayMath: [['$$','$$']],
         processEscapes: true,
@@ -31,7 +32,8 @@
       "HTML-CSS": {
         availableFonts: ["TeX"],
         scale: 100
-      }
+      },
+      messageStyle: "none"
     });
   </script>
   <script type="text/javascript" async
