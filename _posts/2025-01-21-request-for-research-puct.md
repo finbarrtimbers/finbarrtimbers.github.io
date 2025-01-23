@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Request for research: Monte Carlo Tree Search for reasoning, with PUCT
+title: "Request for research: Monte Carlo Tree Search for reasoning, with PUCT"
 articles: True
 math: True
 ---

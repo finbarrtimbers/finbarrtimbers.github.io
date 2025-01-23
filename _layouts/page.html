@@ -4,25 +4,34 @@
   <link rel="stylesheet" href="/static/style.css">
   <meta charset="utf-8">
   <title>
-    {% if page.title != "" %} 
-      {{ page.title }} 
+    {% if page.title %}
+      {{ page.title }}
     {% else %}
       Finbarr Timbers
     {% endif %}
   </title>
-</head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZBM24T0LEX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag() { dataLayer.push(arguments); }
-  gtag('js', new Date());
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZBM24T0LEX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
 
-  gtag('config', 'G-ZBM24T0LEX');
-</script>
+    gtag('config', 'G-ZBM24T0LEX');
+  </script>
+</head>
 {% if page.math %}
-<script type="text/javascript"
-            src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_SVG">
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$$','$$']],
+      displayMath: [['$$','$$']],
+      processEscapes: true
+    }
+  });
+</script>
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 {% endif %}
 <body>
