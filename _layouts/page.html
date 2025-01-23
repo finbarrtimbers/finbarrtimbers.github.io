@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
   <link rel="stylesheet" href="/static/style.css">
@@ -19,20 +20,18 @@
     gtag('config', 'G-ZBM24T0LEX');
   </script>
   {% if page.math %}
-  <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      tex2jax: {
-        inlineMath: [['$','$']],
-        displayMath: [['$$','$$']],
-        processEscapes: true
-      },
-      TeX: {
-        equationNumbers: { autoNumber: "AMS" },
-        extensions: ["AMSmath.js", "AMSsymbols.js"]
-      }
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('.language-latex, [data-latex]').forEach(function(el) {
+        el.outerHTML = el.innerHTML
+          .replace(/\\\[(.*?)\\\]/g, '$$$$1$$')
+          .replace(/\$(.*?)\$/g, '$$1');
+      });
     });
   </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS_HTML"></script>
+  <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
   {% endif %}
 </head>
 <body>
