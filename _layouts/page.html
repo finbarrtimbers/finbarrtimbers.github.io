@@ -19,21 +19,26 @@
 
     gtag('config', 'G-ZBM24T0LEX');
   </script>
+  {% if page.math %}
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$']],
+        displayMath: [['$$','$$']],
+        processEscapes: true,
+        packages: ['base', 'ams', 'noerrors', 'noundefined']
+      },
+      "HTML-CSS": {
+        availableFonts: ["TeX"],
+        scale: 100
+      }
+    });
+  </script>
+  <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
+  {% endif %}
 </head>
-{% if page.math %}
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [['$$','$$']],
-      displayMath: [['$$','$$']],
-      processEscapes: true
-    }
-  });
-</script>
-<script type="text/javascript" async
-  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-{% endif %}
 <body>
   <div id="menu">
     <span class="title">Finbarr Timbers</span>
