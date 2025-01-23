@@ -19,17 +19,13 @@ In the DeepSeek paper, they had a section discussing MCTS:
 
  In classic MCTS, an action-value function ( $Q(s, a)$) is used to estimate the value of each candidate action:
 
-$$
-UCT(s,a) = Q(s,a) + c \sqrt{\frac{\ln N(s)}{N(s,a)}} = Q(s, a) + c E_{\text{uct}}(s, a)
-$$
+$$UCT(s,a) = Q(s,a) + c \sqrt{\frac{\ln N(s)}{N(s,a)}} = Q(s, a) + c E_{\text{uct}}(s, a)$$
 
  In the UCT equation, there are two terms: $Q(s, a)$ and the exploration term, which is the right side of the equation ($c$ is a hyper-parameter), and is solely a function of how many times the (state, action) pair has been visited. If the current node has been visited a small fraction of the times that the parent node N(s) has been visited, the exploration term is large, but it grows smaller as it is visited more.
 
 In AlphaGo/AlphaZero/MuZero style MCTS, they use PUCT, where the exploration term is weighted by a learned prior function:
 
-$$
-PUCT(s,a) = Q(s,a) + c P(s,a) \frac{\sqrt{N(s)}}{1 + N(s,a)} = Q(s, a) + c E_{\text{puct}}(s, a)
-$$
+$$PUCT(s,a) = Q(s,a) + c P(s,a) \frac{\sqrt{N(s)}}{1 + N(s,a)} = Q(s, a) + c E_{\text{puct}}(s, a)$$
 
 The weight is learned by having the network predict $N(s, a)/N(s)$, i.e. the % of times that the child node is visited during search.
 By using the prior, MCTS is able to go much deeper. Consider chess, which has, on average,
