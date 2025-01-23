@@ -17,7 +17,7 @@ In the DeepSeek paper, they had a section discussing MCTS:
 
  In the section, the authors said "MCTS guided by a pre-trained value model." They repeated the phrase "value model" repeatedly, concluding that "while MCTS can improve performance during inference when paired with a pre-trained value model, iteratively boosting model performance through self-search remains a significant challenge." To me, the phrasing indicates that the authors are not using a learned prior function, as AlphaGo/Zero/MuZero did. If true, this is a mistake.
 
- In classic MCTS, an action-value function ($Q(s, a)$) is used to estimate the value of each candidate action:
+ In classic MCTS, an action-value function ( $Q(s, a)$) is used to estimate the value of each candidate action:
 
 $$
 UCT(s,a) = Q(s,a) + c \sqrt{\frac{\ln N(s)}{N(s,a)}} = Q(s, a) + c E_{\text{uct}}(s, a)
