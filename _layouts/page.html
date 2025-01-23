@@ -24,19 +24,18 @@
     window.MathJax = {
       tex: {
         inlineMath: [['$', '$']],
-        displayMath: [['$$', '$$']]
+        displayMath: [['$$', '$$']],
+        processEscapes: true,
+        packages: ['base', 'ams', 'noerrors', 'noundefined']
+      },
+      loader: {load: ['[tex]/ams']},
+      svg: {
+        fontCache: 'global'
       }
     };
-    document.addEventListener('DOMContentLoaded', function() {
-      document.querySelectorAll('.language-latex, [data-latex]').forEach(function(el) {
-        el.outerHTML = el.innerHTML
-          .replace(/\\\[(.*?)\\\]/g, '$$$$1$$')
-          .replace(/\$(.*?)\$/g, '$$1');
-      });
-    });
   </script>
-  <script type="text/javascript" id="MathJax-script" async
-    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  <script id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
   </script>
   {% endif %}
 </head>
