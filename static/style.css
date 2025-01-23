@@ -106,3 +106,8 @@ sup, sub {
 sub {
   top: 0.4em;
 }
+
+.MathJax_Display {
+  overflow-x: auto;
+  overflow-y: hidden;
+}

@@ -1,5 +1,4 @@
 <html>
-
 <head>
   <link rel="stylesheet" href="/static/style.css">
   <meta charset="utf-8">
@@ -23,22 +22,17 @@
   <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
       tex2jax: {
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
         inlineMath: [['$','$']],
         displayMath: [['$$','$$']],
-        processEscapes: true,
-        packages: ['base', 'ams', 'noerrors', 'noundefined']
+        processEscapes: true
       },
-      "HTML-CSS": {
-        availableFonts: ["TeX"],
-        scale: 100
-      },
-      messageStyle: "none"
+      TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        extensions: ["AMSmath.js", "AMSsymbols.js"]
+      }
     });
   </script>
-  <script type="text/javascript" async
-    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS_HTML"></script>
   {% endif %}
 </head>
 <body>
