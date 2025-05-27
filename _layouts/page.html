@@ -17,28 +17,29 @@
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
 
-    gtag('config', 'G-ZBM24T0LEX');
+  gtag('config', 'G-ZBM24T0LEX');
   </script>
   {% if page.math %}
   <script>
     window.MathJax = {
-      tex: {
-        inlineMath: [['$', '$']],
-        displayMath: [['$$', '$$'], ['\\[', '\\]']],  // Updated to handle both $$ and \[ \]
-        processEscapes: true,
-        packages: ['base', 'ams', 'noerrors', 'noundefined']
-      },
-      loader: {load: ['[tex]/ams']},
-      svg: {
-        fontCache: 'global'
-      }
-    };
-  </script>
-  <script id="MathJax-script" async
-    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
-  </script>
-  {% endif %}
-</head>
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$', '$$'], ['\\[', '\\]']],
+      processEscapes: true,
+
+      /* extend, don’t replace, the defaults */
+      packages: { '[+]': ['noerrors', 'noundefined'] }
+      /* if you really want an explicit list, include textmacros:
+       * packages: ['base','ams','textmacros','noerrors','noundefined']
+       */
+    },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script type="text/javascript"
+            src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_SVG">
+</script>
+{% endif %}
 <body>
   <div id="menu">
     <span class="title">Finbarr Timbers</span>
