@@ -4,15 +4,6 @@ title: "The Bitter Lesson"
 articles: True
 ---
 
----
-title: The Bitter Lesson
-subtitle: Far too many people misunderstand the bitter lesson
-author: Finbarr Timbers
-publication: Artificial Fintelligence
-date: June 26, 2025
----
-
-# The Bitter Lesson
 [The Bitter Lesson](http://www.incompleteideas.net/IncIdeas/BitterLesson.html) is an excellent essay which is overwhelmingly misunderstood. The point of the bitter lesson is that, over time, methods which scale with compute will outperform methods that do not.
 
 It is not:
@@ -58,16 +49,11 @@ A better approach would be to make the model _generally_ stronger. Focusing on m
 
   * [What comes next, by Nathan Lambert (Interconnects)](https://substack.com/home/post/p-166556899), discussing, among other aspects, how excellent O3 is.
 
-  * [Undertrained tokens in R1](https://substack.com/home/post/p-158907079?source=queue), by 
-
-[Sander Land](https://open.substack.com/users/217957273-sander-land?utm_source=mentions)
-
-.
+  * [Undertrained tokens in R1](https://substack.com/home/post/p-158907079?source=queue), by [Sander Land](https://open.substack.com/users/217957273-sander-land?utm_source=mentions).
+  
   * The [Deep Blue paper](https://x.com/finbarrtimbers/status/1938115342427165035), which is worth reading. 
 
 
 
 
-[1](https://www.artfintel.com/p/the-bitter-lesson#footnote-anchor-1-166870478)
-
-Deep Blue is fascinating for a variety of reasons, including the fact that they had custom “chess chips” made to encode the evaluation function in hardware. 
+[1](https://www.artfintel.com/p/the-bitter-lesson#footnote-anchor-1-166870478) Deep Blue is fascinating for a variety of reasons, including the fact that they had custom “chess chips” made to encode the evaluation function in hardware. 
