@@ -4,8 +4,6 @@ title: "MFU Calculator"
 permalink: /mfu-calculator
 ---
 
-<!-- Paste everything below (after your Jekyll front‑matter) into a Markdown page -->
-
 <div class="mfu-container">
   <h2>Model FLOPs Utilization (MFU) Calculator</h2>
 
@@ -38,14 +36,21 @@ permalink: /mfu-calculator
   </label>
 
   <label>
+    Data type
+    <select id="mfu-dtype">
+      <option value="fp8">FP8</option>
+      <option value="fp16" selected>FP16/BF16</option>
+      <option value="fp32">FP32</option>
+    </select>
+  </label>
+
+  <label>
     Workload
     <select id="mfu-mode">
       <option value="inference">Inference</option>
       <option value="training">Training</option>
     </select>
   </label>
-
-  <button id="mfu-calc">Calculate MFU</button>
 
   <div id="mfu-result" class="mfu-result"></div>
 </div>
@@ -76,20 +81,6 @@ permalink: /mfu-calculator
     font-size: 1rem;
     box-sizing: border-box;
   }
-  .mfu-container button {
-    margin-top: 1.5rem;
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
-    border: none;
-    border-radius: 6px;
-    background: #0d6efd;
-    color: #fff;
-    cursor: pointer;
-    transition: background 0.2s ease-in-out;
-  }
-  .mfu-container button:hover {
-    background: #0b5ed7;
-  }
   .mfu-result {
     margin-top: 1.5rem;
     font-size: 1.25rem;
@@ -99,18 +90,21 @@ permalink: /mfu-calculator
 
 <script>
   (function () {
-    // Peak dense FP16/BF16 TFLOPS (per‑accelerator)
+    /*
+      Dense peak TFLOPS (no sparsity gimmicks) per‑accelerator, by data type.
+      Numbers are rounded public spec values (dense only).
+    */
     const PEAK_TFLOPS = {
-      A100: 312,
-      H100: 1979,
-      B200: 2250,
-      v5p: 459,
-      v5e: 197,
-      v6e: 918,
-      v7: 4614,
+      A100: { fp32: 19.5, fp16: 312, fp8: 0 },
+      H100: { fp32: 67, fp16: 1979, fp8: 3958 },
+      B200: { fp32: 75, fp16: 2250, fp8: 4500 },
+      v5p: { fp32: 28, fp16: 459, fp8: 0 },
+      v5e: { fp32: 11, fp16: 197, fp8: 0 },
+      v6e: { fp32: 55, fp16: 918, fp8: 0 },
+      v7: { fp32: 277, fp16: 4614, fp8: 0 },
     };
 
-    // FLOPs per token (approx.)
+    // Approx FLOPs per token
     function flopsPerToken(paramsB, mode) {
       const n = paramsB * 1e9;
       return (mode === "training" ? 6 : 2) * n;
@@ -118,22 +112,52 @@ permalink: /mfu-calculator
 
     const $ = (id) => document.getElementById(id);
 
-    $("mfu-calc").addEventListener("click", () => {
+    function calculate() {
       const paramsB = parseFloat($("mfu-params").value);
       const tps = parseFloat($("mfu-tps").value);
       const num = parseInt($("mfu-num").value, 10);
       const accel = $("mfu-accel").value;
+      const dtype = $("mfu-dtype").value;
       const mode = $("mfu-mode").value;
 
-      if (isNaN(paramsB) || isNaN(tps) || isNaN(num) || num <= 0) {
-        alert("Please fill all fields with valid numbers.");
+      if (
+        isNaN(paramsB) ||
+        isNaN(tps) ||
+        isNaN(num) ||
+        num <= 0 ||
+        paramsB <= 0 ||
+        tps <= 0
+      ) {
+        $("mfu-result").textContent = "";
+        return;
+      }
+
+      const peakDense = PEAK_TFLOPS[accel][dtype];
+      if (!peakDense) {
+        $("mfu-result").textContent = `No dense ${dtype.toUpperCase()} spec for ${accel}.`;
         return;
       }
 
       const usedFlops = flopsPerToken(paramsB, mode) * tps;
-      const peakFlops = PEAK_TFLOPS[accel] * 1e12 * num;
+      const peakFlops = peakDense * 1e12 * num;
       const mfu = usedFlops / peakFlops;
-      $("mfu-result").textContent = `Estimated MFU: ${(mfu * 100).toFixed(2)}%`;
+      $("mfu-result").textContent = `Estimated MFU: ${(mfu * 100).toFixed(2)}%`;
+    }
+
+    // Live‑update on every change/input
+    [
+      "mfu-params",
+      "mfu-tps",
+      "mfu-num",
+      "mfu-accel",
+      "mfu-dtype",
+      "mfu-mode",
+    ].forEach((id) => {
+      const el = $(id);
+      el.addEventListener("input", calculate);
+      el.addEventListener("change", calculate);
     });
+
+    calculate(); // initial
   })();
 </script>
