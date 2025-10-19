@@ -91,17 +91,17 @@ permalink: /mfu-calculator
 <script>
   (function () {
     /*
-      Dense peak TFLOPS (no sparsity gimmicks) per‑accelerator, by data type.
+      Dense peak TFLOPS per‑accelerator, by data type.
       Numbers are rounded public spec values (dense only).
+      We divide H100, 
     */
     const PEAK_TFLOPS = {
-      A100: { fp32: 19.5, fp16: 312, fp8: 0 },
-      H100: { fp32: 67, fp16: 1979, fp8: 3958 },
-      B200: { fp32: 75, fp16: 2250, fp8: 4500 },
-      v5p: { fp32: 28, fp16: 459, fp8: 0 },
-      v5e: { fp32: 11, fp16: 197, fp8: 0 },
-      v6e: { fp32: 55, fp16: 918, fp8: 0 },
-      v7: { fp32: 277, fp16: 4614, fp8: 0 },
+      A100: { fp32: 156, fp16: 312, fp8: 0 },
+      H100: { fp32: 989/2, fp16: 1979/2, fp8: 3958/2 },
+      v5p: { fp32: 28, fp16: 459},
+      v5e: { fp32: 11, fp16: 197},
+      v6e: { fp32: 55, fp16: 918},
+      v7: { fp32: 277, fp16: 4614},
     };
 
     // Approx FLOPs per token
