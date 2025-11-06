@@ -136,14 +136,15 @@ permalink: /mfu-calculator
     display: none;
     position: absolute;
     bottom: 100%;
-    left: 0;
+    left: 50%;
+    transform: translateX(-50%);
     margin-bottom: 0.5rem;
     padding: 1rem;
     background: #333;
     color: #fff;
     border-radius: 6px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    width: 400px;
+    width: 320px;
     max-width: 90vw;
     z-index: 1000;
     font-size: 0.85rem;
@@ -153,7 +154,8 @@ permalink: /mfu-calculator
     content: '';
     position: absolute;
     top: 100%;
-    left: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
     border: 6px solid transparent;
     border-top-color: #333;
   }
