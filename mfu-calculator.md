@@ -55,9 +55,24 @@ permalink: /mfu-calculator
   <div id="mfu-result" class="mfu-result"></div>
 
   <div class="mfu-info">
-    <p class="assumptions-label" title="Assumptions: Using dense (non-sparse) TFLOPS specs only. Training uses 6N FLOPs per token (2N forward + 4N backward), inference uses 2N FLOPs per token. Does not account for memory bandwidth limitations, communication overhead, framework inefficiencies, Sliding Window Attention (SWA), or Grouped Query Attention (GQA).">
-      ℹ️ Assumptions*
-    </p>
+    <div class="assumptions-container">
+      <p class="assumptions-label">
+        ℹ️ Assumptions*
+      </p>
+      <div class="assumptions-tooltip">
+        <strong>Assumptions:</strong>
+        <ul>
+          <li>Using dense (non-sparse) TFLOPS specs only</li>
+          <li>Training uses 6N FLOPs per token (2N forward + 4N backward)</li>
+          <li>Inference uses 2N FLOPs per token</li>
+          <li>Does not account for memory bandwidth limitations</li>
+          <li>Does not account for communication overhead</li>
+          <li>Does not account for framework inefficiencies</li>
+          <li>Does not account for Sliding Window Attention (SWA)</li>
+          <li>Does not account for Grouped Query Attention (GQA)</li>
+        </ul>
+      </div>
+    </div>
     <p class="issue-reporting">
       <strong>Found an issue?</strong> Please report it to finbarrtimbers at google's email service dot com or file an issue on <a href="https://github.com/finbarrtimbers/finbarrtimbers.github.io/issues" target="_blank">GitHub</a>. Include the inputs you used, expected vs. actual results, and any error messages.
     </p>
@@ -101,10 +116,56 @@ permalink: /mfu-calculator
     border-top: 1px solid #e0e0e0;
     font-size: 0.9rem;
   }
+  .assumptions-container {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 0.75rem;
+  }
   .assumptions-label {
     cursor: help;
     color: #666;
-    margin-bottom: 0.75rem;
+    margin: 0;
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+  }
+  .assumptions-label:hover {
+    background-color: #f5f5f5;
+  }
+  .assumptions-tooltip {
+    display: none;
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    margin-bottom: 0.5rem;
+    padding: 1rem;
+    background: #333;
+    color: #fff;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    width: 400px;
+    max-width: 90vw;
+    z-index: 1000;
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+  .assumptions-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 1rem;
+    border: 6px solid transparent;
+    border-top-color: #333;
+  }
+  .assumptions-container:hover .assumptions-tooltip {
+    display: block;
+  }
+  .assumptions-tooltip ul {
+    margin: 0.5rem 0 0 0;
+    padding-left: 1.5rem;
+  }
+  .assumptions-tooltip li {
+    margin: 0.25rem 0;
   }
   .issue-reporting {
     color: #666;
