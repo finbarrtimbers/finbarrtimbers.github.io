@@ -54,7 +54,7 @@ permalink: /mfu-calculator
 
   <div id="mfu-result" class="mfu-result"></div>
 
-  <div class="mfu-info">
+  <div class="mfu-info" markdown="0">
     <div class="assumptions-container">
       <p class="assumptions-label">
         ℹ️ Assumptions*
