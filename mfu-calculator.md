@@ -53,6 +53,15 @@ permalink: /mfu-calculator
   </label>
 
   <div id="mfu-result" class="mfu-result"></div>
+
+  <div class="mfu-info">
+    <p class="assumptions-label" title="Assumptions: Using dense (non-sparse) TFLOPS specs only. Training uses 6N FLOPs per token (2N forward + 4N backward), inference uses 2N FLOPs per token. Does not account for memory bandwidth limitations, communication overhead, framework inefficiencies, Sliding Window Attention (SWA), or Grouped Query Attention (GQA).">
+      ℹ️ Assumptions*
+    </p>
+    <p class="issue-reporting">
+      <strong>Found an issue?</strong> Please report it to finbarrtimbers at google's email service dot com or file an issue on <a href="https://github.com/finbarrtimbers/finbarrtimbers.github.io/issues" target="_blank">GitHub</a>. Include the inputs you used, expected vs. actual results, and any error messages.
+    </p>
+  </div>
 </div>
 
 <style>
@@ -85,6 +94,28 @@ permalink: /mfu-calculator
     margin-top: 1.5rem;
     font-size: 1.25rem;
     font-weight: bold;
+  }
+  .mfu-info {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e0e0e0;
+    font-size: 0.9rem;
+  }
+  .assumptions-label {
+    cursor: help;
+    color: #666;
+    margin-bottom: 0.75rem;
+  }
+  .issue-reporting {
+    color: #666;
+    line-height: 1.5;
+  }
+  .issue-reporting a {
+    color: #0066cc;
+    text-decoration: none;
+  }
+  .issue-reporting a:hover {
+    text-decoration: underline;
   }
 </style>
 
