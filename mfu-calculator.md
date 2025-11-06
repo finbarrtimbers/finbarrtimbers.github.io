@@ -140,10 +140,11 @@ permalink: /mfu-calculator
     transform: translateX(-50%);
     margin-bottom: 0.5rem;
     padding: 1rem;
-    background: #333;
-    color: #fff;
+    background: #ffffff;
+    color: #333;
+    border: 1px solid #e0e0e0;
     border-radius: 6px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
     width: 320px;
     max-width: 90vw;
     z-index: 1000;
@@ -157,7 +158,7 @@ permalink: /mfu-calculator
     left: 50%;
     transform: translateX(-50%);
     border: 6px solid transparent;
-    border-top-color: #333;
+    border-top-color: #ffffff;
   }
   .assumptions-container:hover .assumptions-tooltip {
     display: block;
