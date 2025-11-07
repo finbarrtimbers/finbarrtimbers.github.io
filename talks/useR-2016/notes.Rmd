@@ -1,0 +1,38 @@
+- Work for DHA
+- statistical consulting firm
+- many work is similar:
+  - If we're looking at the distribution of values, probably going to use a
+    histogram
+  - If we're looking at the change in a variable over time, probably going to
+    use a line chart
+  - etc., etc.
+- DHA values design heavily- UX & design are some of our competitive advantages
+- Have a series of "best practice" charts that we copy, mostly inspired by
+  Tufte (Visual Display of Quantitative Information is required reading):
+  - insert histogram graph
+  - insert highlighted line chart
+- Two problems:
+  - How do we copy them? (No documentation!)
+  - Takes time to do when really, all we need ot do is change the data source
+- Solution:
+  - R! (and ggplot)
+- Then! We can regenerate graphs by changing a line of code
+- [picture of code]
+- What we did:
+  - use RMarkdown to write slides showing the code
+  - work with designer to get the canonical slides
+  - put the code in git (Bitbucket) and let the company clone them
+  - Easy to transfer
+  - Automated dev environments (first scripts, then Docker)
+  - With Automated dev environments, low barrier to entry
+  - With Git, easy to iterate
+- 3 Lessons:
+  1. Make it good: It's hard to make people
+  switch if it's 10% better- must be 100% better. Been pushing R internally,
+  but it requires buy in.
+  2. Make it easy: use Git, docker, etc. to allow for automated setup and
+  publishing. Conveniently, this allows for reproducibility.
+  3. Make it profitable: Spending less time on routine analysis allow sus to do
+  more sophisticated work for our clients, bringing them more value, and use
+  more profitability. Also, more experience. Much better to spend time
+  training sophisticated ML models than with copying charts around in Excel.
