@@ -225,20 +225,20 @@ permalink: /llm-performance
 <style>
   .calculators-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
-    max-width: 100%;
+    width: 100%;
     margin: 2rem auto;
     padding: 0 1rem;
   }
 
-  @media (max-width: 1600px) {
+  @media (max-width: 1200px) {
     .calculators-grid {
       grid-template-columns: 1fr;
     }
   }
 
-<style>
+
   /* --- MFU calculator styles (scoped by the .mfu-container wrapper) --- */
   .mfu-container {
     font-family: system-ui, sans-serif;
