@@ -1,0 +1,10 @@
+{
+  "name": "llm-performance-tools",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "bun test"
+  },
+  "devDependencies": {
+    "bun-types": "latest"
+  }
+}
