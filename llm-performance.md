@@ -10,7 +10,7 @@ permalink: /llm-performance
 
   <label>
     Model size (parameters, billions)
-    <input type="number" id="mfu-params" value="70" min="0" step="0.1" />
+    <input type="number" id="mfu-params" value="7" min="0" step="0.1" />
   </label>
 
   <label>
@@ -85,7 +85,7 @@ permalink: /llm-performance
 
   <label>
     Model size (parameters, billions)
-    <input type="number" id="integrated-params" value="70" min="0" step="0.1" />
+    <input type="number" id="integrated-params" value="7" min="0" step="0.1" />
   </label>
 
   <label>
