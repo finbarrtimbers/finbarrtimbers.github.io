@@ -4,6 +4,7 @@ title: "LLM Performance Tools"
 permalink: /llm-performance
 ---
 
+<div class="calculators-grid">
 <div class="mfu-container">
   <h2>Model FLOPs Utilization (MFU) Calculator</h2>
 
@@ -219,13 +220,29 @@ permalink: /llm-performance
     </div>
   </div>
 </div>
+</div>
+
+<style>
+  .calculators-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    gap: 2rem;
+    max-width: 100%;
+    margin: 2rem auto;
+    padding: 0 1rem;
+  }
+
+  @media (max-width: 1600px) {
+    .calculators-grid {
+      grid-template-columns: 1fr;
+    }
+  }
 
 <style>
   /* --- MFU calculator styles (scoped by the .mfu-container wrapper) --- */
   .mfu-container {
     font-family: system-ui, sans-serif;
-    max-width: 640px;
-    margin: 2rem auto;
+    margin: 0;
     padding: 2rem;
     background: #ffffff;
     border-radius: 12px;
