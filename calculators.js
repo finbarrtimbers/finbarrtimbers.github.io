@@ -13,6 +13,14 @@ export const BYTES_PER_TYPE = {
   fp8: 1
 };
 
+export const GPU_MEMORY = {
+  "A100-40": 40,
+  "A100-80": 80,
+  "H100": 80,
+  "H200": 141,
+  "B200": 192
+};
+
 export function flopsPerToken(paramsB, mode) {
   const n = paramsB * 1e9;
   return (mode === "training" ? 6 : 2) * n;
@@ -30,32 +38,42 @@ export function calculateMFU(paramsB, tps, num, accel, dtype, mode) {
   return mfu * 100;
 }
 
-export function calculateKVCacheSize(seqLen, fullLayers, swaLayers, windowSize, kvHeads, headDim, dtype, batchSize) {
+export function calculateKVCacheSize(seqLen, fullLayers, swaLayers, windowSize, kvHeads, headDim, dtype) {
   const bytesPerElement = BYTES_PER_TYPE[dtype];
   const fullAttentionCache = fullLayers * seqLen * kvHeads * headDim * 2 * bytesPerElement;
   const swaCache = swaLayers * Math.min(seqLen, windowSize) * kvHeads * headDim * 2 * bytesPerElement;
-  const totalCachePerSample = fullAttentionCache + swaCache;
-  const totalCache = totalCachePerSample * batchSize;
-  return totalCache;
+  return fullAttentionCache + swaCache;
 }
 
-export function calculateMaxBatchSize(memoryGB, paramsB, seqLen, fullLayers, swaLayers, windowSize, kvHeads, headDim, dtype) {
-  const bytesPerElement = BYTES_PER_TYPE[dtype];
-  const modelMemoryBytes = paramsB * 1e9 * bytesPerElement;
-  const availableMemoryBytes = memoryGB * (1024 ** 3);
-  const memoryForKVCache = availableMemoryBytes - modelMemoryBytes;
-
-  if (memoryForKVCache <= 0) {
+export function calculateMaxBatchSize(paramsB, numGPUs, gpuType, tpDegree, seqLen, fullLayers, swaLayers, windowSize, kvHeads, headDim, dtype) {
+  if (tpDegree > numGPUs) {
     return -1;
   }
+
+  const bytesPerElement = BYTES_PER_TYPE[dtype];
+  const memoryPerGPU = GPU_MEMORY[gpuType];
+
+  if (!memoryPerGPU) {
+    return -1;
+  }
+
+  const modelMemoryBytes = paramsB * 1e9 * bytesPerElement;
+  const modelMemoryPerGPU = modelMemoryBytes / tpDegree;
 
   const fullAttentionCachePerSample = fullLayers * seqLen * kvHeads * headDim * 2 * bytesPerElement;
   const swaCachePerSample = swaLayers * Math.min(seqLen, windowSize) * kvHeads * headDim * 2 * bytesPerElement;
   const kvCachePerSample = fullAttentionCachePerSample + swaCachePerSample;
 
+  const availableMemoryPerGPU = (memoryPerGPU * (1024 ** 3)) - modelMemoryPerGPU;
+
+  if (availableMemoryPerGPU <= 0) {
+    return -1;
+  }
+
   if (kvCachePerSample <= 0) {
     return -1;
   }
 
-  return Math.floor(memoryForKVCache / kvCachePerSample);
+  const maxBatchSizePerGPU = Math.floor(availableMemoryPerGPU / kvCachePerSample);
+  return maxBatchSizePerGPU * (numGPUs / tpDegree);
 }

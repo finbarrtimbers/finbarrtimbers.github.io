@@ -81,53 +81,75 @@ permalink: /llm-performance
 </div>
 
 <div class="mfu-container">
-  <h2>KV Cache Size Calculator</h2>
+  <h2>KV Cache & Batch Size Calculator</h2>
+
+  <label>
+    Model size (parameters, billions)
+    <input type="number" id="integrated-params" value="70" min="0" step="0.1" />
+  </label>
+
+  <label>
+    Number of GPUs
+    <input type="number" id="integrated-num-gpus" value="1" min="1" step="1" />
+  </label>
+
+  <label>
+    GPU type
+    <select id="integrated-gpu-type">
+      <option value="A100-40">NVIDIA A100 40GB</option>
+      <option value="A100-80">NVIDIA A100 80GB</option>
+      <option value="H100" selected>NVIDIA H100 80GB</option>
+      <option value="H200">NVIDIA H200 141GB</option>
+      <option value="B200">NVIDIA B200 192GB</option>
+    </select>
+  </label>
+
+  <label>
+    Tensor Parallelism (TP) degree
+    <input type="number" id="integrated-tp" value="1" min="1" step="1" />
+  </label>
 
   <label>
     Sequence length
-    <input type="number" id="kv-seq-len" value="4096" min="1" step="1" />
+    <input type="number" id="integrated-seq-len" value="4096" min="1" step="1" />
   </label>
 
   <label>
     Number of full attention layers
-    <input type="number" id="kv-full-layers" value="32" min="0" step="1" />
+    <input type="number" id="integrated-full-layers" value="80" min="0" step="1" />
   </label>
 
   <label>
     Number of sliding window attention layers
-    <input type="number" id="kv-swa-layers" value="0" min="0" step="1" />
+    <input type="number" id="integrated-swa-layers" value="0" min="0" step="1" />
   </label>
 
   <label>
     Sliding window size
-    <input type="number" id="kv-window-size" value="4096" min="1" step="1" />
+    <input type="number" id="integrated-window-size" value="4096" min="1" step="1" />
   </label>
 
   <label>
     Number of KV heads
-    <input type="number" id="kv-heads" value="8" min="1" step="1" />
+    <input type="number" id="integrated-kv-heads" value="8" min="1" step="1" />
   </label>
 
   <label>
     Head dimension
-    <input type="number" id="kv-head-dim" value="128" min="1" step="1" />
+    <input type="number" id="integrated-head-dim" value="128" min="1" step="1" />
   </label>
 
   <label>
     Data type
-    <select id="kv-dtype">
+    <select id="integrated-dtype">
       <option value="fp8">FP8 (1 byte)</option>
       <option value="fp16" selected>FP16/BF16 (2 bytes)</option>
       <option value="fp32">FP32 (4 bytes)</option>
     </select>
   </label>
 
-  <label>
-    Batch size
-    <input type="number" id="kv-batch-size" value="1" min="1" step="1" />
-  </label>
-
-  <div id="kv-result" class="mfu-result"></div>
+  <div id="integrated-kv-result" class="mfu-result"></div>
+  <div id="integrated-batch-result" class="mfu-result"></div>
 
   <div class="mfu-info" markdown="0">
     <div class="assumptions-container">
@@ -140,81 +162,10 @@ permalink: /llm-performance
           <li>KV cache stores both key and value tensors (factor of 2)</li>
           <li>Full attention layers cache the entire sequence</li>
           <li>Sliding window attention layers only cache the window size</li>
-          <li>Does not account for quantization overhead or alignment</li>
-          <li>Does not account for framework overhead</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="mfu-container">
-  <h2>Max Batch Size Calculator</h2>
-
-  <label>
-    Available memory (GB)
-    <input type="number" id="batch-memory" value="80" min="1" step="1" />
-  </label>
-
-  <label>
-    Model size (parameters, billions)
-    <input type="number" id="batch-params" value="70" min="0" step="0.1" />
-  </label>
-
-  <label>
-    Sequence length
-    <input type="number" id="batch-seq-len" value="4096" min="1" step="1" />
-  </label>
-
-  <label>
-    Number of full attention layers
-    <input type="number" id="batch-full-layers" value="32" min="0" step="1" />
-  </label>
-
-  <label>
-    Number of sliding window attention layers
-    <input type="number" id="batch-swa-layers" value="0" min="0" step="1" />
-  </label>
-
-  <label>
-    Sliding window size
-    <input type="number" id="batch-window-size" value="4096" min="1" step="1" />
-  </label>
-
-  <label>
-    Number of KV heads
-    <input type="number" id="batch-kv-heads" value="8" min="1" step="1" />
-  </label>
-
-  <label>
-    Head dimension
-    <input type="number" id="batch-head-dim" value="128" min="1" step="1" />
-  </label>
-
-  <label>
-    Data type
-    <select id="batch-dtype">
-      <option value="fp8">FP8 (1 byte)</option>
-      <option value="fp16" selected>FP16/BF16 (2 bytes)</option>
-      <option value="fp32">FP32 (4 bytes)</option>
-    </select>
-  </label>
-
-  <div id="batch-result" class="mfu-result"></div>
-
-  <div class="mfu-info" markdown="0">
-    <div class="assumptions-container">
-      <p class="assumptions-label">
-        ℹ️ Assumptions*
-      </p>
-      <div class="assumptions-tooltip">
-        <strong>Assumptions:</strong>
-        <ul>
-          <li>Assumes model weights and KV cache are the primary memory consumers</li>
+          <li>Model weights are sharded across TP degree GPUs</li>
+          <li>KV cache is replicated across TP degree GPUs</li>
           <li>Does not account for activation memory during forward pass</li>
-          <li>Does not account for framework overhead</li>
-          <li>Does not account for memory fragmentation</li>
-          <li>Assumes uniform data type for model weights and KV cache</li>
+          <li>Does not account for framework overhead or memory fragmentation</li>
         </ul>
       </div>
     </div>
@@ -225,14 +176,15 @@ permalink: /llm-performance
 <style>
   .calculators-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, minmax(500px, 1fr));
     gap: 2rem;
     width: 100%;
     margin: 2rem auto;
     padding: 0 1rem;
+    max-width: 1400px;
   }
 
-  @media (max-width: 1200px) {
+  @media (max-width: 1100px) {
     .calculators-grid {
       grid-template-columns: 1fr;
     }
@@ -423,119 +375,94 @@ permalink: /llm-performance
       fp8: 1
     };
 
-    function calculateKVCache() {
-      const seqLen = parseInt($("kv-seq-len").value, 10);
-      const fullLayers = parseInt($("kv-full-layers").value, 10);
-      const swaLayers = parseInt($("kv-swa-layers").value, 10);
-      const windowSize = parseInt($("kv-window-size").value, 10);
-      const kvHeads = parseInt($("kv-heads").value, 10);
-      const headDim = parseInt($("kv-head-dim").value, 10);
-      const dtype = $("kv-dtype").value;
-      const batchSize = parseInt($("kv-batch-size").value, 10);
-
-      if (
-        isNaN(seqLen) || isNaN(fullLayers) || isNaN(swaLayers) ||
-        isNaN(windowSize) || isNaN(kvHeads) || isNaN(headDim) || isNaN(batchSize) ||
-        seqLen <= 0 || fullLayers < 0 || swaLayers < 0 ||
-        windowSize <= 0 || kvHeads <= 0 || headDim <= 0 || batchSize <= 0
-      ) {
-        $("kv-result").textContent = "";
-        return;
-      }
-
-      const bytesPerElement = BYTES_PER_TYPE[dtype];
-      const fullAttentionCache = fullLayers * seqLen * kvHeads * headDim * 2 * bytesPerElement;
-      const swaCache = swaLayers * Math.min(seqLen, windowSize) * kvHeads * headDim * 2 * bytesPerElement;
-      const totalCachePerSample = fullAttentionCache + swaCache;
-      const totalCache = totalCachePerSample * batchSize;
-
-      const cacheGB = totalCache / (1024 ** 3);
-      const cacheMB = totalCache / (1024 ** 2);
-
-      if (cacheGB >= 1) {
-        $("kv-result").textContent = `KV Cache Size: ${cacheGB.toFixed(2)} GB`;
-      } else {
-        $("kv-result").textContent = `KV Cache Size: ${cacheMB.toFixed(2)} MB`;
-      }
-    }
-
-    [
-      "kv-seq-len", "kv-full-layers", "kv-swa-layers", "kv-window-size",
-      "kv-heads", "kv-head-dim", "kv-dtype", "kv-batch-size"
-    ].forEach((id) => {
-      const el = $(id);
-      el.addEventListener("input", calculateKVCache);
-      el.addEventListener("change", calculateKVCache);
-    });
-
-    calculateKVCache();
-  })();
-
-  (function () {
-    const $ = (id) => document.getElementById(id);
-
-    const BYTES_PER_TYPE = {
-      fp32: 4,
-      fp16: 2,
-      fp8: 1
+    const GPU_MEMORY = {
+      "A100-40": 40,
+      "A100-80": 80,
+      "H100": 80,
+      "H200": 141,
+      "B200": 192
     };
 
-    function calculateMaxBatchSize() {
-      const memoryGB = parseFloat($("batch-memory").value);
-      const paramsB = parseFloat($("batch-params").value);
-      const seqLen = parseInt($("batch-seq-len").value, 10);
-      const fullLayers = parseInt($("batch-full-layers").value, 10);
-      const swaLayers = parseInt($("batch-swa-layers").value, 10);
-      const windowSize = parseInt($("batch-window-size").value, 10);
-      const kvHeads = parseInt($("batch-kv-heads").value, 10);
-      const headDim = parseInt($("batch-head-dim").value, 10);
-      const dtype = $("batch-dtype").value;
+    function calculateIntegrated() {
+      const paramsB = parseFloat($("integrated-params").value);
+      const numGPUs = parseInt($("integrated-num-gpus").value, 10);
+      const gpuType = $("integrated-gpu-type").value;
+      const tpDegree = parseInt($("integrated-tp").value, 10);
+      const seqLen = parseInt($("integrated-seq-len").value, 10);
+      const fullLayers = parseInt($("integrated-full-layers").value, 10);
+      const swaLayers = parseInt($("integrated-swa-layers").value, 10);
+      const windowSize = parseInt($("integrated-window-size").value, 10);
+      const kvHeads = parseInt($("integrated-kv-heads").value, 10);
+      const headDim = parseInt($("integrated-head-dim").value, 10);
+      const dtype = $("integrated-dtype").value;
 
       if (
-        isNaN(memoryGB) || isNaN(paramsB) || isNaN(seqLen) ||
+        isNaN(paramsB) || isNaN(numGPUs) || isNaN(tpDegree) || isNaN(seqLen) ||
         isNaN(fullLayers) || isNaN(swaLayers) || isNaN(windowSize) ||
         isNaN(kvHeads) || isNaN(headDim) ||
-        memoryGB <= 0 || paramsB <= 0 || seqLen <= 0 ||
+        paramsB <= 0 || numGPUs <= 0 || tpDegree <= 0 || seqLen <= 0 ||
         fullLayers < 0 || swaLayers < 0 || windowSize <= 0 ||
         kvHeads <= 0 || headDim <= 0
       ) {
-        $("batch-result").textContent = "";
+        $("integrated-kv-result").textContent = "";
+        $("integrated-batch-result").textContent = "";
+        return;
+      }
+
+      if (tpDegree > numGPUs) {
+        $("integrated-kv-result").textContent = "";
+        $("integrated-batch-result").textContent = "Error: TP degree cannot exceed number of GPUs";
         return;
       }
 
       const bytesPerElement = BYTES_PER_TYPE[dtype];
-      const modelMemoryBytes = paramsB * 1e9 * bytesPerElement;
-      const availableMemoryBytes = memoryGB * (1024 ** 3);
-      const memoryForKVCache = availableMemoryBytes - modelMemoryBytes;
+      const memoryPerGPU = GPU_MEMORY[gpuType];
+      const totalMemory = memoryPerGPU * numGPUs;
 
-      if (memoryForKVCache <= 0) {
-        $("batch-result").textContent = "Error: Model exceeds available memory";
-        return;
-      }
+      const modelMemoryBytes = paramsB * 1e9 * bytesPerElement;
+      const modelMemoryPerGPU = modelMemoryBytes / tpDegree;
 
       const fullAttentionCachePerSample = fullLayers * seqLen * kvHeads * headDim * 2 * bytesPerElement;
       const swaCachePerSample = swaLayers * Math.min(seqLen, windowSize) * kvHeads * headDim * 2 * bytesPerElement;
       const kvCachePerSample = fullAttentionCachePerSample + swaCachePerSample;
 
-      if (kvCachePerSample <= 0) {
-        $("batch-result").textContent = "Error: Invalid KV cache configuration";
+      const cacheGB = kvCachePerSample / (1024 ** 3);
+      const cacheMB = kvCachePerSample / (1024 ** 2);
+
+      if (cacheGB >= 1) {
+        $("integrated-kv-result").textContent = `KV Cache per Sample: ${cacheGB.toFixed(2)} GB`;
+      } else {
+        $("integrated-kv-result").textContent = `KV Cache per Sample: ${cacheMB.toFixed(2)} MB`;
+      }
+
+      const availableMemoryPerGPU = (memoryPerGPU * (1024 ** 3)) - modelMemoryPerGPU;
+
+      if (availableMemoryPerGPU <= 0) {
+        $("integrated-batch-result").textContent = "Error: Model exceeds available memory per GPU";
         return;
       }
 
-      const maxBatchSize = Math.floor(memoryForKVCache / kvCachePerSample);
-      $("batch-result").textContent = `Max Batch Size: ${maxBatchSize}`;
+      if (kvCachePerSample <= 0) {
+        $("integrated-batch-result").textContent = "Error: Invalid KV cache configuration";
+        return;
+      }
+
+      const maxBatchSizePerGPU = Math.floor(availableMemoryPerGPU / kvCachePerSample);
+      const maxBatchSize = maxBatchSizePerGPU * (numGPUs / tpDegree);
+
+      $("integrated-batch-result").textContent = `Max Batch Size: ${maxBatchSize}`;
     }
 
     [
-      "batch-memory", "batch-params", "batch-seq-len", "batch-full-layers",
-      "batch-swa-layers", "batch-window-size", "batch-kv-heads",
-      "batch-head-dim", "batch-dtype"
+      "integrated-params", "integrated-num-gpus", "integrated-gpu-type", "integrated-tp",
+      "integrated-seq-len", "integrated-full-layers", "integrated-swa-layers",
+      "integrated-window-size", "integrated-kv-heads", "integrated-head-dim", "integrated-dtype"
     ].forEach((id) => {
       const el = $(id);
-      el.addEventListener("input", calculateMaxBatchSize);
-      el.addEventListener("change", calculateMaxBatchSize);
+      el.addEventListener("input", calculateIntegrated);
+      el.addEventListener("change", calculateIntegrated);
     });
 
-    calculateMaxBatchSize();
+    calculateIntegrated();
   })();
 </script>
