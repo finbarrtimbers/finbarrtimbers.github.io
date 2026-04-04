@@ -18,7 +18,7 @@ There were three primary optimizations:
 2. Inflight updates.
 3. Better thread synchronization.
 
-## Continuous batching
+## Continuous batching (+11% throughput)
 
 For Olmo 2, our post-training code used a synchronous RL approach,
 in which the actors and learner all operate in lockstep. For every training step, we load a batch of prompts that
@@ -36,7 +36,7 @@ follow the naive approach, you'll waste `(max_sequence_length - mean_sequence_le
 your compute. On Olmo 3, we had an average generation length of 14k, and a maximum of 32k, so we would have
 wasted 54\% of our compute with static batching. See the diagram for an illustrated example.
 
-![Continuous batching vs static batching](/static/images/continuous-batching.png)
+<img src="/static/images/continuous-batching.png" alt="Continuous batching vs static batching" style="width: 33%;">
 
 
 Instead, to optimally use your GPUs, you should be streaming examples in and out of your GPUs as previous completions
@@ -48,7 +48,7 @@ the new streaming architecture.
 (I made ChatGPT make the original version of this image in Tikz. It was remarkably difficult. The LaTeX is [available](https://gist.github.com/finbarrtimbers/153dae1598b17c75a9690cd848e86818) if you care to see how I tortured ChatGPT.)
 
 
-## Inflight updates
+## Inflight updates (+117% throughput)
 
 The major disadvantage of asynchronous RL is that it makes the actors more off-policy from the learner, i.e. the
 learner will be training on the current version of the model, but the actors might have generated the completions
@@ -70,7 +70,7 @@ a neural network is the composition of continuous functions, but it's a bit weir
 and it's hard to argue with a 2x speedup.
 
 
-## Better threading
+## Better threading (+39% throughput)
 
 Finally, after all these sophisticated changes to our RL pipeline, we ran headfirst into [Amdahl's law](https://en.wikipedia.org/wiki/Amdahl%27s_law).
 As we made our actors more asynchronous, the synchronization points become more of a bottlenck. In particular,
@@ -86,8 +86,8 @@ queue.
 Decoupling the actors was a pure systems change that affected how we synchronize the learner and the actors.
 The idea is that if you have N actors and need to do a weight broadcast, the naive way is something like this:
 
-1. Ask them all to stop, (`for i in range(num_actors): actors[i].stop()`)
-2. Send the weight update to each one in turn, (`for i in range(num_actors): actors[i].update_weights()`)
+1. Ask them all to stop (`for i in range(num_actors): actors[i].stop()`)
+2. Send the weight update to each one in turn (`for i in range(num_actors): actors[i].update_weights()`)
 3. Restart inference on the actors (`for i in range(num_actors): actors[i].start()`).
 
 
@@ -129,9 +129,9 @@ The main bottleneck now is that we have our learner broadcasting the weight upda
 
 Here's the table from the [Olmo 3 paper](https://arxiv.org/abs/2512.13961) showing our results.
 
-| Model      | Total tokens (2h) | Tokens per second | MFU   | MBU    | Notes                             | Commit                                                                                                        |
-|------------|--------------------|-------------------|-------|--------|-----------------------------------|---------------------------------------------------------------------------------------------------------------|
-| qwen2.5-7b |          6340029 |               881 | 0.30% | 12.90% | Baseline before any major changes | [564f8a4](https://github.com/allenai/open-instruct/commit/564f8a4dd72b9298de88f8fa7c242dac53141b88) |
-| qwen2.5-7b |          7023009 |               975 | 0.33% | 14.29% | plus continuous batching          | [ab90d5a](https://github.com/allenai/open-instruct/pull/998)  |
-| qwen2.5-7b |          9774900 |              1358 | 0.46% | 19.89% | plus better threading             | [e320ff0](https://github.com/allenai/open-instruct/pull/1054) |
-| qwen2.5-7b |         21235746 |              2949 | 1.01% | 43.21% | plus inflight updates             | [e320ff0](https://github.com/allenai/open-instruct/pull/1054) |
+| Model      | Tokens per second | MFU   | MBU    | Notes                             | Commit                                                                                                        |
+|------------|-------------------|-------|--------|-----------------------------------|---------------------------------------------------------------------------------------------------------------|
+| qwen2.5-7b |               881 | 0.30% | 12.90% | Baseline before any major changes | [564f8a4](https://github.com/allenai/open-instruct/commit/564f8a4dd72b9298de88f8fa7c242dac53141b88) |
+| qwen2.5-7b |               975 | 0.33% | 14.29% | plus continuous batching          | [ab90d5a](https://github.com/allenai/open-instruct/pull/998)  |
+| qwen2.5-7b |              1358 | 0.46% | 19.89% | plus better threading             | [e320ff0](https://github.com/allenai/open-instruct/pull/1054) |
+| qwen2.5-7b |              2949 | 1.01% | 43.21% | plus inflight updates             | [e320ff0](https://github.com/allenai/open-instruct/pull/1054) |

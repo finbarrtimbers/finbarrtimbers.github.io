@@ -111,3 +111,25 @@ sub {
   overflow-x: auto;
   overflow-y: hidden;
 }
+
+#content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1.5em 0;
+  font-size: 13px;
+}
+
+#content th, #content td {
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+#content th {
+  font-weight: bold;
+  border-bottom: 2px solid #333;
+}
+
+#content tr:last-child td {
+  border-bottom: none;
+}
