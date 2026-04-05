@@ -36,7 +36,7 @@ follow the naive approach, you'll waste `(max_sequence_length - mean_sequence_le
 your compute. On Olmo 3, we had an average generation length of 14k, and a maximum of 32k, so we would have
 wasted 54\% of our compute with static batching. See the diagram for an illustrated example.
 
-<img src="/static/images/continuous-batching.png" alt="Continuous batching vs static batching" style="width: 66%;">
+<img src="/static/images/continuous-batching.png" alt="Continuous batching vs static batching" style="width: 78%;">
 
 
 Instead, to optimally use your GPUs, you should be streaming examples in and out of your GPUs as previous completions
@@ -125,13 +125,13 @@ async def update_weight(actors: list[Actor], actor_index: int):
 await asyncio.gather(*(update_weight(actors, i) for i in range(num_actors)))
 ```
 
-The main bottleneck now is that we have our learner broadcasting the weight updates, which is inherently sequential. We *could* move to an asynchronous approach like Cursor did for [Composer 2](https://arxiv.org/abs/2603.24477), where the weights are written to disk, but we haven't found the weight broadcast to be a bottleneck in practice.
+The main bottleneck now is that we have our learner broadcasting the weight updates, which is inherently sequential. We *could* move to an asynchronous approach like Cursor did for [Composer 2](https://arxiv.org/abs/2603.24477), where the weights are written to disk, but we haven't found the weight broadcast to be a bottleneck in practice. Here's the table from the [Olmo 3 paper](https://arxiv.org/abs/2512.13961) showing our results.
 
-Here's the table from the [Olmo 3 paper](https://arxiv.org/abs/2512.13961) showing our results.
+To benchmark the changes, we used Qwen 2.5 7B, generating a batch of 16 prompts, each sampled 4 times, with a maximum generation length of 32k tokens and a maximum prompt length of 2k tokens. We run each RL experiment for 2 hours and measure tokens/second based on the total output over the 2 h. We use 2 8x H100 nodes: one for the trainer and one for the actors. We have 8 actors running; one on each GPU.
 
-| Model      | Tokens per second | MFU   | MBU    | Notes                             | Commit                                                                                                        |
-|------------|-------------------|-------|--------|-----------------------------------|---------------------------------------------------------------------------------------------------------------|
-| qwen2.5-7b |               881 | 0.30% | 12.90% | Baseline before any major changes | [564f8a4](https://github.com/allenai/open-instruct/commit/564f8a4dd72b9298de88f8fa7c242dac53141b88) |
-| qwen2.5-7b |               975 | 0.33% | 14.29% | plus continuous batching          | [ab90d5a](https://github.com/allenai/open-instruct/pull/998)  |
-| qwen2.5-7b |              1358 | 0.46% | 19.89% | plus better threading             | [e320ff0](https://github.com/allenai/open-instruct/pull/1054) |
-| qwen2.5-7b |              2949 | 1.01% | 43.21% | plus inflight updates             | [e320ff0](https://github.com/allenai/open-instruct/pull/1054) |
+| Tokens per second | MFU   | MBU    | Notes                             | Commit                                                                                                        |
+|-------------------|-------|--------|-----------------------------------|---------------------------------------------------------------------------------------------------------------|
+|               881 | 0.30% | 12.90% | Baseline before any major changes | [564f8a4](https://github.com/allenai/open-instruct/commit/564f8a4dd72b9298de88f8fa7c242dac53141b88) |
+|               975 | 0.33% | 14.29% | plus continuous batching          | [ab90d5a](https://github.com/allenai/open-instruct/pull/998)  |
+|              1358 | 0.46% | 19.89% | plus better threading             | [e320ff0](https://github.com/allenai/open-instruct/pull/1054) |
+|              2949 | 1.01% | 43.21% | plus inflight updates             | [e320ff0](https://github.com/allenai/open-instruct/pull/1054) |

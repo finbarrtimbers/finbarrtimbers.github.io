@@ -3,7 +3,7 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
   <url>
-    <loc>http://localhost:4000</loc>
+    <loc>http://localhost:4001</loc>
     <lastmod>2026-04-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
@@ -11,252 +11,252 @@
 
   
   <url>
-    <loc>http://localhost:4000/making-rl-fast/</loc>
+    <loc>http://localhost:4001/making-rl-fast/</loc>
     <lastmod>2026-04-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://localhost:4000/the-bitter-lesson/</loc>
+    <loc>http://localhost:4001/the-bitter-lesson/</loc>
     <lastmod>2025-06-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://localhost:4000/request-for-research-puct/</loc>
+    <loc>http://localhost:4001/request-for-research-puct/</loc>
     <lastmod>2025-01-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://localhost:4000/resp-advice/</loc>
+    <loc>http://localhost:4001/resp-advice/</loc>
     <lastmod>2024-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://localhost:4000/install-docker-on-ubuntu/</loc>
+    <loc>http://localhost:4001/install-docker-on-ubuntu/</loc>
     <lastmod>2024-02-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://localhost:4000/five-years-of-gpt-talk/</loc>
+    <loc>http://localhost:4001/five-years-of-gpt-talk/</loc>
     <lastmod>2023-05-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://localhost:4000/deriving-the-dall-e-lower-bound/</loc>
+    <loc>http://localhost:4001/deriving-the-dall-e-lower-bound/</loc>
     <lastmod>2023-04-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://localhost:4000/five-years-of-gpt-progress/</loc>
+    <loc>http://localhost:4001/five-years-of-gpt-progress/</loc>
     <lastmod>2023-03-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://localhost:4000/how-is-llama-cpp-possible/</loc>
+    <loc>http://localhost:4001/how-is-llama-cpp-possible/</loc>
     <lastmod>2023-03-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://localhost:4000/self-improving-LLMs/</loc>
+    <loc>http://localhost:4001/self-improving-LLMs/</loc>
     <lastmod>2023-03-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://localhost:4000/papers-ive-read/</loc>
+    <loc>http://localhost:4001/papers-ive-read/</loc>
     <lastmod>2023-03-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://localhost:4000/the-sigmoid/</loc>
+    <loc>http://localhost:4001/the-sigmoid/</loc>
     <lastmod>2023-03-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://localhost:4000/llms-not-trained-enough/</loc>
+    <loc>http://localhost:4001/llms-not-trained-enough/</loc>
     <lastmod>2023-02-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://localhost:4000/backprop/</loc>
+    <loc>http://localhost:4001/backprop/</loc>
     <lastmod>2023-01-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://localhost:4000/pointer-networks/</loc>
+    <loc>http://localhost:4001/pointer-networks/</loc>
     <lastmod>2017-09-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://localhost:4000/do-dnns-generalise-or-memorize/</loc>
+    <loc>http://localhost:4001/do-dnns-generalise-or-memorize/</loc>
     <lastmod>2017-07-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://localhost:4000/outrageously-large-networks/</loc>
+    <loc>http://localhost:4001/outrageously-large-networks/</loc>
     <lastmod>2017-07-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://localhost:4000/imagenet-1-hour/</loc>
+    <loc>http://localhost:4001/imagenet-1-hour/</loc>
     <lastmod>2017-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://localhost:4000/random-search-hyper-parameter-optimization/</loc>
+    <loc>http://localhost:4001/random-search-hyper-parameter-optimization/</loc>
     <lastmod>2017-03-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://localhost:4000/Useful-oneliners/</loc>
+    <loc>http://localhost:4001/Useful-oneliners/</loc>
     <lastmod>2017-01-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://localhost:4000/minecraft/</loc>
+    <loc>http://localhost:4001/minecraft/</loc>
     <lastmod>2017-01-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://localhost:4000/softwar-academic/</loc>
+    <loc>http://localhost:4001/softwar-academic/</loc>
     <lastmod>2016-12-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://localhost:4000/SqueezeNet/</loc>
+    <loc>http://localhost:4001/SqueezeNet/</loc>
     <lastmod>2016-11-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://localhost:4000/conditional-image-synthesis/</loc>
+    <loc>http://localhost:4001/conditional-image-synthesis/</loc>
     <lastmod>2016-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://localhost:4000/Generative-adversarial-imitation-learning/</loc>
+    <loc>http://localhost:4001/Generative-adversarial-imitation-learning/</loc>
     <lastmod>2016-11-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://localhost:4000/ridge-regression-with-cross-validation/</loc>
+    <loc>http://localhost:4001/ridge-regression-with-cross-validation/</loc>
     <lastmod>2016-10-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://localhost:4000/representation-learning-overview/</loc>
+    <loc>http://localhost:4001/representation-learning-overview/</loc>
     <lastmod>2016-10-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://localhost:4000/image-compression-rnn/</loc>
+    <loc>http://localhost:4001/image-compression-rnn/</loc>
     <lastmod>2016-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://localhost:4000/generative-adverserial-networks-and-actor-critics/</loc>
+    <loc>http://localhost:4001/generative-adverserial-networks-and-actor-critics/</loc>
     <lastmod>2016-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://localhost:4000/Progressive-networks-training-robots/</loc>
+    <loc>http://localhost:4001/Progressive-networks-training-robots/</loc>
     <lastmod>2016-10-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://localhost:4000/Off-Policy-Reinforcement-Learning/</loc>
+    <loc>http://localhost:4001/Off-Policy-Reinforcement-Learning/</loc>
     <lastmod>2016-10-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://localhost:4000/xgboost/</loc>
+    <loc>http://localhost:4001/xgboost/</loc>
     <lastmod>2016-09-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://localhost:4000/excellent-description-of-hashtables/</loc>
+    <loc>http://localhost:4001/excellent-description-of-hashtables/</loc>
     <lastmod>2015-08-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://localhost:4000/jsoncpp-example/</loc>
+    <loc>http://localhost:4001/jsoncpp-example/</loc>
     <lastmod>2014-09-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://localhost:4000/arima-arma-what/</loc>
+    <loc>http://localhost:4001/arima-arma-what/</loc>
     <lastmod>2014-04-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://localhost:4000/solving-pacf/</loc>
+    <loc>http://localhost:4001/solving-pacf/</loc>
     <lastmod>2014-03-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -266,7 +266,7 @@
   
     
       <url>
-        <loc>http://localhost:4000/advice</loc>
+        <loc>http://localhost:4001/advice</loc>
         <lastmod>2026-04-05</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
@@ -275,7 +275,7 @@
   
     
       <url>
-        <loc>http://localhost:4000/aijobs</loc>
+        <loc>http://localhost:4001/aijobs</loc>
         <lastmod>2026-04-05</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
@@ -284,7 +284,7 @@
   
     
       <url>
-        <loc>http://localhost:4000/best-practices</loc>
+        <loc>http://localhost:4001/best-practices</loc>
         <lastmod>2026-04-05</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
@@ -293,7 +293,7 @@
   
     
       <url>
-        <loc>http://localhost:4000/blog/</loc>
+        <loc>http://localhost:4001/blog/</loc>
         <lastmod>2026-04-05</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
@@ -302,85 +302,7 @@
   
     
       <url>
-        <loc>http://localhost:4000/books</loc>
-        <lastmod>2026-04-05</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.5</priority>
-      </url>
-    
-  
-    
-  
-    
-      <url>
-        <loc>http://localhost:4000/development</loc>
-        <lastmod>2026-04-05</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.5</priority>
-      </url>
-    
-  
-    
-  
-    
-  
-    
-      <url>
-        <loc>http://localhost:4000/</loc>
-        <lastmod>2026-04-05</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.5</priority>
-      </url>
-    
-  
-    
-      <url>
-        <loc>http://localhost:4000/llm-performance</loc>
-        <lastmod>2026-04-05</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.5</priority>
-      </url>
-    
-  
-    
-      <url>
-        <loc>http://localhost:4000/mistakes/</loc>
-        <lastmod>2026-04-05</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.5</priority>
-      </url>
-    
-  
-    
-      <url>
-        <loc>http://localhost:4000/notes/</loc>
-        <lastmod>2026-04-05</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.5</priority>
-      </url>
-    
-  
-    
-      <url>
-        <loc>http://localhost:4000/portfolio</loc>
-        <lastmod>2026-04-05</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.5</priority>
-      </url>
-    
-  
-    
-      <url>
-        <loc>http://localhost:4000/prompt-engineering</loc>
-        <lastmod>2026-04-05</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.5</priority>
-      </url>
-    
-  
-    
-      <url>
-        <loc>http://localhost:4000/rfs/</loc>
+        <loc>http://localhost:4001/books</loc>
         <lastmod>2026-04-05</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
@@ -391,7 +313,20 @@
   
     
       <url>
-        <loc>http://localhost:4000/talks</loc>
+        <loc>http://localhost:4001/development</loc>
+        <lastmod>2026-04-05</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.5</priority>
+      </url>
+    
+  
+    
+  
+    
+  
+    
+      <url>
+        <loc>http://localhost:4001/</loc>
         <lastmod>2026-04-05</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
@@ -400,7 +335,7 @@
   
     
       <url>
-        <loc>http://localhost:4000/transformers/</loc>
+        <loc>http://localhost:4001/llm-performance</loc>
         <lastmod>2026-04-05</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>
@@ -409,7 +344,72 @@
   
     
       <url>
-        <loc>http://localhost:4000/work</loc>
+        <loc>http://localhost:4001/mistakes/</loc>
+        <lastmod>2026-04-05</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.5</priority>
+      </url>
+    
+  
+    
+      <url>
+        <loc>http://localhost:4001/notes/</loc>
+        <lastmod>2026-04-05</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.5</priority>
+      </url>
+    
+  
+    
+      <url>
+        <loc>http://localhost:4001/portfolio</loc>
+        <lastmod>2026-04-05</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.5</priority>
+      </url>
+    
+  
+    
+      <url>
+        <loc>http://localhost:4001/prompt-engineering</loc>
+        <lastmod>2026-04-05</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.5</priority>
+      </url>
+    
+  
+    
+      <url>
+        <loc>http://localhost:4001/rfs/</loc>
+        <lastmod>2026-04-05</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.5</priority>
+      </url>
+    
+  
+    
+  
+    
+      <url>
+        <loc>http://localhost:4001/talks</loc>
+        <lastmod>2026-04-05</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.5</priority>
+      </url>
+    
+  
+    
+      <url>
+        <loc>http://localhost:4001/transformers/</loc>
+        <lastmod>2026-04-05</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.5</priority>
+      </url>
+    
+  
+    
+      <url>
+        <loc>http://localhost:4001/work</loc>
         <lastmod>2026-04-05</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.5</priority>

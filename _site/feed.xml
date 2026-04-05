@@ -4,8 +4,8 @@
   <channel>
 		<title>Finbarr Timbers</title>
 		<description>Personal website for Finbarr Timbers</description>
-		<link>http://localhost:4000</link>
-		<atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
+		<link>http://localhost:4001</link>
+		<atom:link href="http://localhost:4001/feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
 				<title>Making RL Fast</title>
@@ -43,7 +43,7 @@ follow the naive approach, you&apos;ll waste &lt;code class=&quot;language-plain
 your compute. On Olmo 3, we had an average generation length of 14k, and a maximum of 32k, so we would have
 wasted 54\% of our compute with static batching. See the diagram for an illustrated example.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;/static/images/continuous-batching.png&quot; alt=&quot;Continuous batching vs static batching&quot; style=&quot;width: 66%;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/static/images/continuous-batching.png&quot; alt=&quot;Continuous batching vs static batching&quot; style=&quot;width: 78%;&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Instead, to optimally use your GPUs, you should be streaming examples in and out of your GPUs as previous completions
 finish. This is called &lt;em&gt;continuous batching&lt;/em&gt;, where you constantly enqueue new generations as each one
@@ -127,14 +127,13 @@ for i in range(num_actors):
 await asyncio.gather(*(update_weight(actors, i) for i in range(num_actors)))
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;The main bottleneck now is that we have our learner broadcasting the weight updates, which is inherently sequential. We &lt;em&gt;could&lt;/em&gt; move to an asynchronous approach like Cursor did for &lt;a href=&quot;https://arxiv.org/abs/2603.24477&quot;&gt;Composer 2&lt;/a&gt;, where the weights are written to disk, but we haven&apos;t found the weight broadcast to be a bottleneck in practice.&lt;/p&gt;
+&lt;p&gt;The main bottleneck now is that we have our learner broadcasting the weight updates, which is inherently sequential. We &lt;em&gt;could&lt;/em&gt; move to an asynchronous approach like Cursor did for &lt;a href=&quot;https://arxiv.org/abs/2603.24477&quot;&gt;Composer 2&lt;/a&gt;, where the weights are written to disk, but we haven&apos;t found the weight broadcast to be a bottleneck in practice. Here&apos;s the table from the &lt;a href=&quot;https://arxiv.org/abs/2512.13961&quot;&gt;Olmo 3 paper&lt;/a&gt; showing our results.&lt;/p&gt;
 
-&lt;p&gt;Here&apos;s the table from the &lt;a href=&quot;https://arxiv.org/abs/2512.13961&quot;&gt;Olmo 3 paper&lt;/a&gt; showing our results.&lt;/p&gt;
+&lt;p&gt;To benchmark the changes, we used Qwen 2.5 7B, generating a batch of 16 prompts, each sampled 4 times, with a maximum generation length of 32k tokens and a maximum prompt length of 2k tokens. We run each RL experiment for 2 hours and measure tokens/second based on the total output over the 2 h. We use 2 8x H100 nodes: one for the trainer and one for the actors. We have 8 actors running; one on each GPU.&lt;/p&gt;
 
 &lt;table&gt;
   &lt;thead&gt;
     &lt;tr&gt;
-      &lt;th&gt;Model&lt;/th&gt;
       &lt;th&gt;Tokens per second&lt;/th&gt;
       &lt;th&gt;MFU&lt;/th&gt;
       &lt;th&gt;MBU&lt;/th&gt;
@@ -144,7 +143,6 @@ await asyncio.gather(*(update_weight(actors, i) for i in range(num_actors)))
   &lt;/thead&gt;
   &lt;tbody&gt;
     &lt;tr&gt;
-      &lt;td&gt;qwen2.5-7b&lt;/td&gt;
       &lt;td&gt;881&lt;/td&gt;
       &lt;td&gt;0.30%&lt;/td&gt;
       &lt;td&gt;12.90%&lt;/td&gt;
@@ -152,7 +150,6 @@ await asyncio.gather(*(update_weight(actors, i) for i in range(num_actors)))
       &lt;td&gt;&lt;a href=&quot;https://github.com/allenai/open-instruct/commit/564f8a4dd72b9298de88f8fa7c242dac53141b88&quot;&gt;564f8a4&lt;/a&gt;&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
-      &lt;td&gt;qwen2.5-7b&lt;/td&gt;
       &lt;td&gt;975&lt;/td&gt;
       &lt;td&gt;0.33%&lt;/td&gt;
       &lt;td&gt;14.29%&lt;/td&gt;
@@ -160,7 +157,6 @@ await asyncio.gather(*(update_weight(actors, i) for i in range(num_actors)))
       &lt;td&gt;&lt;a href=&quot;https://github.com/allenai/open-instruct/pull/998&quot;&gt;ab90d5a&lt;/a&gt;&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
-      &lt;td&gt;qwen2.5-7b&lt;/td&gt;
       &lt;td&gt;1358&lt;/td&gt;
       &lt;td&gt;0.46%&lt;/td&gt;
       &lt;td&gt;19.89%&lt;/td&gt;
@@ -168,7 +164,6 @@ await asyncio.gather(*(update_weight(actors, i) for i in range(num_actors)))
       &lt;td&gt;&lt;a href=&quot;https://github.com/allenai/open-instruct/pull/1054&quot;&gt;e320ff0&lt;/a&gt;&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
-      &lt;td&gt;qwen2.5-7b&lt;/td&gt;
       &lt;td&gt;2949&lt;/td&gt;
       &lt;td&gt;1.01%&lt;/td&gt;
       &lt;td&gt;43.21%&lt;/td&gt;
@@ -179,8 +174,8 @@ await asyncio.gather(*(update_weight(actors, i) for i in range(num_actors)))
 &lt;/table&gt;
 </description>
 				<pubDate>Fri, 03 Apr 2026 00:00:00 -0600</pubDate>
-				<link>http://localhost:4000/making-rl-fast/</link>
-				<guid isPermaLink="true">http://localhost:4000/making-rl-fast/</guid>
+				<link>http://localhost:4001/making-rl-fast/</link>
+				<guid isPermaLink="true">http://localhost:4001/making-rl-fast/</guid>
 			</item>
 		
 			<item>
@@ -249,8 +244,8 @@ await asyncio.gather(*(update_weight(actors, i) for i in range(num_actors)))
 &lt;p&gt;&lt;a href=&quot;https://www.artfintel.com/p/the-bitter-lesson#footnote-anchor-1-166870478&quot;&gt;1&lt;/a&gt; Deep Blue is fascinating for a variety of reasons, including the fact that they had custom “chess chips” made to encode the evaluation function in hardware.&lt;/p&gt;
 </description>
 				<pubDate>Thu, 26 Jun 2025 00:00:00 -0600</pubDate>
-				<link>http://localhost:4000/the-bitter-lesson/</link>
-				<guid isPermaLink="true">http://localhost:4000/the-bitter-lesson/</guid>
+				<link>http://localhost:4001/the-bitter-lesson/</link>
+				<guid isPermaLink="true">http://localhost:4001/the-bitter-lesson/</guid>
 			</item>
 		
 			<item>
@@ -346,8 +341,8 @@ some games, particularly the stochastic games, required the softmax rule to get 
 best response, while others (particularly chess/go) required the &quot;most visited&quot; rule to get the best response.&lt;/p&gt;
 </description>
 				<pubDate>Tue, 21 Jan 2025 00:00:00 -0700</pubDate>
-				<link>http://localhost:4000/request-for-research-puct/</link>
-				<guid isPermaLink="true">http://localhost:4000/request-for-research-puct/</guid>
+				<link>http://localhost:4001/request-for-research-puct/</link>
+				<guid isPermaLink="true">http://localhost:4001/request-for-research-puct/</guid>
 			</item>
 		
 			<item>
@@ -382,8 +377,8 @@ best response, while others (particularly chess/go) required the &quot;most visi
 &lt;p&gt;If you&apos;re not comfortable doing this yourself, I&apos;d go with one of the managed funds. I like JustWealth as they provide a dedicated RESP target-date fund which will do everything I described above for you. You could also go with Questwealth or WealthSimple and adjust the aggressiveness over time. Looking at Questwealth as an example (but all the advisors have similar options), I&apos;d start out in an Aggressive fund for the first 4 years, then Growth for the next 4 years, followed by Balanced for 4 years, then Income for 4 years, and ending in Conservative. This would be easy to do, just set a calendar reminder to lower the aggressiveness every 4 years.&lt;/p&gt;
 </description>
 				<pubDate>Fri, 08 Nov 2024 00:00:00 -0700</pubDate>
-				<link>http://localhost:4000/resp-advice/</link>
-				<guid isPermaLink="true">http://localhost:4000/resp-advice/</guid>
+				<link>http://localhost:4001/resp-advice/</link>
+				<guid isPermaLink="true">http://localhost:4001/resp-advice/</guid>
 			</item>
 		
 			<item>
@@ -416,8 +411,8 @@ N: See apt-secure(8) manpage for repository creation and user configuration deta
 
 </description>
 				<pubDate>Fri, 02 Feb 2024 00:00:00 -0700</pubDate>
-				<link>http://localhost:4000/install-docker-on-ubuntu/</link>
-				<guid isPermaLink="true">http://localhost:4000/install-docker-on-ubuntu/</guid>
+				<link>http://localhost:4001/install-docker-on-ubuntu/</link>
+				<guid isPermaLink="true">http://localhost:4001/install-docker-on-ubuntu/</guid>
 			</item>
 		
 			<item>
@@ -427,8 +422,8 @@ N: See apt-secure(8) manpage for repository creation and user configuration deta
 &lt;p&gt;The slides are &lt;a href=&quot;https://finbarr.ca/5_years_of_GPTs.pdf&quot;&gt;now online&lt;/a&gt;, as is the &lt;a href=&quot;https://www.youtube.com/watch?v=YA0pzBYAV2Q&amp;amp;list=PLKlhhkvvU8-YxMP9hjEYJTJDCaGszrJIh&amp;amp;index=7&amp;amp;t=43s&quot;&gt;recording&lt;/a&gt;.&lt;/p&gt;
 </description>
 				<pubDate>Mon, 29 May 2023 00:00:00 -0600</pubDate>
-				<link>http://localhost:4000/five-years-of-gpt-talk/</link>
-				<guid isPermaLink="true">http://localhost:4000/five-years-of-gpt-talk/</guid>
+				<link>http://localhost:4001/five-years-of-gpt-talk/</link>
+				<guid isPermaLink="true">http://localhost:4001/five-years-of-gpt-talk/</guid>
 			</item>
 		
 			<item>
@@ -488,8 +483,8 @@ p_{\theta, \psi}(x, y, z) = p_\theta(x | y, z) p_\psi(y, z)
 &lt;/div&gt;
 </description>
 				<pubDate>Wed, 05 Apr 2023 00:00:00 -0600</pubDate>
-				<link>http://localhost:4000/deriving-the-dall-e-lower-bound/</link>
-				<guid isPermaLink="true">http://localhost:4000/deriving-the-dall-e-lower-bound/</guid>
+				<link>http://localhost:4001/deriving-the-dall-e-lower-bound/</link>
+				<guid isPermaLink="true">http://localhost:4001/deriving-the-dall-e-lower-bound/</guid>
 			</item>
 		
 			<item>
@@ -796,8 +791,8 @@ p_{\theta, \psi}(x, y, z) = p_\theta(x | y, z) p_\psi(y, z)
 &lt;/div&gt;
 </description>
 				<pubDate>Mon, 27 Mar 2023 00:00:00 -0600</pubDate>
-				<link>http://localhost:4000/five-years-of-gpt-progress/</link>
-				<guid isPermaLink="true">http://localhost:4000/five-years-of-gpt-progress/</guid>
+				<link>http://localhost:4001/five-years-of-gpt-progress/</link>
+				<guid isPermaLink="true">http://localhost:4001/five-years-of-gpt-progress/</guid>
 			</item>
 		
 			<item>
@@ -935,8 +930,8 @@ p_{\theta, \psi}(x, y, z) = p_\theta(x | y, z) p_\psi(y, z)
 &lt;/div&gt;
 </description>
 				<pubDate>Thu, 16 Mar 2023 00:00:00 -0600</pubDate>
-				<link>http://localhost:4000/how-is-llama-cpp-possible/</link>
-				<guid isPermaLink="true">http://localhost:4000/how-is-llama-cpp-possible/</guid>
+				<link>http://localhost:4001/how-is-llama-cpp-possible/</link>
+				<guid isPermaLink="true">http://localhost:4001/how-is-llama-cpp-possible/</guid>
 			</item>
 		
 			<item>
@@ -1055,8 +1050,8 @@ There has been some work about training LLMs on data they have generated (&lt;a 
 &lt;/div&gt;
 </description>
 				<pubDate>Tue, 07 Mar 2023 00:00:00 -0700</pubDate>
-				<link>http://localhost:4000/self-improving-LLMs/</link>
-				<guid isPermaLink="true">http://localhost:4000/self-improving-LLMs/</guid>
+				<link>http://localhost:4001/self-improving-LLMs/</link>
+				<guid isPermaLink="true">http://localhost:4001/self-improving-LLMs/</guid>
 			</item>
 		
 	</channel>
