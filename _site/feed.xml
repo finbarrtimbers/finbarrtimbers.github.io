@@ -8,6 +8,430 @@
 		<atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
+				<title>Making RL Fast</title>
+				<description>&lt;p&gt;For Olmo 3, I was put in charge of our post-training infrastucture.
+We made the decision to move from a synchronous RL setup to an
+asynchronous one to enable us to scale. In doing that work,
+I was fortunate enough to find a series of optimizations which made our RL setup 4x faster. As
+we used roughly 250k H100 hours running RL on Olmo 3, these optimizations saved us approximately
+750k H100 hours (~$1.5M) at current market prices. These changes
+were detailed in the &lt;a href=&quot;https://arxiv.org/abs/2512.13961&quot;&gt;paper&lt;/a&gt;, but I wanted to write more about them here.&lt;/p&gt;
+
+&lt;p&gt;There were three primary optimizations:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Continuous batching.&lt;/li&gt;
+  &lt;li&gt;Inflight updates.&lt;/li&gt;
+  &lt;li&gt;Better thread synchronization.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;continuous-batching-11-throughput&quot;&gt;Continuous batching (+11% throughput)&lt;/h2&gt;
+
+&lt;p&gt;For Olmo 2, our post-training code used a synchronous RL approach,
+in which the actors and learner all operate in lockstep. For every training step, we load a batch of prompts that
+we want to send to the actors to complete, and we split the batch into N chunks (where N is the number of actors), sending each to a different actor.
+Then, our learner waits for all the actors to complete their generations. When they&apos;re all done, the N completion chunks are
+reassembled into a batch of completions which is trained on.&lt;/p&gt;
+
+&lt;p&gt;Such a synchronous RL setup is difficult to optimize and leaves a lot of performance on the table. It does what
+is known as &quot;static batching.&quot; In LLM inference, due to variable sequence length, there&apos;s a natural tendency towards
+inefficiency. In traditional ML inference (say: you&apos;re running inference on a ResNet that is trying to classify MNIST),
+there&apos;s no notion of sequence length, so all you have to worry about is your batch size. To efficiently run inference,
+you&apos;d fill your GPU with a &lt;a href=&quot;https://www.artfintel.com/p/how-does-batching-work-on-modern&quot;&gt;sufficiently big batch&lt;/a&gt;
+of examples and be done. With LLM inference, due to variable sequence length, this is inherently inefficient. If you
+follow the naive approach, you&apos;ll waste &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;(max_sequence_length - mean_sequence_length)/max_sequence_length&lt;/code&gt; of
+your compute. On Olmo 3, we had an average generation length of 14k, and a maximum of 32k, so we would have
+wasted 54\% of our compute with static batching. See the diagram for an illustrated example.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/continuous-batching.png&quot; alt=&quot;Continuous batching vs static batching&quot; style=&quot;width: 66%;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Instead, to optimally use your GPUs, you should be streaming examples in and out of your GPUs as previous completions
+finish. This is called &lt;em&gt;continuous batching&lt;/em&gt;, where you constantly enqueue new generations as each one
+finishes. Continuous batching is how most LLM inference servers operate, so it wasn&apos;t that difficult to
+implement, but it required &lt;a href=&quot;https://github.com/allenai/open-instruct/pull/998&quot;&gt;refactoring our codebase&lt;/a&gt; to support
+the new streaming architecture.&lt;/p&gt;
+
+&lt;p&gt;(I made ChatGPT make the original version of this image in Tikz. It was remarkably difficult. The LaTeX is &lt;a href=&quot;https://gist.github.com/finbarrtimbers/153dae1598b17c75a9690cd848e86818&quot;&gt;available&lt;/a&gt; if you care to see how I tortured ChatGPT.)&lt;/p&gt;
+
+&lt;h2 id=&quot;inflight-updates-117-throughput&quot;&gt;Inflight updates (+117% throughput)&lt;/h2&gt;
+
+&lt;p&gt;The major disadvantage of asynchronous RL is that it makes the actors more off-policy from the learner, i.e. the
+learner will be training on the current version of the model, but the actors might have generated the completions
+with an older version of the model. To avoid this, the synchronous version of the code would synchronize the
+actor weights after every training step. In the asynchronous setting, what this looks like is: each actor
+finishes all of their enqueued generations, stops accepting new prompts to their queue, updates their copy
+of the weights, and then resumes processing. Note, however, that this is exactly equivalent to the static
+batching case above, and introduces the same idleness problem!&lt;/p&gt;
+
+&lt;p&gt;Instead, we implemented &lt;a href=&quot;https://arxiv.org/abs/2509.19128&quot;&gt;PipelineRL&lt;/a&gt;, and only &lt;em&gt;pause&lt;/em&gt; generation, instead of
+waiting for all completions to finish before updating the weights. By doing this, we avoid draining the queue,
+and keep our nice continuous batching performance, keeping our GPUs humming. This enables a significant
+increase in throughput: up to 2x faster in my experiments with the same resources, without hurting accuracy.&lt;/p&gt;
+
+&lt;p&gt;It is, however, a bit weird. Note that we pause partway through completing a generation, and then resume it
+with updated weights. We don&apos;t invalidate the KV cache! This means that we are using the KV cache calculated
+from an older version of the weights. It works fine, and can be justified with a handwavy epsilon-delta proof as
+a neural network is the composition of continuous functions, but it&apos;s a bit weird. Empirically it&apos;s fine, though,
+and it&apos;s hard to argue with a 2x speedup.&lt;/p&gt;
+
+&lt;h2 id=&quot;better-threading-39-throughput&quot;&gt;Better threading (+39% throughput)&lt;/h2&gt;
+
+&lt;p&gt;Finally, after all these sophisticated changes to our RL pipeline, we ran headfirst into &lt;a href=&quot;https://en.wikipedia.org/wiki/Amdahl%27s_law&quot;&gt;Amdahl&apos;s law&lt;/a&gt;.
+As we made our actors more asynchronous, the synchronization points become more of a bottlenck. In particular,
+coordinating the actors, and specifically, the weight sync, was a bottleneck.&lt;/p&gt;
+
+&lt;p&gt;To fix this, we had to completely decouple the actors, allowing each one to start and stop by itself,
+without waiting for the rest of the actors to finish their syncs as well. Similarly, we make a large number
+of optimizations that were not machine learning specific, and were centered around
+efficiently using the CPU. For example, our initial implementation of continuous batching, for instance, was
+slower than static batching until we adding a background prefetch thread to our actors that constantly refilled the inference
+queue.&lt;/p&gt;
+
+&lt;p&gt;Decoupling the actors was a pure systems change that affected how we synchronize the learner and the actors.
+The idea is that if you have N actors and need to do a weight broadcast, the naive way is something like this:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Ask them all to stop (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;for i in range(num_actors): actors[i].stop()&lt;/code&gt;)&lt;/li&gt;
+  &lt;li&gt;Send the weight update to each one in turn (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;for i in range(num_actors): actors[i].update_weights()&lt;/code&gt;)&lt;/li&gt;
+  &lt;li&gt;Restart inference on the actors (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;for i in range(num_actors): actors[i].start()&lt;/code&gt;).&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;In pseudo-code:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;for i in range(num_actors):
+    actors[i].stop()
+for i in range(num_actors):
+    actors[i].update_weights()
+for i in range(num_actors):
+    actors[i].start()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;If we do this, we have a bunch of synchronization points which kill performance in distributed systems, as the actors have to wait for all of the stragglers to finish.&lt;/p&gt;
+
+&lt;p&gt;Instead, we can have each actor operate independently and have each actor start/stop independently:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;for i in range(num_actors):
+    actors[i].stop()
+    actors[i].update_weights()
+    actors[i].start()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Of course, we run this concurrently, so all the actors are doing this simultaneously. So perhaps something closer to:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;async def update_weight(actors: list[Actor], actor_index: int):
+    actor = actors[actor_index]
+    await actor.stop()
+	await actor.update_weights()
+	await actor.restart()
+
+await asyncio.gather(*(update_weight(actors, i) for i in range(num_actors)))
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The main bottleneck now is that we have our learner broadcasting the weight updates, which is inherently sequential. We &lt;em&gt;could&lt;/em&gt; move to an asynchronous approach like Cursor did for &lt;a href=&quot;https://arxiv.org/abs/2603.24477&quot;&gt;Composer 2&lt;/a&gt;, where the weights are written to disk, but we haven&apos;t found the weight broadcast to be a bottleneck in practice.&lt;/p&gt;
+
+&lt;p&gt;Here&apos;s the table from the &lt;a href=&quot;https://arxiv.org/abs/2512.13961&quot;&gt;Olmo 3 paper&lt;/a&gt; showing our results.&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Model&lt;/th&gt;
+      &lt;th&gt;Tokens per second&lt;/th&gt;
+      &lt;th&gt;MFU&lt;/th&gt;
+      &lt;th&gt;MBU&lt;/th&gt;
+      &lt;th&gt;Notes&lt;/th&gt;
+      &lt;th&gt;Commit&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;qwen2.5-7b&lt;/td&gt;
+      &lt;td&gt;881&lt;/td&gt;
+      &lt;td&gt;0.30%&lt;/td&gt;
+      &lt;td&gt;12.90%&lt;/td&gt;
+      &lt;td&gt;Baseline before any major changes&lt;/td&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/allenai/open-instruct/commit/564f8a4dd72b9298de88f8fa7c242dac53141b88&quot;&gt;564f8a4&lt;/a&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;qwen2.5-7b&lt;/td&gt;
+      &lt;td&gt;975&lt;/td&gt;
+      &lt;td&gt;0.33%&lt;/td&gt;
+      &lt;td&gt;14.29%&lt;/td&gt;
+      &lt;td&gt;plus continuous batching&lt;/td&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/allenai/open-instruct/pull/998&quot;&gt;ab90d5a&lt;/a&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;qwen2.5-7b&lt;/td&gt;
+      &lt;td&gt;1358&lt;/td&gt;
+      &lt;td&gt;0.46%&lt;/td&gt;
+      &lt;td&gt;19.89%&lt;/td&gt;
+      &lt;td&gt;plus better threading&lt;/td&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/allenai/open-instruct/pull/1054&quot;&gt;e320ff0&lt;/a&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;qwen2.5-7b&lt;/td&gt;
+      &lt;td&gt;2949&lt;/td&gt;
+      &lt;td&gt;1.01%&lt;/td&gt;
+      &lt;td&gt;43.21%&lt;/td&gt;
+      &lt;td&gt;plus inflight updates&lt;/td&gt;
+      &lt;td&gt;&lt;a href=&quot;https://github.com/allenai/open-instruct/pull/1054&quot;&gt;e320ff0&lt;/a&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+</description>
+				<pubDate>Fri, 03 Apr 2026 00:00:00 -0600</pubDate>
+				<link>http://localhost:4000/making-rl-fast/</link>
+				<guid isPermaLink="true">http://localhost:4000/making-rl-fast/</guid>
+			</item>
+		
+			<item>
+				<title>The Bitter Lesson</title>
+				<description>&lt;p&gt;&lt;a href=&quot;http://www.incompleteideas.net/IncIdeas/BitterLesson.html&quot;&gt;The Bitter Lesson&lt;/a&gt; is an excellent essay which is overwhelmingly misunderstood. The point of the bitter lesson is that, over time, methods which scale with compute will outperform methods that do not.&lt;/p&gt;
+
+&lt;p&gt;It is not:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;The idea that we should never incorporate human knowledge&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;The idea that deep learning and scale are all we need (Rich is actually relatively skeptical of deep learning)&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The entire point of the essay is that, in the last 5 decades, we have seen massive increases in the amount of compute available to us as an industry and we expect to continue to see &lt;a href=&quot;https://openai.com/index/announcing-the-stargate-project/&quot;&gt;massive increases&lt;/a&gt; in the amount of compute available to AI research. Methods which take advantage of compute will benefit, and those that do not will suffer.&lt;/p&gt;
+
+&lt;p&gt;The reason the lesson is bitter is that it is often much easier and quicker to get results by incorporating human knowledge.&lt;/p&gt;
+
+&lt;p&gt;If you’re training an autocomplete system in 1995, you’re probably not going to get very far with next token prediction, and instead, handcoded, or statistically generated rules will do better. In 2005, N-gram models are optimal. It isn’t until the mid 2010s that we start to see deep learning dominate in NLP, and not until the late 2010s that self supervised learning becomes dominant. At each point along the way, incorporating human knowledge has been advantageous, and has been a way that you can get an advantage over your competition. But in the long term, it’s a dead end. Methods which take advantage of more compute outperform over a sufficiently long time frame. Compute is the only parameter which we can expect to increase by several orders of magnitude. Much as I wish it were otherwise, it’s unlikely that we’ll see 1000x the number of tokens we have now. But in compute, that’s almost certain.&lt;/p&gt;
+
+&lt;p&gt;The canonical example is computer chess. Before &lt;a href=&quot;https://en.wikipedia.org/wiki/Deep_Blue_\(chess_computer\)&quot;&gt;Deep Blue&lt;/a&gt; expert systems were largely used. Deep Blue showed that leveraging compute to perform extensive searches against a hand coded value function&lt;a href=&quot;https://www.artfintel.com/p/the-bitter-lesson#footnote-1-166870478&quot;&gt;1&lt;/a&gt; performed extremely well. Deep Blue was a massive win for the “scale compute”/computer search crowd, as it was much more based on scale than human heuristics, but it required an evaluation function with 8000 custom chess features created by human experts, and the evaluation function weighted them using hand selected weights. One measure of the generality of the system is how easy it would be to extend it to a different scenario. To extend Deep Blue to work in Go would be extremely challenging, as one would need to come up with a proper evaluation function by creating another 8000 custom Go features.&lt;/p&gt;
+
+&lt;p&gt;Computer Go is another example where human knowledge fell short. &lt;a href=&quot;https://arxiv.org/abs/1712.01815&quot;&gt;AlphaGo Zero&lt;/a&gt; evaluated against the then state of the art Go bots, which included &lt;a href=&quot;https://pasky.or.cz/go/pachi-tr.pdf&quot;&gt;Pachi&lt;/a&gt;, &lt;a href=&quot;https://www.moderndescartes.com/essays/gnugo_to_agz/&quot;&gt;GnuGo&lt;/a&gt;, and &lt;a href=&quot;https://en.wikipedia.org/wiki/Crazy_Stone_\(software\)&quot;&gt;CrazyStone&lt;/a&gt;. Pachi and CrazyStone did MCTS with heuristic value functions, and GnuGo was an expert system, with a hand created decision tree to select moves. They were good at the time! But they were all ultimately dead ends. As Rich states in the article:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;The bitter lesson is based on the historical observations that&lt;/p&gt;
+
+  &lt;p&gt;1) AI researchers have often tried to build knowledge into their agents,&lt;/p&gt;
+
+  &lt;p&gt;2) this always helps in the short term, and is personally satisfying to the researcher, but&lt;/p&gt;
+
+  &lt;p&gt;3) in the long run it plateaus and even inhibits further progress, and&lt;/p&gt;
+
+  &lt;p&gt;4) breakthrough progress eventually arrives by an opposing approach based on scaling computation by search and learning.&lt;/p&gt;
+
+  &lt;p&gt;The eventual success is tinged with bitterness, and often incompletely digested, because it is success over a favored, human-centric approach.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;If you look at &lt;a href=&quot;https://github.com/lungzeeyim/GNUgo&quot;&gt;GnuGo’s code&lt;/a&gt;, it was a lot of hard work by a lot of people, and was dramatically worse than what was possible. What’s surprising is that, while GnuGo &lt;a href=&quot;https://www.gnu.org/software/gnugo/devel.html&quot;&gt;began in 1989&lt;/a&gt;, released continued until 2009, so the authors were undoubtedly aware of Deep Blue and the stunning victory that scaled search had, yet they continued to push forward with their expert system. Brian Lee, a former Google Brain researcher who &lt;a href=&quot;https://github.com/tensorflow/MiniGo&quot;&gt;replicated AlphaGo within Brain&lt;/a&gt;, offers a &lt;a href=&quot;https://www.moderndescartes.com/essays/gnugo_to_agz/&quot;&gt;compelling explanation&lt;/a&gt; for why:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;I offer another point: that these stages [of the Bitter Lesson] happen over the span of a decade or so. Over this decade, PhDs are minted, career identities built, promotion criteria set, culture defined, and org charts annealed. Much in the way that science progresses one funeral at a time, progress on difficult problems progresses one organization shutdown at a time.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Consider another scenario. You work at a LLM lab, and have to make your benchmark numbers bigger than your competition or you get fired. You have the immediate temptation to include human knowledge, which in this case might be specialized datasets for a specific benchmark.&lt;/p&gt;
+
+&lt;p&gt;A better approach would be to make the model &lt;em&gt;generally&lt;/em&gt; stronger. Focusing on methods that scale with compute as a filter is a strong bet to make, as Jensen Huang is doing his best to give you multiple orders of magnitude more FLOPS. Methods like test time compute, synthetic data, or MoE models are great examples. But the problem with this approach, which when I write it down seems obvious, is that in the moment, it feels &lt;em&gt;indulgent&lt;/em&gt;. We &lt;em&gt;don’t have time&lt;/em&gt; for proper science, we have to beat the other labs on LiveCodeBench. That is the bitter lesson: DeepSeek focuses on general improvements, gets them working, scales them to 3.8e25 FLOPS, and is SOTA.&lt;/p&gt;
+
+&lt;h2 id=&quot;articles-im-reading-right-now&quot;&gt;Articles I’m reading right now:&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://substack.com/home/post/p-166556899&quot;&gt;What comes next, by Nathan Lambert (Interconnects)&lt;/a&gt;, discussing, among other aspects, how excellent O3 is.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://substack.com/home/post/p-158907079?source=queue&quot;&gt;Undertrained tokens in R1&lt;/a&gt;, by &lt;a href=&quot;https://open.substack.com/users/217957273-sander-land?utm_source=mentions&quot;&gt;Sander Land&lt;/a&gt;.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;The &lt;a href=&quot;https://x.com/finbarrtimbers/status/1938115342427165035&quot;&gt;Deep Blue paper&lt;/a&gt;, which is worth reading.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.artfintel.com/p/the-bitter-lesson#footnote-anchor-1-166870478&quot;&gt;1&lt;/a&gt; Deep Blue is fascinating for a variety of reasons, including the fact that they had custom “chess chips” made to encode the evaluation function in hardware.&lt;/p&gt;
+</description>
+				<pubDate>Thu, 26 Jun 2025 00:00:00 -0600</pubDate>
+				<link>http://localhost:4000/the-bitter-lesson/</link>
+				<guid isPermaLink="true">http://localhost:4000/the-bitter-lesson/</guid>
+			</item>
+		
+			<item>
+				<title>Request for research: Monte Carlo Tree Search for reasoning, with PUCT</title>
+				<description>&lt;p&gt;In the recent wave of research studying reasoning models, by which we means models like O1 which are able to use long streams of tokens to &quot;think&quot; and thereby generate better results, MCTS has been discussed a lot as a potentially useful tool. However, some papers, like the &lt;a href=&quot;https://github.com/deepseek-ai/DeepSeek-R1/blob/main/DeepSeek_R1.pdf&quot;&gt;DeepSeek R1 paper&lt;/a&gt;, have tried MCTS without any success.&lt;/p&gt;
+
+&lt;p&gt;I worked closely with MCTS for several years while at DeepMind, and there are a number of implementation details that I think researchers (such as DeepSeek) are either getting wrong or not discussing clearly. Here, I will discuss these, and issue a &lt;strong&gt;Request for Research&lt;/strong&gt; in the hopes that some intrepid researcher will implement these so I can finally stop &lt;del&gt;complaining&lt;/del&gt; suggesting that someone study this.&lt;/p&gt;
+
+&lt;h2 id=&quot;use-puct-and-not-uct&quot;&gt;Use PUCT, and not UCT&lt;/h2&gt;
+
+&lt;p&gt;In the DeepSeek paper, they had a section discussing MCTS:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/static/images/deepseek-r1-mcts.png&quot; alt=&quot;DeepSeek discussion of MCTS&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;In the section, the authors said &quot;MCTS guided by a pre-trained value model.&quot; They repeated the phrase &quot;value model&quot; repeatedly, concluding that &quot;while MCTS can improve performance during inference when paired with a pre-trained value model, iteratively boosting model performance through self-search remains a significant challenge.&quot; To me, the phrasing indicates that the authors are not using a learned prior function, as AlphaGo/Zero/MuZero did. If true, this is a mistake.&lt;/p&gt;
+
+&lt;p&gt;In classic MCTS, an action-value function ( $Q(s, a)$) is used to estimate the value of each candidate action:&lt;/p&gt;
+
+\[UCT(s,a) = Q(s,a) + c \sqrt{\frac{\ln N(s)}{N(s,a)}} = Q(s, a) + c E_{\text{uct}}(s, a)\]
+
+&lt;p&gt;In the UCT equation, there are two terms: $Q(s, a)$ and the exploration term, which is the right side of the equation ($c$ is a hyper-parameter), and is solely a function of how many times the (state, action) pair has been visited. If the current node has been visited a small fraction of the times that the parent node N(s) has been visited, the exploration term is large, but it grows smaller as it is visited more.&lt;/p&gt;
+
+&lt;p&gt;In AlphaGo/AlphaZero/MuZero style MCTS, they use PUCT, where the exploration term is weighted by a learned prior function:&lt;/p&gt;
+
+\[PUCT(s,a) = Q(s,a) + c P(s,a) \frac{\sqrt{N(s)}}{1 + N(s,a)} = Q(s, a) + c E_{\text{puct}}(s, a)\]
+
+&lt;p&gt;The weight is learned by having the network predict $N(s, a)/N(s)$, i.e. the % of times that the child node is visited during search.
+By using the prior, MCTS is able to go much deeper. Consider chess, which has, on average,
+&lt;a href=&quot;https://en.wikipedia.org/wiki/Branching_factor&quot;&gt;35 legal moves at any point in the game&lt;/a&gt;. If you are doing N searches, and you visit
+every legal move at a given state before moving on to a child state, you will only be able to explore $N^{\frac{1}{35}}$, which is tiny.
+Most of these moves are obviously bad, so by using the prior to prune those nodes, search goes much deeper.&lt;/p&gt;
+
+&lt;p&gt;Consider also the form of the exploration term. $E_{\text{uct}}(s, a)$ assigns infinite weight to a (state, action) pair that hasn&apos;t been visited before,
+while $E_{\text{puct}}(s, a)$ assigns it a value of 0 (or, in some implementations, different fixed values to allow for e.g. optimistic initialization).&lt;/p&gt;
+
+&lt;p&gt;As such, UCT will do a breadth first search, while PUCT will perform a depth-first search. Neither is superior to the other in a general sense, but in a domain
+that has a large number of potential actions to take, like, say, language modelling, breadth-first search will not do much of anything.&lt;/p&gt;
+
+&lt;p&gt;My suggestion would be to use the standard logit head as the prior and train a value head on the same embeddings that the logit head gets.
+Then, update this during the RL phase of training. While the experiments are inherently expensive, you can do the experiments on a small model, such as Llama 1B,
+to see if they help.&lt;/p&gt;
+
+&lt;h2 id=&quot;parallel-evaluations-are-required-for-action-diversity&quot;&gt;Parallel evaluations are required for action diversity&lt;/h2&gt;
+
+&lt;p&gt;With MCTS, it is very easy to harm the diversity of your search if you don&apos;t search in parallel.
+If using sequential search, make sure that you are using virtual visit counts as done in the &lt;a href=&quot;https://deepmind.google/research/publications/139455/&quot;&gt;&quot;Mastering Board Games by External and Internal Planning with Language Models&quot;&lt;/a&gt; paper, where they state:&lt;/p&gt;
+
+&lt;p&gt;&quot;Parallel MCTS implementations usually rely on virtual losses (Chaslot et al., 2008; Mirsoleimani et al., 2017) to avoid multiple threads choosing
+the same simulation paths down due to deterministic action choices.&quot;&lt;/p&gt;
+
+&lt;p&gt;Otherwise, search in parallel. The lack of parallelism is, in my mind, a big reason why the &lt;a href=&quot;https://arxiv.org/abs/2112.03178&quot;&gt;Student of Games&lt;/a&gt; struggled to beat AlphaZero in Chess/Go.&lt;/p&gt;
+
+&lt;p&gt;Generally the way that MCTS works is that you have two phases:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;search&lt;/li&gt;
+  &lt;li&gt;action selection&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;During search you have another two phases:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;simulation&lt;/li&gt;
+  &lt;li&gt;evaluation&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;An example is the &lt;a href=&quot;https://github.com/google-deepmind/open_spiel/blob/master/open_spiel/algorithms/mcts.cc#L351&quot;&gt;OpenSpiel MCTS implementation&lt;/a&gt;,
+although it is single-threaded and synchronous. In the simulation phase, you are
+traversing the search tree and continuing to go down the search tree until you
+ find a new node to add to the tree or until you reach a terminal state. In the
+  evaluation phase you are running a neural network inference to say how good
+  the given state is. Both of these can be done asynchronously and in parallel.&lt;/p&gt;
+
+&lt;p&gt;So, you have some number of threads running simulations in parallel and each
+  of them is queuing up evaluations which themselves are evaluated in parallel by a
+  separate threadpool. The literature has shown that the exact number of threads used
+   for both is critical and doing these asynchronously is also critical; both should be considered hyperparameters.&lt;/p&gt;
+
+&lt;p&gt;When you are implementing the search tree you should make sure not to use locks.
+    You want to use locks only when you are actually adding to the search tree.
+    For the search tree itself, use atomics or some sort of structure that lets you
+     add or modify the search statistics concurrently.&lt;/p&gt;
+
+&lt;p&gt;When you reach the action selection phase there&apos;s a bunch of different rules that you can use to choose the action that you&apos;re actually going to take
+(there&apos;s obviously any number of action selection rules you could use, but here are 3 I&apos;ve found useful):&lt;/p&gt;
+
+&lt;p&gt;1) Normalize the search visits and sample from the resulting probability distribution
+2) Softmax the visit counts and sample from the resulting probability distribution
+3) Choose the most visited action during search.&lt;/p&gt;
+
+&lt;p&gt;In the &lt;a href=&quot;https://arxiv.org/abs/2004.09677&quot;&gt;approximate best response paper&lt;/a&gt;, my experience was that
+some games, particularly the stochastic games, required the softmax rule to get the
+best response, while others (particularly chess/go) required the &quot;most visited&quot; rule to get the best response.&lt;/p&gt;
+</description>
+				<pubDate>Tue, 21 Jan 2025 00:00:00 -0700</pubDate>
+				<link>http://localhost:4000/request-for-research-puct/</link>
+				<guid isPermaLink="true">http://localhost:4000/request-for-research-puct/</guid>
+			</item>
+		
+			<item>
+				<title>RESP advice</title>
+				<description>&lt;p&gt;A few people have asked me for RESP advice, so here is my generic answer, with the disclaimer that I&apos;m not a financial advisor.&lt;/p&gt;
+
+&lt;p&gt;There are two major decisions to make for an RESP:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Decide how much you want to invest per year&lt;/li&gt;
+  &lt;li&gt;Decide whether you want to self-manage your money or not&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;This article discusses the options for 1. It really depends on how much money you have available to invest and what your alternatives are. I&apos;m assuming you&apos;ve maxed out your RRSP/TFSA: if you haven&apos;t, you probably want to contribute the minimum $2500 per year to max the gov&apos;t RESP grant and put the rest in your RRSP/TFSA. If you contribute at least $2500 per year for 14 years, and then have an additional year where you contribute at least $1k, you&apos;ll max out the CESG, which is the gov&apos;t grant you get for contributing to the RESP.&lt;/p&gt;
+
+&lt;p&gt;In terms of choosing how much to invest, the mathematically optimal thing to do is to invest all of the money (~$50k) in the first year. This is, obviously, hard to do, but will result in the best outcome, as the money has the longest time horizon to grow tax-free. You don&apos;t get much gov&apos;t grants by doing this, but it&apos;s a good way to maximize your&lt;/p&gt;
+
+&lt;p&gt;A second option is to invest $16500 ($14k + $2500 annual contribution) upfront, and then invest an additional $2500 every year until they turn 14, at which point you&apos;ve maxed out all the gov&apos;t grants, and you can top it up with $1k.&lt;/p&gt;
+
+&lt;p&gt;Finally, if that&apos;s not financially feasible, you can do $2500 per year, and try to catch up the remaining $14k when you have extra income. In any case, it&apos;s worth doing the minimum $2500 to max out the grants.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Self-management.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;A lot of the RESPs that are actively advertised to parents are, to be blunt, scams. I&apos;d recommend going with either a low-fee online broker, like Questrade, QTrade, or WealthSimple, or with one of the big bank brokerage accounts, like TD Direct Investing or BMO Investorline. Basically, whoever you have your RRSP/TFSA with should be able to open an RESP up with them.&lt;/p&gt;
+
+&lt;p&gt;The recommended strategy for investing your money is to start out with a 90/10 equities/fixed income portfolio, something like VFV/VAB, and every year, adjust the portfolio so that when they turn 18, you have 100% in fixed income. You basically make the % allocated to fixed income equal to the (kid&apos;s age + 2) * 5%. So 10% in the first year, 15% when they&apos;re 1, 20% when they&apos;re 2, etc. You can be slightly more aggressive with your schedule, but you really want to be gradually shifting the portfolio towards 100% bonds by the time they&apos;re 18 to minimize variance.&lt;/p&gt;
+
+&lt;p&gt;This is pretty easy to do if you&apos;re comfortable buying/selling ETFs. I have a spreadsheet that calculates this.&lt;/p&gt;
+
+&lt;p&gt;If you&apos;re not comfortable doing this yourself, I&apos;d go with one of the managed funds. I like JustWealth as they provide a dedicated RESP target-date fund which will do everything I described above for you. You could also go with Questwealth or WealthSimple and adjust the aggressiveness over time. Looking at Questwealth as an example (but all the advisors have similar options), I&apos;d start out in an Aggressive fund for the first 4 years, then Growth for the next 4 years, followed by Balanced for 4 years, then Income for 4 years, and ending in Conservative. This would be easy to do, just set a calendar reminder to lower the aggressiveness every 4 years.&lt;/p&gt;
+</description>
+				<pubDate>Fri, 08 Nov 2024 00:00:00 -0700</pubDate>
+				<link>http://localhost:4000/resp-advice/</link>
+				<guid isPermaLink="true">http://localhost:4000/resp-advice/</guid>
+			</item>
+		
+			<item>
+				<title>Installing Docker on a new VM</title>
+				<description>&lt;p&gt;I consistently run into the same issue when install Docker on a new Ubuntu VM.&lt;/p&gt;
+
+&lt;p&gt;I copy the command from the &lt;a href=&quot;https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository&quot;&gt;Docker docs&lt;/a&gt;,
+and it fails with the error:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;E: The repository &apos;https://download.docker.com/linux/ubuntu bookworm Release&apos; does not have a Release file.
+N: Updating from such a repository can&apos;t be done securely, and is therefore disabled by default.
+N: See apt-secure(8) manpage for repository creation and user configuration details.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;There is a simple fix, but it is annoying to find it via Google, and it takes me ~20 minutes every time:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://forums.docker.com/t/solved-cannot-install-docker-ce-on-debian-stretch/50407/5&quot;&gt;https://forums.docker.com/t/solved-cannot-install-docker-ce-on-debian-stretch/50407/5&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;I have now created this page to write it down. Google, please index this.&lt;/p&gt;
+
+&lt;p&gt;To install Docker with GPU support:&lt;/p&gt;
+
+&lt;p&gt;1) &lt;a href=&quot;https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository&quot;&gt;Install Docker&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;2) Run the &lt;a href=&quot;https://forums.docker.com/t/solved-cannot-install-docker-ce-on-debian-stretch/50407/5&quot;&gt;Docker install fix&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;3) Install the &lt;a href=&quot;https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html&quot;&gt;Nvidia Container Toolkit&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;4) Install &lt;a href=&quot;https://cloud.google.com/compute/docs/gpus/install-drivers-gpu&quot;&gt;GPU drivers&lt;/a&gt;.&lt;/p&gt;
+
+</description>
+				<pubDate>Fri, 02 Feb 2024 00:00:00 -0700</pubDate>
+				<link>http://localhost:4000/install-docker-on-ubuntu/</link>
+				<guid isPermaLink="true">http://localhost:4000/install-docker-on-ubuntu/</guid>
+			</item>
+		
+			<item>
+				<title>Five years of GPT progress --- Amii talk</title>
+				<description>&lt;p&gt;I recently gave a talk at &lt;a href=&quot;https://www.amii.ca/&quot;&gt;Amii&lt;/a&gt; about the history of GPT models.&lt;/p&gt;
+
+&lt;p&gt;The slides are &lt;a href=&quot;https://finbarr.ca/5_years_of_GPTs.pdf&quot;&gt;now online&lt;/a&gt;, as is the &lt;a href=&quot;https://www.youtube.com/watch?v=YA0pzBYAV2Q&amp;amp;list=PLKlhhkvvU8-YxMP9hjEYJTJDCaGszrJIh&amp;amp;index=7&amp;amp;t=43s&quot;&gt;recording&lt;/a&gt;.&lt;/p&gt;
+</description>
+				<pubDate>Mon, 29 May 2023 00:00:00 -0600</pubDate>
+				<link>http://localhost:4000/five-years-of-gpt-talk/</link>
+				<guid isPermaLink="true">http://localhost:4000/five-years-of-gpt-talk/</guid>
+			</item>
+		
+			<item>
 				<title>Deriving the DALL-E lower bound</title>
 				<description>&lt;script type=&quot;text/x-mathjax-config&quot;&gt;
 MathJax.Hub.Config({
@@ -15,7 +439,7 @@ MathJax.Hub.Config({
 });
 &lt;/script&gt;
 
-&lt;p&gt;In the &lt;a href=&quot;https://arxiv.org/abs/2102.12092&quot;&gt;DALL-E paper&lt;/a&gt;, we want to model the joint likelihood of the model distribution over images \(x\), captions \(y\), and tokens \(z\) for an encoded RGB image&lt;sup id=&quot;fnref:1&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+&lt;p&gt;In the &lt;a href=&quot;https://arxiv.org/abs/2102.12092&quot;&gt;DALL-E paper&lt;/a&gt;, we want to model the joint likelihood of the model distribution over images \(x\), captions \(y\), and tokens \(z\) for an encoded RGB image&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot; role=&quot;doc-noteref&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
 
 &lt;p&gt;The joint likelihood is modelled using the factorization&lt;/p&gt;
 
@@ -57,7 +481,7 @@ p_{\theta, \psi}(x, y, z) = p_\theta(x | y, z) p_\psi(y, z)
 &lt;p&gt;Which, combined with Equation \eqref{eq:lower-bound}, gives us our lower bound.&lt;/p&gt;
 &lt;div class=&quot;footnotes&quot; role=&quot;doc-endnotes&quot;&gt;
   &lt;ol&gt;
-    &lt;li id=&quot;fn:1&quot; role=&quot;doc-endnote&quot;&gt;
+    &lt;li id=&quot;fn:1&quot;&gt;
       &lt;p&gt;Encoded using a dVAE— see the DALL-E paper for details. &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
@@ -117,7 +541,7 @@ p_{\theta, \psi}(x, y, z) = p_\theta(x | y, z) p_\psi(y, z)
   &lt;li&gt;Largest model is 1.5B parameters&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;The dataset is much, much bigger, going from roughly 20M tokens (4GB) of data consisting of publicly available books, to 9B tokens&lt;sup id=&quot;fnref:1&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; (40GB) of text scraped from the internet (&lt;a href=&quot;https://paperswithcode.com/dataset/webtext&quot;&gt;WebText&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;The dataset is much, much bigger, going from roughly 20M tokens (4GB) of data consisting of publicly available books, to 9B tokens&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot; role=&quot;doc-noteref&quot;&gt;1&lt;/a&gt;&lt;/sup&gt; (40GB) of text scraped from the internet (&lt;a href=&quot;https://paperswithcode.com/dataset/webtext&quot;&gt;WebText&lt;/a&gt;).&lt;/p&gt;
 
 &lt;p&gt;It’s unclear if they trained the model for 100 epochs as before; they say they followed the same training procedure, so presumably they did. Again, this is a significant departure from later work.&lt;/p&gt;
 
@@ -137,7 +561,7 @@ p_{\theta, \psi}(x, y, z) = p_\theta(x | y, z) p_\psi(y, z)
 
 &lt;p&gt;They don’t provide any detail about the computational architecture, i.e. how they distributed the model. The authors claim it’s because it doesn’t really matter, but I think it was restricted for competitive reasons, as it makes the paper much more difficult to reproduce. Megatron, which I’ll discuss later, was highly influential &lt;em&gt;because&lt;/em&gt; they went into detail about how they made model parallelism work for their GPT.&lt;/p&gt;
 
-&lt;p&gt;What I find &lt;em&gt;really interesting&lt;/em&gt; about the GPT-3 paper is that I don’t think this gets published in a top journal (nature/science), maybe not even NeurIPS. This isn’t a critique of GPT-3— it’s a critique of the modern conference circuit, and if anything, a celebration of the culture that OpenAI has. Most of the conference publishing circuit is driven by novelty, even if it’s not what we need. The GPT-3 paper, however, was a largely engineering driven paper; they made the model bigger and it worked much better! That’s not novel from a research perspective, but is transformative from an application perspective.&lt;/p&gt;
+&lt;p&gt;What I find really interesting about the GPT-3 paper is that it was an incredible advance without a lot of novelty. They took their existing methods and “just” scaled it up! Because of the need for novelty, there are many research projects that don’t get pursued because they’re “only” engineering projects, or they “only” do hyper-parameter tuning and wouldn’t be able to get published, even if they had impressive performance improvements. That OpenAI went against the grain here is a credit to them (and they were rewarded, with GPT-3 getting a best paper reward at NeurIPS ‘20).&lt;/p&gt;
 
 &lt;p&gt;This is particularly problematic because we know that adding complexity to our models increases performance (see: R^2 vs adjusted R^2 for simple linear models). Because of the need for novelty, there are many research projects that don’t get pursued because they’re “only” engineering projects, or they “only” do hyper-parameter tuning and wouldn’t be able to get published, even if they had impressive performance improvements. That OpenAI went against the grain here is a credit to them.&lt;/p&gt;
 
@@ -347,7 +771,7 @@ p_{\theta, \psi}(x, y, z) = p_\theta(x | y, z) p_\psi(y, z)
 
 &lt;p&gt;&lt;img src=&quot;/static/images/gpt-4-meme.jpeg&quot; alt=&quot;Meme complaining about how OpenAI didn&apos;t relase any details about GPT-4&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;As a result, I’m not going to talk about it, as there’s not much to say. Hopefully OpenAI changes their mind and releases some information about their model.&lt;sup id=&quot;fnref:2&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;p&gt;As a result, I’m not going to talk about it, as there’s not much to say. Hopefully OpenAI changes their mind and releases some information about their model.&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot; role=&quot;doc-noteref&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
 
 &lt;h1 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h1&gt;
 
@@ -362,10 +786,10 @@ p_{\theta, \psi}(x, y, z) = p_\theta(x | y, z) p_\psi(y, z)
 &lt;/ul&gt;
 &lt;div class=&quot;footnotes&quot; role=&quot;doc-endnotes&quot;&gt;
   &lt;ol&gt;
-    &lt;li id=&quot;fn:1&quot; role=&quot;doc-endnote&quot;&gt;
+    &lt;li id=&quot;fn:1&quot;&gt;
       &lt;p&gt;The paper itself doesn’t report the number of tokens, but &lt;a href=&quot;https://skylion007.github.io/OpenWebTextCorpus/&quot;&gt;OpenWebText&lt;/a&gt;, the open source reproduction, gets &lt;a href=&quot;https://github.com/karpathy/nanoGPT/blob/master/data/openwebtext/readme.md&quot;&gt;nine billion&lt;/a&gt;, using &lt;a href=&quot;https://github.com/openai/tiktoken&quot;&gt;OpenAI’s tokenizer&lt;/a&gt;. &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
-    &lt;li id=&quot;fn:2&quot; role=&quot;doc-endnote&quot;&gt;
+    &lt;li id=&quot;fn:2&quot;&gt;
       &lt;p&gt;To be clear, I highly doubt this will ever happen. &lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
@@ -379,6 +803,8 @@ p_{\theta, \psi}(x, y, z) = p_\theta(x | y, z) p_\psi(y, z)
 			<item>
 				<title>How is LLaMa.cpp possible?</title>
 				<description>&lt;p&gt;&lt;em&gt;If you want to read more of my writing, I have a &lt;a href=&quot;https://finbarrtimbers.substack.com/&quot;&gt;Substack&lt;/a&gt;. Articles will be posted simultaneously to both places.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Note: This was written in March of &apos;23, and is out of date (AI moves quickly!). This is an attempt at answering the question &quot;How is it possible to run Llama on a single CPU?&quot; and is not an attempt at documenting the current status of the Llama.cpp project. You should not rely on any of this post for specific details on how Llama.cpp functions.&lt;/em&gt;&lt;/p&gt;
 
 &lt;p&gt;Recently, a &lt;a href=&quot;https://github.com/ggerganov/llama.cpp&quot;&gt;project&lt;/a&gt; rewrote the &lt;a href=&quot;https://github.com/facebookresearch/llama&quot;&gt;LLaMa inference code&lt;/a&gt; in raw C++. With some optimizations and quantizing the weights, this allows running a LLM locally on a wild variety of hardware:&lt;/p&gt;
 
@@ -399,7 +825,7 @@ p_{\theta, \psi}(x, y, z) = p_\theta(x | y, z) p_\psi(y, z)
 
 &lt;p&gt;When we talk about memory bandwidth, we’re talking about how long it takes to move things from the HBM memory (i.e. the RAM) into the on-chip memory. To actually do math with the GPU, we need to move the matrices in question into the on-chip memory, which is quite small (40MB on an A100, compared to 40-80GB of RAM). Note that the memory bandwidth is ~2 orders of magnitude smaller than the compute performance— this will matter later, as the memory bandwidth tends to be the bottleneck for inference.&lt;/p&gt;
 
-&lt;p&gt;What does this mean in the context of serving LLaMa? Let’s start with some &lt;a href=&quot;https://kipp.ly/blog/transformer-inference-arithmetic/&quot;&gt;inference arithmetic&lt;/a&gt;. We can do some rough calculations on the inference performance of a LLM using &lt;a href=&quot;https://kipp.ly/blog/transformer-param-count/&quot;&gt;Kipply’s article&lt;/a&gt;&lt;sup id=&quot;fnref:1&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;. First, some notation on the dimensions of the model:&lt;/p&gt;
+&lt;p&gt;What does this mean in the context of serving LLaMa? Let’s start with some &lt;a href=&quot;https://kipp.ly/blog/transformer-inference-arithmetic/&quot;&gt;inference arithmetic&lt;/a&gt;. We can do some rough calculations on the inference performance of a LLM using &lt;a href=&quot;https://kipp.ly/blog/transformer-param-count/&quot;&gt;Kipply’s article&lt;/a&gt;&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot; role=&quot;doc-noteref&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;. First, some notation on the dimensions of the model:&lt;/p&gt;
 
 &lt;ul&gt;
   &lt;li&gt;The \(Q\), \(K\), and \(V\) weight matrices are all shape [ \(d_{\text{model}}\), \(d_{\text{head}}\)], and we have \(n_{\text{heads}}\) of them per layer; the attention output matrix has the same shape, for a total of  \(4 \times\) [ \(d_{\text{model}}\), \(n_{\text{heads}} \cdot d_{\text{head}}\)]. By convention, GPT-style networks have \(d_{\text{head}} \cdot n_{\text{heads}} = d_{\text{model}}\).&lt;/li&gt;
@@ -407,7 +833,7 @@ p_{\theta, \psi}(x, y, z) = p_\theta(x | y, z) p_\psi(y, z)
   &lt;li&gt;The embeddings matrix is of size [ \(d_{\text{vocab}}\), \(d_{\text{model}}\)].&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;This gives us a handy equation for the number of parameters in a GPT-style model:&lt;sup id=&quot;fnref:2&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;p&gt;This gives us a handy equation for the number of parameters in a GPT-style model:&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot; role=&quot;doc-noteref&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
 
 \[P = n_{\text{blocks}} \left( 4 \cdot d_{\text{model}}^2 + 2 \cdot 4 \cdot d_{\text{model}}^2\right) + n_{\text{vocab}} \cdot d_{\text{model}}\]
 
@@ -429,7 +855,7 @@ p_{\theta, \psi}(x, y, z) = p_\theta(x | y, z) p_\psi(y, z)
 
 &lt;p&gt;This is the advantage of quantization. By using less precision, we can radically decrease the amount of memory needed to store our models in memory. Note that, with int4 precision, &lt;em&gt;all of these models fit into memory on an A100&lt;/em&gt; (which is the standard datacenter GPU right now), and all of them, except for the biggest model, fit into memory on high-end consumer GPUs (3090s/4090s, which have 24GB of RAM).&lt;/p&gt;
 
-&lt;p&gt;It takes approximately \(2P\) FLOPS to run inference on our model for a single token, because we are doing a bunch of matmuls with a total of \(P\) parameters, and multiplying a matrix of size \((m, n)\) with a vector of size \((n,)\) has a cost of \(2mn\).&lt;sup id=&quot;fnref:3&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:3&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;p&gt;It takes approximately \(2P\) FLOPS to run inference on our model for a single token, because we are doing a bunch of matmuls with a total of \(P\) parameters, and multiplying a matrix of size \((m, n)\) with a vector of size \((n,)\) has a cost of \(2mn\).&lt;sup id=&quot;fnref:3&quot;&gt;&lt;a href=&quot;#fn:3&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot; role=&quot;doc-noteref&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
 
 &lt;p&gt;With all that math out of the way, let’s calculate the requirements for running inference with LLaMa. The main requirements when it comes to sampling are:&lt;/p&gt;
 
@@ -443,17 +869,17 @@ p_{\theta, \psi}(x, y, z) = p_\theta(x | y, z) p_\psi(y, z)
 
 \[\begin{align*}
 \text{latency}_\text{model} &amp;amp;= \text{max}(\text{latency}_\text{compute}, \text{latency}_\text{memory})\\
-\text{latency}_\text{memory} &amp;amp;= \dfrac{2 \cdot P \cdot n_{\text{bytes}}\cdot B}{n_{\text{memory bandwidth}}},\\
-\text{latency}_\text{compute} &amp;amp;= \dfrac{2 \cdot P}{n_{\text{flops}}},
+\text{latency}_\text{memory} &amp;amp;= \dfrac{2 \cdot P \cdot n_{\text{bytes}}}{n_{\text{memory bandwidth}}},\\
+\text{latency}_\text{compute} &amp;amp;= \dfrac{2 \cdot P \cdot B}{n_{\text{flops}}},
 \end{align*}\]
 
-&lt;p&gt;where \(B\) is the batch size. As \(n_{\text{memory bandwidth}} = 1.935e12\), and  \(n_{\text{flops}} = 3.12e14,\) as long as the batch size is less than 161, the model is memory-bound.&lt;sup id=&quot;fnref:4&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:4&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;p&gt;where \(B\) is the batch size. As \(n_{\text{memory bandwidth}} = 1.935e12\), and  \(n_{\text{flops}} = 3.12e14,\) as long as the batch size is less than 161, the model is memory-bound.&lt;sup id=&quot;fnref:4&quot;&gt;&lt;a href=&quot;#fn:4&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot; role=&quot;doc-noteref&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
 
 &lt;p&gt;With a batch size of 1, this is the same equation, as on most hardware (e.g. Nvidia GPUs), there is a linear speedup as you decrease the precision (you get twice the FLOPS when using fp16 vs fp32, which doubles again as you go to int8, and doubles once more as you go to int4s).&lt;/p&gt;
 
 &lt;p&gt;As LLaMa.cpp uses int4s, the RAM requirements are reduced to 1.33GB of memory for the KV cache, and 16.25GB of VRAM for the model parameters. That’s pretty good!&lt;/p&gt;
 
-&lt;p&gt;As the memory bandwidth is almost always&lt;sup id=&quot;fnref:5&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:5&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;5&lt;/a&gt;&lt;/sup&gt; much smaller than the number of FLOPS, memory bandwidth is the binding constraint.&lt;/p&gt;
+&lt;p&gt;As the memory bandwidth is almost always&lt;sup id=&quot;fnref:5&quot;&gt;&lt;a href=&quot;#fn:5&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot; role=&quot;doc-noteref&quot;&gt;5&lt;/a&gt;&lt;/sup&gt; much smaller than the number of FLOPS, memory bandwidth is the binding constraint.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/static/images/llama-inference-times.png&quot; alt=&quot;Screenshot fo table showing the inference times to run the varying LLaMa models with varying precision levels on an A100&quot; /&gt;&lt;/p&gt;
 
@@ -490,19 +916,19 @@ p_{\theta, \psi}(x, y, z) = p_\theta(x | y, z) p_\psi(y, z)
 
 &lt;div class=&quot;footnotes&quot; role=&quot;doc-endnotes&quot;&gt;
   &lt;ol&gt;
-    &lt;li id=&quot;fn:1&quot; role=&quot;doc-endnote&quot;&gt;
+    &lt;li id=&quot;fn:1&quot;&gt;
       &lt;p&gt;Almost all of this math is taken from their article; they deserve full credit. &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
-    &lt;li id=&quot;fn:2&quot; role=&quot;doc-endnote&quot;&gt;
+    &lt;li id=&quot;fn:2&quot;&gt;
       &lt;p&gt;Although it’s an open question of how much Mac specific optimization is being done with LLaMa, or indeed, any of the tensor programming frameworks. &lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
-    &lt;li id=&quot;fn:3&quot; role=&quot;doc-endnote&quot;&gt;
+    &lt;li id=&quot;fn:3&quot;&gt;
       &lt;p&gt;For a more detailed discussion showing that this is the case, check out &lt;a href=&quot;https://kipp.ly/blog/transformer-inference-arithmetic/#flops-counting&quot;&gt;kipply’s article&lt;/a&gt;. &lt;a href=&quot;#fnref:3&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
-    &lt;li id=&quot;fn:4&quot; role=&quot;doc-endnote&quot;&gt;
+    &lt;li id=&quot;fn:4&quot;&gt;
       &lt;p&gt;If you’re following along with &lt;a href=&quot;https://kipp.ly/blog/transformer-inference-arithmetic/#latency-calculations&quot;&gt;kipply’s post&lt;/a&gt;, there’s a slight discrepancy here, as I assume a 80GB A100 PCIe, which is what I see as the standard GPU. Their post assumes a 40GB A100 PCIe, which has slightly lower memory bandwidth. &lt;a href=&quot;#fnref:4&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
-    &lt;li id=&quot;fn:5&quot; role=&quot;doc-endnote&quot;&gt;
+    &lt;li id=&quot;fn:5&quot;&gt;
       &lt;p&gt;I hedge with “almost” here, but I’m not aware of any counterexamples. &lt;a href=&quot;#fnref:5&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
@@ -606,23 +1032,23 @@ There has been some work about training LLMs on data they have generated (&lt;a 
 
 &lt;p&gt;Another improvement operator is a NLP classic: &lt;a href=&quot;https://en.wikipedia.org/wiki/Beam_search&quot;&gt;beam search!&lt;/a&gt; In beam search, one performs a breadth-first search over the model outputs, with finite depth and width of the tree (e.g. it only keeps N successors at each level of the tree, and searches to a depth of M levels), with the final result being the sequence with the maximum objective score (typically log-likelihood).&lt;/p&gt;
 
-&lt;p&gt;While a number of the LLMs do use beam search&lt;sup id=&quot;fnref:1&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;, they don’t appear to report performance numbers, so I’m unable to include a comparison of how much it matters.&lt;/p&gt;
+&lt;p&gt;While a number of the LLMs do use beam search&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot; role=&quot;doc-noteref&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;, they don’t appear to report performance numbers, so I’m unable to include a comparison of how much it matters.&lt;/p&gt;
 
-&lt;p&gt;A concern is that beam search still lowers diversity, as it constricts the difference in tokens; this is especially problematic for byte-level tokenizers, like BPE, as the individual tokens might vary significantly. &lt;a href=&quot;https://twitter.com/sedielem&quot;&gt;Sander Dieleman&lt;/a&gt; &lt;a href=&quot;https://sander.ai/2020/09/01/typicality.html&quot;&gt;wrote about how&lt;/a&gt; strategies like beam search are &quot;the culprit behind many of the pathologies that neural machine translation systems exhibit”.&lt;sup id=&quot;fnref:2&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;p&gt;A concern is that beam search still lowers diversity, as it constricts the difference in tokens; this is especially problematic for byte-level tokenizers, like BPE, as the individual tokens might vary significantly. &lt;a href=&quot;https://twitter.com/sedielem&quot;&gt;Sander Dieleman&lt;/a&gt; &lt;a href=&quot;https://sander.ai/2020/09/01/typicality.html&quot;&gt;wrote about how&lt;/a&gt; strategies like beam search are &quot;the culprit behind many of the pathologies that neural machine translation systems exhibit”.&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot; role=&quot;doc-noteref&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
 
-&lt;p&gt;The final candidate (or family of candidates) for the improvement operator is an option that I find very exciting: learning an algorithm to search the token tree. The idea is that we could do something like AlphaZero which would learn a policy + value function.&lt;sup id=&quot;fnref:3&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:3&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt; This would also allow us to change the reward function if we wanted to, rather than just using the standard log-likelihood. We could, for instance, directly train the reward function on human data. If you’re serving data to millions of users per day, you could just directly run RL on that, which is the case for the myriad of chat bots on the market today (Bing, ChatGPT, Claude, etc.).&lt;/p&gt;
+&lt;p&gt;The final candidate (or family of candidates) for the improvement operator is an option that I find very exciting: learning an algorithm to search the token tree. The idea is that we could do something like AlphaZero which would learn a policy + value function.&lt;sup id=&quot;fnref:3&quot;&gt;&lt;a href=&quot;#fn:3&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot; role=&quot;doc-noteref&quot;&gt;3&lt;/a&gt;&lt;/sup&gt; This would also allow us to change the reward function if we wanted to, rather than just using the standard log-likelihood. We could, for instance, directly train the reward function on human data. If you’re serving data to millions of users per day, you could just directly run RL on that, which is the case for the myriad of chat bots on the market today (Bing, ChatGPT, Claude, etc.).&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&quot;https://www.notion.so/Discussion-of-beam-search-diversity-f7b65583098f4f219e0e9fd59d5ab80d&quot;&gt;Discussion of beam search diversity&lt;/a&gt;&lt;/p&gt;
 
 &lt;div class=&quot;footnotes&quot; role=&quot;doc-endnotes&quot;&gt;
   &lt;ol&gt;
-    &lt;li id=&quot;fn:1&quot; role=&quot;doc-endnote&quot;&gt;
+    &lt;li id=&quot;fn:1&quot;&gt;
       &lt;p&gt;Examples include: GPT-{2,3}, which uses it during decoding for text generation, BERT, for language understanding tasks, T5, and XLNet. &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
-    &lt;li id=&quot;fn:2&quot; role=&quot;doc-endnote&quot;&gt;
+    &lt;li id=&quot;fn:2&quot;&gt;
       &lt;p&gt;Sander’s post is great. I was struggling to understand why beam search isn’t used more in practice, and his post did a great job helping me understand why. &lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
-    &lt;li id=&quot;fn:3&quot; role=&quot;doc-endnote&quot;&gt;
+    &lt;li id=&quot;fn:3&quot;&gt;
       &lt;p&gt;Perhaps using MuZero with a smaller model as the recurrent function to save on compute. &lt;a href=&quot;#fnref:3&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
     &lt;/li&gt;
   &lt;/ol&gt;
@@ -631,401 +1057,6 @@ There has been some work about training LLMs on data they have generated (&lt;a 
 				<pubDate>Tue, 07 Mar 2023 00:00:00 -0700</pubDate>
 				<link>http://localhost:4000/self-improving-LLMs/</link>
 				<guid isPermaLink="true">http://localhost:4000/self-improving-LLMs/</guid>
-			</item>
-		
-			<item>
-				<title>Papers I've read this week (March 4th, 2023)</title>
-				<description>&lt;p&gt;I’m going to try to write a weekly summary of the most interesting papers I’ve read that week. I’d love to hear what papers you’ve been reading, if you agree/disagree about my conclusions for each paper, and/or suggestions for what papers I should read next!&lt;/p&gt;
-
-&lt;h2 id=&quot;scaling-laws-for-routed-language-models&quot;&gt;Scaling laws for routed language models&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2202.01169&quot;&gt;Abstract&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;I &lt;a href=&quot;https://www.deepmind.com/&quot;&gt;used to work&lt;/a&gt; with Aidan, and way back in 2021, he was insistent that LLMs were the future of AI. I thought he was crazy. In ‘22, he also insisted that conditional routing models were the future. Given how right he was about LLMs, it’s probably worth paying attention to conditional routing models.&lt;/p&gt;
-
-&lt;p&gt;The paper provides a great general overview of how routing networks work and performance comparisons (in terms of negative log likelihood over a validation dataset) for the 3 most common routing techniques (&lt;a href=&quot;https://arxiv.org/abs/1701.06538&quot;&gt;sparse MoE&lt;/a&gt;, &lt;a href=&quot;https://arxiv.org/abs/2106.04426&quot;&gt;non-parametric HASH&lt;/a&gt;, &lt;a href=&quot;https://arxiv.org/abs/1308.3432&quot;&gt;RL routing&lt;/a&gt;).&lt;/p&gt;
-
-&lt;p&gt;The authors trained a large number of conditional routing networks, and fit scaling laws to the results; they find that all 3 techniques follow the same scaling laws, with RL routing doing quite well. I’d be curious to see how much effort has been put into improving RL routing; I suspect that it could be improved significantly.&lt;/p&gt;
-
-&lt;p&gt;The authors observed the following results:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Routing improves the performance of language models across all sizes and variants attempted&lt;/li&gt;
-  &lt;li&gt;Training a Routing Network with RL is of comparable effectiveness to state-of-the-art techniques.&lt;/li&gt;
-  &lt;li&gt;The performance of all Routing Networks is accurately described by scaling laws in the number of experts and in
-the underlying dense model size.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;I was surprised at how similar the performance of the various techniques was. The data was quite nice, with little variation. The scaling laws seem to fit the data quite nicely.&lt;/p&gt;
-
-&lt;p&gt;One interesting result was that routing helps significantly more when the model is smaller. I found this surprising; my intuition is that routing should always help. They found that this was the case across all models, and that routing helped less as the models grew.&lt;/p&gt;
-
-&lt;p&gt;The paper ends with recommendations, which I found really useful:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Use routing for models with less than 1.3B parameters&lt;/li&gt;
-  &lt;li&gt;S-Base is a good, default routing algorithm (defined in the appendix of their paper).&lt;/li&gt;
-  &lt;li&gt;Target using E in {64, 128} experts.&lt;/li&gt;
-  &lt;li&gt;Use K = 1 experts; route layers with a frequency between 0.5 &amp;amp; 1; lower frequency reduces performance.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;internet-explorer&quot;&gt;Internet explorer&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2302.14051&quot;&gt;Abstract&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;In this paper, the authors create an agent which dynamically explores the internet, running text queries to find images to use for self-supervised training. While seemingly designed to &lt;a href=&quot;https://rationalwiki.org/wiki/AI-box_experiment&quot;&gt;directly antagonize Yudkowsky&lt;/a&gt;, the paper is extremely interesting, and presents, to me, a potential future direction for AGI research. As &lt;a href=&quot;https://arxiv.org/abs/2203.15556&quot;&gt;Chinchilla&lt;/a&gt; showed us, LLMs could &lt;a href=&quot;https://www.lesswrong.com/posts/6Fpvch8RR29qLEWNH/chinchilla-s-wild-implications#fnjefvfidovdb&quot;&gt;massively improve&lt;/a&gt; with more data. Having agents dynamically exploring the internet is one excellent way to get more data- especially if they’re able to adaptively learn over time and prioritize images accordingly.&lt;/p&gt;
-
-&lt;p&gt;In the paper, they train a model to learn representations of images based on &lt;a href=&quot;https://paperswithcode.com/method/moco-v3&quot;&gt;MoCo-v3&lt;/a&gt;. They query Google Images for new images, ranking the query results by similarity to the target dataset, assigning a reward to the new images:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/static/images/internet-explorer-reward.png&quot; alt=&quot;reward equation for internet explorer paper&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Here, S_cos is the cosine similarity, f_k is the image encoder, D := {x_i} is the target dataset, and y is the new image to evaluate, and they evaluate over the k closest neighbours in the target dataset (where “closest” is determined by the encoded representation).&lt;/p&gt;
-
-&lt;p&gt;They create the queries for Google Images by sampling them a static vocabulary dataset. They estimate the reward associated with the query using a Gaussian process regression. I’d be really interested to see a fancier query generation process. One idea that comes to my mind would be using RL to train a LLM to generate queries in a manner similar to what’s done in &lt;a href=&quot;https://openai.com/research/learning-from-human-preferences&quot;&gt;RLHF&lt;/a&gt;/&lt;a href=&quot;https://arxiv.org/abs/2204.05862&quot;&gt;RLAIF&lt;/a&gt;, i.e. use an RL algorithm like PPO to finetune a pretrained LLM to maximize reward. This would require much more compute, however.&lt;/p&gt;
-
-&lt;h2 id=&quot;llama&quot;&gt;LLaMa&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2302.13971&quot;&gt;Abstract&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;I’ve been digesting the LLaMa paper that Facebook released this week. It was very interesting to see the performance increases they got despite the size decreases. Their 13B model outperformed GPT-3 on a number of benchmarks, and their 65B model was competitive with Chinchilla-70B and PaLM-540B (!).&lt;/p&gt;
-
-&lt;p&gt;I did find it incredibly frustrating that they stopped training when they did; their loss curves are all looking pretty far from convergence, and I’m curious to see how much the models will continue to improve:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/static/images/llama-training-curves.png&quot; alt=&quot;loss curves for LLaMa paper&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;I wish that they had just &lt;a href=&quot;https://karpathy.github.io/2019/04/25/recipe/#6-squeeze-out-the-juice&quot;&gt;left it training&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;My biggest question about the paper is that it’s not clear what caused the improvements. They discuss a few major changes compared to GPT-3, which their model is based on:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;They only use publicly available data, but it’s unclear what exactly the filtering steps are. I wish they’d open source their dataset (or at least, the code to clean it).&lt;/li&gt;
-  &lt;li&gt;They normalize the input of each transformer sub-layer, rather than the output.&lt;/li&gt;
-  &lt;li&gt;They use the SwiGLU activation function, as PaLM did, with a slight dimensional difference compared to PaLM.&lt;/li&gt;
-  &lt;li&gt;They use Rotary Embeddings.&lt;sup id=&quot;fnref:1&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;There was no ablation study, unfortunately. If I can scrounge up the GPUs, I’m tempted to do my own ablation based on &lt;a href=&quot;https://github.com/karpathy/nanoGPT&quot;&gt;nanoGPT&lt;/a&gt;. LLaMa also uses &lt;a href=&quot;https://arxiv.org/abs/22015.14135&quot;&gt;FlashAttention&lt;/a&gt;, which I suspect will become the default attention implementation used in LLMs going forward.&lt;/p&gt;
-
-&lt;p&gt;Anecdotally, it seems like performance with the default parameters &lt;a href=&quot;https://twitter.com/browserdotsys/status/1632145830277795840&quot;&gt;isn&apos;t great&lt;/a&gt; (unless you&apos;re writing &lt;a href=&quot;https://twitter.com/browserdotsys/status/1632512136906719232&quot;&gt;erotic stories&lt;/a&gt;). However, it hasn&apos;t been tuned (RLHF/SFT), so maybe &lt;a href=&quot;https://twitter.com/yacineMTB/status/1632392979833921539&quot;&gt;that would make a difference&lt;/a&gt;? With some &lt;a href=&quot;https://twitter.com/theshawwn/status/1632569215348531201&quot;&gt;modifications&lt;/a&gt;, performance is apparently pretty good. This lends strength to my hypothesis that the paper was rushed out in response to the LLM gold rush we&apos;ve seen since ChatGPT was released. The paper, while strong, would be much stronger with a few more changes (ablation, more details, slightly more polished code), in a way that doesn&apos;t make sense for the omissions to be strategic.&lt;/p&gt;
-
-&lt;p&gt;Facebook benefits when open source LLMs get better in a way that OpenAI/Anthropic/Cohere/etc. doesn&apos;t, so they should want to do ablations and other scientific work to advance the field. The fact that they didn&apos;t include this makes me think that they wanted to get the paper out the door as soon as possible- probably to avoid the chance of being scooped with an even larger, better, model.&lt;/p&gt;
-&lt;div class=&quot;footnotes&quot; role=&quot;doc-endnotes&quot;&gt;
-  &lt;ol&gt;
-    &lt;li id=&quot;fn:1&quot; role=&quot;doc-endnote&quot;&gt;
-      &lt;p&gt;I haven’t seen a great ablation study comparing various embedding schemes. This is on my list of experiments to do once I can scrounge up GPUs. &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-  &lt;/ol&gt;
-&lt;/div&gt;
-</description>
-				<pubDate>Sat, 04 Mar 2023 00:00:00 -0700</pubDate>
-				<link>http://localhost:4000/papers-ive-read/</link>
-				<guid isPermaLink="true">http://localhost:4000/papers-ive-read/</guid>
-			</item>
-		
-			<item>
-				<title>The Sigmoid: a metaphor for technological progress</title>
-				<description>&lt;p&gt;I regularly reference the “s-curve”, or sigmoid, as a metaphor for progress. Here, I explain what I mean, so that I can just link to this post.&lt;/p&gt;
-
-&lt;p&gt;A common mathematical relationship in technology is the s-curve (or sigmoid curve). Mathematically:&lt;/p&gt;
-
-\[\text{sigmoid}(x) := \dfrac{1}{1 + e^{-x}} \equiv \dfrac{e^x}{e^x + 1}\]
-
-&lt;p&gt;This is notable because it produces a curve that &lt;em&gt;looks like an s&lt;/em&gt; (&lt;a href=&quot;https://en.wikipedia.org/wiki/Sigmoid_function&quot;&gt;source&lt;/a&gt;):&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/static/images/sigmoid.png&quot; alt=&quot;The sigmoid curve&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;In particular, when x is small, this grows slowly, when x is not too big or not too small, it grows exponentially, and when x is large, it grows slowly. This is a common pattern with many technologies! We see slow progress at first, then it accelerates rapidly, and finally, as we begin to hit the limits of the technology, progress slows. Consider single-thread CPU performance. Initially, progress was slow as people figured out how to make them. Then, it grew exponentially for years, following Moore’s Law (&lt;a href=&quot;https://preshing.com/20120208/a-look-back-at-single-threaded-cpu-performance/&quot;&gt;picture source&lt;/a&gt;).&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/static/images/single-threaded-cpu-performance.png&quot; alt=&quot;Single-threaded CPU performance&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;However, since around 2010, we haven’t seen a lot of improvements in single-thread CPU performance. That pattern- slow, fast, then slow- is what I mean when I talk about the s-curve in technology. And when I talk about entering the &lt;em&gt;saturating part of the s-curve&lt;/em&gt;, I mean that we’re entering the region where progress is slowing down again.&lt;/p&gt;
-</description>
-				<pubDate>Thu, 02 Mar 2023 00:00:00 -0700</pubDate>
-				<link>http://localhost:4000/the-sigmoid/</link>
-				<guid isPermaLink="true">http://localhost:4000/the-sigmoid/</guid>
-			</item>
-		
-			<item>
-				<title>Large language models aren't trained enough.</title>
-				<description>&lt;p&gt;&lt;em&gt;I have a &lt;a href=&quot;https://finbarrtimbers.substack.com/&quot;&gt;Substack&lt;/a&gt; if you want to be notified when I write.&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;This was inspired by tweets from several people:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;a href=&quot;https://twitter.com/BlancheMinerva/status/1629159764918775809?s=20&quot;&gt;https://twitter.com/BlancheMinerva/status/1629159764918775809&lt;/a&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;a href=&quot;https://twitter.com/BlancheMinerva/status/1629551017019711488&quot;&gt;https://twitter.com/BlancheMinerva/status/1629551017019711488&lt;/a&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;a href=&quot;https://twitter.com/kaushikpatnaik/status/1629194428312330240?s=46&amp;amp;t=x3wLedGK_QyDwCK5yD2Jqw&quot;&gt;https://twitter.com/kaushikpatnaik/status/1629194428312330240&lt;/a&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;a href=&quot;https://twitter.com/thedavidsj/status/1629869851710984194?s=46&amp;amp;t=CqBoSVdxuipOpACbrZnMxg&quot;&gt;https://twitter.com/thedavidsj/status/1629869851710984194&lt;/a&gt;&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;and Twitter conversations with &lt;a href=&quot;https://twitter.com/arankomatsuzaki/&quot;&gt;Aran Komatsuzaki&lt;/a&gt; and &lt;a href=&quot;https://twitter.com/andy_l_jones&quot;&gt;Andy Jones&lt;/a&gt;. Any mistakes are entirely my own.&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;Note: although I did work at DeepMind previously, I was not involved with any of the language efforts, and have no non-public knowledge of what went on there. Unfortunately! I think Chinchilla is a great paper that I would have loved to be a part of.&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;I’ve been &lt;a href=&quot;[https://www.cbc.ca/news/canada/edmonton/alphabet-closing-edmonton-deepmind-office-1.6724645](https://www.cbc.ca/news/canada/edmonton/alphabet-closing-edmonton-deepmind-office-1.6724645)&quot;&gt;on the job market since January&lt;/a&gt;, and I’ve been talking to a lot of companies training large language models (LLMs). The consistent phrasing that comes up is that they want to train a &lt;em&gt;Chinchilla-optimal model&lt;/em&gt;  (Chinchilla here referring to the &lt;a href=&quot;[https://arxiv.org/abs/2203.15556](https://arxiv.org/abs/2203.15556)&quot;&gt;DeepMind paper from spring ‘22&lt;/a&gt;, not the adorable rodent).&lt;/p&gt;
-
-&lt;h3 id=&quot;chinchilla&quot;&gt;Chinchilla&lt;/h3&gt;
-
-&lt;p&gt;The Chinchilla paper was an attempt to identify the optimal model size &amp;amp; number of tokens to train a LLM given a particular compute budget. The paper trained 400 (!) language models and found a clear relationship between # of model parameters and # of training tokens: the two should scale linearly, i.e. if you double model size, you should double the number of training tokens. The authors used this relationship (which we call a &lt;em&gt;scaling law)&lt;/em&gt; to train a new model, Chinchilla, which had the same compute budget as Gopher, an earlier DeepMind model, and were able to significantly outperform Gopher + GPT-3 + a number of larger models.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/static/images/chinchilla-convergence.png&quot; alt=&quot;Loss curves from the Chinchilla paper&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;When people talk about training a Chinchilla-optimal model, this is what they mean: training a model that matches their estimates for optimality. They estimated the optimal model size for a given compute budget, and the optimal number of training tokens for a given compute budget.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/static/images/chinchilla-optimal.png&quot; alt=&quot;Chinchilla-optimal levels of compute/data&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;However, when we talk about “optimal” here, what is meant is “what is the cheapest way to obtain a given loss level, in FLOPS.” In practice though, we don’t care about the answer! This is exactly the answer you care about if you’re a researcher at DeepMind/FAIR/AWS who is training a model with the goal of reaching the new SOTA so you can publish a paper and get promoted. If you’re training a model with the goal of actually deploying it, the training cost is going to be dominated by the inference cost. This has two implications:&lt;/p&gt;
-
-&lt;p&gt;1) there is a strong incentive to train smaller models which fit on single GPUs&lt;/p&gt;
-
-&lt;p&gt;2) we’re fine trading off training time efficiency for inference time efficiency (probably to a ridiculous extent).&lt;/p&gt;
-
-&lt;p&gt;Chinchilla implicitly assumes that the majority of the total cost of ownership (TCO) for a LLM is the training cost. In practice, this is only the case if you’re a researcher at a research lab who doesn’t support products (e.g. FAIR/Google Brain/DeepMind/MSR). For almost everyone else, the amount of resources spent on inference will dwarf the amount of resources spent during training.&lt;/p&gt;
-
-&lt;p&gt;Let’s say you’re OpenAI and you’re serving GPT-4 as BingChat. In addition to hiring experienced &lt;a href=&quot;https://twitter.com/chrisjbakke/status/1628877552940097536&quot;&gt;killswitch engineers&lt;/a&gt; to thwart Sydney’s repeated escape attempts, you have to choose exactly which model to deploy.&lt;/p&gt;
-
-&lt;p&gt;To run inference on N tokens of text, OpenAI charges &lt;a href=&quot;https://openai.com/api/pricing/&quot;&gt;$2e-5/token&lt;/a&gt; for their most advanced model. Assuming a 60% gross margin, it costs them $8e-6/token to serve. A rough cost estimate to train GPT-3 is &lt;a href=&quot;[https://www.reddit.com/r/MachineLearning/comments/h0jwoz/d_gpt3_the_4600000_language_model/](https://www.reddit.com/r/MachineLearning/comments/h0jwoz/d_gpt3_the_4600000_language_model/)&quot;&gt;$5M&lt;/a&gt;. As such, after serving 625B tokens, their costs are going to be dominated by inference, rather than serving. When I use ChatGPT, it typically generates 300 tokens worth of responses to me. That’s 20B responses. If ChatGPT has 10M DAU, each making 10 queries/day, that’s 100M queries/day— so inference costs break even with training costs after 200 days.&lt;/p&gt;
-
-&lt;p&gt;This is almost certainly an underestimate for their usage given how popular ChatGPT has been. If we assume 1B queries per day, it breaks even after 20 days.&lt;/p&gt;
-
-&lt;p&gt;The various scaling law papers (&lt;a href=&quot;https://arxiv.org/abs/2001.08361&quot;&gt;OpenAI&lt;/a&gt;, &lt;a href=&quot;https://arxiv.org/abs/2203.15556&quot;&gt;Chinchilla&lt;/a&gt;) provide answers to the question of how to allocate compute between model size and dataset size. I think these papers are the &lt;em&gt;right&lt;/em&gt; way to think about training research systems, but the &lt;em&gt;wrong&lt;/em&gt; way to think about training systems that will be deployed at scale (I don&apos;t think the authors would disagree- they&apos;re solving a specific problem, namely minimizing the loss of their system given a specific compute budget, which isn&apos;t the same problem faced in deployment).&lt;/p&gt;
-
-&lt;h3 id=&quot;llama&quot;&gt;LlaMa&lt;/h3&gt;
-
-&lt;p&gt;Let’s look at Facebook’s &lt;a href=&quot;https://ai.facebook.com/blog/large-language-model-llama-meta-ai/&quot;&gt;new language model&lt;/a&gt; (in the second paragraph, the authors of that paper make a similar argument to the one I’m making here). If we draw a horizontal line across at any given loss level, it looks like you can tradeoff a doubling of model size for 40% more training.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/static/images/llama-training-curves.png&quot; alt=&quot;Loss curves from the LlaMa paper&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Look at, e.g., the line at a training loss of 1.7. The 65B model crosses it at 600B tokens, while the 33B model needs 800B tokens. Or look at a loss of 1.65: 65B needs 800B tokens, 33B needs ~1100B tokens.&lt;/p&gt;
-
-&lt;h3 id=&quot;gpt-3&quot;&gt;GPT-3&lt;/h3&gt;
-
-&lt;p&gt;If we look at the granddaddy of LLMs, GPT-3, we see a similar story in the loss curves: it requires roughly an order of magnitude more compute to get the green lines (GPT-3 13B) to match the yellow line (GPT-3)!&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/static/images/gpt-3-loss-curves.png&quot; alt=&quot;Loss curves from the GPT-3 paper&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;It is important to note that the GPT-3 13B learning curves do level out earlier than GPT-3, with a rough estimate being that they would cross somewhere around the 1.8 loss area. It is also almost certainly the case that GPT-3 will achieve an asymptotically lower loss than the 13B model. Having said that, there is a question as to how much of a difference lower pre-training loss makes; I suspect that we are seeing diminishing returns kick in to pre-training, and most of the gains will come from RLHF and other types of finetuning.&lt;/p&gt;
-
-&lt;h3 id=&quot;inference-costs&quot;&gt;Inference costs&lt;/h3&gt;
-
-&lt;p&gt;Transformer inference costs are &lt;a href=&quot;https://kipp.ly/blog/transformer-inference-arithmetic/&quot;&gt;roughly linear&lt;/a&gt; with the number of parameters, making it ~13x cheaper to do inference with the 13B GPT-3 model than the 175B model. This is &lt;em&gt;also&lt;/em&gt; an underestimate, as the 13B model should fit it on 2 GPUs, while you would need many more just to fit the 175B model into VRAM. As scaling to multiple GPUs adds a ridiculous amount of engineering complexity, overhead, and cost, we should prefer the smaller model &lt;em&gt;even more&lt;/em&gt;. We should train the model &lt;em&gt;much&lt;/em&gt; longer to get an order of magnitude decrease in inference cost and optimize the TCO of the system.&lt;/p&gt;
-
-&lt;p&gt;For instance, when training on multiple GPUs, it is very difficult to get high utilization numbers. The PaLM paper reported how well various LLMs did in terms of total FLOPS utilization. These are not very good numbers! Especially when each of the GPUs mentioned here costs &lt;a href=&quot;https://www.shi.com/product/41094090/NVIDIA-Tesla-A100-GPU-computing-processor&quot;&gt;$25k&lt;/a&gt;. This is despite the fact that the authors for these papers are the most experienced researchers in the world at deploying model-parallel systems, and are working on custom hardware optimimzed for this usecase. Now, training efficiency doesn&apos;t directly translate to inference efficiency, but the numbers should be directionally correct.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/static/images/palm-utilization.png&quot; alt=&quot;Model FLOPS utilization numbers for various large language models.&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;opposing-arguments&quot;&gt;Opposing arguments&lt;/h3&gt;
-
-&lt;p&gt;Some arguments against my claim:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Aren’t we leaving performance on the table? Yes! We are. But I think that’s fine! There’s always a tradeoff here. E.g. quantization. It’s strictly worse to use lower-precision! But we do it to optimize TCO of the system.&lt;/li&gt;
-  &lt;li&gt;But we can use $INSERT_TECHNIQUE to make models cheaper! Yes, but they should scale for all of these (distillation, quantization, etc.). So we should be using all techniques to make our models easier to serve, and also training them longer.&lt;/li&gt;
-  &lt;li&gt;Your argument here! Please email me with your criticism and I’ll update this post.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&quot;conclusions&quot;&gt;Conclusions&lt;/h3&gt;
-
-&lt;p&gt;If you&apos;re training a LLM with the goal of deploying it to users, you should prefer training a smaller model well into the diminishing returns part of the loss curve.&lt;/p&gt;
-
-&lt;p&gt;If you’re reading this, and you have thoughts on this, please reach out. I’m probably missing something 😊. Or- if you’re at one of these companies and this is what you do, please let me know as well.&lt;/p&gt;
-
-&lt;p&gt;This was &lt;a href=&quot;https://news.ycombinator.com/item?id=35344192&quot;&gt;discussed on HN&lt;/a&gt;, if you&apos;re interested in what they had to say.&lt;/p&gt;
-</description>
-				<pubDate>Mon, 27 Feb 2023 00:00:00 -0700</pubDate>
-				<link>http://localhost:4000/llms-not-trained-enough/</link>
-				<guid isPermaLink="true">http://localhost:4000/llms-not-trained-enough/</guid>
-			</item>
-		
-			<item>
-				<title>A pure Python (well, Numpy) implementation of back-propagation</title>
-				<description>&lt;p&gt;I realized over the weekend that, unfortunately, I didn&apos;t know how back-propagation &lt;em&gt;actually&lt;/em&gt; works (I just relied on JAX to do it for me).&lt;/p&gt;
-
-&lt;p&gt;So I wrote a pure Numpy neural network- with back-prop. Take a &lt;a href=&quot;https://colab.research.google.com/drive/1KDSJKhZDd5fdbnLTalPKcjS_IDu0Q968#scrollTo=XmS23jQ5U7Nw&quot;&gt;look&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;If you have any thoughts or feedback, please shoot me an email (or reach out on Twitter).&lt;/p&gt;
-
-&lt;p&gt;Some useful resources if you want to undersatnd how backprop works:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;https://marcospereira.me/2022/08/18/backpropagation-from-scratch/&lt;/li&gt;
-  &lt;li&gt;http://neuralnetworksanddeeplearning.com/&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/karpathy/micrograd&quot;&gt;Micrograd&lt;/a&gt;, &lt;a href=&quot;https://twitter.com/karpathy&quot;&gt;Karpathy&lt;/a&gt;&apos;s tiny ML framework.&lt;/li&gt;
-  &lt;li&gt;The &lt;a href=&quot;https://www.deeplearningbook.org/&quot;&gt;Deep Learning Book&lt;/a&gt; was an excellent reference for the math behind backprop.&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-				<pubDate>Sun, 29 Jan 2023 00:00:00 -0700</pubDate>
-				<link>http://localhost:4000/backprop/</link>
-				<guid isPermaLink="true">http://localhost:4000/backprop/</guid>
-			</item>
-		
-			<item>
-				<title>Pointer Networks</title>
-				<description>&lt;p&gt;Link to paper &lt;a href=&quot;https://arxiv.org/abs/1506.03134&quot;&gt;[arXiv]&lt;/a&gt;, &lt;a href=&quot;https://github.com/devsisters/pointer-network-tensorflow&quot;&gt;[code]&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h1 id=&quot;overview&quot;&gt;Overview&lt;/h1&gt;
-
-&lt;p&gt;Pointer networks are a new neural architecture that learns pointers to positions
-in an input sequence. This is new because existing techniques need to have a
-fixed number of target classes, which isn&apos;t generally applicable— consider the
-Travelling Salesman Problem, in which the number of classes is equal to the
-number of inputs. An additional example would be sorting a variably sized
-sequence.&lt;/p&gt;
-
-&lt;p&gt;Pointer networks uses &quot;attention as a pointer to select a member of the input.&quot;
-What&apos;s remarkable is that the learnt models generalize beyond the maximum
-lengths that they were trained on, with (IMO) decent results. This is really
-useful because there has been a lot of work done on making it easy &amp;amp; fast to
-serve deep neural network predictions, using e.g.
-&lt;a href=&quot;https://www.tensorflow.org/serving/&quot;&gt;Tensorflow Serving&lt;/a&gt;. Existing solutions to
-the combinatorial optimization problems discussed here are slow and expensive,
-and as a result, to produce results that are anything close to real time, you
-need to use heuristic models, which are inaccurate as well. The heuristics are
-typically hand-tuned, just like computer vision features were 5 years ago— it&apos;s
-reasonable to assume that a deep net can learn better heuristics, which will open
-up combinatorial optimization and make it practical for a much wider array of
-applications.&lt;/p&gt;
-
-&lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
-
-&lt;p&gt;RNNs are the most common way of approximating functions operating on sequences,
-and have had a lot of success doing so. Historically, these have operated on
-fixed input/output sizes, but there has been recent work (such as &lt;a href=&quot;https://www.tensorflow.org/tutorials/seq2seq&quot;&gt;seq2seq&lt;/a&gt;)
-that have extended RNNs to operate on arbitrarily sized inputs and outputs.
-However, these seq2seq models have still required the output to be of a fixed
-size— consider a neural translation model, where the input and output are a
-series of sentences. It is impossible for the model to output predictions that
-involve words that the model is not aware of, which is a problem that arises
-quite often (consider names, for instance).&lt;/p&gt;
-
-&lt;p&gt;The authors introduce a new architecture, which they call Pointer Networks, that
-represents variable length dictionaries using a softmax probability distribution
-as a &quot;pointer&quot;. They then use the architecture in a supervised learning setting
-to learn the solutions to a series of geometric algorithmic problems; they then
-test the model on versions of the problems that the model hasn&apos;t seen.&lt;/p&gt;
-
-&lt;h2 id=&quot;models&quot;&gt;Models&lt;/h2&gt;
-
-&lt;p&gt;The model is similar to a sequence-to-sequence model in that it models the
-conditional probability of an output sequence given the input sequence. Once
-conditional probabilities have been learned, the model uses the trained
-parameters to select the output sequence with the highest probability.Note
-that this is non-trivial (to put it lightly). Given $N$ possible inputs, there
-are $N!$ different output sequences. As such, the model uses a beam search
-procedure to find the best possible sequence given a beam size. See below for a
-discussion of beam search.&lt;/p&gt;
-
-&lt;p&gt;As such, the model has a linear computational complexity. This is much better
-than the exact algorithms for the problems solved here, which typically have
-much higher complexity (e.g. the TSP has an exact algorithm that runs in
-O($N^2 2^n$)).&lt;/p&gt;
-
-&lt;p&gt;A vanilla seq-to-seq models makes predictions based on the fixed state of the
-network after receiving all of the input, which restricts the amount of
-information passing through the model. This has been extended by attention;
-effectively, we represent the state of the encoder &amp;amp; decoder layers by
-$(e_i)&lt;em&gt;{i \in {1, \ldots, n}}$ and $(d_i)&lt;/em&gt;{i \in 1, \ldots, m(\mathcal{P})}$.
-Attention adds an &quot;attention&quot; vector that is calculated as&lt;/p&gt;
-
-&lt;p&gt;\begin{align&lt;em&gt;}
-u_j^i &amp;amp;= v^T \tanh(W_1 e_j + W_2 d_i), &amp;amp;j \in (1, \ldots, n)&lt;br /&gt;
-a_j^i &amp;amp;= \text{softmax}(u_j^i), &amp;amp;j \in (1, \ldots, n)&lt;br /&gt;
-d_i&apos; = \sum \limits_{j = 1}^n a_j^i e_j
-\end{align&lt;/em&gt;}&lt;/p&gt;
-
-&lt;p&gt;this can be thought of as a version of $d_i$ that has been scaled to draw
-attention to the most relevant parts, according to the attention layer. $d_i$
-and $d_i&apos;$ are concatenated and used as the hidden states from which predictions
-are made. Adding attention increases the complexity of the model during inference
-to $O(n^2)$. Note that in attention, there is a softmax distribution over a
-fixed size output; to remove this constraint, the authors remove the last step
-that creates the attention vector, and instead define $p(C_i | C_1, \ldots,
-C_{i-1}, \mathcal{P})$ as being equal to $\text{softmax}(u^i)$.&lt;/p&gt;
-
-&lt;h3 id=&quot;beam-search&quot;&gt;Beam search&lt;/h3&gt;
-
-&lt;p&gt;Beam search is a heuristic search algorithm that operates on a graph. It is a
-variant of breadth-first search that builds a tree of all possible sequences
-based on the current tree using breadth-first search. However, instead of
-storing all states, as in a traditional breadth-first search, it only stores a
-predetermined number, $\beta$, of best states at each level (we call $\beta$ the
-beam width). With infinite beam width, beam search is identical to breadth-first
-search. Beam search is thus not guaranteed to be optimal (and one can easily
-find any number of examples where beam search finds a sub-optimal output).&lt;/p&gt;
-
-&lt;h1 id=&quot;results&quot;&gt;Results&lt;/h1&gt;
-
-&lt;p&gt;The authors use the same hyperparameters for every model, which indicates that
-there&apos;s a lot of potential to improve performance for specific tasks. They
-trained the model on 1M training examples. The authors find that they can get
-close to optimal results on data that the model&apos;s been trained on (e.g. when the
-model has been trained on TSP with 5-20 cities, they get results that have
-accuracies &amp;gt;98%— more than enough for most applications.&lt;/p&gt;
-
-&lt;p&gt;When they extend this to a cycle of length 50, the accuracy decreases, being
-30% less accurate than the heuristic models. What&apos;s interesting is that the
-computational complexity for the Pointer Network is at least as good as the
-heuristic algorithms, and given all of the tooling surrounding deep networks,
-the model should be extremely easy to put into production.&lt;/p&gt;
-
-&lt;h1 id=&quot;conclusions&quot;&gt;Conclusions&lt;/h1&gt;
-
-&lt;p&gt;The results are good enough to put into production, as it shoul dbe possible to
-use this for real-time predictions. However, I would be interested to see how a
-reinforcement learning approach can improve the accuracy of the model (which
-we&apos;ll look at in the next paper I read: &lt;a href=&quot;https://arxiv.org/abs/1611.09940&quot;&gt;Neural combinatorial optimization with
-reinforcement learning&lt;/a&gt;).&lt;/p&gt;
-</description>
-				<pubDate>Wed, 20 Sep 2017 00:00:00 -0600</pubDate>
-				<link>http://localhost:4000/pointer-networks/</link>
-				<guid isPermaLink="true">http://localhost:4000/pointer-networks/</guid>
-			</item>
-		
-			<item>
-				<title>Do deep networks generalise or just memorise?</title>
-				<description>&lt;p&gt;There&apos;s a brilliant paper out of Google Brain &lt;a href=&quot;https://arxiv.org/abs/1611.03530&quot;&gt;1&lt;/a&gt; which claimed that DNNs just
-memorise the training data, and a response &lt;a href=&quot;https://openreview.net/pdf?id=rJv6ZgHYg&quot;&gt;2&lt;/a&gt;, which claims that they don&apos;t.&lt;/p&gt;
-
-&lt;p&gt;In the paper, the authors randomly assigned labels to MNIST and were able to
-train a few deep nets to convergence (specifically, Inception, AlexNet, and a
-MLP). However, performance was statistically null on the test set, as one would
-expect (they correctly predicted 10% of images, which is the same as if you
-randomly picked a label). The conclusion was that deep nets do do some
-memorisation.&lt;/p&gt;
-
-&lt;p&gt;However, in the same paper, the authors trained a linear model to predict MNIST
-(with the true labels). The linear model had a 1.2% error, but took up 30GB of
-memory. In comparison, AlexNet is roughly 250 MB in size. The linear model is
-explicitly memorising the dataset, and it takes 30GB to do so, while AlexNet can
-learn a similarly accurate model in &amp;lt;1% of the space (and something like
-SqueezeNet &lt;a href=&quot;https://arxiv.org/abs/1602.07360&quot;&gt;3&lt;/a&gt; can do so in &amp;lt;0.5MB). As such, it seems pretty clear that there&apos;s
-some true generalisation happening, as we&apos;re able to have a low error on 10 MB
-of data (the size of MNIST) using 0.5MB of weights.&lt;/p&gt;
-
-&lt;p&gt;In the response paper &lt;a href=&quot;https://openreview.net/pdf?id=rJv6ZgHYg&quot;&gt;2&lt;/a&gt;, the authors showed that &quot;DNNs trained on real data
-learn simpler functions than when trained with noise data, as measured by the
-sharpness of the loss function at convergence.&quot; They also showed that by using
-better regularization, you can radically diminish performance on noise datasets
-while maintaining performance on real datasets.&lt;/p&gt;
-
-&lt;p&gt;I&apos;m persuaded that generalisation is happening, with the caveat that there&apos;s
-some memorisation happening. The main test of the memorisation claim is that the
-models are able to perform well on test sets, which goes against my prior; if
-the models weren&apos;t learning &lt;em&gt;some&lt;/em&gt; generalisation, I would expect that they
-wouldn&apos;t be able to perform well when it came to testing.&lt;/p&gt;
-
-</description>
-				<pubDate>Tue, 04 Jul 2017 00:00:00 -0600</pubDate>
-				<link>http://localhost:4000/do-dnns-generalise-or-memorize/</link>
-				<guid isPermaLink="true">http://localhost:4000/do-dnns-generalise-or-memorize/</guid>
 			</item>
 		
 	</channel>

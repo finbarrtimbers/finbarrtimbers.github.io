@@ -36,7 +36,7 @@ follow the naive approach, you'll waste `(max_sequence_length - mean_sequence_le
 your compute. On Olmo 3, we had an average generation length of 14k, and a maximum of 32k, so we would have
 wasted 54\% of our compute with static batching. See the diagram for an illustrated example.
 
-<img src="/static/images/continuous-batching.png" alt="Continuous batching vs static batching" style="width: 33%;">
+<img src="/static/images/continuous-batching.png" alt="Continuous batching vs static batching" style="width: 66%;">
 
 
 Instead, to optimally use your GPUs, you should be streaming examples in and out of your GPUs as previous completions

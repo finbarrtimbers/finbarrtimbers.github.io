@@ -1,24 +1,23 @@
+<!DOCTYPE html>
 <html>
-
 <head>
   <link rel="stylesheet" href="/static/style.css">
   <meta charset="utf-8">
   <title>
-     
-      Blog 
+    
+      Blog
     
   </title>
-</head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZBM24T0LEX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag() { dataLayer.push(arguments); }
-  gtag('js', new Date());
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZBM24T0LEX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
 
   gtag('config', 'G-ZBM24T0LEX');
-</script>
-
+  </script>
+  
 <body>
   <div id="menu">
     <span class="title">Finbarr Timbers</span>
@@ -26,7 +25,7 @@
       <li><a href="/blog">Blog</a></li>
       <li><a href="/books">Books</a></li>
       <li><a href="/advice">Advice</a></li>
-      <li><a href="/prompt-engineering">Prompt engineering</a></li>
+      <li><a href="/llm-performance">LLM Performance Tools</a></li>
     </ul>
   </div>
   <div id="left">&nbsp;</div>
@@ -37,11 +36,95 @@
     <!-- Short CTA asking people to subscribe to my Substack.-->
 <div id="cta">
   
-  <p>PS if you want to read more of my writing, subscribe to my <a href="https://finbarrtimbers.substack.com/">Substack</a>.</p>
+  <p>Lately, I have been writing on my <a href="https://finbarrtimbers.substack.com/">newsletter</a>.</p>
 
 </div>
 
 <!-- Actual for loop generating the list. -->
+
+<div class=post>
+    
+    <h2 class=title>Making RL Fast</h1>
+    <div>
+	April 03, 2026
+        <a href="/making-rl-fast/">read post</a>
+    </div>
+    <div class=content>
+        <p>For Olmo 3, I was put in charge of our post-training infrastucture.
+We made the decision to move from a synchronous RL setup to an
+asynchronous one to enable us to scale. In doing that work,
+I was fortunate enough to find a series of optimizations which made our RL setup 4x faster. As
+we used roughly 250k H100 hours running RL on Olmo 3, these optimizations saved us approximately
+750k H100 hours (~$1.5M) at current market prices. These changes
+were detailed in the <a href="https://arxiv.org/abs/2512.13961">paper</a>, but I wanted to write more about them here.</p>
+
+    </div>
+</div>
+
+<div class=post>
+    
+    <h2 class=title>The Bitter Lesson</h1>
+    <div>
+	June 26, 2025
+        <a href="/the-bitter-lesson/">read post</a>
+    </div>
+    <div class=content>
+        <p><a href="http://www.incompleteideas.net/IncIdeas/BitterLesson.html">The Bitter Lesson</a> is an excellent essay which is overwhelmingly misunderstood. The point of the bitter lesson is that, over time, methods which scale with compute will outperform methods that do not.</p>
+
+    </div>
+</div>
+
+<div class=post>
+    
+    <h2 class=title>Request for research: Monte Carlo Tree Search for reasoning, with PUCT</h1>
+    <div>
+	January 21, 2025
+        <a href="/request-for-research-puct/">read post</a>
+    </div>
+    <div class=content>
+        <p>In the recent wave of research studying reasoning models, by which we means models like O1 which are able to use long streams of tokens to "think" and thereby generate better results, MCTS has been discussed a lot as a potentially useful tool. However, some papers, like the <a href="https://github.com/deepseek-ai/DeepSeek-R1/blob/main/DeepSeek_R1.pdf">DeepSeek R1 paper</a>, have tried MCTS without any success.</p>
+
+    </div>
+</div>
+
+<div class=post>
+    
+    <h2 class=title>RESP advice</h1>
+    <div>
+	November 08, 2024
+        <a href="/resp-advice/">read post</a>
+    </div>
+    <div class=content>
+        <p>A few people have asked me for RESP advice, so here is my generic answer, with the disclaimer that I'm not a financial advisor.</p>
+
+    </div>
+</div>
+
+<div class=post>
+    
+    <h2 class=title>Installing Docker on a new VM</h1>
+    <div>
+	February 02, 2024
+        <a href="/install-docker-on-ubuntu/">read post</a>
+    </div>
+    <div class=content>
+        <p>I consistently run into the same issue when install Docker on a new Ubuntu VM.</p>
+
+    </div>
+</div>
+
+<div class=post>
+    
+    <h2 class=title>Five years of GPT progress --- Amii talk</h1>
+    <div>
+	May 29, 2023
+        <a href="/five-years-of-gpt-talk/">read post</a>
+    </div>
+    <div class=content>
+        <p>I recently gave a talk at <a href="https://www.amii.ca/">Amii</a> about the history of GPT models.</p>
+
+    </div>
+</div>
 
 <div class=post>
     
