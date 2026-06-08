@@ -7,7 +7,7 @@ permalink: /rfs/
 
 # Introduction
 
-These are ideas that I think should be startups. If you're interested in starting these companies, please do so; if you're looking for an advisor/investor, reach out.
+These are ideas that I would consider starting if I were to start a company.
 
 ## Continual learning systems
 
@@ -24,6 +24,6 @@ An investment thesis in tech posits that the number of developers is small, and 
 of skilled developers is even smaller, so any technology that can make existing
 developers more productive is ridiculously valuable. This is true for many other
 professions. The laboratory sciences, in particular, are hard to recruit for,
-requiring many years of advanced education to do. 
+requiring many years of advanced education to do.
 
 What's more- the amount of testing we do is severely limited by cost. If we could make it 100x cheaper to run lab tests, we'd probably run 100x more (maybe 1000x more). That would be transformative for our health!

@@ -4,7 +4,7 @@ title: ""
 permalink: /
 ---
 
-I'm an ai researcher and investor.
+I'm an ai researcher.
 
 I work at [Ai2](https://allenai.org/), on RL for LLMs. I used to work at [Midjourney](https://midjourney.com/) and [DeepMind](https://www.deepmind.com). I [write about AI research](https://www.artfintel.com/).
 
